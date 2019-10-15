@@ -6,12 +6,26 @@ using namespace std;
 
 bool Server::start() {
   stop();
-  if (!openSocket()) return false;
-  if (!setNonBlocking(listen_fd)) { stop(); return false; }
-  if (!bindToAddress()) { stop(); return false; }
-  if (!startListening()) { stop(); return false; }
-  if (!initEPoll()) { stop(); return false; }
   terminated_ = false;
+  if (!openSocket()) {
+    return false;
+  }
+  if (!setNonBlocking(listen_socket)) { 
+    stop(); 
+    return false; 
+  }
+  if (!bindToAddress()) { 
+    stop(); 
+    return false; 
+  }
+  if (!startListening()) { 
+    stop(); 
+    return false; 
+  }
+  if (!initEPoll()) { 
+    stop(); 
+    return false; 
+  }
   return true;
 }
 
@@ -24,9 +38,9 @@ void Server::stop() {
     }
 
     terminated_ = true;
-    if (listen_fd >= 0) {
-      close(listen_fd);
-      listen_fd = 0; 
+    if (listen_socket >= 0) {
+      close(listen_socket);
+      listen_socket = 0; 
     }
     if (epoll_fd >= 0) {
       close(epoll_fd);
@@ -49,7 +63,7 @@ bool Server::poll() {
   }
 
   for (int n = 0; n < nfds; ++n) {
-    if (events[n].data.fd == listen_fd) {
+    if (events[n].data.fd == listen_socket) {
       res &= acceptConnection();
     } else {
       handleEvent(events[n].events,events[n].data.fd);
@@ -59,8 +73,8 @@ bool Server::poll() {
 }
 
 bool Server::openSocket() {
-  listen_fd = socket(AF_INET,SOCK_STREAM,0);
-  if ( listen_fd == -1) {
+  listen_socket = socket(AF_INET,SOCK_STREAM,0);
+  if ( listen_socket == -1) {
     perror("socket");
     return false;
   } else {
@@ -75,7 +89,7 @@ bool Server::bindToAddress() {
   server_addr.sin_family = AF_INET;
   server_addr.sin_port = htons(port_);
   server_addr.sin_addr.s_addr = addr_;    
-  if (bind(listen_fd,(struct sockaddr *)&server_addr,sizeof(server_addr)) == -1) {
+  if (bind(listen_socket,(struct sockaddr *)&server_addr,sizeof(server_addr)) == -1) {
     perror("bind");
     return false;
   } else {
@@ -87,7 +101,7 @@ bool Server::bindToAddress() {
 }
 
 bool Server::startListening() {
-  if (listen(listen_fd,LISTEN_BACKLOG) == -1) {
+  if (listen(listen_socket,LISTEN_BACKLOG) == -1) {
     perror("listen");
     return false;
   } else {
@@ -120,8 +134,8 @@ bool Server::initEPoll() {
 
   struct epoll_event ev;
   ev.events = EPOLLIN;
-  ev.data.fd = listen_fd;
-  if (epoll_ctl(epoll_fd,EPOLL_CTL_ADD,listen_fd,&ev) == -1) {
+  ev.data.fd = listen_socket;
+  if (epoll_ctl(epoll_fd,EPOLL_CTL_ADD,listen_socket,&ev) == -1) {
     perror("epoll_ctl: listen_sock");
     return false;
   }
@@ -131,7 +145,7 @@ bool Server::initEPoll() {
 bool Server::acceptConnection() {
   struct sockaddr_in peer_addr;
   socklen_t peer_addr_len = sizeof(struct sockaddr_in);
-  int conn_sock = accept(listen_fd,(struct sockaddr *) &peer_addr, &peer_addr_len);
+  int conn_sock = ::accept(listen_socket,(struct sockaddr *) &peer_addr, &peer_addr_len);
   if (conn_sock == -1) {
     perror("accept");
     return false;
@@ -143,7 +157,7 @@ bool Server::acceptConnection() {
     ev.data.fd = conn_sock;
     //cout << "epoll_fd=" << epoll_fd << endl;
     if (epoll_ctl(epoll_fd, EPOLL_CTL_ADD, conn_sock, &ev) == -1) {
-      perror("epoll_ctl: conn_sock");
+      perror("epoll_ctl_add: conn_sock");
       return false;
     }
     // Delete any existing sessions with the same socket handle
@@ -154,21 +168,32 @@ bool Server::acceptConnection() {
       delete session;
     } 
     // Start a new session and accept it
-    session = new Session(this,conn_sock,peer_addr);
+    session = createSession(conn_sock,peer_addr);
     sessions[conn_sock] = session;
     session->accepted();
     return true;
   }
 }
 
+void Server::closeConnection(Session* session) {
+  if (epoll_ctl(epoll_fd, EPOLL_CTL_DEL, session->socket(), 0) == -1) {
+    perror("epoll_ctl_del: conn_sock");
+  }  
+}
+
 void Server::handleEvent(uint32_t events, int fd) {
   Session* session = sessions[fd];
   if (session != nullptr) {
-    if (events & EPOLLRDHUP) {
-      cout << "EPOLLRDHUB received" << endl;
-      delete session;
-    } else if (events & EPOLLHUP) {
-      cout << "EPOLLHUB received" << endl;
+    if ((events & EPOLLRDHUP) || (events & EPOLLHUP)) {
+      if (session->availableForRead() > 0) { 
+        session->disconnected_ = true; // This blocks any Session::send() calls 
+        session->dataAvailable();
+      }
+      char ip[INET_ADDRSTRLEN];
+      inet_ntop(AF_INET,&(session->peer_addr_.sin_addr),ip,INET_ADDRSTRLEN);
+      cout << ip << ":" << session->peer_addr_.sin_port << " disconnected" << endl;
+      cout.flush();
+
       delete session;
     } else {
       if (events & EPOLLIN) {
@@ -178,19 +203,34 @@ void Server::handleEvent(uint32_t events, int fd) {
   }
 }
 
+Session* Server::createSession(const int socket, const sockaddr_in peer_address) {
+  LoopbackSession* session = new LoopbackSession(*this,socket,peer_address);
+  return dynamic_cast<Session*>(session); 
+}
+
 /* Session */
 
 void Session::accepted() {
   char ip[INET_ADDRSTRLEN];
   inet_ntop(AF_INET,&(peer_addr_.sin_addr),ip,INET_ADDRSTRLEN);
   cout << "Connection from " << ip << ":" << peer_addr_.sin_port << " accepted" << endl;
+  cout.flush();
+}
+
+int Session::availableForRead() {
+  int bytes_to_read;
+  if ((ioctl(socket_,FIONREAD,&bytes_to_read) == 0) && (bytes_to_read > 0)) {
+    return bytes_to_read;
+  } else {
+    return 0;
+  }
 }
 
 void Session::dataAvailable() {
-  int bytes_to_read;
-  if ((ioctl(fd_,FIONREAD,&bytes_to_read) == 0) && (bytes_to_read > 0)) {
+  int bytes_to_read = availableForRead();;
+  if (bytes_to_read > 0) {
     void* buf = malloc(bytes_to_read);
-    ssize_t sz = recv(fd_,buf,bytes_to_read,0);
+    ssize_t sz = recv(socket_,buf,bytes_to_read,0);
     if (sz > 0) receive(buf,bytes_to_read);    
     free(buf);
   } else {
@@ -199,19 +239,27 @@ void Session::dataAvailable() {
 }
 
 ssize_t Session::send(const void* buf, const size_t buf_size) {
-  ssize_t sz = ::send(fd_,buf,buf_size,0);
-  if (sz == -1) {
-    perror("Session::send");
+  if (!disconnected_) {
+    ssize_t sz = ::send(socket_,buf,buf_size,0);
+    if (sz == -1) {
+      perror("Session::send");
+    }
+    return sz;
+  } else {
+    return 0;
   }
-  return sz;
-}
-
-void Session::receive(const void* buf, const size_t buf_size) {
-  send(buf,buf_size);
 }
 
 void Session::disconnect() {
-  cout << "Session accepted. Socket Handle = " << fd_ << endl;
+  char ip[INET_ADDRSTRLEN];
+  inet_ntop(AF_INET,&(peer_addr_.sin_addr),ip,INET_ADDRSTRLEN);
+  cout << ip << ":" << peer_addr_.sin_port << " disconnecting" << endl;
+  cout.flush();
+  disconnected_ = true;
+}
+
+void LoopbackSession::receive(const void* buf, const size_t buf_size) {
+  send(buf,buf_size);
 }
 
 }
