@@ -5,10 +5,10 @@ namespace tcp {
 using namespace std;
 
 bool Server::start() {
-  clearSessions();
+  stop();
   if (!openSocket()) return false;
-  if (!bindToAddress()) { stop(); return false; }
   if (!setNonBlocking(listen_fd)) { stop(); return false; }
+  if (!bindToAddress()) { stop(); return false; }
   if (!startListening()) { stop(); return false; }
   if (!initEPoll()) { stop(); return false; }
   terminated_ = false;
@@ -16,9 +16,13 @@ bool Server::start() {
 }
 
 void Server::stop() {
-  cout << "Stopping server" << endl;
   if (!terminated_) {
-    disconnectSessions();
+    cout << "Sending disconnect to all sessions" << endl;
+    std::map<int,Session*>::iterator it;
+    for (it = sessions.begin();it != sessions.end();++it) {
+      it->second->disconnect();
+    }
+
     terminated_ = true;
     if (listen_fd >= 0) {
       close(listen_fd);
@@ -28,7 +32,11 @@ void Server::stop() {
       close(epoll_fd);
       epoll_fd = 0;
     }
-    clearSessions();
+    cout << "Destroying sessions" << endl;
+    for (it = sessions.begin();it != sessions.end();++it) {
+      delete it->second;
+    }
+    sessions.clear();
   }
 }
 
@@ -138,22 +146,23 @@ bool Server::acceptConnection() {
       perror("epoll_ctl: conn_sock");
       return false;
     }
-    // Delete any existing sessions with the same fd handle
-    Session* session = removeSession(conn_sock);
+    // Delete any existing sessions with the same socket handle
+    Session* session = sessions[conn_sock];
+    sessions.erase(conn_sock);
     if (session != nullptr) {
       cout << "WARNING: A session with socket handle " << conn_sock << " already exists. Deleting it." << endl;
       delete session;
     } 
     // Start a new session and accept it
     session = new Session(this,conn_sock,peer_addr);
-    addSession(session);
+    sessions[conn_sock] = session;
     session->accepted();
     return true;
   }
 }
 
 void Server::handleEvent(uint32_t events, int fd) {
-  Session* session = findSession(fd);
+  Session* session = sessions[fd];
   if (session != nullptr) {
     if (events & EPOLLRDHUP) {
       cout << "EPOLLRDHUB received" << endl;
@@ -162,111 +171,11 @@ void Server::handleEvent(uint32_t events, int fd) {
       cout << "EPOLLHUB received" << endl;
       delete session;
     } else {
-      /*if (events & EPOLLOUT) {
-        cout << "EPOLLOUT received" << endl;
-        session->canSend();
-      }*/
       if (events & EPOLLIN) {
-        //cout << "EPOLLIN received" << endl;
         session->dataAvailable();
       }
     }
   }
-}
-
-/** @brief Adds session to the list of sessions
- *  @param session   The session to add
- */
-void Server::addSession(Session* session) {
-  if (top_ != nullptr) {
-    session->next_ = top_;
-  }
-  top_ = session;
-}
-
-/** @brief Finds and removes the session from the session list
- *  @param session   The session to remove
- *  @return true if a matching session was found and removed from the list
- *  @remark The session object is not destroyed
- */
-bool Server::removeSession(Session* session) {
-  Session* ptr = top_;
-  Session* prev = nullptr;
-  if (session != nullptr) {
-    while (ptr != nullptr) {
-      if (ptr == session) {
-        if (prev == nullptr) {
-          top_ = ptr->next_;
-        } else {
-          prev->next_ = ptr->next_;
-        }
-        return true;
-      }
-      prev = ptr;
-      ptr = ptr->next_;
-    }
-  }
-  return false;
-}
-
-/** @brief Finds and removes the session with a matching socket file descriptor
- *  @param fd   The socket file descriptor to remove for
- *  @return A pointer to the Session object or nullptr if not found
- *  @remark The session object is not destroyed
- */
-Session* Server::removeSession(int fd) {
-  Session* ptr = top_;
-  Session* prev = nullptr;
-  
-  while (ptr != nullptr) {
-    if (ptr->fd_ == fd) {
-      if (prev == nullptr) {
-        top_ = ptr->next_;
-      } else {
-        prev->next_ = ptr->next_;
-      }
-      return ptr;
-    }
-    prev = ptr;
-    ptr = ptr->next_;
-  }
-  return nullptr;
-}
-
-/** @brief Finds a session with a matching socket file descriptor
- *  @param fd   The socket file descriptor to search for
- *  @return A pointer to the Session object or nullptr if not found
- */
-Session* Server::findSession(int fd) {
-  Session* ptr = top_;
-  while (ptr != nullptr) {
-    if (ptr->fd_ == fd) {
-      return ptr;
-    }
-    ptr = ptr->next_;
-  }
-  return nullptr;
-}
-
-/** @brief Calls disconnect() on all sessions 
- *  @details Called by stop() to signal a graceful shutdown of the server
- */
-void Server::disconnectSessions() {
-  Session* ptr = top_;
-  while (ptr != nullptr) {
-    ptr->disconnect();
-    ptr = ptr->next_;
-  }
-}
-
-/** @brief Clears the session list
- *  @details Calls the destructor for each session, removing it from the list
- */
-void Server::clearSessions() {
-  while (top_ != nullptr) {
-    delete top_;
-  }
-  top_ = nullptr;
 }
 
 /* Session */
@@ -278,11 +187,27 @@ void Session::accepted() {
 }
 
 void Session::dataAvailable() {
-  cout << "Data available. Socket Handle = " << fd_ << endl;
+  int bytes_to_read;
+  if ((ioctl(fd_,FIONREAD,&bytes_to_read) == 0) && (bytes_to_read > 0)) {
+    void* buf = malloc(bytes_to_read);
+    ssize_t sz = recv(fd_,buf,bytes_to_read,0);
+    if (sz > 0) receive(buf,bytes_to_read);    
+    free(buf);
+  } else {
+    perror("Session::dataAvailable");
+  }
 }
 
-void Session::canSend() {
-  cout << "Can Send. Socket Handle = " << fd_ << endl;
+ssize_t Session::send(const void* buf, const size_t buf_size) {
+  ssize_t sz = ::send(fd_,buf,buf_size,0);
+  if (sz == -1) {
+    perror("Session::send");
+  }
+  return sz;
+}
+
+void Session::receive(const void* buf, const size_t buf_size) {
+  send(buf,buf_size);
 }
 
 void Session::disconnect() {
