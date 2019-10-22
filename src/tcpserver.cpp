@@ -223,7 +223,7 @@ void Session::disconnect() {
 /* Loopback Session */
 
 void LoopbackSession::dataAvailable() {
-  stream() << stream().rdbuf();
+  stream << stream.rdbuf();
 }
 
 }
