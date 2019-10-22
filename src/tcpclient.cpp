@@ -31,7 +31,7 @@ bool Client::connect(in_addr_t addr, in_port_t port) {
 
 void Client::disconnect() {
   connected_ = false;
-  ::close(socket_);
+  ::shutdown(socket_,SHUT_RDWR);
 }
 
 int Client::send(const void* buf, const size_t buf_size, const bool more) {
@@ -64,6 +64,7 @@ void Client::connected() {
 void Client::disconnected() {
   connected_ = false;
   cout << "Disconnected" << endl;
+  ::close(socket_);
 }
 
 int Client::availableForRead() {

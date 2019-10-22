@@ -1,5 +1,6 @@
+#include <algorithm>
 #include <cstring>
-#include <cassert>
+//#include <cassert>
 #include <sys/socket.h>
 #include <sys/ioctl.h>
 #include "tcpsocket.h"
@@ -25,26 +26,32 @@ streambuf::int_type streambuf::underflow() {
     if (gptr() < egptr()) // buffer not exhausted
         return traits_type::to_int_type(*gptr());
 
-    char *base = &recvbuffer_.front();
-    char *start = base;
+    if (in_avail() > 0) {
 
-    if (eback() == base) { // true when this isn't the first fill
-        // Make arrangements for putback characters
-        ::memmove(base, egptr() - put_back_, put_back_);
-        start += put_back_;
+      char *base = &recvbuffer_.front();
+      char *start = base;
+
+      if (eback() == base) { // true when this isn't the first fill
+          // Make arrangements for putback characters
+          int pbsize = std::min<ptrdiff_t>(put_back_,egptr() - eback());
+          ::memmove(base, egptr() - pbsize, pbsize);
+          start += pbsize;
+      }
+
+      // start is now the start of the buffer, proper.
+      // Read from socket into the provided buffer
+      ssize_t n = ::recv(socket_,start,recvbuffer_.size() - (start - base),0);
+      if (n == 0) {
+          return traits_type::eof();
+      }
+
+      // Set buffer pointers
+      setg(base, start, start + n);
+
+      return traits_type::to_int_type(*gptr());
+    } else {
+      return traits_type::eof();
     }
-
-    // start is now the start of the buffer, proper.
-    // Read from socket into the provided buffer
-    ssize_t n = ::recv(socket_,start,recvbuffer_.size() - (start - base),0);
-    if (n == 0) {
-        return traits_type::eof();
-    }
-
-    // Set buffer pointers
-    setg(base, start, start + n);
-
-    return traits_type::to_int_type(*gptr());
 }
 
 /** @brief Get number of characters available
@@ -98,6 +105,8 @@ int streambuf::internalflush(bool more) {
     if (actualsize < size) {
       ::memmove(base,base+actualsize,size-actualsize);
       setp(base+actualsize,base+sendbuffer_.size());
+    } else {
+      setp(base,base+sendbuffer_.size());
     }
   }
   return actualsize;

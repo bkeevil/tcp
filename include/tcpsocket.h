@@ -37,7 +37,7 @@ class Socket : public iostream {
     int socket_;
     tcp::streambuf streambuf_;
   public:
-    Socket(int socket) : socket_(socket), streambuf_(socket), iostream(&streambuf_)  { }
+    Socket(int socket) : iostream(&streambuf_), socket_(socket), streambuf_(socket)   { }
     int socket() { return socket_; }
   protected:
     virtual void dataAvailable() = 0;

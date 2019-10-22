@@ -52,28 +52,28 @@ class Server {
     in_addr_t addr_  {INADDR_ANY};
     int listen_socket;
     int epoll_fd;
-    struct epoll_event listen_event;
+    //struct epoll_event listen_event;
     struct epoll_event events[MAX_EVENTS];
     friend class Session;
 };
 
 class Session : public Socket {
   public:
-    Session(Server& server, const int socket, const struct sockaddr_in peer_addr) : server_(server), Socket(socket), peer_addr_(peer_addr) {}
+    Session(Server& server, const int socket, const struct sockaddr_in peer_addr) : Socket(socket), server_(server), port_(peer_addr.sin_port), addr_(peer_addr.sin_addr.s_addr) {}
     virtual ~Session() { server_.sessions.erase(socket()); server_.closeConnection(this); }
-    bool disconnected() { return disconnected_; }
+   
     Server& server() { return server_; }
     in_port_t port() { return port_; }
     in_addr_t address() { return addr_; }
   protected:
     virtual void accepted();
+    virtual void disconnected() { if (!disconnected_) { close(socket()); disconnected_ = true; } }
     virtual void disconnect();
   private:
     Server& server_;
     in_port_t port_;
     in_addr_t addr_;
     bool disconnected_ {false};
-    struct sockaddr_in peer_addr_;
     friend class Server;
 };
 

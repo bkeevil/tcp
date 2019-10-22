@@ -186,13 +186,15 @@ void Server::handleEvent(uint32_t events, int fd) {
   if (session != nullptr) {
     if ((events & EPOLLRDHUP) || (events & EPOLLHUP)) {
       char ip[INET_ADDRSTRLEN];
-      inet_ntop(AF_INET,&(session->peer_addr_.sin_addr),ip,INET_ADDRSTRLEN);
-      cout << ip << ":" << session->peer_addr_.sin_port << " disconnected" << endl;
+      inet_ntop(AF_INET,&(session->addr_),ip,INET_ADDRSTRLEN);
+      cout << ip << ":" << session->port_ << " disconnected" << endl;
       cout.flush();
+      session->disconnected();
       delete session;
     } else {
       if (events & EPOLLIN) {
         session->dataAvailable();
+        session->flush();
       }
     }
   }
@@ -214,17 +216,30 @@ void Session::accepted() {
 
 void Session::disconnect() {
   char ip[INET_ADDRSTRLEN];
-  inet_ntop(AF_INET,&(peer_addr_.sin_addr),ip,INET_ADDRSTRLEN);
-  cout << ip << ":" << peer_addr_.sin_port << " disconnecting" << endl;
+  inet_ntop(AF_INET,&(addr_),ip,INET_ADDRSTRLEN);
+  cout << ip << ":" << port_ << " disconnecting" << endl;
   cout.flush();
+  ::shutdown(socket(),SHUT_RDWR);
   disconnected_ = true;
 }
 
 /* Loopback Session */
 
 void LoopbackSession::dataAvailable() {
-  *this << this->rdbuf();
-  flush();
+  //char s[255];
+  char c;
+  std::streambuf* buf = rdbuf();
+  c = buf->sbumpc();
+  while (c != traits_type::eof()) {
+    buf->sputc(c);
+    c = buf->sbumpc();
+  } 
+  bool b = this->eof();
+  cout << b;
+  //*this >> s;
+  //*this << s;
+  //copy(istreambuf_iterator<char> {this->rdbuf()},istreambuf_iterator<char> {},ostreambuf_iterator<char> {this->rdbuf()});
+  //*this << this->rdbuf();
 }
 
 }
