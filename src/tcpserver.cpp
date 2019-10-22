@@ -213,7 +213,6 @@ Session* Server::createSession(const int socket, const sockaddr_in peer_address)
 Session::~Session() {
   if (!disconnected_) 
     disconnect(); 
-  server_.closeConnection(this);
 }
 
 void Session::accepted() {
@@ -225,14 +224,22 @@ void Session::accepted() {
 
 void Session::disconnect() {
   flush();
-  disconnected_ = true;
   char ip[INET_ADDRSTRLEN];
   inet_ntop(AF_INET,&(addr_),ip,INET_ADDRSTRLEN);
   cout << ip << ":" << port_ << " disconnecting" << endl;
   cout.flush();
+  server_.closeConnection(this);
   ::shutdown(socket(),SHUT_RDWR);
+  disconnected_ = true;
 }
 
+void Session::disconnected() {
+  if (!disconnected_) { 
+    server_.closeConnection(this);
+    close(socket()); 
+    disconnected_ = true; 
+  }  
+}
 /* Loopback Session */
 
 void LoopbackSession::dataAvailable() {
