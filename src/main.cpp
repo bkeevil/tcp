@@ -1,5 +1,5 @@
 #include <iostream>
-#include "tcp.h"
+#include "tcpserver.h"
 
 using namespace std;
 using namespace tcp;
@@ -11,8 +11,9 @@ int main(int argc, char** argv) {
     return 1;
   }
   while (!server.terminated()) {
-    if (!server.poll()) break;
+    if (!server.poll(100)) break;
   }
   server.stop();
+
   return 0;
 }

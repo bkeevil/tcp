@@ -1,5 +1,5 @@
-#ifndef TCP_H
-#define TCP_H
+#ifndef TCP_SERVER_H
+#define TCP_SERVER_H
 
 #include <iostream>
 #include <sstream>
@@ -16,6 +16,7 @@
 #include <arpa/inet.h>
 #include <netinet/ip.h>
 #include <netinet/tcp.h>
+#include "tcpsocket.h"
 
 namespace tcp {
 
@@ -30,7 +31,7 @@ class Server {
     ~Server() { stop(); }
     bool start();                             /**< Start the server                                                             */
     void stop();                              /**< Stop the server from listening and free all resources                        */
-    bool poll();                              /**< Call poll() frequently from the main program loop to process network traffic */
+    bool poll(int timeout);                   /**< Call poll() frequently from the main program loop to process network traffic */
     bool terminated() { return terminated_; } /**< Returns true if the server has been terminated                               */
     static const int LISTEN_BACKLOG = 50;     /**< Maximum listen backlog before connections are rejected                       */
     static const int MAX_EVENTS = 10;         /**< Maximum number of epoll events to handle per poll() call                     */
@@ -47,7 +48,7 @@ class Server {
     void closeConnection(Session* session);
     void handleEvent(uint32_t events, int fd);
     bool terminated_ {true};
-    int port_        {0};
+    in_port_t port_        {0};
     in_addr_t addr_  {INADDR_ANY};
     int listen_socket;
     int epoll_fd;
@@ -56,25 +57,21 @@ class Server {
     friend class Session;
 };
 
-class Session {
+class Session : public Socket {
   public:
-    Session(Server& server, const int socket, const struct sockaddr_in peer_addr) : server_(server), socket_(socket), peer_addr_(peer_addr) {}
-    virtual ~Session() { server_.sessions.erase(socket_); server_.closeConnection(this); close(socket_); }
-    int socket() { return socket_; }
+    Session(Server& server, const int socket, const struct sockaddr_in peer_addr) : server_(server), Socket(socket), peer_addr_(peer_addr) {}
+    virtual ~Session() { server_.sessions.erase(socket()); server_.closeConnection(this); }
     bool disconnected() { return disconnected_; }
     Server& server() { return server_; }
-    in_port_t port() { return peer_addr_.sin_port; }
-    in_addr address() { return peer_addr_.sin_addr; }
-    ssize_t send(const void* buf, const size_t buf_size);
+    in_port_t port() { return port_; }
+    in_addr_t address() { return addr_; }
   protected:
-    int availableForRead();
-    virtual void receive(const void* buf, const size_t buf_size) = 0;
     virtual void accepted();
     virtual void disconnect();
   private:
-    void dataAvailable();  
     Server& server_;
-    int socket_;
+    in_port_t port_;
+    in_addr_t addr_;
     bool disconnected_ {false};
     struct sockaddr_in peer_addr_;
     friend class Server;
@@ -84,7 +81,7 @@ class LoopbackSession : public Session {
   public:
     LoopbackSession(Server& server, const int socket, const struct sockaddr_in peer_addr) : Session(server,socket,peer_addr) {}
     virtual ~LoopbackSession() = default;
-    virtual void receive(const void* buf, const size_t buf_size);
+    virtual void dataAvailable();
 };
 
 }

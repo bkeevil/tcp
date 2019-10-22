@@ -1,4 +1,4 @@
-#include "tcp.h"
+#include "tcpserver.h"
 
 namespace tcp {
 
@@ -54,9 +54,9 @@ void Server::stop() {
   }
 }
 
-bool Server::poll() {
+bool Server::poll(int timeout) {
   bool res = true;
-  int nfds = epoll_wait(epoll_fd,events,MAX_EVENTS,-1);
+  int nfds = epoll_wait(epoll_fd,events,MAX_EVENTS,timeout);
   if (nfds == -1) {
     perror("epoll_wait");
     return false;
@@ -185,15 +185,10 @@ void Server::handleEvent(uint32_t events, int fd) {
   Session* session = sessions[fd];
   if (session != nullptr) {
     if ((events & EPOLLRDHUP) || (events & EPOLLHUP)) {
-      if (session->availableForRead() > 0) { 
-        session->disconnected_ = true; // This blocks any Session::send() calls 
-        session->dataAvailable();
-      }
       char ip[INET_ADDRSTRLEN];
       inet_ntop(AF_INET,&(session->peer_addr_.sin_addr),ip,INET_ADDRSTRLEN);
       cout << ip << ":" << session->peer_addr_.sin_port << " disconnected" << endl;
       cout.flush();
-
       delete session;
     } else {
       if (events & EPOLLIN) {
@@ -212,42 +207,9 @@ Session* Server::createSession(const int socket, const sockaddr_in peer_address)
 
 void Session::accepted() {
   char ip[INET_ADDRSTRLEN];
-  inet_ntop(AF_INET,&(peer_addr_.sin_addr),ip,INET_ADDRSTRLEN);
-  cout << "Connection from " << ip << ":" << peer_addr_.sin_port << " accepted" << endl;
+  inet_ntop(AF_INET,&(addr_),ip,INET_ADDRSTRLEN);
+  cout << "Connection from " << ip << ":" << port_ << " accepted" << endl;
   cout.flush();
-}
-
-int Session::availableForRead() {
-  int bytes_to_read;
-  if ((ioctl(socket_,FIONREAD,&bytes_to_read) == 0) && (bytes_to_read > 0)) {
-    return bytes_to_read;
-  } else {
-    return 0;
-  }
-}
-
-void Session::dataAvailable() {
-  int bytes_to_read = availableForRead();;
-  if (bytes_to_read > 0) {
-    void* buf = malloc(bytes_to_read);
-    ssize_t sz = recv(socket_,buf,bytes_to_read,0);
-    if (sz > 0) receive(buf,bytes_to_read);    
-    free(buf);
-  } else {
-    perror("Session::dataAvailable");
-  }
-}
-
-ssize_t Session::send(const void* buf, const size_t buf_size) {
-  if (!disconnected_) {
-    ssize_t sz = ::send(socket_,buf,buf_size,0);
-    if (sz == -1) {
-      perror("Session::send");
-    }
-    return sz;
-  } else {
-    return 0;
-  }
 }
 
 void Session::disconnect() {
@@ -258,8 +220,10 @@ void Session::disconnect() {
   disconnected_ = true;
 }
 
-void LoopbackSession::receive(const void* buf, const size_t buf_size) {
-  send(buf,buf_size);
+/* Loopback Session */
+
+void LoopbackSession::dataAvailable() {
+  stream() << stream().rdbuf();
 }
 
 }
