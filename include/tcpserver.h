@@ -60,7 +60,7 @@ class Server {
 class Session : public Socket {
   public:
     Session(Server& server, const int socket, const struct sockaddr_in peer_addr) : Socket(socket), server_(server), port_(peer_addr.sin_port), addr_(peer_addr.sin_addr.s_addr) {}
-    virtual ~Session() { server_.sessions.erase(socket()); server_.closeConnection(this); }
+    virtual ~Session();
    
     Server& server() { return server_; }
     in_port_t port() { return port_; }

@@ -33,8 +33,11 @@ streambuf::int_type streambuf::underflow() {
 
       if (eback() == base) { // true when this isn't the first fill
           // Make arrangements for putback characters
-          int pbsize = std::min<ptrdiff_t>(put_back_,egptr() - eback());
-          ::memmove(base, egptr() - pbsize, pbsize);
+          ptrdiff_t pbsize = std::min<ptrdiff_t>(put_back_,egptr() - eback());
+          void* pboffset = egptr() - pbsize;
+          if (pboffset > base) {
+            ::memmove(base, pboffset, pbsize);
+          }
           start += pbsize;
       }
 
@@ -97,9 +100,9 @@ int streambuf::internalflush(bool more) {
     return 0;
   ssize_t actualsize;
   if (more) {
-    actualsize = ::send(socket_,(void*)pptr(),size,MSG_MORE);
+    actualsize = ::send(socket_,(void*)base,size,MSG_MORE);
   } else {
-    actualsize = ::send(socket_,(void*)pptr(),size,0);
+    actualsize = ::send(socket_,(void*)base,size,0);
   }
   if (actualsize > 0) {
     if (actualsize < size) {

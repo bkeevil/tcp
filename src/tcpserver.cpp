@@ -42,15 +42,15 @@ void Server::stop() {
       close(listen_socket);
       listen_socket = 0; 
     }
-    if (epoll_fd >= 0) {
-      close(epoll_fd);
-      epoll_fd = 0;
-    }
     cout << "Destroying sessions" << endl;
     for (it = sessions.begin();it != sessions.end();++it) {
       delete it->second;
     }
-    sessions.clear();
+    if (epoll_fd >= 0) {
+      close(epoll_fd);
+      epoll_fd = 0;
+    }
+    sessions.clear(); // Should already be cleared: Session destructor calls Server::closeConnection()
   }
 }
 
@@ -176,8 +176,11 @@ bool Server::acceptConnection() {
 }
 
 void Server::closeConnection(Session* session) {
-  if (epoll_ctl(epoll_fd, EPOLL_CTL_DEL, session->socket(), 0) == -1) {
-    perror("epoll_ctl_del: conn_sock");
+  if (session != nullptr) {
+    sessions.erase(session->socket()); 
+    if (epoll_ctl(epoll_fd, EPOLL_CTL_DEL, session->socket(), 0) == -1) {
+      perror("epoll_ctl_del: conn_sock");
+    }
   }  
 }
 
@@ -207,6 +210,12 @@ Session* Server::createSession(const int socket, const sockaddr_in peer_address)
 
 /* Session */
 
+Session::~Session() {
+  if (!disconnected_) 
+    disconnect(); 
+  server_.closeConnection(this);
+}
+
 void Session::accepted() {
   char ip[INET_ADDRSTRLEN];
   inet_ntop(AF_INET,&(addr_),ip,INET_ADDRSTRLEN);
@@ -215,12 +224,13 @@ void Session::accepted() {
 }
 
 void Session::disconnect() {
+  flush();
+  disconnected_ = true;
   char ip[INET_ADDRSTRLEN];
   inet_ntop(AF_INET,&(addr_),ip,INET_ADDRSTRLEN);
   cout << ip << ":" << port_ << " disconnecting" << endl;
   cout.flush();
   ::shutdown(socket(),SHUT_RDWR);
-  disconnected_ = true;
 }
 
 /* Loopback Session */
@@ -234,8 +244,7 @@ void LoopbackSession::dataAvailable() {
     buf->sputc(c);
     c = buf->sbumpc();
   } 
-  bool b = this->eof();
-  cout << b;
+
   //*this >> s;
   //*this << s;
   //copy(istreambuf_iterator<char> {this->rdbuf()},istreambuf_iterator<char> {},ostreambuf_iterator<char> {this->rdbuf()});
