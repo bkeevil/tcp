@@ -1,4 +1,5 @@
 #include <iostream>
+#include "tcpsocket.h"
 #include "tcpserver.h"
 
 using namespace std;
@@ -6,15 +7,14 @@ using namespace tcp;
 
 //int main(int argc, char** argv) {  
 int main() { 
-    Server server(1883);
-  if (!server.start()) {
+  Server server(1883);
+  if (!server.listening()) {
     cerr << "Failed to start server" << endl;
     return 1;
   }
-  while (!server.terminated()) {
-    if (!server.poll(100)) break;
+  while (server.listening()) {
+    epoll.poll(100);
   }
-  server.stop();
 
   return 0;
 }

@@ -1,13 +1,19 @@
+#include "tcpsocket.h"
 #include <algorithm>
 #include <cstring>
-//#include <cassert>
+#include <fcntl.h>
+#include <unistd.h>
 #include <sys/socket.h>
 #include <sys/ioctl.h>
-#include "tcpsocket.h"
+#include <arpa/inet.h>
+#include <netinet/ip.h>
+#include <netinet/tcp.h>
 
 namespace tcp {
 
-/* tcpstreambuf */
+EPoll epoll;
+
+/* tcp::streambuf */
 
 streambuf::streambuf(int socket, size_t rx_buff_sz, size_t tx_buff_sz, size_t put_back) :
     socket_(socket),
@@ -57,7 +63,7 @@ streambuf::int_type streambuf::underflow() {
     }
 }
 
-/** @brief Get number of characters available
+/** @brief Get number of characters available in the socket buffers
  *  Virtual function (to be read s-how-many-c) called by other member functions to get an estimate on 
  *  the number of characters available in the associated input sequence. */
 streamsize streambuf::showmanyc() {
@@ -155,7 +161,141 @@ streamsize streambuf::xsputn(const char* s, streamsize n) {
   return n - remainingsize;
 }
 
-/* Socket */
+/* EPoll */
+
+EPoll::EPoll() {
+  handle_ = epoll_create1(0);
+  if (handle_ == -1) {
+    perror("epoll_create");
+  }
+}
+
+EPoll::~EPoll() {
+  sockets.clear();
+  if (handle_ > 0) {
+    ::close(handle_);
+  }
+}
+
+bool EPoll::add(SocketHandle& socket, int events) {
+  struct epoll_event ev;
+  ev.events = events;
+  ev.data.fd = socket.socket();
+  if (epoll_ctl(handle_,EPOLL_CTL_ADD,socket.socket(),&ev) != -1) {
+    sockets[socket.socket()] = &socket;
+    return true;
+  } else {
+    return false;
+  }
+}
+
+bool EPoll::update(SocketHandle& socket, int events) {
+  struct epoll_event ev;
+  ev.events = events;
+  ev.data.fd = socket.socket();
+  return (epoll_ctl(handle_,EPOLL_CTL_MOD,socket.socket(),&ev) != -1);
+}
+
+bool EPoll::remove(SocketHandle& socket) {
+  if (epoll_ctl(handle_,EPOLL_CTL_DEL,socket.socket(),NULL) != -1) {
+    sockets.erase(socket.socket());
+    return true;
+  } else {
+    return false;
+  }
+}
+
+void EPoll::poll(int timeout) {  
+  int nfds = epoll_wait(handle_,events,MAX_EVENTS,timeout); 
+  if (nfds == -1) {
+    perror("epoll_wait");
+  } else {
+    for (int n = 0; n < nfds; ++n) {
+      handleEvents(events[n].events,events[n].data.fd);
+    }
+  }
+}
+
+void EPoll::handleEvents(uint32_t events, int fd) {
+  SocketHandle* socket = sockets[fd];
+  if (socket != nullptr) {
+    socket->handleEvents(events);
+  }
+}
+
+/*
+void EPoll::handleEvent(uint32_t events, int fd) {
+  SocketHandle* socket = sockets[fd];
+  if (socket != nullptr) {
+    if (socket->state_ == SocketState::CONNECTED) {
+      if (events & EPOLLRDHUP) {
+        if (socket->available() > 0) { 
+          socket->state_ = SocketState::DISCONNECTING; // This blocks any Session::send() calls 
+          socket->dataAvailable();
+        }
+        epoll.remove(*socket);
+        socket->disconnected();
+      } else {
+        if (events & EPOLLIN) {
+          socket->dataAvailable();
+        }
+      }
+    } else if (socket->state_ == SocketState::LISTENING) {
+      if (events & EPOLLIN) {
+        struct sockaddr_in peer_addr;
+        int handle = socket->accept(&peer_addr);
+        SocketHandle* newsocket = createSocket(handle);
+        newsocket->port_ = peer_addr.sin_port;
+        newsocket->addr_ = peer_addr.sin_addr.s_addr;
+        accept(newsocket);
+        newsocket->accepted(newsocket);
+        add(*newsocket,EPOLLIN | EPOLLRDHUP);
+      }
+    } else if (socket->state() == SocketState::CONNECTING) {
+      if (events & EPOLLIN) {
+        epoll.update(*socket,EPOLLIN | EPOLLRDHUP);
+        socket->connected();
+      }
+    }
+  }
+}
+*/
+
+/* SocketHandle */
+
+SocketHandle::SocketHandle(const int socket, const bool blocking, const int events) : socket_(socket), events_(events) { 
+  if (socket == 0) {
+    socket_ = ::socket(AF_INET,SOCK_STREAM,0);
+  }
+  if (!blocking) {
+    int flags = fcntl(socket_,F_GETFL,0);
+    if (flags == -1) {
+      perror("fnctl: get");
+    } else {
+      flags = (flags & ~O_NONBLOCK);
+      if (fcntl(socket_,F_SETFL,flags) == -1) {
+        perror("fnctl: set");
+      }
+    }
+  }
+  epoll.add(*this,events); 
+}
+
+SocketHandle::~SocketHandle() {
+  epoll.remove(*this);
+}
+
+bool SocketHandle::setEvents(int events) { 
+  if (events != events_) { 
+    if (epoll.update(*this,events)) { 
+      events_ = events; 
+      return true;
+    } else { 
+      return false; 
+    } 
+  }
+  return true;
+}
 
 /*void Socket::sync() {
   int i;

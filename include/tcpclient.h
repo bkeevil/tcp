@@ -19,8 +19,9 @@
 namespace tcp {
 
 using namespace std;
+using namespace tcp;
 
-class Client : public Socket {
+class Client : public SocketHandle, iostream {
   public:
     Client() = default;
     ~Client() { if (connected_) disconnect(); };
