@@ -92,12 +92,13 @@ Session::~Session() {
 
 void Session::handleEvents(uint32_t events) {
   if (state_ == State::CONNECTED) {
-    if (events * EPOLLRDHUP) {
+    if (events & EPOLLRDHUP) {
       disconnected();
       return;
     } 
     if (events & EPOLLIN) {
       dataAvailable();
+      flush();
     }
   }
 }
