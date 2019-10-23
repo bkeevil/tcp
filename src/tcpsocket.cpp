@@ -223,44 +223,6 @@ void EPoll::handleEvents(uint32_t events, int fd) {
   }
 }
 
-/*
-void EPoll::handleEvent(uint32_t events, int fd) {
-  SocketHandle* socket = sockets[fd];
-  if (socket != nullptr) {
-    if (socket->state_ == SocketState::CONNECTED) {
-      if (events & EPOLLRDHUP) {
-        if (socket->available() > 0) { 
-          socket->state_ = SocketState::DISCONNECTING; // This blocks any Session::send() calls 
-          socket->dataAvailable();
-        }
-        epoll.remove(*socket);
-        socket->disconnected();
-      } else {
-        if (events & EPOLLIN) {
-          socket->dataAvailable();
-        }
-      }
-    } else if (socket->state_ == SocketState::LISTENING) {
-      if (events & EPOLLIN) {
-        struct sockaddr_in peer_addr;
-        int handle = socket->accept(&peer_addr);
-        SocketHandle* newsocket = createSocket(handle);
-        newsocket->port_ = peer_addr.sin_port;
-        newsocket->addr_ = peer_addr.sin_addr.s_addr;
-        accept(newsocket);
-        newsocket->accepted(newsocket);
-        add(*newsocket,EPOLLIN | EPOLLRDHUP);
-      }
-    } else if (socket->state() == SocketState::CONNECTING) {
-      if (events & EPOLLIN) {
-        epoll.update(*socket,EPOLLIN | EPOLLRDHUP);
-        socket->connected();
-      }
-    }
-  }
-}
-*/
-
 /* SocketHandle */
 
 SocketHandle::SocketHandle(const int socket, const bool blocking, const int events) : socket_(socket), events_(events) { 

@@ -4,7 +4,9 @@ namespace tcp {
 
 using namespace std;
 
-Server::Server(const int port, const in_addr_t addr) : SocketHandle(0,false,EPOLLIN), port_(port), addr_(addr) {
+Server::Server(const int port, const in_addr_t addr) 
+  : SocketHandle(0,false,EPOLLIN), port_(port), addr_(addr) 
+{
   listening_ = (bindToAddress() && startListening());
 }
 
@@ -45,7 +47,7 @@ bool Server::bindToAddress() {
 }
 
 bool Server::startListening() {
-  if (listen(socket(),LISTEN_BACKLOG) == -1) {
+  if (listen(socket(),listenBacklog_) == -1) {
     perror("listen");
     return false;
   } else {
@@ -91,7 +93,7 @@ Session::~Session() {
 }
 
 void Session::handleEvents(uint32_t events) {
-  if (state_ == State::CONNECTED) {
+  if (connected_) {
     if (events & EPOLLRDHUP) {
       disconnected();
       return;
@@ -122,8 +124,8 @@ void Session::disconnect() {
 /** @brief  Called in response to a disconnected TCP Connection
  *  Override disconnected() to perform cleanup operations when a connection is unexpectedly lost */
 void Session::disconnected() {
-  if (state_ != State::DISCONNECTING) { 
-    state_ = State::DISCONNECTING;
+  if (connected_) { 
+    connected_ = false;
     char ip[INET_ADDRSTRLEN];
     inet_ntop(AF_INET,&(addr_),ip,INET_ADDRSTRLEN);
     clog << ip << ":" << port_ << " disconnected" << endl;
