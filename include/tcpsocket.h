@@ -43,10 +43,15 @@ class streambuf : public std::streambuf {
      *          the most recently read characters. This allows characters to be put back on the 
      *          stream after despite a buffer refresh.*/   
     explicit streambuf(int socket, size_t rx_buff_sz = 256, size_t tx_buff_sz = 256, size_t put_back = 8);
+    
     streambuf(const streambuf &) = delete; /**< Copy constructor not allowed */
     streambuf &operator= (const streambuf &) = delete; /**< Copy assignment operator not allowed */
     streambuf(streambuf &&) = delete; /**< Move constructor not allowed */
     streambuf &operator= (streambuf &&) = delete; /**< Move assignement operator not allowed */
+    
+    /** @brief Returns the Linux socket handle */
+    int socket() const { return socket_; }
+
     /** @brief Returns the number of bytes available to be read
      *  The value returned includes unread bytes in the recvbuffer plus any bytes in the operating 
      *  system's receive buffer that have yet to be retrieved */  
@@ -125,10 +130,8 @@ class SocketHandle {
      */
     SocketHandle(const int socket = 0, const bool blocking = false, const int events = (EPOLLIN | EPOLLRDHUP));
   
-    /** @brief Destroys the SocketHandle without closing the socket
-     *  @remark The socket is destroyed gracefully by issuing the OS shutdown() commands which persist after this 
-     *  object is destroyed, therefore the socket handle cannot closed on destroy.
-     */
+    /** @brief Closes the socket (if necessary) and destroys the SocketHandle
+     *  @remark The socket should first be shut down using the Linux shutdown() command  */
     ~SocketHandle();
   
     /** @brief Return the OS socket handle */

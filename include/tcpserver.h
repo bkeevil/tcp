@@ -98,22 +98,63 @@ class Server : public SocketHandle {
 };
 
 /** @brief Represents a TCP connection accepted by the Server 
- */
+ *  A Session descendant class is instantiated by the server using the Session::createSession() method.
+ *  It is destroyed by calling disconnect() or disconnected() */
 class Session : public SocketHandle, public iostream {
   public:
-    Session(Server& server, const int socket, const struct sockaddr_in peer_addr) 
-      : SocketHandle(socket), iostream(socket), server_(server), port_(peer_addr.sin_port), addr_(peer_addr.sin_addr.s_addr) { }
-    Server&   server() { return server_; }
-    in_port_t peer_port() { return port_;   }
-    in_addr_t peer_address() { return addr_;   }
-    bool      connected() { return connected_; }
+    
+    /** @brief  Returns a reference to the Server that owns this Session */
+    Server& server() const { return server_; }
+
+    /** @brief  Returns the peer port number used to connect to this Session */
+    in_port_t peer_port() const { return port_;   }
+
+    /** @brief  Returns the peer address used to connect to this Session */
+    in_addr_t peer_address() const { return addr_;   }
+    
+    /** @brief  Returns true if the session is connected to a peer */
+    bool connected() const { return connected_; }
+
+    /** @brief  Shutdown the socket and close the session 
+     *  @details Internally calls disconnect()
+     *  @details Override disconnect() to perform additional cleanup operations before a session is
+     *           intentionally closed.
+     *  @warning disconnect() causes the Session to be destroyed
+    */
     virtual void disconnect();
   protected:
+    
+    /** @brief  Creates a new session
+     *  The constructor is protected and is called by the Server::createSession() method */
+    Session(Server& server, const int socket, const struct sockaddr_in peer_addr) 
+      : SocketHandle(socket), iostream(socket), server_(server), port_(peer_addr.sin_port), addr_(peer_addr.sin_addr.s_addr) { }
+    
+    /** @brief The destructor is protected and is called by the disconnect() or disconnected() methods */
     virtual ~Session();
+
+    /** @brief Called by the EPoll object to process OS events sent to this handle
+     *  Session monitors for available data and disconnected TCP sessions */
     virtual void handleEvents(uint32_t events) override;
+
+    /** @brief Called in response to data being available on the socket
+     *  Override this virtual abstract method in descendent classes to read incoming data */
     virtual void dataAvailable() = 0;
+
+    /** @brief Called by the Server::acceptConnection after a connection has been accepted
+     *  Override accepted to perform operations when a session is first established.
+     *  In the base class, accepted() prints a message to clog.
+     */
     virtual void accepted();
+    
+    /** @brief   Called when a tcp connection is dropped 
+     *  @details Shuts down the network socket, removes itself from Server.sessions[], then destroys itself.
+     *  @details An application can override disconnected() to perform additional cleanup operations 
+     *           before the underlying TCP connection gets torn down. 
+     *  @remark  To intentionally close a Session, call disconnect() instead
+     *  @warning disconnected() destroys the Session
+     */
     virtual void disconnected();
+
   private:
     Server& server_;
     in_port_t port_;

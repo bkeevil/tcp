@@ -35,7 +35,8 @@ bool Server::bindToAddress() {
   server_addr.sin_port = htons(port_);
   server_addr.sin_addr.s_addr = addr_;    
   if (bind(socket(),(struct sockaddr *)&server_addr,sizeof(server_addr)) == -1) {
-    perror("bind");
+    cerr << "bind: " << strerror(errno) << endl;
+    cerr.flush();
     return false;
   } else {
     char ip[INET_ADDRSTRLEN];
@@ -48,7 +49,8 @@ bool Server::bindToAddress() {
 
 bool Server::startListening() {
   if (listen(socket(),listenBacklog_) == -1) {
-    perror("listen");
+    cerr << "listen: " << strerror(errno) << endl;
+    cerr.flush();
     return false;
   } else {
     clog << "Server started listening" << endl;
@@ -62,7 +64,8 @@ bool Server::acceptConnection() {
   socklen_t peer_addr_len = sizeof(struct sockaddr_in);
   int conn_sock = ::accept(socket(),(struct sockaddr *) &peer_addr, &peer_addr_len);
   if (conn_sock == -1) {
-    perror("accept");
+    cerr << "accept: " << strerror(errno) << endl;
+    cerr.flush();
     return false;
   } else {
     // Delete any existing sessions with the same socket handle

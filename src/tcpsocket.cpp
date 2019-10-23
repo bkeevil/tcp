@@ -1,6 +1,6 @@
 #include "tcpsocket.h"
 #include <algorithm>
-#include <cstring>
+#include <string.h>
 #include <fcntl.h>
 #include <unistd.h>
 #include <sys/socket.h>
@@ -166,7 +166,8 @@ streamsize streambuf::xsputn(const char* s, streamsize n) {
 EPoll::EPoll() {
   handle_ = epoll_create1(0);
   if (handle_ == -1) {
-    perror("epoll_create");
+    cerr << "epoll_create1: " << strerror(errno) << endl;
+    cerr.flush();
   }
 }
 
@@ -208,7 +209,7 @@ bool EPoll::remove(SocketHandle& socket) {
 void EPoll::poll(int timeout) {  
   int nfds = epoll_wait(handle_,events,MAX_EVENTS,timeout); 
   if (nfds == -1) {
-    perror("epoll_wait");
+    cerr << "epoll_wait: " << strerror(errno) << endl;
   } else {
     for (int n = 0; n < nfds; ++n) {
       handleEvents(events[n].events,events[n].data.fd);
@@ -226,17 +227,26 @@ void EPoll::handleEvents(uint32_t events, int fd) {
 /* SocketHandle */
 
 SocketHandle::SocketHandle(const int socket, const bool blocking, const int events) : socket_(socket), events_(events) { 
-  if (socket == 0) {
+  if (socket < 0) {
+    cerr << "SocketHandle: socket parameter should not be < 0";
+  }
+  if (socket <= 0) {
     socket_ = ::socket(AF_INET,SOCK_STREAM,0);
+    if (socket_ == -1) {
+      cerr << "socket: " << strerror(errno) << endl;
+      cerr.flush();
+    }
   }
   if (!blocking) {
     int flags = fcntl(socket_,F_GETFL,0);
     if (flags == -1) {
-      perror("fnctl: get");
+      cerr << "fcntl (get): " << strerror(errno) << endl;
+      cerr.flush();
     } else {
       flags = (flags & ~O_NONBLOCK);
       if (fcntl(socket_,F_SETFL,flags) == -1) {
-        perror("fnctl: set");
+        cerr << "fcntl (set): " << strerror(errno) << endl;
+        cerr.flush();
       }
     }
   }
@@ -245,6 +255,13 @@ SocketHandle::SocketHandle(const int socket, const bool blocking, const int even
 
 SocketHandle::~SocketHandle() {
   epoll.remove(*this);
+  if (socket_ > 0) {
+    if (::close(socket_) == -1) {
+      cerr << "close: " << strerror(errno) << endl;
+      cerr.flush();
+    } 
+  }
+  socket_ = 0;
 }
 
 bool SocketHandle::setEvents(int events) { 

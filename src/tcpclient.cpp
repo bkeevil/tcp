@@ -11,80 +11,71 @@ bool Client::connect(in_addr_t addr, in_port_t port) {
   a.sin_family = AF_INET;
   a.sin_addr.s_addr = addr;
   a.sin_port = port;
-  socket_ = ::socket(AF_INET,SOCK_STREAM,0);
-  if ( socket_ == -1) {
-    perror("socket");
+  if ( socket() == -1) {
     return false;
   } else {
-    if (::connect(socket_,(const sockaddr*)(&a),sizeof(sockaddr_in)) == -1) {
-      perror("connect");
-      return false;
-    }
-    connected_ = true;
     char ip[INET_ADDRSTRLEN];
     inet_ntop(AF_INET,&(a.sin_addr.s_addr),ip,INET_ADDRSTRLEN);
-    cout << "Connecting to to " << ip << " on port " << port_ << endl;
-    return true;
+    clog << "Connecting to to " << ip << " on port " << port_ << endl;
+    clog.flush();
+    if (::connect(socket(),(const sockaddr*)(&a),sizeof(sockaddr_in)) == -1) {
+      if (errno == EINPROGRESS) {
+        state_ = State::CONNECTING;
+        setEvents(EPOLLOUT | EPOLLRDHUP);
+        return true;
+      } else {
+        cerr << "connect: " << strerror(errno) << endl;
+        cerr.flush();
+        return false;
+      }
+    } else {
+      connected();
+      return true;
+    }
   }
-
 }
 
 void Client::disconnect() {
-  connected_ = false;
-  ::shutdown(socket_,SHUT_RDWR);
+  disconnected();
 }
 
-int Client::send(const void* buf, const size_t buf_size, const bool more) {
-  if (connected_) {
-    ssize_t sz;
-    if (more)
-      sz = ::send(socket_,buf,buf_size,MSG_MORE);
-    else
-      sz = ::send(socket_,buf,buf_size,0);
-    
-    if (sz == -1) {
-      perror("Session::send");
+void Client::handleEvents(uint32_t events) {
+  if (state_ == State::CONNECTED) {
+    if (events & EPOLLRDHUP) {
+      disconnected();
+      return;
+    } 
+    if (events & EPOLLIN) {
+      dataAvailable();
+      flush();
     }
-    return sz;
-  } else {
-    return 0;
+  } else if (state_ == State::CONNECTING) {
+    setEvents(EPOLLIN | EPOLLRDHUP);
+    if (events & EPOLLRDHUP) {
+      state_ = State::UNCONNECTED;
+      disconnected();
+      return;
+    } 
+    if (events & EPOLLOUT) {
+      state_ = State::CONNECTED;
+      connected();
+      flush();
+    }
   }
-
-}
-
-int Client::receive(const void* buf, const size_t buf_size) {
-  return 0;
 }
 
 void Client::connected() {
-  connected_ = true;
-  cout << "Connected" << endl;
+  state_ = State::CONNECTED;
+  clog << "Connected" << endl;
+  clog.flush();
 }
 
 void Client::disconnected() {
-  connected_ = false;
-  cout << "Disconnected" << endl;
-  ::close(socket_);
-}
-
-int Client::availableForRead() {
-  int bytes_to_read;
-  if ((ioctl(socket_,FIONREAD,&bytes_to_read) == 0) && (bytes_to_read > 0)) {
-    return bytes_to_read;
-  } else {
-    return 0;
-  }
-}
-
-void Client::dataAvailable() {
-  int bytes_to_read = availableForRead();;
-  if (bytes_to_read > 0) {
-    void* buf = malloc(bytes_to_read);
-    int sz = recv(socket_,buf,bytes_to_read,0);
-    if (sz > 0) receive(buf,bytes_to_read);    
-    free(buf);
-  } else {
-    perror("Session::dataAvailable");
+  if ((state_ == State::CONNECTING) || (state_ == State::CONNECTED)) {
+    state_ = State::DISCONNECTED;
+    ::shutdown(socket(),SHUT_RDWR);
+    clog << "Disconnected" << endl;
+    clog.flush();
   }
 }
 
