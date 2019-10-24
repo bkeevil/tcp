@@ -99,7 +99,10 @@ class iostream : public std::iostream {
  * 
  *  @details When incoming events are recieved, they are automatically dispatched to the appropriate 
  *           tcp::Socket.handleEvents() method.
- */
+ *
+ *  @details It is possible to have more than one EPoll in a multi-threaded application
+ *           but the poll() method for each instance has to be called individually.
+ */ */
 class EPoll {
   public:
     EPoll();
@@ -160,11 +163,6 @@ class Socket {
     friend class EPoll;
 };
 
-/** @brief   A singleton EPoll object.
- *  @details The poll() method needs to be called at regular intervals
- *  @details It is possible to have more than one EPoll in a multi-threaded application
- *           but the poll() method for each instance has to be called individually.
- */
 extern EPoll epoll;
 
 } // namespace tcp
