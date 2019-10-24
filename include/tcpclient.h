@@ -1,3 +1,12 @@
+/** @file    tcpclient.h
+ *  @brief   Provides basic tcp client functionality
+ *  @details Create descendants of tcp::Client to implement a custom tcp client
+ *  @author  Bond Keevil
+ *  @version 1.0
+ *  @date    2019
+ *  @license GPLv3.0
+ */
+
 #ifndef TCP_CLIENT_H
 #define TCP_CLIENT_H
 
@@ -17,14 +26,15 @@ namespace tcp {
 using namespace std;
 using namespace tcp;
 
-class Client : public SocketHandle, iostream {
+/** @brief  A blocking or non-blocking TCP client connection */
+class Client : public Socket, iostream {
   public:
     
     /** @brief  Determines the state of a Client connection */
     enum class State { UNCONNECTED=0, CONNECTING, CONNECTED, DISCONNECTED };
     
     /** @brief  Creates a blocking or a non-blocking client */
-    Client(bool blocking): SocketHandle(0,blocking), iostream(socket()) {}
+    Client(bool blocking): Socket(0,blocking), iostream(socket()) {}
     
     /** @brief   Destroys the client 
       * @details Will call disconnect() first if necessary. This allows clients to be disconnected 
@@ -68,7 +78,7 @@ class Client : public SocketHandle, iostream {
     virtual void connected();
     
     /** @brief   Called when a tcp connection is dropped 
-     *  Shuts down the network SocketHandle.
+     *  Shuts down the network Socket.
      *  An application can override disconnected() to perform additional cleanup operations 
      *  before the underlying TCP connection gets torn down. 
      *  @remark  To intentionally close a Session, call disconnect() instead 

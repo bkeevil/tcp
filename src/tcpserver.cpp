@@ -5,7 +5,7 @@ namespace tcp {
 using namespace std;
 
 Server::Server(const int port, const in_addr_t addr) 
-  : SocketHandle(0,false,EPOLLIN), port_(port), addr_(addr) 
+  : Socket(0,false,EPOLLIN), port_(port), addr_(addr) 
 {
   listening_ = (bindToAddress() && startListening());
 }

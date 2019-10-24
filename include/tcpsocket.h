@@ -27,7 +27,7 @@ using namespace std;
 
 // Forward declarations
 
-class SocketHandle;
+class Socket;
 
 /** @brief Provides access to a unix socket handle using streambuf interface */
 class streambuf : public std::streambuf {
@@ -88,12 +88,12 @@ class iostream : public std::iostream {
  *  Applications need to call EPoll.poll() at regular intervals to check for and respond to network
  *  events. A global `epoll` singleton object is provided for applications.
  *  
- *  Appropriate events are added/remove from the epoll event list when a tcp::SocketHandle 
- *  is created/destroyed. See the protected tcp::SocketHandle.setEvents() method if you need
+ *  Appropriate events are added/remove from the epoll event list when a tcp::Socket 
+ *  is created/destroyed. See the protected tcp::Socket.setEvents() method if you need
  *  to change which events to listen to.
  * 
  *  When incoming events are recieved, they are automatically dispatched to the appropriate 
- *  tcp::SocketHandle.handleEvents() method.
+ *  tcp::Socket.handleEvents() method.
  */
 class EPoll {
   public:
@@ -104,18 +104,18 @@ class EPoll {
     void poll(int timeout); 
   private:
     static const int MAX_EVENTS = 10; /**< Maximum number of epoll events to handle per poll() call */
-    bool add(SocketHandle& socket, int events);
-    bool update(SocketHandle& socket, int events);
-    bool remove(SocketHandle& socket);    
+    bool add(Socket& socket, int events);
+    bool update(Socket& socket, int events);
+    bool remove(Socket& socket);    
     void handleEvents(uint32_t events, int fd);
     int handle_;
     epoll_event events[MAX_EVENTS];
-    std::map<int,tcp::SocketHandle*> sockets;
-    friend class SocketHandle;
+    std::map<int,tcp::Socket*> sockets;
+    friend class Socket;
 };
 
 /** @brief Encapsulates a socket handle that is capable of recieving epoll events */
-class SocketHandle {
+class Socket {
   public:
   
     /**
@@ -126,13 +126,13 @@ class SocketHandle {
      * @param events A bit flag of the epoll events to register interest include
      * 
      * @remarks A client or server listener will typically call the constructor with socket=0 to start with a new socket.
-     *          A server session will create a SocketHandle by providing the socket handle returned from an accept command.
+     *          A server session will create a Socket by providing the socket handle returned from an accept command.
      */
-    SocketHandle(const int socket = 0, const bool blocking = false, const int events = (EPOLLIN | EPOLLRDHUP));
+    Socket(const int socket = 0, const bool blocking = false, const int events = (EPOLLIN | EPOLLRDHUP));
   
-    /** @brief Closes the socket (if necessary) and destroys the SocketHandle
+    /** @brief Closes the socket (if necessary) and destroys the Socket
      *  @remark The socket should first be shut down using the Linux shutdown() command  */
-    ~SocketHandle();
+    ~Socket();
   
     /** @brief Return the OS socket handle */
     int socket() const { return socket_; }

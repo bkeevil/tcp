@@ -178,7 +178,7 @@ EPoll::~EPoll() {
   }
 }
 
-bool EPoll::add(SocketHandle& socket, int events) {
+bool EPoll::add(Socket& socket, int events) {
   struct epoll_event ev;
   ev.events = events;
   ev.data.fd = socket.socket();
@@ -190,14 +190,14 @@ bool EPoll::add(SocketHandle& socket, int events) {
   }
 }
 
-bool EPoll::update(SocketHandle& socket, int events) {
+bool EPoll::update(Socket& socket, int events) {
   struct epoll_event ev;
   ev.events = events;
   ev.data.fd = socket.socket();
   return (epoll_ctl(handle_,EPOLL_CTL_MOD,socket.socket(),&ev) != -1);
 }
 
-bool EPoll::remove(SocketHandle& socket) {
+bool EPoll::remove(Socket& socket) {
   if (epoll_ctl(handle_,EPOLL_CTL_DEL,socket.socket(),NULL) != -1) {
     sockets.erase(socket.socket());
     return true;
@@ -218,17 +218,17 @@ void EPoll::poll(int timeout) {
 }
 
 void EPoll::handleEvents(uint32_t events, int fd) {
-  SocketHandle* socket = sockets[fd];
+  Socket* socket = sockets[fd];
   if (socket != nullptr) {
     socket->handleEvents(events);
   }
 }
 
-/* SocketHandle */
+/* Socket */
 
-SocketHandle::SocketHandle(const int socket, const bool blocking, const int events) : socket_(socket), events_(events) { 
+Socket::Socket(const int socket, const bool blocking, const int events) : socket_(socket), events_(events) { 
   if (socket < 0) {
-    cerr << "SocketHandle: socket parameter should not be < 0";
+    cerr << "Socket: socket parameter should not be < 0";
   }
   if (socket <= 0) {
     socket_ = ::socket(AF_INET,SOCK_STREAM,0);
@@ -253,7 +253,7 @@ SocketHandle::SocketHandle(const int socket, const bool blocking, const int even
   epoll.add(*this,events); 
 }
 
-SocketHandle::~SocketHandle() {
+Socket::~Socket() {
   epoll.remove(*this);
   if (socket_ > 0) {
     if (::close(socket_) == -1) {
@@ -264,7 +264,7 @@ SocketHandle::~SocketHandle() {
   socket_ = 0;
 }
 
-bool SocketHandle::setEvents(int events) { 
+bool Socket::setEvents(int events) { 
   if (events != events_) { 
     if (epoll.update(*this,events)) { 
       events_ = events; 
