@@ -1,8 +1,7 @@
 /** @file     tcpsocket.h
- *  @brief    Base class for a TCP client/server
- *  @details  Provides epoll event management, a network streambuf class, and an iostream interface 
- *            for Client and Sessions
- *  @remmarks Applications need to call `epoll.poll(100);` regularly in their code for network 
+ *  @brief    Shared base classes for tcpclient.h and tcpserver.h
+ *  @details  Provides Linux epoll event management, a socket streambuf class, and an iostream based interface 
+ *  @remarks  Applications need to call `epoll.poll(100)` regularly in their code for network 
  *            events to function correctly.
  *  @author   Bond Keevil
  *  @version  1.0
@@ -19,29 +18,29 @@
 #include <map>
 #include <sys/epoll.h>
 
-/** @brief The tcp namespace contains Socket, Server, Session and Client classes for 
- *  implementing a tcp server */
+/** @brief Contains Socket, Server, Session and Client classes for a tcp client/server */
 namespace tcp {
 
 using namespace std;
 
-// Forward declarations
-
 class Socket;
 
-/** @brief Provides access to a unix socket handle using streambuf interface */
+/** @brief   Provides a streambuf interface to a unix socket handle
+ *  @details See the streambuf documentation for your stdlib for more info on this class
+ */
 class streambuf : public std::streambuf {
   public:
-    /** @brief Create a new tcp::streambuf class
-     *  This class is used by the tcp::iostram class to provide a C++ stream interface to client and
-     *  server network sessions. It should not be necessary to use or instantiate this class directly.
-     *  @param socket The socket handle to use for io
-     *  @param rx_buff_sz The size of the recvbuffer
-     *  @param tx_buff_sz The size of the sendbuffer
-     *  @param put_back The maximum number of characters that can be put back on the stream 
-     *  @remark The put_back buffer is a space at the beginning of the recvbuffer that contains 
-     *          the most recently read characters. This allows characters to be put back on the 
-     *          stream after despite a buffer refresh.*/   
+    /** @brief   Create a new tcp::streambuf class
+     *  @details This class is used by the tcp::iostram class to provide a C++ stream interface to client and
+     *           server network sessions. It should not be necessary to use or instantiate this class directly.
+     *  @param   socket     The socket handle to use for io
+     *  @param   rx_buff_sz The size of the recvbuffer
+     *  @param   tx_buff_sz The size of the sendbuffer
+     *  @param   put_back   The maximum number of characters that can be put back on the stream 
+     *  @remark  The put_back buffer is a space at the beginning of the recvbuffer that contains 
+     *           the most recently read characters. This allows characters to be put back on the 
+     *           stream after despite a buffer refresh.
+     */   
     explicit streambuf(int socket, size_t rx_buff_sz = 256, size_t tx_buff_sz = 256, size_t put_back = 8);
     
     streambuf(const streambuf &) = delete; /**< Copy constructor not allowed */
@@ -52,23 +51,29 @@ class streambuf : public std::streambuf {
     /** @brief Returns the Linux socket handle */
     int socket() const { return socket_; }
 
-    /** @brief Returns the number of bytes available to be read
-     *  The value returned includes unread bytes in the recvbuffer plus any bytes in the operating 
-     *  system's receive buffer that have yet to be retrieved */  
+    /** @brief   Returns the number of bytes available to be read
+     *  @details The value returned includes unread bytes in the recvbuffer plus any bytes in the operating 
+     *           system's receive buffer that have yet to be retrieved.
+     */  
     int available() { return showmanyc() + (egptr() - gptr()); }
+
   protected:
-    // Overrides of descendant class. See cppreference.com for docs
-    int_type underflow() override;
-    streamsize showmanyc() override;
-    streamsize xsgetn (char* s, streamsize n) override;
-    int_type overflow(int_type ch) override;
-    int sync() override;
-    streamsize xsputn (const char* s, streamsize n) override;
+
+    // Overrides of descendant class. See https://cppreference.com for docs
+    int_type underflow() override; /**< https://en.cppreference.com/w/cpp/io/basic_streambuf/underflow */
+    streamsize showmanyc() override; /**< https://en.cppreference.com/w/cpp/io/basic_streambuf/showmanyc */
+    streamsize xsgetn (char* s, streamsize n) override; /**< https://en.cppreference.com/w/cpp/io/basic_streambuf/sgetn
+    int_type overflow(int_type ch) override; /**< https://en.cppreference.com/w/cpp/io/basic_streambuf/overflow */
+    int sync() override; /**< https://en.cppreference.com/w/cpp/io/basic_streambuf/pubsync */
+    streamsize xsputn (const char* s, streamsize n) override; /**< https://en.cppreference.com/w/cpp/io/basic_streambuf/sputn */
+  
   private:
-    /** @brief Sends the contents of the sendbuffer out on the socket 
-     *  @param more Set to true to tell the operating system to wait for more data before sending 
-     *              the packet. Set to false to send the packet immediately. */
+    /** @brief Sends the contents of the send buffer to the socket 
+     * 
+     *  @param more  Set to true to tell the operating system to wait for more data before sending 
+     *               the packet. Set to false to send the packet immediately. */
     int internalflush(bool more);
+    
     int socket_;
     const size_t put_back_;
     vector<char> recvbuffer_;
@@ -84,16 +89,16 @@ class iostream : public std::iostream {
     tcp::streambuf streambuf_;  
 };
 
-/** @brief Encapsulates the EPoll interface
- *  Applications need to call EPoll.poll() at regular intervals to check for and respond to network
- *  events. A global `epoll` singleton object is provided for applications.
+/** @brief   Encapsulates the EPoll interface
+ *  @details Applications need to call EPoll.poll() at regular intervals to check for and respond to network
+ *           events. A global `epoll` singleton object is provided for applications.
  *  
- *  Appropriate events are added/remove from the epoll event list when a tcp::Socket 
- *  is created/destroyed. See the protected tcp::Socket.setEvents() method if you need
- *  to change which events to listen to.
+ *  @details Appropriate events are added/remove from the epoll event list when a tcp::Socket 
+ *           is created/destroyed. See the protected tcp::Socket.setEvents() method if you need
+ *           to change which events to listen to.
  * 
- *  When incoming events are recieved, they are automatically dispatched to the appropriate 
- *  tcp::Socket.handleEvents() method.
+ *  @details When incoming events are recieved, they are automatically dispatched to the appropriate 
+ *           tcp::Socket.handleEvents() method.
  */
 class EPoll {
   public:
@@ -125,8 +130,8 @@ class Socket {
      * @param blocking If true, a blocking socket will be created. If false, a non-blocking socket will be created.
      * @param events A bit flag of the epoll events to register interest include
      * 
-     * @remarks A client or server listener will typically call the constructor with socket=0 to start with a new socket.
-     *          A server session will create a Socket by providing the socket handle returned from an accept command.
+     * @remark A client or server listener will typically call the constructor with socket=0 to start with a new socket.
+     * @remark A server session will create a Socket by providing the socket handle returned from an accept command.
      */
     Socket(const int socket = 0, const bool blocking = false, const int events = (EPOLLIN | EPOLLRDHUP));
   
@@ -144,9 +149,9 @@ class Socket {
      *  @param events A bitmask of event flags. See the epoll documentation */
     bool setEvents(int events);
 
-    /** @brief Called when the socket recieves an event from the OS
-     *  Descendant classes override this abstract method to respond to epoll events
-     *  @param events A bitmask of event flags. See the epoll documentation */
+    /** @brief   Called when the socket recieves an event from the OS
+     *  @details Descendant classes override this abstract method to respond to epoll events
+     *  @param   events   A bitmask of event flags. See the epoll documentation */
     virtual void handleEvents(uint32_t events) = 0;
   
   private:
@@ -155,6 +160,11 @@ class Socket {
     friend class EPoll;
 };
 
+/** @brief   A singleton EPoll object.
+ *  @details The poll() method needs to be called at regular intervals
+ *  @details It is possible to have more than one EPoll in a multi-threaded application
+ *           but the poll() method for each instance has to be called individually.
+ */
 extern EPoll epoll;
 
 } // namespace tcp
