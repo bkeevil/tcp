@@ -96,10 +96,8 @@ streamsize streambuf::xsgetn(char* s, streamsize n) {
   return n - remainingsize;
 }
 
-/** @brief Writes the data in the send buffer to the socket 
- *  Set more to true if there is more data to be written
- *  Setting more to false causes the underlying network to send the buffered contents */
-int streambuf::internalflush(bool more) {
+int streambuf::internalflush(bool more) 
+{
   char *base = &sendbuffer_.front();
   ptrdiff_t size = pptr() - base;
   if (size == 0) 
@@ -121,7 +119,8 @@ int streambuf::internalflush(bool more) {
   return actualsize;
 }
 
-streambuf::int_type streambuf::overflow(int_type ch) {
+streambuf::int_type streambuf::overflow(int_type ch) 
+{
   if (ch == traits_type::eof()) {
     internalflush(false);
   } else {
@@ -137,11 +136,13 @@ streambuf::int_type streambuf::overflow(int_type ch) {
   return traits_type::eof();
 }
 
-int streambuf::sync() {
+int streambuf::sync() 
+{
   return internalflush(false);
 }
 
-streamsize streambuf::xsputn(const char* s, streamsize n) {
+streamsize streambuf::xsputn(const char* s, streamsize n) 
+{
   const char* sptr = s;
   streamsize remainingsize = n;
   ptrdiff_t bufferedsize;
@@ -163,7 +164,8 @@ streamsize streambuf::xsputn(const char* s, streamsize n) {
 
 /* EPoll */
 
-EPoll::EPoll() {
+EPoll::EPoll() 
+{
   handle_ = epoll_create1(0);
   if (handle_ == -1) {
     cerr << "epoll_create1: " << strerror(errno) << endl;
@@ -171,14 +173,16 @@ EPoll::EPoll() {
   }
 }
 
-EPoll::~EPoll() {
+EPoll::~EPoll() 
+{
   sockets.clear();
   if (handle_ > 0) {
     ::close(handle_);
   }
 }
 
-bool EPoll::add(Socket& socket, int events) {
+bool EPoll::add(Socket& socket, int events) 
+{
   struct epoll_event ev;
   ev.events = events;
   ev.data.fd = socket.socket();
@@ -190,14 +194,16 @@ bool EPoll::add(Socket& socket, int events) {
   }
 }
 
-bool EPoll::update(Socket& socket, int events) {
+bool EPoll::update(Socket& socket, int events)
+{
   struct epoll_event ev;
   ev.events = events;
   ev.data.fd = socket.socket();
   return (epoll_ctl(handle_,EPOLL_CTL_MOD,socket.socket(),&ev) != -1);
 }
 
-bool EPoll::remove(Socket& socket) {
+bool EPoll::remove(Socket& socket) 
+{
   if (epoll_ctl(handle_,EPOLL_CTL_DEL,socket.socket(),NULL) != -1) {
     sockets.erase(socket.socket());
     return true;
@@ -206,7 +212,8 @@ bool EPoll::remove(Socket& socket) {
   }
 }
 
-void EPoll::poll(int timeout) {  
+void EPoll::poll(int timeout) 
+{  
   int nfds = epoll_wait(handle_,events,MAX_EVENTS,timeout); 
   if (nfds == -1) {
     cerr << "epoll_wait: " << strerror(errno) << endl;
@@ -217,7 +224,8 @@ void EPoll::poll(int timeout) {
   }
 }
 
-void EPoll::handleEvents(uint32_t events, int fd) {
+void EPoll::handleEvents(uint32_t events, int fd) 
+{
   Socket* socket = sockets[fd];
   if (socket != nullptr) {
     socket->handleEvents(events);
@@ -226,7 +234,8 @@ void EPoll::handleEvents(uint32_t events, int fd) {
 
 /* Socket */
 
-Socket::Socket(const int socket, const bool blocking, const int events) : socket_(socket), events_(events) { 
+Socket::Socket(const int socket, const bool blocking, const int events) : socket_(socket), events_(events) 
+{ 
   if (socket < 0) {
     cerr << "Socket: socket parameter should not be < 0";
   }
@@ -253,7 +262,8 @@ Socket::Socket(const int socket, const bool blocking, const int events) : socket
   epoll.add(*this,events); 
 }
 
-Socket::~Socket() {
+Socket::~Socket() 
+{
   epoll.remove(*this);
   if (socket_ > 0) {
     if (::close(socket_) == -1) {
@@ -264,7 +274,8 @@ Socket::~Socket() {
   socket_ = 0;
 }
 
-bool Socket::setEvents(int events) { 
+bool Socket::setEvents(int events) 
+{ 
   if (events != events_) { 
     if (epoll.update(*this,events)) { 
       events_ = events; 
@@ -275,37 +286,5 @@ bool Socket::setEvents(int events) {
   }
   return true;
 }
-
-/*void Socket::sync() {
-  int i;
-  int size;
-  int actualSize;
-
-  if ((::ioctl(socket_,FIONREAD,&size) == 0) && (size > 0)) {
-    char* buf = (char*)malloc(size);
-    actualSize = ::recv(socket_,buf,size,0);
-    for (i = actualSize - 1; i>=0; i--) {
-      recvBuffer.push_front(buf[i]);
-    }
-    free(buf);
-    dataAvailable();
-  }
-
-  size = sendBuffer.size();
-  if (size > 0) {
-    char* buf = (char*)malloc(size);
-    for (i=0;i<size;i++) {
-      buf[i] = sendBuffer.front();
-      sendBuffer.pop_front();
-    }
-    actualSize = send(socket_,buf,size,0);
-    if (actualSize < size) {
-      for (i=size - 1; i>actualSize; i--) {
-        sendBuffer.push_front(buf[i]);
-      }
-    }
-    free(buf);
-  }
-}*/
 
 } // namespace tcp
