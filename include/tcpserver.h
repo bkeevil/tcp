@@ -95,7 +95,7 @@ class Server : public Socket {
      *  @param   socket       The socket handle to pass to the constructor of tcp::Session descendant
      *  @param   peer_address The address and port of the connected peer 
      */
-    virtual Session* createSession(const int socket, const sockaddr_in peer_address);
+    virtual Session* createSession(const int socket, const sockaddr_in peer_address) = 0;
 
     /** @brief   Maps socket handles to their corresponding tcp::Session objects
      *  @details Descendant classes may need access to the sessions map. 
@@ -181,15 +181,6 @@ class Session : public Socket, public iostream {
     in_addr_t addr_;
     bool connected_;
     friend class Server;
-};
-
-/** @brief   A Session that echos back whatever data it recieves
- *  @details The LoopbackSession class is used for testing purposes. 
- */
-class LoopbackSession : public Session {
-  public:
-    LoopbackSession(Server& server, const int socket, const struct sockaddr_in peer_addr) : Session(server,socket,peer_addr) {}
-    void dataAvailable() override;
 };
 
 }

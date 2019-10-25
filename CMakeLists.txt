@@ -14,6 +14,8 @@ set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
 include_directories(include)
 
+add_subdirectory(examples/echo)
+
 add_library(tcp 
   src/tcpsocket.cpp
   src/tcpclient.cpp

@@ -84,11 +84,6 @@ bool Server::acceptConnection() {
   }
 }
 
-Session* Server::createSession(const int socket, const sockaddr_in peer_address) {
-  LoopbackSession* session = new LoopbackSession(*this,socket,peer_address);
-  return dynamic_cast<Session*>(session); 
-}
-
 /* Session */
 
 Session::~Session() { 
@@ -136,24 +131,6 @@ void Session::disconnected() {
     ::shutdown(socket(),SHUT_RDWR); 
     delete this;
   }  
-}
-
-/* Loopback Session */
-
-/** @brief Read incoming data and send it back byte for byte */
-void LoopbackSession::dataAvailable() {
-  //char s[255];
-  char c;
-  c = streambuf_.sbumpc();
-  while (c != traits_type::eof()) {
-    streambuf_.sputc(c);
-    c = streambuf_.sbumpc();
-  } 
-
-  //*this >> s;
-  //*this << s;
-  //copy(istreambuf_iterator<char> {this->rdbuf()},istreambuf_iterator<char> {},ostreambuf_iterator<char> {this->rdbuf()});
-  //*this << this->rdbuf();
 }
 
 }

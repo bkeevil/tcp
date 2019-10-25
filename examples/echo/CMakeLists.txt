@@ -5,3 +5,5 @@ project(echoserver VERSION 0.1 LANGUAGES CXX)
 add_executable(echoserver 
   main.cpp 
 )
+
+target_link_libraries(echoserver tcp)
