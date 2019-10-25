@@ -62,7 +62,7 @@ class streambuf : public std::streambuf {
     // Overrides of descendant class. See https://cppreference.com for docs
     int_type underflow() override; /**< https://en.cppreference.com/w/cpp/io/basic_streambuf/underflow */
     streamsize showmanyc() override; /**< https://en.cppreference.com/w/cpp/io/basic_streambuf/showmanyc */
-    streamsize xsgetn (char* s, streamsize n) override; /**< https://en.cppreference.com/w/cpp/io/basic_streambuf/sgetn
+    streamsize xsgetn (char* s, streamsize n) override; /**< https://en.cppreference.com/w/cpp/io/basic_streambuf/sgetn */
     int_type overflow(int_type ch) override; /**< https://en.cppreference.com/w/cpp/io/basic_streambuf/overflow */
     int sync() override; /**< https://en.cppreference.com/w/cpp/io/basic_streambuf/pubsync */
     streamsize xsputn (const char* s, streamsize n) override; /**< https://en.cppreference.com/w/cpp/io/basic_streambuf/sputn */
@@ -102,7 +102,7 @@ class iostream : public std::iostream {
  *
  *  @details It is possible to have more than one EPoll in a multi-threaded application
  *           but the poll() method for each instance has to be called individually.
- */ */
+ */
 class EPoll {
   public:
     EPoll();

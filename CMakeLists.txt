@@ -6,13 +6,15 @@ if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE Release)
 endif()
 
+enable_testing()
+
 set(CMAKE_CXX_FLAGS "-Wall -Wextra")
 set(CMAKE_CXX_FLAGS_DEBUG "-g")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
 include_directories(include)
-add_executable(tcpserver 
-  src/main.cpp 
+
+add_library(tcp 
   src/tcpsocket.cpp
   src/tcpclient.cpp
   src/tcpserver.cpp
