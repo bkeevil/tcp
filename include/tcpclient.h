@@ -27,14 +27,15 @@ using namespace std;
 using namespace tcp;
 
 /** @brief  A blocking or non-blocking TCP client connection */
-class Client : public Socket, iostream {
+class Client : public Socket, public iostream {
   public:
     
     /** @brief  Determines the state of a Client connection */
     enum class State { UNCONNECTED=0, CONNECTING, CONNECTED, DISCONNECTED };
     
     /** @brief  Creates a blocking or a non-blocking client */
-    Client(bool blocking): Socket(0,blocking), iostream(socket()) {}
+    /** @param blocking If true, a blocking socket will be created. Otherwise a non-blocking socket is created */
+    Client(bool blocking = false): Socket(0,blocking), iostream(socket()) {}
     
     /** @brief   Destroys the client 
       * @details Will call disconnect() first if necessary. This allows clients to be disconnected 

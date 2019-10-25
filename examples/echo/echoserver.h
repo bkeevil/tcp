@@ -1,4 +1,6 @@
-#include <iostream>
+#ifndef ECHOSERVER_H
+#define ECHOSERVER_H
+
 #include "tcpsocket.h"
 #include "tcpserver.h"
 
@@ -21,32 +23,4 @@ class EchoSession : public tcp::Session {
     void dataAvailable() override;
 };
 
-/* Echo Session */
-
-/** @brief Read incoming data and send it back byte for byte */
-void EchoSession::dataAvailable() {
-  char c;
-  c = streambuf_.sbumpc();
-  while (c != traits_type::eof()) {
-    streambuf_.sputc(c);
-    c = streambuf_.sbumpc();
-  } 
-}
-
-Session* EchoServer::createSession(const int socket, const sockaddr_in peer_address) {
-  EchoSession* session = new EchoSession(*this,socket,peer_address);
-  return dynamic_cast<Session*>(session); 
-}
-
-int main() { 
-  EchoServer server(1200);
-  if (!server.listening()) {
-    cerr << "Failed to start server" << endl;
-    return 1;
-  }
-  while (server.listening()) {
-    epoll.poll(100);
-  }
-
-  return 0;
-}
+#endif

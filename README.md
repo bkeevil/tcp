@@ -18,3 +18,12 @@ cd build
 cmake ..
 make
 ```
+
+## Testing
+
+To run CTest unit testing:
+
+```
+cd build
+ctest -v
+```
