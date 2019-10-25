@@ -41,7 +41,7 @@ class Client : public Socket, public iostream {
       * @details Will call disconnect() first if necessary. This allows clients to be disconnected 
       *          by destroying them. 
       */
-    ~Client() { if ((state_ == State::CONNECTED) || (state_ == State::CONNECTING)) disconnect(); };
+    virtual ~Client() { if ((state_ == State::CONNECTED) || (state_ == State::CONNECTING)) disconnect(); };
     
     /** @brief Return the client state. See the State enum class for possible values */
     State state() { return state_; }

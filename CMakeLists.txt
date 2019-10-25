@@ -26,3 +26,5 @@ add_library(tcp
 
 add_test(NAME createServer  COMMAND tcptestdriver createServer)
 add_test(NAME createClient  COMMAND tcptestdriver createClient)
+add_test(NAME destroyClient COMMAND tcptestdriver destroyClient)
+add_test(NAME destroyServer COMMAND tcptestdriver destroyServer)

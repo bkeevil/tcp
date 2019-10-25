@@ -49,7 +49,7 @@ class Server : public Socket {
      *  @details Destoying the server stops it from listening and ends all sessions by calling the 
      *           Session::disconnect() method. 
      */
-    ~Server();
+    virtual ~Server();
 
     /** @brief   Sets listenBacklog
      *  @details The listen backlog is the maximum number of incomming connections pending acception
