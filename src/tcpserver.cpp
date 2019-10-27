@@ -128,7 +128,7 @@ void Session::disconnected() {
     inet_ntop(AF_INET,&(addr_),ip,INET_ADDRSTRLEN);
     clog << ip << ":" << port_ << " disconnected" << endl;
     clog.flush();
-    ::shutdown(socket(),SHUT_RDWR); 
+    close(socket());
     delete this;
   }  
 }

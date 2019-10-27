@@ -31,7 +31,7 @@ class Client : public Socket, public iostream {
   public:
     
     /** @brief  Determines the state of a Client connection */
-    enum class State { UNCONNECTED=0, CONNECTING, CONNECTED, DISCONNECTED };
+    enum State { UNCONNECTED=0, CONNECTING, CONNECTED, DISCONNECTED };
     
     /** @brief  Creates a blocking or a non-blocking client */
     /** @param blocking If true, a blocking socket will be created. Otherwise a non-blocking socket is created */
@@ -43,7 +43,7 @@ class Client : public Socket, public iostream {
       */
     virtual ~Client() { if ((state_ == State::CONNECTED) || (state_ == State::CONNECTING)) disconnect(); };
     
-    /** @brief Return the client state. See the State enum class for possible values */
+    /** @brief Return the client state. See the State enum for possible values */
     State state() { return state_; }
 
     /** @brief Returns the port number used for the last call to connect() */

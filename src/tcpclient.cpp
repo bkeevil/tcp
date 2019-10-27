@@ -73,7 +73,7 @@ void Client::connected() {
 void Client::disconnected() {
   if ((state_ == State::CONNECTING) || (state_ == State::CONNECTED)) {
     state_ = State::DISCONNECTED;
-    ::shutdown(socket(),SHUT_RDWR);
+    close(socket());
     clog << "Disconnected" << endl;
     clog.flush();
   }
