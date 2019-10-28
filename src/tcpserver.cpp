@@ -94,9 +94,11 @@ void Session::handleEvents(uint32_t events) {
   if (connected_) {
     if (events & EPOLLRDHUP) {
       disconnected();
+      clear();
       return;
     } 
     if (events & EPOLLIN) {
+      clear();
       dataAvailable();
       flush();
     }

@@ -46,6 +46,7 @@ void Client::handleEvents(uint32_t events) {
       return;
     } 
     if (events & EPOLLIN) {
+      clear();
       dataAvailable();
       flush();
     }
@@ -54,10 +55,12 @@ void Client::handleEvents(uint32_t events) {
     if (events & EPOLLRDHUP) {
       state_ = State::UNCONNECTED;
       disconnected();
+      clear();
       return;
     } 
     if (events & EPOLLOUT) {
       state_ = State::CONNECTED;
+      clear();
       connected();
       flush();
     }
