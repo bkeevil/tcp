@@ -4,7 +4,7 @@
  *  @author  Bond Keevil
  *  @version 1.0
  *  @date    2019
- *  @license GPLv3.0
+ *  @copyright GPLv3.0
  */
 
 #ifndef TCP_SERVER_H
