@@ -169,7 +169,6 @@ EPoll::EPoll()
   handle_ = epoll_create1(0);
   if (handle_ == -1) {
     cerr << "epoll_create1: " << strerror(errno) << endl;
-    cerr.flush();
   }
 }
 
@@ -243,23 +242,25 @@ Socket::Socket(const int socket, const bool blocking, const int events) : socket
     socket_ = ::socket(AF_INET,SOCK_STREAM,0);
     if (socket_ == -1) {
       cerr << "socket: " << strerror(errno) << endl;
-      cerr.flush();
     }
   }
-  if (!blocking) {
-    int flags = fcntl(socket_,F_GETFL,0);
-    if (flags == -1) {
-      cerr << "fcntl (get): " << strerror(errno) << endl;
-      cerr.flush();
+  int flags = fcntl(socket_,F_GETFL,0);
+  if (flags == -1) {
+    cerr << "fcntl (get): " << strerror(errno) << endl;
+  } else {
+    if (!blocking) {
+      flags |= O_NONBLOCK;
     } else {
-      flags = (flags & ~O_NONBLOCK);
-      if (fcntl(socket_,F_SETFL,flags) == -1) {
-        cerr << "fcntl (set): " << strerror(errno) << endl;
-        cerr.flush();
-      }
+      flags = flags & ~O_NONBLOCK;
+    }
+    if (fcntl(socket_,F_SETFL,flags) == -1) {
+      cerr << "fcntl (set): " << strerror(errno) << endl;
     }
   }
-  epoll.add(*this,events); 
+  
+  if (!epoll.add(*this,events)) {
+    cerr << "Unable to add socket to epoll" << endl;
+  }
 }
 
 Socket::~Socket() 
@@ -268,7 +269,6 @@ Socket::~Socket()
   if (socket_ > 0) {
     if (::close(socket_) == -1) {
       cerr << "close: " << strerror(errno) << endl;
-      cerr.flush();
     } 
   }
   socket_ = 0;
