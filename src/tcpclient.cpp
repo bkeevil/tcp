@@ -16,7 +16,7 @@ bool Client::connect(in_addr_t addr, in_port_t port) {
   } else {
     char ip[INET_ADDRSTRLEN];
     inet_ntop(AF_INET,&(a.sin_addr.s_addr),ip,INET_ADDRSTRLEN);
-    clog << "Connecting to to " << ip << " on port " << port_ << endl;
+    clog << "Connecting to " << ip << " on port " << port_ << endl;
     clog.flush();
     if (::connect(socket(),(const sockaddr*)(&a),sizeof(sockaddr_in)) == -1) {
       if (errno == EINPROGRESS) {
