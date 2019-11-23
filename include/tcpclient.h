@@ -15,10 +15,12 @@
 #include <string.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <sys/types.h>
 #include <sys/socket.h>
 #include <sys/epoll.h>
 #include <arpa/inet.h>
 #include <netinet/ip.h>
+#include <netdb.h>
 #include "tcpsocket.h"
 
 namespace tcp {
@@ -51,6 +53,13 @@ class Client : public Socket, public iostream {
     
     /** @brief Returns the ip address number used for the last call to connect() */
     in_addr_t addr() { return port_; }
+
+    /** @brief   Initiates a connection to a server
+     *  @details If the client is a blocking client, the call blocks until a connection is established. 
+     *  @remark  Check the value of state() to determine if a non-blocking socket CONNECTED or is CONNECTING
+     *  @return  True if the connection was initiated
+     */
+    virtual bool connect(string &hostname, in_port_t port);
 
     /** @brief   Initiates a connection to a server
      *  @details If the client is a blocking client, the call blocks until a connection is established. 
