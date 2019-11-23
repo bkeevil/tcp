@@ -8,7 +8,7 @@ bool Client::connect(string &hostname, in_port_t port)
 {
   struct addrinfo hints;
   struct addrinfo *result, *rp;
-  int sfd, errorcode;
+  int errorcode;
   memset(&result,0,sizeof(struct addrinfo));
   memset(&hints,0,sizeof(struct addrinfo));
   hints.ai_family = AF_INET;
@@ -19,33 +19,23 @@ bool Client::connect(string &hostname, in_port_t port)
     fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(errorcode));
     exit(EXIT_FAILURE);
   }
+  
+  struct sockaddr_in *sa;
+  bool cr;
   for (rp = result; rp != NULL; rp = rp->ai_next) {
-      sfd = ::socket(rp->ai_family, rp->ai_socktype, rp->ai_protocol);
-      if (sfd == -1)
-          continue;
-
-      if (::bind(sfd, rp->ai_addr, rp->ai_addrlen) == 0)
-          break;                
-
-      ::close(sfd); 
+    sa = (sockaddr_in*)rp->ai_addr;
+    cr = connect(sa->sin_addr.s_addr,port);
+    if (cr)
+      return true;
   }
 
-  if (sfd > 0) 
-    ::close(sfd);
-    
-  if (rp == NULL) {               /* No address succeeded */
-    cerr << "Could not find host " << hostname << endl;
-    return false;
-  }
-
-  struct sockaddr_in *sa = (sockaddr_in*)rp->ai_addr;
-  bool cr = connect(sa->sin_addr.s_addr,port);
+  cerr << "Could not find host " << hostname << endl;
   freeaddrinfo(result);           /* No longer needed */  
-  return cr;
+  return false;
 }
 
 bool Client::connect(in_addr_t addr, in_port_t port) {
-  sockaddr_in a;
+  struct sockaddr_in a;
   addr_ = addr;
   port_ = port;
   a.sin_family = AF_INET;
@@ -58,7 +48,8 @@ bool Client::connect(in_addr_t addr, in_port_t port) {
     inet_ntop(AF_INET,&(a.sin_addr.s_addr),ip,INET_ADDRSTRLEN);
     clog << "Connecting to " << ip << " on port " << port_ << endl;
     clog.flush();
-    if (::connect(socket(),(const sockaddr*)(&a),sizeof(sockaddr_in)) == -1) {
+    int s = socket();
+    if (::connect(s,(const sockaddr*)(&a),sizeof(sockaddr_in)) == -1) {
       if (errno == EINPROGRESS) {
         state_ = State::CONNECTING;
         setEvents(EPOLLIN | EPOLLOUT | EPOLLRDHUP);
