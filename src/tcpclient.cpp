@@ -4,7 +4,7 @@ namespace tcp {
 
 using namespace std;
 
-bool Client::connect(string &hostname, in_port_t port) 
+bool Client::connect(const string &hostname, const in_port_t port) 
 {
   struct addrinfo hints;
   struct addrinfo *result, *rp;
@@ -34,7 +34,7 @@ bool Client::connect(string &hostname, in_port_t port)
   return false;
 }
 
-bool Client::connect(in_addr_t addr, in_port_t port) {
+bool Client::connect(const in_addr_t addr, const in_port_t port) {
   struct sockaddr_in a;
   addr_ = addr;
   port_ = port;

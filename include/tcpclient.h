@@ -59,14 +59,14 @@ class Client : public Socket, public iostream {
      *  @remark  Check the value of state() to determine if a non-blocking socket CONNECTED or is CONNECTING
      *  @return  True if the connection was initiated
      */
-    virtual bool connect(string &hostname, in_port_t port);
+    virtual bool connect(const string &hostname, const in_port_t port);
 
     /** @brief   Initiates a connection to a server
      *  @details If the client is a blocking client, the call blocks until a connection is established. 
      *  @remark  Check the value of state() to determine if a non-blocking socket CONNECTED or is CONNECTING
      *  @return  True if the connection was initiated
      */
-    virtual bool connect(in_addr_t addr, in_port_t port);
+    virtual bool connect(const in_addr_t addr, const in_port_t port);
 
     /** @brief   Shutdown the socket and closes the connection 
      *  @details Internally calls disconnect()

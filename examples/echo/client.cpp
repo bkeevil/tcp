@@ -6,7 +6,7 @@
 
 int main() { 
   EchoClient client(true);
-  client.connect(inet_pton(AF_INET, "127.0.0.1", nullptr),1200);
+  client.connect(string("127.0.0.1"),1200);
   while (true) {
     if (!cin.eof()) {
       cin >> client.rdbuf();
