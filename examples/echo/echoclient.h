@@ -9,7 +9,7 @@ using namespace tcp;
 
 class EchoClient : public tcp::Client {
   public:
-    EchoClient(bool blocking = false) : Client(blocking) {}
+    EchoClient(const int domain = AF_INET, bool blocking = false) : Client(domain,blocking) {}
   protected:
     void dataAvailable() override;
 };

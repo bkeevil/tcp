@@ -16,6 +16,7 @@
 #include <streambuf>
 #include <vector>
 #include <map>
+#include <arpa/inet.h>
 #include <sys/epoll.h>
 
 /** @brief Contains Socket, Server, Session and Client classes for a tcp client/server */
@@ -136,15 +137,18 @@ class Socket {
      * @remark A client or server listener will typically call the constructor with socket=0 to start with a new socket.
      * @remark A server session will create a Socket by providing the socket handle returned from an accept command.
      */
-    Socket(const int socket = 0, const bool blocking = false, const int events = (EPOLLIN | EPOLLRDHUP));
+    Socket(const int domain = AF_INET, const int socket = 0, const bool blocking = false, const int events = (EPOLLIN | EPOLLRDHUP));
   
     /** @brief Closes the socket (if necessary) and destroys the Socket
      *  @remark The socket should first be shut down using the Linux shutdown() command  */
     ~Socket();
   
     /** @brief Return the OS socket handle */
-    int socket() const { return socket_; }
-  
+    int getSocket() const { return socket_; }
+    
+    /** @brief Return the socket domain (AF_INET, AF_INET6, AF_UNIX) */
+    int getDomain() const { return domain_; }
+
   protected:
     
     /** @brief Changes which epoll events the socket listens for.
@@ -159,6 +163,7 @@ class Socket {
   
   private:
     int socket_;
+    int domain_;
     int events_;
     friend class EPoll;
 };

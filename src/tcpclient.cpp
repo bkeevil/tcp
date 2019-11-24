@@ -9,47 +9,27 @@ bool Client::connect(const string &hostname, const in_port_t port)
   struct addrinfo hints;
   struct addrinfo *result, *rp;
   int errorcode;
+  
+  if ( getSocket() == -1) {
+    return false; 
+  }
   memset(&result,0,sizeof(struct addrinfo));
   memset(&hints,0,sizeof(struct addrinfo));
-  hints.ai_family = AF_INET;
+  hints.ai_family = getDomain();
   hints.ai_socktype = SOCK_STREAM;
+  hints.ai_flags |= AI_CANONNAME;
   string service = to_string(port);
   errorcode = getaddrinfo(hostname.c_str(),service.c_str(),&hints,&result);
   if (errorcode != 0) {
     fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(errorcode));
     exit(EXIT_FAILURE);
   }
-  
-  struct sockaddr_in *sa;
-  bool cr;
-  for (rp = result; rp != NULL; rp = rp->ai_next) {
-    sa = (sockaddr_in*)rp->ai_addr;
-    cr = connect(sa->sin_addr.s_addr,port);
-    if (cr)
-      return true;
-  }
 
-  cerr << "Could not find host " << hostname << endl;
-  freeaddrinfo(result);           /* No longer needed */  
-  return false;
-}
+  clog << "Connecting to " << result->ai_canonname << " on port " << service << endl;
+  clog.flush();
 
-bool Client::connect(const in_addr_t addr, const in_port_t port) {
-  struct sockaddr_in a;
-  addr_ = addr;
-  port_ = port;
-  a.sin_family = AF_INET;
-  a.sin_addr.s_addr = addr;
-  a.sin_port = port;
-  if ( socket() == -1) {
-    return false;
-  } else {
-    char ip[INET_ADDRSTRLEN];
-    inet_ntop(AF_INET,&(a.sin_addr.s_addr),ip,INET_ADDRSTRLEN);
-    clog << "Connecting to " << ip << " on port " << port_ << endl;
-    clog.flush();
-    int s = socket();
-    if (::connect(s,(const sockaddr*)(&a),sizeof(sockaddr_in)) == -1) {
+  for (rp = result; rp != nullptr; rp = rp->ai_next) {
+    if (::connect(getSocket(),rp->ai_addr,rp->ai_addrlen) == -1) {
       if (errno == EINPROGRESS) {
         state_ = State::CONNECTING;
         setEvents(EPOLLIN | EPOLLOUT | EPOLLRDHUP);
@@ -63,6 +43,10 @@ bool Client::connect(const in_addr_t addr, const in_port_t port) {
       return true;
     }
   }
+
+  cerr << "Could not find host " << hostname << endl;
+  freeaddrinfo(result);           /* No longer needed */  
+  return false;
 }
 
 void Client::disconnect() {
@@ -109,7 +93,7 @@ void Client::connected() {
 void Client::disconnected() {
   if ((state_ == State::CONNECTING) || (state_ == State::CONNECTED)) {
     state_ = State::DISCONNECTED;
-    close(socket());
+    close(getSocket());
     clog << "Disconnected" << endl;
     clog.flush();
   }

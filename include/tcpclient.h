@@ -37,7 +37,7 @@ class Client : public Socket, public iostream {
     
     /** @brief  Creates a blocking or a non-blocking client */
     /** @param blocking If true, a blocking socket will be created. Otherwise a non-blocking socket is created */
-    Client(bool blocking = false): Socket(0,blocking), iostream(socket()) {}
+    Client(const int domain = AF_INET, bool blocking = false): Socket(domain,0,blocking), iostream(getSocket()) {}
     
     /** @brief   Destroys the client 
       * @details Will call disconnect() first if necessary. This allows clients to be disconnected 
@@ -60,13 +60,6 @@ class Client : public Socket, public iostream {
      *  @return  True if the connection was initiated
      */
     virtual bool connect(const string &hostname, const in_port_t port);
-
-    /** @brief   Initiates a connection to a server
-     *  @details If the client is a blocking client, the call blocks until a connection is established. 
-     *  @remark  Check the value of state() to determine if a non-blocking socket CONNECTED or is CONNECTING
-     *  @return  True if the connection was initiated
-     */
-    virtual bool connect(const in_addr_t addr, const in_port_t port);
 
     /** @brief   Shutdown the socket and closes the connection 
      *  @details Internally calls disconnect()

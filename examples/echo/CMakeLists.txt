@@ -10,6 +10,8 @@ set(CMAKE_CXX_FLAGS "-Wall -Wextra")
 set(CMAKE_CXX_FLAGS_DEBUG "-g")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
+find_package (Threads)
+
 add_executable(echoserver 
   echoserver.cpp
   server.cpp 
@@ -22,3 +24,4 @@ add_executable(echoclient
 
 target_link_libraries(echoserver tcp)
 target_link_libraries(echoclient tcp)
+target_link_libraries (echoclient ${CMAKE_THREAD_LIBS_INIT})

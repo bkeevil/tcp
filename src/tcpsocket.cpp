@@ -184,9 +184,9 @@ bool EPoll::add(Socket& socket, int events)
 {
   struct epoll_event ev;
   ev.events = events;
-  ev.data.fd = socket.socket();
-  if (epoll_ctl(handle_,EPOLL_CTL_ADD,socket.socket(),&ev) != -1) {
-    sockets[socket.socket()] = &socket;
+  ev.data.fd = socket.getSocket();
+  if (epoll_ctl(handle_,EPOLL_CTL_ADD,socket.getSocket(),&ev) != -1) {
+    sockets[socket.getSocket()] = &socket;
     return true;
   } else {
     return false;
@@ -197,14 +197,14 @@ bool EPoll::update(Socket& socket, int events)
 {
   struct epoll_event ev;
   ev.events = events;
-  ev.data.fd = socket.socket();
-  return (epoll_ctl(handle_,EPOLL_CTL_MOD,socket.socket(),&ev) != -1);
+  ev.data.fd = socket.getSocket();
+  return (epoll_ctl(handle_,EPOLL_CTL_MOD,socket.getSocket(),&ev) != -1);
 }
 
 bool EPoll::remove(Socket& socket) 
 {
-  if (epoll_ctl(handle_,EPOLL_CTL_DEL,socket.socket(),NULL) != -1) {
-    sockets.erase(socket.socket());
+  if (epoll_ctl(handle_,EPOLL_CTL_DEL,socket.getSocket(),NULL) != -1) {
+    sockets.erase(socket.getSocket());
     return true;
   } else {
     return false;
@@ -233,13 +233,19 @@ void EPoll::handleEvents(uint32_t events, int fd)
 
 /* Socket */
 
-Socket::Socket(const int socket, const bool blocking, const int events) : socket_(socket), events_(events) 
+Socket::Socket(const int domain, const int socket, const bool blocking, const int events) : socket_(socket), events_(events) 
 { 
-  if (socket < 0) {
-    cerr << "Socket: socket parameter should not be < 0";
+  if ((domain != AF_INET) && (domain != AF_INET6)) {
+    cerr << "Socket: Only IPv4 and IPv6 are supported." << endl;
+    return;
   }
-  if (socket <= 0) {
-    socket_ = ::socket(AF_INET,SOCK_STREAM,0);
+  domain_ = domain;
+  if (socket < 0) {
+    cerr << "Socket: Socket parameter is < 0" << endl;;
+    return;
+  }
+  if (socket == 0) {
+    socket_ = ::socket(domain,SOCK_STREAM,0);
     if (socket_ == -1) {
       cerr << "socket: " << strerror(errno) << endl;
     }

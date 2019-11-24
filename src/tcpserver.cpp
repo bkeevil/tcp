@@ -19,7 +19,7 @@ Server::~Server() {
       it->second->disconnect();
     }
   }
-  ::close(socket());
+  ::close(getSocket());
 }
 
 void Server::handleEvents(uint32_t events) {
@@ -31,16 +31,16 @@ void Server::handleEvents(uint32_t events) {
 bool Server::bindToAddress() {
   struct sockaddr_in server_addr;
   memset(&server_addr,0,sizeof(sockaddr_in));
-  server_addr.sin_family = AF_INET;
+  server_addr.sin_family = getDomain();
   server_addr.sin_port = htons(port_);
   server_addr.sin_addr.s_addr = addr_;    
-  if (bind(socket(),(struct sockaddr *)&server_addr,sizeof(server_addr)) == -1) {
+  if (bind(getSocket(),(struct sockaddr *)&server_addr,sizeof(server_addr)) == -1) {
     cerr << "bind: " << strerror(errno) << endl;
     cerr.flush();
     return false;
   } else {
     char ip[INET_ADDRSTRLEN];
-    inet_ntop(AF_INET,&(server_addr.sin_addr),ip,INET_ADDRSTRLEN);
+    inet_ntop(getDomain(),&(server_addr.sin_addr),ip,INET_ADDRSTRLEN);
     clog << "Server bound to " << ip << " on port " << port_ << endl;
     clog.flush();
     return true;
@@ -48,7 +48,7 @@ bool Server::bindToAddress() {
 }
 
 bool Server::startListening() {
-  if (listen(socket(),listenBacklog_) == -1) {
+  if (listen(getSocket(),listenBacklog_) == -1) {
     cerr << "listen: " << strerror(errno) << endl;
     cerr.flush();
     return false;
@@ -62,7 +62,7 @@ bool Server::startListening() {
 bool Server::acceptConnection() {
   struct sockaddr_in peer_addr;
   socklen_t peer_addr_len = sizeof(struct sockaddr_in);
-  int conn_sock = ::accept(socket(),(struct sockaddr *) &peer_addr, &peer_addr_len);
+  int conn_sock = ::accept(getSocket(),(struct sockaddr *) &peer_addr, &peer_addr_len);
   if (conn_sock == -1) {
     cerr << "accept: " << strerror(errno) << endl;
     cerr.flush();
@@ -87,7 +87,7 @@ bool Server::acceptConnection() {
 /* Session */
 
 Session::~Session() { 
-  server_.sessions.erase(socket());
+  server_.sessions.erase(getSocket());
 }
 
 void Session::handleEvents(uint32_t events) {
@@ -109,7 +109,7 @@ void Session::handleEvents(uint32_t events) {
  *  Override accepted() to perform initial actions when a session starts */ 
 void Session::accepted() {
   char ip[INET_ADDRSTRLEN];
-  inet_ntop(AF_INET,&(addr_),ip,INET_ADDRSTRLEN);
+  inet_ntop(getDomain(),&(addr_),ip,INET_ADDRSTRLEN);
   clog << "Connection from " << ip << ":" << port_ << " accepted" << endl;
   clog.flush();
 }
@@ -127,10 +127,10 @@ void Session::disconnected() {
   if (connected_) { 
     connected_ = false;
     char ip[INET_ADDRSTRLEN];
-    inet_ntop(AF_INET,&(addr_),ip,INET_ADDRSTRLEN);
+    inet_ntop(getDomain(),&(addr_),ip,INET_ADDRSTRLEN);
     clog << ip << ":" << port_ << " disconnected" << endl;
     clog.flush();
-    close(socket());
+    close(getSocket());
     delete this;
   }  
 }
