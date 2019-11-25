@@ -22,9 +22,9 @@ void threadfunc() {
 }
 
 int main() { 
-  EchoClient client(AF_INET,true);
+  EchoClient client(AF_INET6,true);
   cl = &client;
-  client.connect(string("127.0.0.1"),1200);
+  client.connect(string("::1/128"),1200);
   client << "Echo Server Hello World" << endl;
   client.flush();
   std::thread threadObj(&threadfunc);

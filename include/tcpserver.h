@@ -13,12 +13,6 @@
 #include <iostream>
 #include <map>
 #include <string.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <sys/socket.h>
-#include <sys/epoll.h>
-#include <arpa/inet.h>
-#include <netinet/ip.h>
 #include "tcpsocket.h"
 
 namespace tcp {
@@ -43,7 +37,7 @@ class Server : public Socket {
      *  @param   addr  The address to bind to. If left at the default of INADDR_ANY then the server will 
      *                 bind to all addresses. 
      */
-    Server(const int port = 0, const in_addr_t addr = INADDR_ANY);
+    Server(const int domain = AF_INET, const int port = 0, const string bindaddr = "");
     
     /** @brief   Destroy the server instance
      *  @details Destoying the server stops it from listening and ends all sessions by calling the 
@@ -79,7 +73,16 @@ class Server : public Socket {
      *  @remark  Set to INADDR_ANY to listen on all interfaces
      *  @default INADDR_ANY
      */
-    in_addr_t addr() const { return addr_; }
+    struct sockaddr * addr() { return (struct sockaddr*)&addr_; }
+
+    /** @brief   Returns the length of the sockaddr structure returned by addr() */
+    int addrlen() const { return (getDomain() == AF_INET ? sizeof(struct sockaddr_in) : sizeof(struct sockaddr_in6)); }
+    
+    /** @brief   Print a list of interface addresses to cout */
+    void printifaddrs();
+
+    /** @brief   Returns an interface address from an interface name and domain */
+    bool findifaddr(const string ifname, sockaddr *addr);
 
   protected:
   
@@ -109,7 +112,7 @@ class Server : public Socket {
     int listenBacklog_ {50};
     bool listening_;
     in_port_t port_ {0};
-    in_addr_t addr_ {INADDR_ANY};
+    struct sockaddr_storage addr_;
     friend class Session;
 };
 
