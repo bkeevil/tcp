@@ -33,11 +33,13 @@ class Server : public Socket {
     /** @brief   Construct a server instance and start listening for connections
      *  @details Check the value of listening() to determine if the server was started successfully.
      *  @details To stop the server, destroy the server instance.
-     *  @param   port  The port to listen on. If port is 0 then a port number will be chosen automatically.
-     *  @param   addr  The address to bind to. If left at the default of INADDR_ANY then the server will 
-     *                 bind to all addresses. 
+     *  @param   domain   Either AF_INET or AF_INET6
+     *  @param   port     The port to listen on. If port is 0 then a random unused port number will be assigned.
+     *  @param   bindaddr The address to bind to. If the string is blank or "0.0.0.0" or "::" then bind to all
+     *                    addresses in the domain. bindaddr can be an interface name or an IP4 or IP6 network address
+     *  
      */
-    Server(const int domain = AF_INET, const int port = 0, const string bindaddr = "");
+    Server(const int domain = AF_INET, const in_port_t port = 0, const string bindaddr = "");
     
     /** @brief   Destroy the server instance
      *  @details Destoying the server stops it from listening and ends all sessions by calling the 
@@ -65,9 +67,6 @@ class Server : public Socket {
      *  @returns Returns false while the server is being destroyed. 
      */
     bool listening() { return listening_; } 
-
-    /** @brief Retrieve the port number the server is listening on */
-    in_port_t port() const { return port_; }
 
     /** @brief   Retrieve the IP address the server listening socket is bound to.
      *  @remark  Set to INADDR_ANY to listen on all interfaces
@@ -111,7 +110,6 @@ class Server : public Socket {
     bool acceptConnection();
     int listenBacklog_ {50};
     bool listening_;
-    in_port_t port_ {0};
     struct sockaddr_storage addr_;
     friend class Session;
 };

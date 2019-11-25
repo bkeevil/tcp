@@ -2,7 +2,7 @@
 #include "echoserver.h"
 
 int main() { 
-  EchoServer server(AF_INET6,1200,"wlp1s0");
+  EchoServer server(AF_INET6,0,"::");
   server.printifaddrs();
   if (!server.listening()) {
     cerr << "Failed to start server" << endl;

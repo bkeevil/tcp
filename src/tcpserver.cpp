@@ -14,11 +14,11 @@ namespace tcp {
 
 using namespace std;
 
-Server::Server(const int domain, const int port, const string bindaddr) 
-  : Socket(domain,0,false,EPOLLIN), port_(port)
+Server::Server(const int domain, const in_port_t port, const string bindaddr) 
+  : Socket(domain,0,false,EPOLLIN)
 {
   memset(&addr_,0,sizeof(addr_));  
-  if ((bindaddr == "") || (bindaddr == "0.0.0.0") || (bindaddr == "any")) {
+  if ((bindaddr == "") || (bindaddr == "0.0.0.0") || (bindaddr == "::")) {
     if (domain == AF_INET) {
       reinterpret_cast<struct sockaddr_in*>(&addr_)->sin_addr.s_addr = INADDR_ANY;
     }
@@ -142,11 +142,24 @@ bool Server::bindToAddress() {
         inet_ntop(AF_INET,&a->sin_addr,ip,INET_ADDRSTRLEN);  
         clog << "Server bound to " << ip;
       }
-      clog << " on port " << ntohs(a->sin_port) << endl;
+      if (a->sin_port == 0) {
+        clog << " on random port " << endl;
+      } else {
+        clog << " on port " << ntohs(a->sin_port) << endl;
+      }
     } else {
       struct sockaddr_in6 * a = reinterpret_cast<struct sockaddr_in6*>(addr());
       inet_ntop(AF_INET6,&a->sin6_addr,ip,INET6_ADDRSTRLEN);  
-      clog << "Server bound to " << ip << " on port " << ntohs(a->sin6_port) << endl;
+      if (strcmp(ip,"::") == 0) {
+        clog << "Server bound to any IP6";
+      } else {
+        clog << "Server bound to " << ip;
+      }
+      if (a->sin6_port == 0) {
+        clog << " on random port " << endl;
+      } else {
+        clog << " on port " << ntohs(a->sin6_port) << endl;
+      }
     }
     clog.flush();
     return true;
