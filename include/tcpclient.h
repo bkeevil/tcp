@@ -49,10 +49,10 @@ class Client : public Socket, public iostream {
     State state() { return state_; }
 
     /** @brief Returns the port number used for the last call to connect() */
-    in_port_t port() { return addr_; }
+    in_port_t port() { return port_; }
     
     /** @brief Returns the ip address number used for the last call to connect() */
-    in_addr_t addr() { return port_; }
+    in_addr_t addr() { return addr_; }
 
     /** @brief   Initiates a connection to a server
      *  @details If the client is a blocking client, the call blocks until a connection is established. 
