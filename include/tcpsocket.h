@@ -161,8 +161,8 @@ class Socket {
      *  @param   events   A bitmask of event flags. See the epoll documentation */
     virtual void handleEvents(uint32_t events) = 0;
   
+    int socket_;  
   private:
-    int socket_;
     int domain_;
     int events_;
     friend class EPoll;
