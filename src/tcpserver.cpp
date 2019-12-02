@@ -14,34 +14,52 @@ namespace tcp {
 
 using namespace std;
 
-Server::Server(const int domain, const in_port_t port, const string bindaddr) : Socket(domain,0,false,EPOLLIN)
+Server::~Server() {
+  if (listening())
+    stop();
+}
+
+void Server::start()
 {
-  initSSL();
+  if (useSSL_) {
+    initSSL(
+      certfile.empty() ? nullptr : certfile.c_str(),
+      keyfile.empty()  ? nullptr : keyfile.c_str(),
+      cafile.empty()   ? nullptr : cafile.c_str(),
+      capath.empty()   ? nullptr : capath.c_str()
+    );
+  }
   memset(&addr_,0,sizeof(addr_));  
-  if ((bindaddr == "") || (bindaddr == "0.0.0.0") || (bindaddr == "::")) {
-    if (domain == AF_INET) {
+  if ((bindaddress == "") || (bindaddress == "0.0.0.0") || (bindaddress == "::")) {
+    if (getDomain() == AF_INET) {
       reinterpret_cast<struct sockaddr_in*>(&addr_)->sin_addr.s_addr = INADDR_ANY;
     }
-    if (domain == AF_INET6) {
+    if (getDomain() == AF_INET6) {
       reinterpret_cast<struct sockaddr_in6*>(&addr_)->sin6_addr = IN6ADDR_ANY_INIT;
     }
   } else {
-    if (!findifaddr(bindaddr,reinterpret_cast<struct sockaddr*>(&addr_))) {
-      cerr << "Interface " << bindaddr << " not found" << endl;
+    if (!findifaddr(bindaddress,reinterpret_cast<struct sockaddr*>(&addr_))) {
+      cerr << "Interface " << bindaddress << " not found" << endl;
     }
   }
-  if (domain == AF_INET) {
+  if (getDomain() == AF_INET) {
     addr_.ss_family = AF_INET;
     reinterpret_cast<struct sockaddr_in*>(&addr_)->sin_port = htons(port);
   }
-  if (domain == AF_INET6) {
+  if (getDomain() == AF_INET6) {
     addr_.ss_family = AF_INET6;
     reinterpret_cast<struct sockaddr_in6*>(&addr_)->sin6_port = htons(port);
   }  
+
+  int enable = 1;
+  if (setsockopt(getSocket(), SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(enable)) < 0)
+    cerr << "Server could not set socket option SO_REUSEADDR" << endl;  
+  
   listening_ = (bindToAddress() && startListening());
 }
 
-Server::~Server() {
+void Server::stop()
+{ 
   if (listening_) {
     clog << "Sending disconnect to all sessions" << endl;
     clog.flush();
@@ -229,6 +247,14 @@ void Session::accepted() {
   inet_ntop(getDomain(),&(addr_),ip,INET_ADDRSTRLEN);
   clog << "Connection from " << ip << ":" << port_ << " accepted" << endl;
   clog.flush();
+  if (server().useSSL_) {
+    rbio = BIO_new(BIO_s_mem());
+    wbio = BIO_new(BIO_s_mem());
+    ssl_ = SSL_new(ctx());
+    SSL_set_connect_state(ssl_);
+    SSL_set_bio(ssl_,rbio,wbio);
+    printSSLErrors();
+  }  
 }
 
 /** @brief   Starts a graceful shutdown of the session 
@@ -242,12 +268,31 @@ void Session::disconnect() {
  *  Override disconnected() to perform cleanup operations when a connection is unexpectedly lost */
 void Session::disconnected() {
   if (connected_) { 
+    if (ssl_ != nullptr) {
+      SSL_shutdown(ssl_);
+      printSSLErrors();
+    }
     connected_ = false;
     char ip[INET_ADDRSTRLEN];
     inet_ntop(getDomain(),&(addr_),ip,INET_ADDRSTRLEN);
     clog << ip << ":" << port_ << " disconnected" << endl;
     clog.flush();
     close(getSocket());
+    if (ssl_ != nullptr) {
+      SSL_free(ssl_);
+      ssl_ = nullptr;
+    }
+    if (rbio != nullptr) {
+      BIO_free_all(rbio);
+      rbio = nullptr;
+    }
+    if (wbio != nullptr) {
+      BIO_free_all(wbio);
+      wbio = nullptr;
+    }
+    if (server().useSSL_) {
+      printSSLErrors();
+    }
     delete this;
   }  
 }

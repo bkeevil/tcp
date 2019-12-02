@@ -85,11 +85,6 @@ class Socket {
     /** @brief Return the socket domain (AF_INET, AF_INET6, AF_UNIX) */
     int getDomain() const { return domain_; }
 
-    SSL *ssl() const { return ssl_; };
-    void initSSL(const bool supportTLSOnly = false);
-    void freeSSL();
-    static SSL_CTX *context() { return ctx_; }
-
   protected:
     
     /** @brief Changes which epoll events the socket listens for.
@@ -102,11 +97,15 @@ class Socket {
      *  @param   events   A bitmask of event flags. See the epoll documentation */
     virtual void handleEvents(uint32_t events) = 0;
   
+    void initSSL(const char *certfile = nullptr, const char *keyfile = nullptr, const char *cafile = nullptr, const char *capath = nullptr);
+    void freeSSL();
+    void printSSLErrors();
+    static SSL_CTX *ctx() { return ctx_; }
+
   private:
     int socket_;
     int domain_;
     int events_;
-    SSL *ssl_;
     static SSL_CTX *ctx_;
     static int refcount_;
     static bool initialized_;

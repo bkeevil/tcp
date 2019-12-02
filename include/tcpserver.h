@@ -28,24 +28,24 @@ class Session;
  *  @details Construct an instance of tcp::server to start the server. Destroy the object to stop the server.
  *  @remark  Override the virtual createSession() method to return a custom session descendant class.
  */
-class Server : public tcp::Socket {
+class Server : public Socket {
   public:
-    /** @brief   Construct a server instance and start listening for connections
-     *  @details Check the value of listening() to determine if the server was started successfully.
-     *  @details To stop the server, destroy the server instance.
+    /** @brief   Construct a server instance
      *  @param   domain   Either AF_INET or AF_INET6
-     *  @param   port     The port to listen on. If port is 0 then a random unused port number will be assigned.
-     *  @param   bindaddr The address to bind to. If the string is blank or "0.0.0.0" or "::" then bind to all
-     *                    addresses in the domain. bindaddr can be an interface name or an IP4 or IP6 network address
-     *  
      */
-    Server(const int domain = AF_INET, const in_port_t port = 0, const string bindaddr = "");
+    Server(const int domain = AF_INET) : Socket(domain,0,false,EPOLLIN) {}
     
     /** @brief   Destroy the server instance
      *  @details Destoying the server stops it from listening and ends all sessions by calling the 
      *           Session::disconnect() method. 
      */
     virtual ~Server();
+
+    /** @brief   Start up the server */
+    void start();
+
+    /** @brief   Stop the server */
+    void stop();
 
     /** @brief   Sets listenBacklog
      *  @details The listen backlog is the maximum number of incomming connections pending acception
@@ -83,6 +83,30 @@ class Server : public tcp::Socket {
     /** @brief   Returns an interface address from an interface name and domain */
     bool findifaddr(const string ifname, sockaddr *addr);
 
+    /** @brief Fileanme of CA certificate */
+    string cafile;
+
+    /** @brief Path for a directory of CA certificates */
+    string capath;
+    
+    /** @brief Filename of SSL certificate */
+    string certfile;
+
+    /** @brief Filename of SSL keyfile */
+    string keyfile;
+
+    /** @brief The port number to listen on */
+    in_port_t port {0};
+
+    /** @brief The interface address to bind to */
+    string bindaddress {""};
+
+    /** @brief   Getter for useSSL property */
+    bool useSSL() const { return useSSL_; }
+
+    /** @brief   Setter for useSSL property */
+    void useSSL(const bool value) { if (!listening_) useSSL_ = value; }
+
   protected:
   
     /** @brief   Called by the EPoll class when the listening socket recieves an event from the OS.
@@ -108,7 +132,10 @@ class Server : public tcp::Socket {
     bool bindToAddress();
     bool startListening();
     bool acceptConnection();
-    int listenBacklog_ {50};
+    in_port_t port_ {0}; 
+    string bindaddress_ {""};
+    int listenBacklog_ {128};
+    bool useSSL_ {false};
     bool listening_;
     struct sockaddr_storage addr_;
     friend class Session;
@@ -140,6 +167,7 @@ class Session : public Socket {
      *  @warning disconnect() causes the Session to be destroyed
      */
     virtual void disconnect();
+
   protected:
     
     /** @brief   Creates a new session
@@ -181,6 +209,9 @@ class Session : public Socket {
     in_port_t port_;
     in_addr_t addr_;
     bool connected_;
+    SSL *ssl_;
+    BIO *rbio;
+    BIO *wbio;
     friend class Server;
 };
 

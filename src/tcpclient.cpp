@@ -33,8 +33,15 @@ bool Client::connect(const string &hostname, const in_port_t port)
     exit(EXIT_FAILURE);
   }
   
-  initSSL();
-
+  if (useSSL) {
+    initSSL(
+      certfile.empty() ? nullptr : certfile.c_str(),
+      keyfile.empty()  ? nullptr : keyfile.c_str(),
+      cafile.empty()   ? nullptr : cafile.c_str(),
+      capath.empty()   ? nullptr : capath.c_str()
+    );
+  }
+  
   clog << "Connecting to " << result->ai_canonname << " on port " << service << endl;
   clog.flush();
 
@@ -90,17 +97,43 @@ void Client::handleEvents(uint32_t events) {
 }
 
 void Client::connected() {
+  if (useSSL) {
+    rbio = BIO_new(BIO_s_mem());
+    wbio = BIO_new(BIO_s_mem());
+    ssl_ = SSL_new(ctx());
+    SSL_set_connect_state(ssl_);
+    SSL_set_bio(ssl_,rbio,wbio);
+    printSSLErrors();
+  }
   state_ = State::CONNECTED;
   clog << "Connected" << endl;
-  clog.flush();
+  clog.flush();  
 }
 
 void Client::disconnected() {
   if ((state_ == State::CONNECTING) || (state_ == State::CONNECTED)) {
+    if (ssl_ != nullptr) {
+      SSL_shutdown(ssl_);
+      printSSLErrors();
+    }    
     state_ = State::DISCONNECTED;
     close(getSocket());
     clog << "Disconnected" << endl;
     clog.flush();
+    if (ssl_ != nullptr) {
+      SSL_free(ssl_);
+      ssl_ = nullptr;
+    }
+    if (rbio != nullptr) {
+      BIO_free_all(rbio);
+      rbio = nullptr;
+    }
+    if (wbio != nullptr) {
+      BIO_free_all(wbio);
+      wbio = nullptr;
+    }
+    if (useSSL)
+      printSSLErrors();    
   }
 }
 

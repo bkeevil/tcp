@@ -54,6 +54,21 @@ class Client : public Socket {
     /** @brief Returns the ip address number used for the last call to connect() */
     in_addr_t addr() { return port_; }
 
+    /** @brief Fileanme of CA certificate */
+    string cafile;
+
+    /** @brief Path for a directory of CA certificates */
+    string capath;
+    
+    /** @brief Filename of SSL certificate */
+    string certfile;
+
+    /** @brief Filename of SSL keyfile */
+    string keyfile;
+
+    /** @brief Whether or not to use SSL on connection */
+    bool useSSL {false};
+
     /** @brief   Initiates a connection to a server
      *  @details If the client is a blocking client, the call blocks until a connection is established. 
      *  @remark  Check the value of state() to determine if a non-blocking socket CONNECTED or is CONNECTING
@@ -97,7 +112,10 @@ class Client : public Socket {
   private:
     State state_ {State::UNCONNECTED};
     in_port_t port_ {0};
-    in_addr_t addr_ {0};   
+    in_addr_t addr_ {0};  
+    SSL *ssl_;
+    BIO *rbio; 
+    BIO *wbio;
 };
 
 }
