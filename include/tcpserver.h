@@ -14,7 +14,6 @@
 #include <map>
 #include <string.h>
 #include "tcpsocket.h"
-#include "tcpssl.h"
 
 namespace tcp {
 
@@ -29,7 +28,7 @@ class Session;
  *  @details Construct an instance of tcp::server to start the server. Destroy the object to stop the server.
  *  @remark  Override the virtual createSession() method to return a custom session descendant class.
  */
-class Server : public Socket {
+class Server : public tcp::Socket {
   public:
     /** @brief   Construct a server instance and start listening for connections
      *  @details Check the value of listening() to determine if the server was started successfully.
@@ -40,7 +39,7 @@ class Server : public Socket {
      *                    addresses in the domain. bindaddr can be an interface name or an IP4 or IP6 network address
      *  
      */
-    Server(const int domain = AF_INET, const in_port_t port = 0, const string bindaddr = "", const bool useSSL = false);
+    Server(const int domain = AF_INET, const in_port_t port = 0, const string bindaddr = "");
     
     /** @brief   Destroy the server instance
      *  @details Destoying the server stops it from listening and ends all sessions by calling the 
@@ -84,9 +83,6 @@ class Server : public Socket {
     /** @brief   Returns an interface address from an interface name and domain */
     bool findifaddr(const string ifname, sockaddr *addr);
 
-    bool useSSL() const { return useSSL_; }
-    void useSSL(const bool value) { useSSL_ = value; }
-
   protected:
   
     /** @brief   Called by the EPoll class when the listening socket recieves an event from the OS.
@@ -108,15 +104,12 @@ class Server : public Socket {
      */
     std::map<int,tcp::Session*> sessions;
 
-    SSLContext *ctx;
-
   private:
     bool bindToAddress();
     bool startListening();
     bool acceptConnection();
     int listenBacklog_ {50};
     bool listening_;
-    bool useSSL_;
     struct sockaddr_storage addr_;
     friend class Session;
 };
@@ -125,7 +118,7 @@ class Server : public Socket {
  *  @details A Session descendant class is instantiated by the server using the Session::createSession() 
  *           method. It is destroyed by calling disconnect() or disconnected() 
  */
-class Session : public Socket, public iostream {
+class Session : public Socket {
   public:
     
     /** @brief  Returns a reference to the Server that owns this Session */
@@ -153,7 +146,7 @@ class Session : public Socket, public iostream {
      *  @details The constructor is protected and is called by the Server::createSession() method 
      */
     Session(Server& server, const int socket, const struct sockaddr_in peer_addr) 
-      : Socket(socket), iostream(socket), server_(server), port_(peer_addr.sin_port), addr_(peer_addr.sin_addr.s_addr) { }
+      : Socket(socket), server_(server), port_(peer_addr.sin_port), addr_(peer_addr.sin_addr.s_addr) { }
     
     /** @brief The destructor is protected and is called by the disconnect() or disconnected() methods */
     virtual ~Session();

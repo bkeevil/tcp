@@ -13,11 +13,11 @@
 #define TCP_SOCKET_H
 
 #include <iostream>
-#include <streambuf>
 #include <vector>
 #include <map>
 #include <arpa/inet.h>
 #include <sys/epoll.h>
+#include <openssl/ssl.h>
 
 /** @brief Contains Socket, Server, Session and Client classes for a tcp client/server */
 namespace tcp {
@@ -25,70 +25,6 @@ namespace tcp {
 using namespace std;
 
 class Socket;
-
-/** @brief   Provides a streambuf interface to a unix socket handle
- *  @details See the streambuf documentation for your stdlib for more info on this class
- */
-class streambuf : public std::streambuf {
-  public:
-    /** @brief   Create a new tcp::streambuf class
-     *  @details This class is used by the tcp::iostram class to provide a C++ stream interface to client and
-     *           server network sessions. It should not be necessary to use or instantiate this class directly.
-     *  @param   socket     The socket handle to use for io
-     *  @param   rx_buff_sz The size of the recvbuffer
-     *  @param   tx_buff_sz The size of the sendbuffer
-     *  @param   put_back   The maximum number of characters that can be put back on the stream 
-     *  @remark  The put_back buffer is a space at the beginning of the recvbuffer that contains 
-     *           the most recently read characters. This allows characters to be put back on the 
-     *           stream after despite a buffer refresh.
-     */   
-    explicit streambuf(int socket, size_t rx_buff_sz = 256, size_t tx_buff_sz = 256, size_t put_back = 8);
-    
-    streambuf(const streambuf &) = delete; /**< Copy constructor not allowed */
-    streambuf &operator= (const streambuf &) = delete; /**< Copy assignment operator not allowed */
-    streambuf(streambuf &&) = delete; /**< Move constructor not allowed */
-    streambuf &operator= (streambuf &&) = delete; /**< Move assignement operator not allowed */
-    
-    /** @brief Returns the Linux socket handle */
-    int socket() const { return socket_; }
-
-    /** @brief   Returns the number of bytes available to be read
-     *  @details The value returned includes unread bytes in the recvbuffer plus any bytes in the operating 
-     *           system's receive buffer that have yet to be retrieved.
-     */  
-    int available() { return showmanyc() + (egptr() - gptr()); }
-
-  protected:
-
-    // Overrides of descendant class. See https://cppreference.com for docs
-    int_type underflow() override; /**< https://en.cppreference.com/w/cpp/io/basic_streambuf/underflow */
-    streamsize showmanyc() override; /**< https://en.cppreference.com/w/cpp/io/basic_streambuf/showmanyc */
-    streamsize xsgetn (char* s, streamsize n) override; /**< https://en.cppreference.com/w/cpp/io/basic_streambuf/sgetn */
-    int_type overflow(int_type ch) override; /**< https://en.cppreference.com/w/cpp/io/basic_streambuf/overflow */
-    int sync() override; /**< https://en.cppreference.com/w/cpp/io/basic_streambuf/pubsync */
-    streamsize xsputn (const char* s, streamsize n) override; /**< https://en.cppreference.com/w/cpp/io/basic_streambuf/sputn */
-  
-  private:
-    /** @brief Sends the contents of the send buffer to the socket 
-     * 
-     *  @param more  Set to true to tell the operating system to wait for more data before sending 
-     *               the packet. Set to false to send the packet immediately. */
-    int internalflush(bool more);
-    
-    int socket_;
-    const size_t put_back_;
-    vector<char> recvbuffer_;
-    vector<char> sendbuffer_;
-};
-
-/** @brief An iostream descendant that represents a network socket */
-class iostream : public std::iostream {
-  public:
-    /** @brief Constructs an iostream that uses a tcp::streambuf to read/write a network socket */
-    iostream(int socket) : std::iostream(&streambuf_), streambuf_(socket) { }
-  protected:
-    tcp::streambuf streambuf_;  
-};
 
 /** @brief   Encapsulates the EPoll interface
  *  @details Applications need to call EPoll.poll() at regular intervals to check for and respond to network
@@ -138,7 +74,7 @@ class Socket {
      * @remark A server session will create a Socket by providing the socket handle returned from an accept command.
      */
     Socket(const int domain = AF_INET, const int socket = 0, const bool blocking = false, const int events = (EPOLLIN | EPOLLRDHUP));
-  
+
     /** @brief Closes the socket (if necessary) and destroys the Socket
      *  @remark The socket should first be shut down using the Linux shutdown() command  */
     ~Socket();
@@ -148,6 +84,11 @@ class Socket {
     
     /** @brief Return the socket domain (AF_INET, AF_INET6, AF_UNIX) */
     int getDomain() const { return domain_; }
+
+    SSL *ssl() const { return ssl_; };
+    void initSSL(const bool supportTLSOnly = false);
+    void freeSSL();
+    static SSL_CTX *context() { return ctx_; }
 
   protected:
     
@@ -165,6 +106,10 @@ class Socket {
     int socket_;
     int domain_;
     int events_;
+    SSL *ssl_;
+    static SSL_CTX *ctx_;
+    static int refcount_;
+    static bool initialized_;
     friend class EPoll;
 };
 

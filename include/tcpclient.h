@@ -22,7 +22,6 @@
 #include <netinet/ip.h>
 #include <netdb.h>
 #include "tcpsocket.h"
-#include "tcpssl.h"
 
 namespace tcp {
 
@@ -30,7 +29,7 @@ using namespace std;
 using namespace tcp;
 
 /** @brief  A blocking or non-blocking TCP client connection */
-class Client : public Socket, public iostream {
+class Client : public Socket {
   public:
     
     /** @brief  Determines the state of a Client connection */
@@ -38,7 +37,7 @@ class Client : public Socket, public iostream {
     
     /** @brief  Creates a blocking or a non-blocking client */
     /** @param blocking If true, a blocking socket will be created. Otherwise a non-blocking socket is created */
-    Client(const int domain = AF_INET, bool blocking = false);
+    Client(const int domain = AF_INET, bool blocking = false) : Socket(domain,0,blocking) {}
     
     /** @brief   Destroys the client 
       * @details Will call disconnect() first if necessary. This allows clients to be disconnected 
@@ -69,8 +68,6 @@ class Client : public Socket, public iostream {
      */
     virtual void disconnect();
 
-    bool useSSL {false};
-
   protected:
     
     /** @brief Called by the EPoll object to process OS events sent to this handle
@@ -96,13 +93,11 @@ class Client : public Socket, public iostream {
      *            response to received data 
      */
     virtual void dataAvailable() = 0;  
-  
-    SSLContext *ctx;
 
   private:
     State state_ {State::UNCONNECTED};
     in_port_t port_ {0};
-    in_addr_t addr_ {0};    
+    in_addr_t addr_ {0};   
 };
 
 }

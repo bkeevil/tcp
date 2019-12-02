@@ -4,20 +4,12 @@ namespace tcp {
 
 using namespace std;
 
-Client::Client(const int domain, bool blocking): Socket(domain,0,blocking), iostream(getSocket()) 
-{   
-  
-}
-
 Client::~Client()
 {
   if ((state_ == State::CONNECTED) || (state_ == State::CONNECTING)) {
     disconnect();
   }
-  if (ctx != nullptr) {
-    delete ctx;
-    ctx = nullptr;
-  }  
+  freeSSL();
 }
 
 bool Client::connect(const string &hostname, const in_port_t port) 
@@ -41,9 +33,7 @@ bool Client::connect(const string &hostname, const in_port_t port)
     exit(EXIT_FAILURE);
   }
   
-  if (useSSL && (ctx == nullptr)) {
-    ctx = new SSLContext();
-  }
+  initSSL();
 
   clog << "Connecting to " << result->ai_canonname << " on port " << service << endl;
   clog.flush();
@@ -80,9 +70,7 @@ void Client::handleEvents(uint32_t events) {
       return;
     } 
     if (events & EPOLLIN) {
-      clear();
       dataAvailable();
-      flush();
     }
   } else if (state_ == State::CONNECTING) {
     //setEvents(EPOLLIN | EPOLLRDHUP);
@@ -92,14 +80,11 @@ void Client::handleEvents(uint32_t events) {
     if (events & EPOLLRDHUP) {
       state_ = State::UNCONNECTED;
       disconnected();
-      clear();
       return;
     }
     if (events & EPOLLOUT) {
       //state_ = State::CONNECTED;
-      clear();
       connected();
-      flush();
     }
   }
 }
