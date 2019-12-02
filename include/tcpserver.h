@@ -14,6 +14,7 @@
 #include <map>
 #include <string.h>
 #include "tcpsocket.h"
+#include "tcpssl.h"
 
 namespace tcp {
 
@@ -39,7 +40,7 @@ class Server : public Socket {
      *                    addresses in the domain. bindaddr can be an interface name or an IP4 or IP6 network address
      *  
      */
-    Server(const int domain = AF_INET, const in_port_t port = 0, const string bindaddr = "");
+    Server(const int domain = AF_INET, const in_port_t port = 0, const string bindaddr = "", const bool useSSL = false);
     
     /** @brief   Destroy the server instance
      *  @details Destoying the server stops it from listening and ends all sessions by calling the 
@@ -83,6 +84,9 @@ class Server : public Socket {
     /** @brief   Returns an interface address from an interface name and domain */
     bool findifaddr(const string ifname, sockaddr *addr);
 
+    bool useSSL() const { return useSSL_; }
+    void useSSL(const bool value) { useSSL_ = value; }
+
   protected:
   
     /** @brief   Called by the EPoll class when the listening socket recieves an event from the OS.
@@ -104,12 +108,15 @@ class Server : public Socket {
      */
     std::map<int,tcp::Session*> sessions;
 
+    SSLContext *ctx;
+
   private:
     bool bindToAddress();
     bool startListening();
     bool acceptConnection();
     int listenBacklog_ {50};
     bool listening_;
+    bool useSSL_;
     struct sockaddr_storage addr_;
     friend class Session;
 };

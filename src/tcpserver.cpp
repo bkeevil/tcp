@@ -14,9 +14,12 @@ namespace tcp {
 
 using namespace std;
 
-Server::Server(const int domain, const in_port_t port, const string bindaddr) 
-  : Socket(domain,0,false,EPOLLIN)
+Server::Server(const int domain, const in_port_t port, const string bindaddr, bool useSSL) 
+  : Socket(domain,0,false,EPOLLIN), useSSL_(useSSL)
 {
+  if (useSSL && (ctx == nullptr)) {
+    ctx = new SSLContext();
+  }
   memset(&addr_,0,sizeof(addr_));  
   if ((bindaddr == "") || (bindaddr == "0.0.0.0") || (bindaddr == "::")) {
     if (domain == AF_INET) {
@@ -51,6 +54,10 @@ Server::~Server() {
     }
   }
   ::close(getSocket());
+  if (ctx != nullptr) {
+    delete ctx;
+    ctx = nullptr;
+  } 
 }
 
 void Server::handleEvents(uint32_t events) {

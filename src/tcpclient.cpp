@@ -4,6 +4,22 @@ namespace tcp {
 
 using namespace std;
 
+Client::Client(const int domain, bool blocking): Socket(domain,0,blocking), iostream(getSocket()) 
+{   
+  
+}
+
+Client::~Client()
+{
+  if ((state_ == State::CONNECTED) || (state_ == State::CONNECTING)) {
+    disconnect();
+  }
+  if (ctx != nullptr) {
+    delete ctx;
+    ctx = nullptr;
+  }  
+}
+
 bool Client::connect(const string &hostname, const in_port_t port) 
 {
   struct addrinfo hints;
@@ -23,6 +39,10 @@ bool Client::connect(const string &hostname, const in_port_t port)
   if (errorcode != 0) {
     fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(errorcode));
     exit(EXIT_FAILURE);
+  }
+  
+  if (useSSL && (ctx == nullptr)) {
+    ctx = new SSLContext();
   }
 
   clog << "Connecting to " << result->ai_canonname << " on port " << service << endl;
@@ -99,4 +119,4 @@ void Client::disconnected() {
   }
 }
 
-}
+} // namespace mqtt
