@@ -159,7 +159,10 @@ void Client::disconnected() {
       printSSLErrors();
     }    
     state_ = State::DISCONNECTED;
-    close(getSocket());
+    if (socket_ > 0) {
+      ::close(socket_);
+      socket_ = 0;
+    }
     clog << "Disconnected" << endl;
     clog.flush();
     if (ssl_ != nullptr) {

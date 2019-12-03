@@ -103,7 +103,6 @@ class Socket {
     static SSL_CTX *ctx() { return ctx_; }
 
   private:
-    int socket_;
     int domain_;
     int events_;
     static SSL_CTX *ctx_;
