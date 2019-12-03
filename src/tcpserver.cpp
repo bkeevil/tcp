@@ -1,6 +1,7 @@
 #include "tcpserver.h"
 #include <fcntl.h>
 #include <sys/types.h>
+#include <sys/ioctl.h>
 #include <linux/if_link.h>
 #include <netdb.h>
 #include <ifaddrs.h>
@@ -248,14 +249,53 @@ void Session::accepted() {
   clog << "Connection from " << ip << ":" << port_ << " accepted" << endl;
   clog.flush();
   if (server().useSSL_) {
-    rbio = BIO_new(BIO_s_mem());
-    wbio = BIO_new(BIO_s_mem());
     ssl_ = SSL_new(ctx());
-    SSL_set_connect_state(ssl_);
-    SSL_set_bio(ssl_,rbio,wbio);
+    SSL_set_accept_state(ssl_);
+    SSL_set_fd(ssl_,getSocket());
+    printSSLErrors();
+    if (SSL_accept(ssl_) != 1)
+      disconnected();
     printSSLErrors();
   }  
 }
+
+int Session::available()
+{
+  int result;
+  ioctl(getSocket(), FIONREAD, &result);
+  return result; 
+}
+
+int Session::read(void *buffer, const int size)
+{
+  if (server().useSSL()) {
+    return SSL_read(ssl_,buffer,size);
+  } else {
+    return ::recv(getSocket(),buffer,size,0);
+  }
+}
+
+int Session::peek(void *buffer, const int size)
+{
+  if (server().useSSL()) {
+    return SSL_peek(ssl_,buffer,size);
+  } else {
+    return ::recv(getSocket(),buffer,size,MSG_PEEK);
+  }
+}
+
+int Session::write(void *buffer, const int size, const bool more)
+{
+  if (server().useSSL()) {
+    return SSL_write(ssl_,buffer,size);
+  } else {
+    if (more)
+      return ::send(getSocket(),buffer,size,MSG_MORE);
+    else  
+      return ::send(getSocket(),buffer,size,0);
+  }
+}
+
 
 /** @brief   Starts a graceful shutdown of the session 
  *  Override disconnect() to send any last messages required before the session is terminated.
@@ -269,7 +309,10 @@ void Session::disconnect() {
 void Session::disconnected() {
   if (connected_) { 
     if (ssl_ != nullptr) {
-      SSL_shutdown(ssl_);
+      if (SSL_shutdown(ssl_) == 0) {
+        SSL_shutdown(ssl_);
+      }
+      ssl_ = nullptr;
       printSSLErrors();
     }
     connected_ = false;
@@ -281,14 +324,6 @@ void Session::disconnected() {
     if (ssl_ != nullptr) {
       SSL_free(ssl_);
       ssl_ = nullptr;
-    }
-    if (rbio != nullptr) {
-      BIO_free_all(rbio);
-      rbio = nullptr;
-    }
-    if (wbio != nullptr) {
-      BIO_free_all(wbio);
-      wbio = nullptr;
     }
     if (server().useSSL_) {
       printSSLErrors();

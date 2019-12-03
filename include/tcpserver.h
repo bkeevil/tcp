@@ -204,14 +204,17 @@ class Session : public Socket {
      */
     virtual void disconnected();
 
+    int available();
+    int read(void *buffer, const int size);
+    int peek(void *buffer, const int size);
+    int write(void *buffer, const int size, const bool more = false);
+
   private:
     Server& server_;
     in_port_t port_;
     in_addr_t addr_;
     bool connected_;
     SSL *ssl_;
-    BIO *rbio;
-    BIO *wbio;
     friend class Server;
 };
 

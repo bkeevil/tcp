@@ -69,6 +69,11 @@ class Client : public Socket {
     /** @brief Whether or not to use SSL on connection */
     bool useSSL {false};
 
+    int available();
+    int read(void *buffer, const int size);
+    int peek(void *buffer, const int size);
+    int write(void *buffer, const int size, const bool more = false);
+    
     /** @brief   Initiates a connection to a server
      *  @details If the client is a blocking client, the call blocks until a connection is established. 
      *  @remark  Check the value of state() to determine if a non-blocking socket CONNECTED or is CONNECTING
@@ -114,8 +119,6 @@ class Client : public Socket {
     in_port_t port_ {0};
     in_addr_t addr_ {0};  
     SSL *ssl_;
-    BIO *rbio; 
-    BIO *wbio;
 };
 
 }
