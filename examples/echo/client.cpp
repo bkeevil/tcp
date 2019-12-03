@@ -22,6 +22,7 @@ void threadfunc() {
 int main() { 
   EchoClient client(AF_INET,true);
   cl = &client;
+  client.useSSL = true;
   client.connect(string("localhost"),1234);
   client.write("Echo Server Hello World\n",25);
   std::thread threadObj(&threadfunc);

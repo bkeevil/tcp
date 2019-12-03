@@ -102,6 +102,7 @@ class Socket {
     void printSSLErrors();
     static SSL_CTX *ctx() { return ctx_; }
 
+    int socket_;
   private:
     int domain_;
     int events_;

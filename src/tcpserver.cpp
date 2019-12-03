@@ -219,7 +219,7 @@ bool Server::acceptConnection() {
     session = createSession(conn_sock,peer_addr);
     sessions[conn_sock] = session;
     session->accepted();
-    return true;
+    return session->connected();
   }
 }
 
@@ -250,11 +250,27 @@ void Session::accepted() {
   clog.flush();
   if (server().useSSL_) {
     ssl_ = SSL_new(ctx());
-    SSL_set_accept_state(ssl_);
-    SSL_set_fd(ssl_,getSocket());
-    printSSLErrors();
-    if (SSL_accept(ssl_) != 1)
+    if (ssl_ == nullptr) {
+      cerr << "Failed to start ssl session" << endl;
+      printSSLErrors();
       disconnected();
+      return;
+    }
+    SSL_set_accept_state(ssl_);
+    if (SSL_set_fd(ssl_,getSocket()) != 1) {
+      cerr << "Failed to set the ssl socket file descriptor" << endl;
+      printSSLErrors();
+      disconnected();
+      return;
+    }
+    printSSLErrors();
+    int ret = SSL_accept(ssl_);
+    if (ret != 1) {
+      cerr << "Failed to initiate the SSL accept handshake" << endl;
+      printSSLErrors();
+      disconnected();
+      return;
+    }
     printSSLErrors();
   }  
   connected_ = true;

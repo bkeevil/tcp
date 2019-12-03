@@ -100,11 +100,26 @@ void Client::handleEvents(uint32_t events) {
 void Client::connected() {
   if (useSSL) {
     ssl_ = SSL_new(ctx());
-    SSL_set_connect_state(ssl_);
-    SSL_set_fd(ssl_,getSocket());
-    printSSLErrors();
-    if (SSL_connect(ssl_) != 1)
+    if (ssl_ == nullptr) {
+      cerr << "Failed to start ssl session" << endl;
+      printSSLErrors();
       disconnected();
+      return;
+    }
+    SSL_set_connect_state(ssl_);
+    if (SSL_set_fd(ssl_,getSocket()) != 1) {
+      cerr << "Failed to set the ssl socket file descriptor" << endl;
+      printSSLErrors();
+      disconnected();
+      return;
+    }
+    int ret = SSL_connect(ssl_);
+    if (ret != 1) {
+      cerr << "Failed to initiate the SSL handshake" << endl;
+      printSSLErrors();
+      disconnected();
+      return;
+    }
     printSSLErrors();
   }
   state_ = State::CONNECTED;

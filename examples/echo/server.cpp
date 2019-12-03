@@ -3,8 +3,9 @@
 
 int main() { 
   EchoServer server(AF_INET);
-  server.bindaddress = "localhost";
+  server.bindaddress = "lo";
   server.port = 1234;
+  server.useSSL(true);
   server.start();
   //server.printifaddrs();
   if (!server.listening()) {

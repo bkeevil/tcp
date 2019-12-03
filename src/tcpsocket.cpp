@@ -150,14 +150,19 @@ bool Socket::setEvents(int events)
 void Socket::initSSL(const char *certfile, const char* keyfile, const char *cafile, const char *capath)
 {
   if (!sslinitialized_) {
-    OPENSSL_init_ssl(OPENSSL_INIT_LOAD_SSL_STRINGS | OPENSSL_INIT_LOAD_CRYPTO_STRINGS, NULL);
+    SSL_library_init();             
+    OpenSSL_add_all_algorithms();
+    SSL_load_error_strings();
+    ERR_load_crypto_strings();
+    OpenSSL_add_all_ciphers();
+    //OPENSSL_init_ssl(OPENSSL_INIT_LOAD_SSL_STRINGS | OPENSSL_INIT_LOAD_CRYPTO_STRINGS, NULL);
     sslinitialized_ = true;
   }
   if (ctx_ == nullptr) {
-    ctx_ = SSL_CTX_new(TLS_client_method());
+    ctx_ = SSL_CTX_new(TLS_method());
     if (ctx_ != NULL) {
       refcount_++;
-      SSL_CTX_set_min_proto_version(ctx_,TLS1_VERSION); // Recomend not to support SSL
+      //SSL_CTX_set_min_proto_version(ctx_,TLS1_VERSION); // Recomend not to support SSL
     }
   } else {
     SSL_CTX_up_ref(ctx_);
