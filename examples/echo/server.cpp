@@ -1,7 +1,9 @@
 #include <iostream>
+#include "tcpssl.h"
 #include "echoserver.h"
 
 int main() { 
+  initSSLLibrary();
   EchoServer server(AF_INET);
   server.bindaddress = "lo";
   server.port = 1234;
@@ -18,6 +20,6 @@ int main() {
   while (server.listening()) {
     epoll.poll(100);
   }
-
+  freeSSLLibrary();
   return 0;
 }

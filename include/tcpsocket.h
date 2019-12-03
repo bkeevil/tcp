@@ -17,7 +17,6 @@
 #include <map>
 #include <arpa/inet.h>
 #include <sys/epoll.h>
-#include <openssl/ssl.h>
 
 /** @brief Contains Socket, Server, Session and Client classes for a tcp client/server */
 namespace tcp {
@@ -96,17 +95,11 @@ class Socket {
      *  @details Descendant classes override this abstract method to respond to epoll events
      *  @param   events   A bitmask of event flags. See the epoll documentation */
     virtual void handleEvents(uint32_t events) = 0;
-  
-    void initSSL(const bool server, const char *certfile = nullptr, const char *keyfile = nullptr, const char *cafile = nullptr, const char *capath = nullptr);
-    void freeSSL();
-    void printSSLErrors();
-    static SSL_CTX *ctx() { return ctx_; }
 
     int socket_;
   private:
     int domain_;
     int events_;
-    static SSL_CTX *ctx_;
     static int refcount_;
     static bool sslinitialized_;
     friend class EPoll;

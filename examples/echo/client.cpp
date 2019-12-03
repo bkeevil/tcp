@@ -2,6 +2,7 @@
 #include <thread>
 #include "tcpsocket.h"
 #include "tcpclient.h"
+#include "tcpssl.h"
 #include "echoclient.h"
 #include "arpa/inet.h"
 
@@ -20,6 +21,7 @@ void threadfunc() {
 }
 
 int main() { 
+  initSSLLibrary();
   EchoClient client(AF_INET,true);
   cl = &client;
   client.useSSL = true;
@@ -32,5 +34,6 @@ int main() {
   while (true) {
     epoll.poll(100);
   }
+  freeSSLLibrary();
   return 0;
 }

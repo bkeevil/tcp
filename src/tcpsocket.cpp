@@ -8,13 +8,8 @@
 #include <arpa/inet.h>
 #include <netinet/ip.h>
 #include <netinet/tcp.h>
-#include <openssl/err.h>
 
 namespace tcp {
-
-SSL_CTX *Socket::ctx_ {nullptr};
-bool Socket::sslinitialized_ {false};
-int Socket::refcount_ {0};
 
 EPoll epoll;
 
@@ -145,74 +140,6 @@ bool Socket::setEvents(int events)
     } 
   }
   return true;
-}
-
-void Socket::initSSL(const bool server, const char *certfile, const char* keyfile, const char *cafile, const char *capath)
-{
-  if (!sslinitialized_) {
-    SSL_library_init();             
-    OpenSSL_add_all_algorithms();
-    SSL_load_error_strings();
-    ERR_load_crypto_strings();
-    OpenSSL_add_all_ciphers();
-    //OPENSSL_init_ssl(OPENSSL_INIT_LOAD_SSL_STRINGS | OPENSSL_INIT_LOAD_CRYPTO_STRINGS, NULL);
-    sslinitialized_ = true;
-  }
-  if (ctx_ == nullptr) {
-    if (server) {
-      ctx_ = SSL_CTX_new(TLS_server_method());
-    } else {
-      ctx_ = SSL_CTX_new(TLS_client_method());
-    }
-    if (ctx_ != NULL) {
-      refcount_++;
-      SSL_CTX_set_min_proto_version(ctx_,TLS1_VERSION); // Recomend not to support SSL
-    }
-  } else {
-    SSL_CTX_up_ref(ctx_);
-    refcount_++;
-  } 
-  printSSLErrors();
-
-  if (cafile || capath) {
-    if(!SSL_CTX_load_verify_locations(ctx_, cafile, capath)) {
-      cerr << "Failed to load certificate authorities" << endl;
-    }
-  }
-
-  /* Load certificate and private key files, and check consistency */
-  if (certfile && keyfile) {
-    if (SSL_CTX_use_certificate_file(ctx_, certfile,  SSL_FILETYPE_PEM) != 1)
-      cerr << "Failed to load SSL certificate file" << endl;
-
-    if (SSL_CTX_use_PrivateKey_file(ctx_, keyfile, SSL_FILETYPE_PEM) != 1)
-      cerr << "Failed to load SSL private key file" << endl;
-
-    /* Make sure the key and certificate file match. */
-    if (SSL_CTX_check_private_key(ctx_) != 1)
-      cerr << "SSL_CTX_check_private_key failed" << endl;
-    else
-      clog << "certificate and private key loaded and verified" << endl;
-
-    printSSLErrors();
-  }
-}
-
-void Socket::freeSSL()
-{
-  if (refcount_ > 0) {
-    refcount_--;
-    SSL_CTX_free(ctx_);  
-    printSSLErrors(); 
-    if (refcount_ == 0) {
-      ERR_free_strings();
-    }
-  }  
-}
-
-void Socket::printSSLErrors()
-{
-  ERR_print_errors_fp(stderr);
 }
 
 } // namespace tcp

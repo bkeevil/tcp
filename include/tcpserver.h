@@ -14,6 +14,7 @@
 #include <map>
 #include <string.h>
 #include "tcpsocket.h"
+#include "tcpssl.h"
 
 namespace tcp {
 

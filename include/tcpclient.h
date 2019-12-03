@@ -22,6 +22,7 @@
 #include <netinet/ip.h>
 #include <netdb.h>
 #include "tcpsocket.h"
+#include "tcpssl.h"
 
 namespace tcp {
 
@@ -37,7 +38,7 @@ class Client : public Socket {
     
     /** @brief  Creates a blocking or a non-blocking client */
     /** @param blocking If true, a blocking socket will be created. Otherwise a non-blocking socket is created */
-    Client(const int domain = AF_INET, bool blocking = false) : Socket(domain,0,blocking) {}
+    Client(const int domain = AF_INET, bool blocking = false) : Socket(domain,0,blocking), ssl_(ctx_) {}
     
     /** @brief   Destroys the client 
       * @details Will call disconnect() first if necessary. This allows clients to be disconnected 
@@ -53,19 +54,7 @@ class Client : public Socket {
     
     /** @brief Returns the ip address number used for the last call to connect() */
     in_addr_t addr() { return addr_; }
-
-    /** @brief Fileanme of CA certificate */
-    string cafile;
-
-    /** @brief Path for a directory of CA certificates */
-    string capath;
-    
-    /** @brief Filename of SSL certificate */
-    string certfile;
-
-    /** @brief Filename of SSL keyfile */
-    string keyfile;
-
+   
     /** @brief Whether or not to use SSL on connection */
     bool useSSL {false};
 
@@ -117,9 +106,10 @@ class Client : public Socket {
   private:
     State state_ {State::UNCONNECTED};
     in_port_t port_ {0};
-    in_addr_t addr_ {0};  
-    SSL *ssl_;
-    BIO *sbio_;
+    in_addr_t addr_ {0}; 
+    static SSLContext ctx_; 
+    SSLSession ssl_;
+    //BIO *sbio_;
 };
 
 }

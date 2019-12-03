@@ -1,16 +1,18 @@
 #include "tcpclient.h"
 #include <sys/ioctl.h>
+#include <openssl/ssl.h>
 
 namespace tcp {
 
 using namespace std;
+
+SSLContext Client::ctx_(false);
 
 Client::~Client()
 {
   if ((state_ == State::CONNECTED) || (state_ == State::CONNECTING)) {
     disconnect();
   }
-  freeSSL();
 }
 
 bool Client::connect(const string &hostname, const in_port_t port) 
@@ -32,16 +34,6 @@ bool Client::connect(const string &hostname, const in_port_t port)
   if (errorcode != 0) {
     fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(errorcode));
     exit(EXIT_FAILURE);
-  }
-  
-  if (useSSL) {
-    initSSL(
-      false,
-      certfile.empty() ? nullptr : certfile.c_str(),
-      keyfile.empty()  ? nullptr : keyfile.c_str(),
-      cafile.empty()   ? nullptr : cafile.c_str(),
-      capath.empty()   ? nullptr : capath.c_str()
-    );
   }
   
   clog << "Connecting to " << result->ai_canonname << " on port " << service << endl;
@@ -99,7 +91,7 @@ void Client::handleEvents(uint32_t events) {
 }
 
 void Client::connected() {
-  if (useSSL) {
+  /*if (useSSL) {
     ssl_ = SSL_new(ctx());
     if (ssl_ == nullptr) {
       cerr << "Failed to start ssl session" << endl;
@@ -122,7 +114,7 @@ void Client::connected() {
       return;
     }
     printSSLErrors();
-  }
+  }*/
   state_ = State::CONNECTED;
   clog << "Connected" << endl;
   clog.flush();  
@@ -138,7 +130,7 @@ int Client::available()
 int Client::read(void *buffer, const int size)
 {
   if (useSSL) {
-    return SSL_read(ssl_,buffer,size);
+    return SSL_read(ssl_.handle(),buffer,size);
   } else {
     return ::recv(getSocket(),buffer,size,0);
   }
@@ -147,7 +139,7 @@ int Client::read(void *buffer, const int size)
 int Client::peek(void *buffer, const int size)
 {
   if (useSSL) {
-    return SSL_peek(ssl_,buffer,size);
+    return SSL_peek(ssl_.handle(),buffer,size);
   } else {
     return ::recv(getSocket(),buffer,size,MSG_PEEK);
   }
@@ -156,7 +148,7 @@ int Client::peek(void *buffer, const int size)
 int Client::write(const void *buffer, const int size, const bool more)
 {
   if (useSSL) {
-    return SSL_write(ssl_,buffer,size);
+    return SSL_write(ssl_.handle(),buffer,size);
   } else {
     if (more)
       return ::send(getSocket(),buffer,size,MSG_MORE);
@@ -168,8 +160,8 @@ int Client::write(const void *buffer, const int size, const bool more)
 void Client::disconnected() {
   if ((state_ == State::CONNECTING) || (state_ == State::CONNECTED)) {
     if (ssl_ != nullptr) {
-      if (SSL_shutdown(ssl_) == 0) {
-        SSL_shutdown(ssl_);
+      if (SSL_shutdown(ssl_.handle()) == 0) {
+        SSL_shutdown(ssl_.handle());
       }
       ssl_ = nullptr;
       printSSLErrors();
@@ -182,7 +174,7 @@ void Client::disconnected() {
     clog << "Disconnected" << endl;
     clog.flush();
     if (ssl_ != nullptr) {
-      SSL_free(ssl_);
+      SSL_free(ssl_.handle());
       ssl_ = nullptr;
     }
     if (useSSL)
