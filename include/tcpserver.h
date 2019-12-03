@@ -174,7 +174,7 @@ class Session : public Socket {
      *  @details The constructor is protected and is called by the Server::createSession() method 
      */
     Session(Server& server, const int socket, const struct sockaddr_in peer_addr) 
-      : Socket(socket), server_(server), port_(peer_addr.sin_port), addr_(peer_addr.sin_addr.s_addr) { }
+      : Socket(server.getDomain(),socket), server_(server), port_(peer_addr.sin_port), addr_(peer_addr.sin_addr.s_addr) { }
     
     /** @brief The destructor is protected and is called by the disconnect() or disconnected() methods */
     virtual ~Session();
@@ -207,7 +207,7 @@ class Session : public Socket {
     int available();
     int read(void *buffer, const int size);
     int peek(void *buffer, const int size);
-    int write(void *buffer, const int size, const bool more = false);
+    int write(const void *buffer, const int size, const bool more = false);
 
   private:
     Server& server_;

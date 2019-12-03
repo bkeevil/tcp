@@ -13,6 +13,7 @@
 namespace tcp {
 
 SSL_CTX *Socket::ctx_ {nullptr};
+bool Socket::sslinitialized_ {false};
 int Socket::refcount_ {0};
 
 EPoll epoll;
@@ -148,9 +149,9 @@ bool Socket::setEvents(int events)
 
 void Socket::initSSL(const char *certfile, const char* keyfile, const char *cafile, const char *capath)
 {
-  if (~initialized_) {
+  if (!sslinitialized_) {
     OPENSSL_init_ssl(OPENSSL_INIT_LOAD_SSL_STRINGS | OPENSSL_INIT_LOAD_CRYPTO_STRINGS, NULL);
-    initialized_ = true;
+    sslinitialized_ = true;
   }
   if (ctx_ == nullptr) {
     ctx_ = SSL_CTX_new(TLS_client_method());

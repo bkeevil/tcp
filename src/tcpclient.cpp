@@ -137,7 +137,7 @@ int Client::peek(void *buffer, const int size)
   }
 }
 
-int Client::write(void *buffer, const int size, const bool more)
+int Client::write(const void *buffer, const int size, const bool more)
 {
   if (useSSL) {
     return SSL_write(ssl_,buffer,size);

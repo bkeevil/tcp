@@ -108,7 +108,7 @@ class Socket {
     int events_;
     static SSL_CTX *ctx_;
     static int refcount_;
-    static bool initialized_;
+    static bool sslinitialized_;
     friend class EPoll;
 };
 

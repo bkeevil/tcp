@@ -244,8 +244,8 @@ void Session::handleEvents(uint32_t events) {
 /** @brief Server calls this method to signal the start of the session 
  *  Override accepted() to perform initial actions when a session starts */ 
 void Session::accepted() {
-  char ip[INET_ADDRSTRLEN];
-  inet_ntop(getDomain(),&(addr_),ip,INET_ADDRSTRLEN);
+  char ip[INET6_ADDRSTRLEN];
+  inet_ntop(getDomain(),&addr_,ip,INET_ADDRSTRLEN);
   clog << "Connection from " << ip << ":" << port_ << " accepted" << endl;
   clog.flush();
   if (server().useSSL_) {
@@ -257,6 +257,7 @@ void Session::accepted() {
       disconnected();
     printSSLErrors();
   }  
+  connected_ = true;
 }
 
 int Session::available()
@@ -284,7 +285,7 @@ int Session::peek(void *buffer, const int size)
   }
 }
 
-int Session::write(void *buffer, const int size, const bool more)
+int Session::write(const void *buffer, const int size, const bool more)
 {
   if (server().useSSL()) {
     return SSL_write(ssl_,buffer,size);

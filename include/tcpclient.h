@@ -72,7 +72,7 @@ class Client : public Socket {
     int available();
     int read(void *buffer, const int size);
     int peek(void *buffer, const int size);
-    int write(void *buffer, const int size, const bool more = false);
+    int write(const void *buffer, const int size, const bool more = false);
     
     /** @brief   Initiates a connection to a server
      *  @details If the client is a blocking client, the call blocks until a connection is established. 
