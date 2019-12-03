@@ -1,0 +1,68 @@
+Certificate:
+    Data:
+        Version: 1 (0x0)
+        Serial Number: 4101 (0x1005)
+    Signature Algorithm: sha256WithRSAEncryption
+        Issuer: C=CA, ST=Ontario, L=Callander, CN=Test CA
+        Validity
+            Not Before: Dec  3 05:02:10 2019 GMT
+            Not After : Nov 27 05:02:10 2020 GMT
+        Subject: C=CA, ST=Ontario, L=Callander, CN=MQTT Client Test Certificate
+        Subject Public Key Info:
+            Public Key Algorithm: rsaEncryption
+                Public-Key: (2048 bit)
+                Modulus:
+                    00:a3:56:8d:97:45:96:17:27:a6:de:a7:f5:db:b8:
+                    a3:7b:19:b2:d1:65:76:61:5f:d7:01:6c:f2:9f:b5:
+                    7a:bf:78:07:32:da:6d:74:20:6d:dd:7a:0c:35:d9:
+                    18:39:24:9d:db:04:81:a3:a8:0b:4d:92:f2:ef:47:
+                    2d:55:09:55:f9:4b:c1:a3:20:76:ff:96:04:87:92:
+                    94:ea:ee:39:2a:3f:88:52:e3:92:c8:f9:ef:97:94:
+                    2d:ae:cc:8a:44:50:62:6b:c8:82:36:f2:ef:6e:57:
+                    88:8a:18:46:5c:44:00:13:9e:53:85:6f:c3:23:b5:
+                    bc:3d:cd:e1:0b:67:43:4d:b5:33:17:83:9c:c6:3e:
+                    ba:30:bb:cf:10:8e:33:f5:37:01:9b:af:74:d6:5c:
+                    7b:f8:44:ff:93:b5:c8:88:0f:7a:e2:94:d2:83:b9:
+                    c5:0a:0e:d5:5d:b8:dd:2a:53:63:ff:39:e7:af:d1:
+                    2d:c7:52:9f:52:af:fe:bd:57:7e:76:6f:66:3d:3b:
+                    7c:9a:0c:36:ce:e4:a8:66:09:65:d0:1e:a7:1b:a4:
+                    96:4f:93:f6:c6:e7:ae:94:78:7b:6e:04:2d:3f:eb:
+                    0f:1a:7d:d4:2e:28:ae:8e:9d:c9:fd:90:3a:a8:7d:
+                    ba:b8:a5:ed:9b:83:76:2a:95:5f:a1:5e:bb:c5:0f:
+                    94:c9
+                Exponent: 65537 (0x10001)
+    Signature Algorithm: sha256WithRSAEncryption
+         7a:85:2a:c8:94:63:38:1d:ab:7f:ef:ff:59:31:e2:75:a4:38:
+         d2:00:3c:dc:66:03:f4:45:ff:b7:24:56:d8:9f:43:39:19:c2:
+         13:f5:a3:00:79:8d:18:3f:94:54:86:48:3f:98:1a:12:b2:81:
+         74:0a:a1:e8:84:c9:aa:1b:7c:c4:7a:48:80:90:96:a3:33:9e:
+         c0:9a:39:52:71:9e:de:52:b8:0f:59:60:03:db:bb:d8:4d:5a:
+         52:cc:56:7c:42:d8:5f:94:53:04:f8:35:8f:10:b8:3c:a6:12:
+         18:b2:df:e9:19:8a:8a:0c:69:09:e9:09:fe:d0:ae:55:42:ab:
+         70:18:c1:16:3f:76:93:a6:45:c3:9d:38:19:5d:d9:97:e2:44:
+         b4:bf:3c:79:74:5d:4a:63:69:68:42:2d:e8:fb:c3:28:7c:01:
+         01:be:f7:90:46:6d:e9:2d:69:bb:2b:bc:10:af:8e:ea:78:0b:
+         65:e0:df:c2:a9:30:20:b0:37:82:eb:22:50:d3:17:25:bb:0a:
+         91:00:02:73:34:f1:6c:ca:4f:27:65:33:b2:2e:31:4a:0e:71:
+         c6:a8:55:6c:6c:24:94:95:3e:23:0e:42:68:0f:d3:d6:9f:6d:
+         52:a7:81:1a:89:97:72:62:ff:83:2e:9c:5d:2f:8f:52:73:8b:
+         6a:dc:3d:0c
+-----BEGIN CERTIFICATE-----
+MIIDFDCCAfwCAhAFMA0GCSqGSIb3DQEBCwUAMEUxCzAJBgNVBAYTAkNBMRAwDgYD
+VQQIDAdPbnRhcmlvMRIwEAYDVQQHDAlDYWxsYW5kZXIxEDAOBgNVBAMMB1Rlc3Qg
+Q0EwHhcNMTkxMjAzMDUwMjEwWhcNMjAxMTI3MDUwMjEwWjBaMQswCQYDVQQGEwJD
+QTEQMA4GA1UECAwHT250YXJpbzESMBAGA1UEBwwJQ2FsbGFuZGVyMSUwIwYDVQQD
+DBxNUVRUIENsaWVudCBUZXN0IENlcnRpZmljYXRlMIIBIjANBgkqhkiG9w0BAQEF
+AAOCAQ8AMIIBCgKCAQEAo1aNl0WWFyem3qf127ijexmy0WV2YV/XAWzyn7V6v3gH
+MtptdCBt3XoMNdkYOSSd2wSBo6gLTZLy70ctVQlV+UvBoyB2/5YEh5KU6u45Kj+I
+UuOSyPnvl5QtrsyKRFBia8iCNvLvbleIihhGXEQAE55ThW/DI7W8Pc3hC2dDTbUz
+F4Ocxj66MLvPEI4z9TcBm6901lx7+ET/k7XIiA964pTSg7nFCg7VXbjdKlNj/znn
+r9Etx1KfUq/+vVd+dm9mPTt8mgw2zuSoZgll0B6nG6SWT5P2xueulHh7bgQtP+sP
+Gn3ULiiujp3J/ZA6qH26uKXtm4N2KpVfoV67xQ+UyQIDAQABMA0GCSqGSIb3DQEB
+CwUAA4IBAQB6hSrIlGM4Hat/7/9ZMeJ1pDjSADzcZgP0Rf+3JFbYn0M5GcIT9aMA
+eY0YP5RUhkg/mBoSsoF0CqHohMmqG3zEekiAkJajM57AmjlScZ7eUrgPWWAD27vY
+TVpSzFZ8QthflFME+DWPELg8phIYst/pGYqKDGkJ6Qn+0K5VQqtwGMEWP3aTpkXD
+nTgZXdmX4kS0vzx5dF1KY2loQi3o+8MofAEBvveQRm3pLWm7K7wQr47qeAtl4N/C
+qTAgsDeC6yJQ0xcluwqRAAJzNPFsyk8nZTOyLjFKDnHGqFVsbCSUlT4jDkJoD9PW
+n21Sp4EaiZdyYv+DLpxdL49Sc4tq3D0M
+-----END CERTIFICATE-----
