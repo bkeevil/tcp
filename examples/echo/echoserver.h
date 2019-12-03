@@ -21,6 +21,8 @@ class EchoSession : public tcp::Session {
   public:
     EchoSession(Server& server, const int socket, const struct sockaddr_in peer_addr) : Session(server,socket,peer_addr) {}
     void dataAvailable() override;
+  protected:
+    void accepted() override;
 };
 
 #endif

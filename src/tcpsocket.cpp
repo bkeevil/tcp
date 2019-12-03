@@ -147,7 +147,7 @@ bool Socket::setEvents(int events)
   return true;
 }
 
-void Socket::initSSL(const char *certfile, const char* keyfile, const char *cafile, const char *capath)
+void Socket::initSSL(const bool server, const char *certfile, const char* keyfile, const char *cafile, const char *capath)
 {
   if (!sslinitialized_) {
     SSL_library_init();             
@@ -159,10 +159,14 @@ void Socket::initSSL(const char *certfile, const char* keyfile, const char *cafi
     sslinitialized_ = true;
   }
   if (ctx_ == nullptr) {
-    ctx_ = SSL_CTX_new(TLS_method());
+    if (server) {
+      ctx_ = SSL_CTX_new(TLS_server_method());
+    } else {
+      ctx_ = SSL_CTX_new(TLS_client_method());
+    }
     if (ctx_ != NULL) {
       refcount_++;
-      //SSL_CTX_set_min_proto_version(ctx_,TLS1_VERSION); // Recomend not to support SSL
+      SSL_CTX_set_min_proto_version(ctx_,TLS1_VERSION); // Recomend not to support SSL
     }
   } else {
     SSL_CTX_up_ref(ctx_);

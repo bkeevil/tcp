@@ -2,6 +2,10 @@
 
 /* Echo Session */
 
+void EchoSession::accepted() {
+  tcp::Session::accepted();
+}
+
 /** @brief Read incoming data and send it back byte for byte */
 void EchoSession::dataAvailable() {
   int size = available();

@@ -215,6 +215,7 @@ class Session : public Socket {
     in_addr_t addr_;
     bool connected_;
     SSL *ssl_;
+    BIO *sbio_;
     friend class Server;
 };
 

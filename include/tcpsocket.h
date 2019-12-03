@@ -97,7 +97,7 @@ class Socket {
      *  @param   events   A bitmask of event flags. See the epoll documentation */
     virtual void handleEvents(uint32_t events) = 0;
   
-    void initSSL(const char *certfile = nullptr, const char *keyfile = nullptr, const char *cafile = nullptr, const char *capath = nullptr);
+    void initSSL(const bool server, const char *certfile = nullptr, const char *keyfile = nullptr, const char *cafile = nullptr, const char *capath = nullptr);
     void freeSSL();
     void printSSLErrors();
     static SSL_CTX *ctx() { return ctx_; }

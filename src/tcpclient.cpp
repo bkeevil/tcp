@@ -36,6 +36,7 @@ bool Client::connect(const string &hostname, const in_port_t port)
   
   if (useSSL) {
     initSSL(
+      false,
       certfile.empty() ? nullptr : certfile.c_str(),
       keyfile.empty()  ? nullptr : keyfile.c_str(),
       cafile.empty()   ? nullptr : cafile.c_str(),
@@ -106,15 +107,15 @@ void Client::connected() {
       disconnected();
       return;
     }
-    SSL_set_connect_state(ssl_);
-    if (SSL_set_fd(ssl_,getSocket()) != 1) {
-      cerr << "Failed to set the ssl socket file descriptor" << endl;
-      printSSLErrors();
-      disconnected();
-      return;
-    }
+    sbio_ = BIO_new_socket(getSocket(),BIO_NOCLOSE);
+    SSL_set_bio(ssl_,sbio_,sbio_);
+    printSSLErrors();
     int ret = SSL_connect(ssl_);
-    if (ret != 1) {
+    if (ret < 0) {
+      int err = SSL_get_error(ssl_,ret);
+      cerr << "Error code " << err << endl;
+    }
+    if (ret == 0) {
       cerr << "Failed to initiate the SSL handshake" << endl;
       printSSLErrors();
       disconnected();

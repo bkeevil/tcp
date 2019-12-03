@@ -24,6 +24,7 @@ void Server::start()
 {
   if (useSSL_) {
     initSSL(
+      true,
       certfile.empty() ? nullptr : certfile.c_str(),
       keyfile.empty()  ? nullptr : keyfile.c_str(),
       cafile.empty()   ? nullptr : cafile.c_str(),
@@ -256,23 +257,16 @@ void Session::accepted() {
       disconnected();
       return;
     }
-    SSL_set_accept_state(ssl_);
-    if (SSL_set_fd(ssl_,getSocket()) != 1) {
-      cerr << "Failed to set the ssl socket file descriptor" << endl;
-      printSSLErrors();
-      disconnected();
-      return;
-    }
-    printSSLErrors();
-    int ret = SSL_accept(ssl_);
-    if (ret != 1) {
-      cerr << "Failed to initiate the SSL accept handshake" << endl;
-      printSSLErrors();
-      disconnected();
-      return;
-    }
-    printSSLErrors();
   }  
+  sbio_ = BIO_new_socket(getSocket(),BIO_NOCLOSE);
+  SSL_set_bio(ssl_,sbio_,sbio_);
+  printSSLErrors();
+    int ret = SSL_accept(ssl_);
+    if (ret < 0) {
+      int err = SSL_get_error(ssl_,ret);
+      cerr << "Error code " << err << endl;
+    }
+  
   connected_ = true;
 }
 

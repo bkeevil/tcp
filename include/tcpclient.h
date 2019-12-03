@@ -119,6 +119,7 @@ class Client : public Socket {
     in_port_t port_ {0};
     in_addr_t addr_ {0};  
     SSL *ssl_;
+    BIO *sbio_;
 };
 
 }

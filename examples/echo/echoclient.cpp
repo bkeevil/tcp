@@ -5,7 +5,12 @@
 /** @brief Display any data received to cout */
 void EchoClient::dataAvailable() {
   int da = available();
-  char *buf = (char*)malloc(da);
-  read(buf,da);
-  cout.write(buf,da);
+  if (da > 0) {
+    char *buf = (char*)malloc(da);
+    da = read(buf,da);
+    if (da > 0) {
+      cout.write(buf,da);
+    }
+    free(buf);
+  }
 }
