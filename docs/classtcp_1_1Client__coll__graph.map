@@ -1,0 +1,4 @@
+<map id="tcp::Client" name="tcp::Client">
+<area shape="rect" id="node1" title="A blocking or non&#45;blocking TCP client connection." alt="" coords="9,80,91,107"/>
+<area shape="rect" id="node2" href="$classtcp_1_1Socket.html" title="Encapsulates a socket handle that is capable of recieving epoll events." alt="" coords="5,5,95,32"/>
+</map>
