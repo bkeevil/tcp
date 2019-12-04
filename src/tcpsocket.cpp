@@ -64,6 +64,8 @@ void EPoll::poll(int timeout)
 {  
   int nfds = epoll_wait(handle_,events,MAX_EVENTS,timeout); 
   if (nfds == -1) {
+    if (errno == EINTR) 
+      return;
     cerr << "epoll_wait: " << strerror(errno) << endl;
   } else {
     for (int n = 0; n < nfds; ++n) {

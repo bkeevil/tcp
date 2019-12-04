@@ -177,7 +177,7 @@ class Session : public Socket {
 
     /** @brief   Called in response to data being available on the socket
      *  @details Override this virtual abstract method in descendent classes to read incoming data */
-    virtual void dataAvailable() = 0;
+    virtual void dataAvailable() {};
 
     /** @brief   Called by the Server::acceptConnection after a connection has been accepted
      *  @details Override accepted to perform operations when a session is first established.
@@ -194,10 +194,8 @@ class Session : public Socket {
      */
     virtual void disconnected();
 
-    int available();
-    int read(void *buffer, const int size);
-    int peek(void *buffer, const int size);
-    int write(const void *buffer, const int size, const bool more = false);
+    int intread(void *buffer, const int size);
+    int intwrite(const void *buffer, const int size, const bool more = false);
 
     deque<uint8_t>inputBuffer;
     deque<uint8_t>outputBuffer;
@@ -205,6 +203,7 @@ class Session : public Socket {
     void readToInputBuffer();
     void sendOutputBuffer();
 
+    friend class SSL;
   private:
     Server& server_;
     in_port_t port_;

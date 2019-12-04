@@ -41,7 +41,7 @@ bool Client::connect(const string &hostname, const in_port_t port)
   }
   
   if (useSSL && !ssl_) {
-    ssl_ = new tcp::SSL(ctx_);
+    ssl_ = new tcp::SSL(*this,ctx_);
 /*     if (!keypass.empty()) {
       ssl_->keypass = (char*)malloc(keypass.length()+1);
       strncpy(ssl_->keypass, keypass.c_str(), keypass.length()+1);
@@ -81,7 +81,7 @@ void Client::readToInputBuffer() {
   int size;
   do {
     uint8_t buffer[64];
-    size = read(&buffer[0],64);
+    size = intread(&buffer[0],64);
     for (int i=0;i<size;i++) {
       inputBuffer.push_back(buffer[i]);
     }
@@ -90,12 +90,14 @@ void Client::readToInputBuffer() {
 
 void Client::sendOutputBuffer() {
   size_t size = outputBuffer.size();
+  if (size == 0) return;
   uint8_t *buffer = (uint8_t*)malloc(size);
   for (size_t i=0;i<size;i++) {
     buffer[i] = outputBuffer.at(0);
     outputBuffer.pop_front();
   }
-  write(buffer,size,false);
+  int res = intwrite(buffer,size,false);
+  (void)res;
   free(buffer);
 }
 
@@ -141,18 +143,7 @@ void Client::connected() {
   clog.flush();  
 }
 
-int Client::available()
-{
-  int result;
-  if (useSSL && ssl_) {
-    result = ssl_->pending();
-  } else {
-    ioctl(getSocket(), FIONREAD, &result);
-  }
-  return result; 
-}
-
-int Client::read(void *buffer, const int size)
+int Client::intread(void *buffer, const int size)
 {
   if (useSSL) {
     return ssl_->read(buffer,size);
@@ -161,16 +152,7 @@ int Client::read(void *buffer, const int size)
   }
 }
 
-int Client::peek(void *buffer, const int size)
-{
-  if (useSSL) {
-    return ssl_->peek(buffer,size);
-  } else {
-    return ::recv(getSocket(),buffer,size,MSG_PEEK);
-  }
-}
-
-int Client::write(const void *buffer, const int size, const bool more)
+int Client::intwrite(const void *buffer, const int size, const bool more)
 {
   if (useSSL) {
     return ssl_->write(buffer,size);

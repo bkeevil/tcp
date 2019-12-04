@@ -8,7 +8,10 @@ void EchoSession::accepted() {
 
 /** @brief Read incoming data and send it back byte for byte */
 void EchoSession::dataAvailable() {
-  move(inputBuffer.begin(),inputBuffer.end(),outputBuffer.end());
+  copy(inputBuffer.begin(),inputBuffer.end(),back_inserter(outputBuffer));
+  int res = outputBuffer.size();
+  (void)res;
+  setEvents(EPOLLIN | EPOLLOUT | EPOLLRDHUP);
   inputBuffer.clear();
 }
 

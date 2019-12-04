@@ -9,6 +9,8 @@
 #include <openssl/x509v3.h>
 #include <openssl/opensslconf.h>
 #include "tcpssl.h"
+#include "tcpclient.h"
+#include "tcpserver.h"
 
 namespace tcp {
 
@@ -323,7 +325,7 @@ int SSLContext::passwordCallback(char *buf, int size, int rwflag)
   }
 }
 
-SSL::SSL(SSLContext &context)
+SSL::SSL(Socket &owner, SSLContext &context) : owner_(owner)
 {
   mode_ = context.mode();
   ssl_ = SSL_new(context.handle());
@@ -451,37 +453,19 @@ bool SSL::accept()
   }
 }
 
-int SSL::pending()
-{
-  return SSL_pending(ssl_);
-}
-
-int SSL::peek(void *buffer, const int size)
-{
-  int res = SSL_peek(ssl_,buffer,size);
-  if (res <= 0) {
-    unsigned long ssl_err = SSL_get_error(ssl_,res);
-    switch (ssl_err) {
-      case SSL_ERROR_WANT_READ: cerr << "peek wants read" << endl; break; 
-      case SSL_ERROR_WANT_WRITE: cerr << "peek wants write" << endl; break;
-      default: print_error_string(ssl_err,"SSL_peek");
-    }
-  } 
-  return res;
-} 
-
 int SSL::read(void *buffer, const int size)
 {
   int res = SSL_read(ssl_,buffer,size);
   if (res <= 0) {
     unsigned long ssl_err = SSL_get_error(ssl_,res);
     switch (ssl_err) {
-      case SSL_ERROR_WANT_READ: cerr << "read wants read" << endl; break; 
-      case SSL_ERROR_WANT_WRITE: cerr << "read wants write" << endl; break;
+      case SSL_ERROR_NONE: return 0;
+      case SSL_ERROR_WANT_READ: return read(buffer,size); break; 
+      case SSL_ERROR_WANT_WRITE: wantsWrite(); return read(buffer,size); break;
       default: print_error_string(ssl_err,"SSL_read");
     }
-  } 
-  return res;
+  }
+  return res; 
 }
 
 int SSL::write(const void *buffer, const int size)
@@ -490,8 +474,9 @@ int SSL::write(const void *buffer, const int size)
   if (res <= 0) {
     unsigned long ssl_err = SSL_get_error(ssl_,res);
     switch (ssl_err) {
-      case SSL_ERROR_WANT_READ: cerr << "write wants read" << endl; break; 
-      case SSL_ERROR_WANT_WRITE: cerr << "write wants write" << endl; break;
+      case SSL_ERROR_NONE: return 0;
+      case SSL_ERROR_WANT_READ: wantsRead(); return write(buffer,size); break; 
+      case SSL_ERROR_WANT_WRITE: return write(buffer,size); break;
       default: print_error_string(ssl_err,"SSL_write");
     }
   } 
@@ -514,6 +499,22 @@ void SSL::shutdown()
     unsigned long ssl_err = ERR_get_error();
     print_error_string(ssl_err,"SSL_shutdown");
   }
+}
+
+void SSL::wantsRead()
+{
+  if (mode_ == SSLMode::CLIENT)
+    static_cast<Client&>(owner_).readToInputBuffer();
+  else
+    static_cast<Session&>(owner_).readToInputBuffer();
+}
+
+void SSL::wantsWrite()
+{
+  if (mode_ == SSLMode::CLIENT)
+    static_cast<Client&>(owner_).sendOutputBuffer();
+  else
+    static_cast<Session&>(owner_).sendOutputBuffer();
 }
 
 } // namespace tcp

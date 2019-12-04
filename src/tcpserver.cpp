@@ -225,7 +225,7 @@ void Session::readToInputBuffer() {
   int size;
   do {
     uint8_t buffer[64];
-    size = read(&buffer[0],64);
+    size = intread(&buffer[0],64);
     for (int i=0;i<size;i++) {
       inputBuffer.push_back(buffer[i]);
     }
@@ -234,12 +234,14 @@ void Session::readToInputBuffer() {
 
 void Session::sendOutputBuffer() {
   size_t size = outputBuffer.size();
+  if (size == 0) return;
   uint8_t *buffer = (uint8_t*)malloc(size);
   for (size_t i=0;i<size;i++) {
     buffer[i] = outputBuffer.at(0);
     outputBuffer.pop_front();
   }
-  write(buffer,size,false);
+  int res = intwrite(buffer,size,false);
+  (void)res;
   free(buffer);
 }
 
@@ -272,7 +274,7 @@ void Session::accepted() {
   clog << "Connection from " << ip << ":" << port_ << " accepted" << endl;
   clog.flush();
   if (server().useSSL) {
-    ssl_ = new tcp::SSL(server().ctx());
+    ssl_ = new tcp::SSL(*this,server().ctx());
     ssl_->setfd(getSocket());
     connected_ = ssl_->accept();
   } else {
@@ -280,18 +282,7 @@ void Session::accepted() {
   }
 }
 
-int Session::available()
-{
-  int result;
-  if (server().useSSL && ssl_) {
-    result = ssl_->pending();
-  } else {
-    ioctl(getSocket(), FIONREAD, &result);
-  }
-  return result; 
-}
-
-int Session::read(void *buffer, const int size)
+int Session::intread(void *buffer, const int size)
 {
   if (server().useSSL && ssl_) {
     return ssl_->read(buffer,size);
@@ -300,16 +291,7 @@ int Session::read(void *buffer, const int size)
   }
 }
 
-int Session::peek(void *buffer, const int size)
-{
-  if (server().useSSL && ssl_) {
-    return ssl_->peek(buffer,size);
-  } else {
-    return ::recv(getSocket(),buffer,size,MSG_PEEK);
-  }
-}
-
-int Session::write(const void *buffer, const int size, const bool more)
+int Session::intwrite(const void *buffer, const int size, const bool more)
 {
   if (server().useSSL && ssl_) {
     return ssl_->write(buffer,size);

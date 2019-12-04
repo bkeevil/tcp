@@ -77,11 +77,6 @@ class Client : public Socket {
 
     /** @brief Whether or not to use SSL on connection */
     bool useSSL {false};
-
-    int available();
-    int read(void *buffer, const int size);
-    int peek(void *buffer, const int size);
-    int write(const void *buffer, const int size, const bool more = false);
     
     /** @brief   Initiates a connection to a server
      *  @details If the client is a blocking client, the call blocks until a connection is established. 
@@ -96,10 +91,6 @@ class Client : public Socket {
      *           intentionally closed.
      */
     virtual void disconnect();
-
-    deque<uint8_t> outputBuffer;
-
-    deque<uint8_t> inputBuffer;
 
   protected:
     
@@ -121,14 +112,24 @@ class Client : public Socket {
      */
     virtual void disconnected();
 
-    /** @brief    Called when data is available for reading on the socket
+    /** @brief    Called when new data is available for reading in the input buffer
      *  @details  Clients must override the abstract dataAvailable method to do something in 
      *            response to received data 
      */
-    virtual void dataAvailable() = 0;  
+    virtual void dataAvailable() {};  
+
+    int intread(void *buffer, const int size);
+    int intwrite(const void *buffer, const int size, const bool more = false);
 
     void readToInputBuffer();
+
     void sendOutputBuffer();
+
+    deque<uint8_t> outputBuffer;
+
+    deque<uint8_t> inputBuffer;
+
+    friend class SSL;
   private:
     State state_ {State::UNCONNECTED};
     in_port_t port_ {0};

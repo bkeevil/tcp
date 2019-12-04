@@ -84,12 +84,12 @@ class Socket {
     /** @brief Return the socket domain (AF_INET, AF_INET6, AF_UNIX) */
     int getDomain() const { return domain_; }
 
-  protected:
-    
     /** @brief Changes which epoll events the socket listens for.
      *  Descendant classes may want to override this
      *  @param events A bitmask of event flags. See the epoll documentation */
     bool setEvents(int events);
+    
+  protected:
 
     /** @brief   Called when the socket recieves an event from the OS
      *  @details Descendant classes override this abstract method to respond to epoll events

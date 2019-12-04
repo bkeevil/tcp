@@ -3,6 +3,7 @@
 
 #include <string>
 #include <openssl/ssl.h>
+#include "tcpsocket.h"
 
 namespace tcp {
 
@@ -33,7 +34,7 @@ class SSLContext {
 
 class SSL {
   public:
-    SSL(SSLContext &context);
+    SSL(Socket &owner, SSLContext &context);
     virtual ~SSL();
     void setOptions(bool verifypeer = false);
     bool setCertificateAndKey(const char *certfile, const char *keyfile);
@@ -43,14 +44,16 @@ class SSL {
     bool setfd(int socket);
     bool connect();
     bool accept();
-    int pending();
-    int peek(void *buffer, const int size);
     int read(void *buffer, const int size);
     int write(const void *buffer, const int size);
     void clear();
     void shutdown();
     SSLMode mode() { return mode_; }
+  protected:
+    void wantsRead();
+    void wantsWrite();
   private:
+    Socket &owner_;
     SSLMode mode_;
     ::SSL *ssl_;
 };
