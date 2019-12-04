@@ -79,22 +79,10 @@ class Server : public Socket {
     int addrlen() const { return (getDomain() == AF_INET ? sizeof(struct sockaddr_in) : sizeof(struct sockaddr_in6)); }
     
     /** @brief   Print a list of interface addresses to cout */
-    void printifaddrs();
+    bool printifaddrs();
 
     /** @brief   Returns an interface address from an interface name and domain */
     bool findifaddr(const string ifname, sockaddr *addr);
-
-    /** @brief Fileanme of CA certificate */
-    string cafile;
-
-    /** @brief Path for a directory of CA certificates */
-    string capath;
-    
-    /** @brief Filename of SSL certificate */
-    string certfile;
-
-    /** @brief Filename of SSL keyfile */
-    string keyfile;
 
     /** @brief The port number to listen on */
     in_port_t port {0};
@@ -102,12 +90,12 @@ class Server : public Socket {
     /** @brief The interface address to bind to */
     string bindaddress {""};
 
+    /** @brief Get the SSL context for the server */
+    SSLContext &ctx() { return ctx_; }
+
     /** @brief   Getter for useSSL property */
-    bool useSSL() const { return useSSL_; }
-
-    /** @brief   Setter for useSSL property */
-    void useSSL(const bool value) { if (!listening_) useSSL_ = value; }
-
+    bool useSSL {false};
+    
   protected:
   
     /** @brief   Called by the EPoll class when the listening socket recieves an event from the OS.
@@ -136,7 +124,7 @@ class Server : public Socket {
     in_port_t port_ {0}; 
     string bindaddress_ {""};
     int listenBacklog_ {128};
-    bool useSSL_ {false};
+    SSLContext ctx_ {SSLMode::SERVER};
     bool listening_;
     struct sockaddr_storage addr_;
     friend class Session;
@@ -150,7 +138,7 @@ class Session : public Socket {
   public:
     
     /** @brief  Returns a reference to the Server that owns this Session */
-    Server& server() const { return server_; }
+    Server &server() const { return server_; }
 
     /** @brief  Returns the peer port number used to connect to this Session */
     in_port_t peer_port() const { return port_;   }
@@ -216,7 +204,6 @@ class Session : public Socket {
     in_addr_t addr_;
     bool connected_;
     SSL *ssl_;
-    BIO *sbio_;
     friend class Server;
 };
 

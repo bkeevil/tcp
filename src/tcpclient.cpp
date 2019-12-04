@@ -6,13 +6,17 @@ namespace tcp {
 
 using namespace std;
 
-SSLContext Client::ctx_(false);
+SSLContext Client::ctx_(SSLMode::CLIENT);
 
 Client::~Client()
 {
   if ((state_ == State::CONNECTED) || (state_ == State::CONNECTING)) {
     disconnect();
   }
+  if (ssl_) {
+    delete ssl_;
+    ssl_ = nullptr;
+  }  
 }
 
 bool Client::connect(const string &hostname, const in_port_t port) 
@@ -33,9 +37,22 @@ bool Client::connect(const string &hostname, const in_port_t port)
   errorcode = getaddrinfo(hostname.c_str(),service.c_str(),&hints,&result);
   if (errorcode != 0) {
     fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(errorcode));
-    exit(EXIT_FAILURE);
+    return false;
   }
   
+  if (useSSL && !ssl_) {
+    ssl_ = new tcp::SSL(ctx_);
+    if (!keypass.empty()) {
+      ssl_->keypass = (char*)malloc(keypass.length()+1);
+      strncpy(ssl_->keypass, keypass.c_str(), keypass.length()+1);
+    }
+    ssl_->setOptions(verifypeer);
+    if (!ssl_->setCertificateAndKey(certfile.c_str(),keyfile.c_str()))
+      return false;
+    if (!ssl_->setfd(getSocket()))
+      return false;
+  }
+
   clog << "Connecting to " << result->ai_canonname << " on port " << service << endl;
   clog.flush();
 
@@ -58,10 +75,6 @@ bool Client::connect(const string &hostname, const in_port_t port)
   cerr << "Could not find host " << hostname << endl;
   freeaddrinfo(result);           /* No longer needed */  
   return false;
-}
-
-void Client::disconnect() {
-  disconnected();
 }
 
 void Client::handleEvents(uint32_t events) {
@@ -91,30 +104,10 @@ void Client::handleEvents(uint32_t events) {
 }
 
 void Client::connected() {
-  /*if (useSSL) {
-    ssl_ = SSL_new(ctx());
-    if (ssl_ == nullptr) {
-      cerr << "Failed to start ssl session" << endl;
-      printSSLErrors();
-      disconnected();
-      return;
-    }
-    sbio_ = BIO_new_socket(getSocket(),BIO_NOCLOSE);
-    SSL_set_bio(ssl_,sbio_,sbio_);
+  if (useSSL && ssl_) {
+    ssl_->connect();
     printSSLErrors();
-    int ret = SSL_connect(ssl_);
-    if (ret < 0) {
-      int err = SSL_get_error(ssl_,ret);
-      cerr << "Error code " << err << endl;
-    }
-    if (ret == 0) {
-      cerr << "Failed to initiate the SSL handshake" << endl;
-      printSSLErrors();
-      disconnected();
-      return;
-    }
-    printSSLErrors();
-  }*/
+  }
   state_ = State::CONNECTED;
   clog << "Connected" << endl;
   clog.flush();  
@@ -123,14 +116,18 @@ void Client::connected() {
 int Client::available()
 {
   int result;
-  ioctl(getSocket(), FIONREAD, &result);
+  if (useSSL && ssl_) {
+    result = ssl_->pending();
+  } else {
+    ioctl(getSocket(), FIONREAD, &result);
+  }
   return result; 
 }
 
 int Client::read(void *buffer, const int size)
 {
   if (useSSL) {
-    return SSL_read(ssl_.handle(),buffer,size);
+    return ssl_->read(buffer,size);
   } else {
     return ::recv(getSocket(),buffer,size,0);
   }
@@ -139,7 +136,7 @@ int Client::read(void *buffer, const int size)
 int Client::peek(void *buffer, const int size)
 {
   if (useSSL) {
-    return SSL_peek(ssl_.handle(),buffer,size);
+    return ssl_->peek(buffer,size);
   } else {
     return ::recv(getSocket(),buffer,size,MSG_PEEK);
   }
@@ -148,7 +145,7 @@ int Client::peek(void *buffer, const int size)
 int Client::write(const void *buffer, const int size, const bool more)
 {
   if (useSSL) {
-    return SSL_write(ssl_.handle(),buffer,size);
+    return ssl_->write(buffer,size);
   } else {
     if (more)
       return ::send(getSocket(),buffer,size,MSG_MORE);
@@ -157,28 +154,28 @@ int Client::write(const void *buffer, const int size, const bool more)
   }
 }
 
+void Client::disconnect() {
+  if (useSSL && ssl_ && (state_ == State::CONNECTED)) {
+    ssl_->shutdown();
+    printSSLErrors();
+  }
+  disconnected();
+}
+
 void Client::disconnected() {
   if ((state_ == State::CONNECTING) || (state_ == State::CONNECTED)) {
-    if (ssl_ != nullptr) {
-      if (SSL_shutdown(ssl_.handle()) == 0) {
-        SSL_shutdown(ssl_.handle());
-      }
+    state_ = State::DISCONNECTED;
+    if (ssl_) {
+      delete ssl_;
       ssl_ = nullptr;
       printSSLErrors();
-    }    
-    state_ = State::DISCONNECTED;
+    }
     if (socket_ > 0) {
       ::close(socket_);
       socket_ = 0;
     }
     clog << "Disconnected" << endl;
     clog.flush();
-    if (ssl_ != nullptr) {
-      SSL_free(ssl_.handle());
-      ssl_ = nullptr;
-    }
-    if (useSSL)
-      printSSLErrors();    
   }
 }
 

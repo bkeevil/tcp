@@ -1,4 +1,3 @@
-#include "tcpserver.h"
 #include <fcntl.h>
 #include <sys/types.h>
 #include <sys/ioctl.h>
@@ -10,6 +9,7 @@
 #include <arpa/inet.h>
 #include <netinet/ip.h>
 #include <unistd.h>
+#include "tcpserver.h"
 
 namespace tcp {
 
@@ -22,15 +22,6 @@ Server::~Server() {
 
 void Server::start()
 {
-  if (useSSL_) {
-    initSSL(
-      true,
-      certfile.empty() ? nullptr : certfile.c_str(),
-      keyfile.empty()  ? nullptr : keyfile.c_str(),
-      cafile.empty()   ? nullptr : cafile.c_str(),
-      capath.empty()   ? nullptr : capath.c_str()
-    );
-  }
   memset(&addr_,0,sizeof(addr_));  
   if ((bindaddress == "") || (bindaddress == "0.0.0.0") || (bindaddress == "::")) {
     if (getDomain() == AF_INET) {
@@ -71,7 +62,6 @@ void Server::stop()
     }
   }
   ::close(getSocket());
-  freeSSL();
 }
 
 void Server::handleEvents(uint32_t events) {
@@ -80,7 +70,7 @@ void Server::handleEvents(uint32_t events) {
   }
 }
 
-void Server::printifaddrs() {
+bool Server::printifaddrs() {
   struct ifaddrs *list, *item;
   string family;
   char host[NI_MAXHOST];
@@ -98,7 +88,7 @@ void Server::printifaddrs() {
         int res = getnameinfo(item->ifa_addr,(f == AF_INET) ? sizeof(struct sockaddr_in) : sizeof(struct sockaddr_in6),host, NI_MAXHOST, NULL, 0, NI_NUMERICHOST);
         if (res != 0) {
           cerr << "printifaddrs: " << gai_strerror(res) << endl;
-          exit(EXIT_FAILURE);
+          return false;
         }
         cout << family << "    " << item->ifa_name << "   address: " << host << endl;
       }
@@ -106,9 +96,10 @@ void Server::printifaddrs() {
     }
   } else {
     cerr << "printifaddrs:" << strerror(errno) << endl;
-    exit(EXIT_FAILURE);
+    return false;
   }
   freeifaddrs(list);
+  return true;
 }
 
 bool Server::findifaddr(const string ifname, sockaddr *addr) {
@@ -141,7 +132,7 @@ bool Server::findifaddr(const string ifname, sockaddr *addr) {
     }
   } else {
     cerr << "findifaddrs:" << strerror(errno) << endl;
-    exit(EXIT_FAILURE);
+    return false;
   }
   freeifaddrs(list);
   return result;
@@ -249,38 +240,30 @@ void Session::accepted() {
   inet_ntop(getDomain(),&addr_,ip,INET_ADDRSTRLEN);
   clog << "Connection from " << ip << ":" << port_ << " accepted" << endl;
   clog.flush();
-  if (server().useSSL_) {
-    ssl_ = SSL_new(ctx());
-    if (ssl_ == nullptr) {
-      cerr << "Failed to start ssl session" << endl;
-      printSSLErrors();
-      disconnected();
-      return;
-    }
-  }  
-  sbio_ = BIO_new_socket(getSocket(),BIO_NOCLOSE);
-  SSL_set_bio(ssl_,sbio_,sbio_);
-  printSSLErrors();
-    int ret = SSL_accept(ssl_);
-    if (ret < 0) {
-      int err = SSL_get_error(ssl_,ret);
-      cerr << "Error code " << err << endl;
-    }
-  
-  connected_ = true;
+  if (server().useSSL) {
+    ssl_ = new tcp::SSL(server().ctx());
+    ssl_->setfd(getSocket());
+    connected_ = ssl_->accept();
+  } else {
+    connected_ = true;
+  }
 }
 
 int Session::available()
 {
   int result;
-  ioctl(getSocket(), FIONREAD, &result);
+  if (server().useSSL && ssl_) {
+    result = ssl_->pending();
+  } else {
+    ioctl(getSocket(), FIONREAD, &result);
+  }
   return result; 
 }
 
 int Session::read(void *buffer, const int size)
 {
-  if (server().useSSL()) {
-    return SSL_read(ssl_,buffer,size);
+  if (server().useSSL && ssl_) {
+    return ssl_->read(buffer,size);
   } else {
     return ::recv(getSocket(),buffer,size,0);
   }
@@ -288,8 +271,8 @@ int Session::read(void *buffer, const int size)
 
 int Session::peek(void *buffer, const int size)
 {
-  if (server().useSSL()) {
-    return SSL_peek(ssl_,buffer,size);
+  if (server().useSSL && ssl_) {
+    return ssl_->peek(buffer,size);
   } else {
     return ::recv(getSocket(),buffer,size,MSG_PEEK);
   }
@@ -297,8 +280,8 @@ int Session::peek(void *buffer, const int size)
 
 int Session::write(const void *buffer, const int size, const bool more)
 {
-  if (server().useSSL()) {
-    return SSL_write(ssl_,buffer,size);
+  if (server().useSSL && ssl_) {
+    return ssl_->write(buffer,size);
   } else {
     if (more)
       return ::send(getSocket(),buffer,size,MSG_MORE);
@@ -312,6 +295,10 @@ int Session::write(const void *buffer, const int size, const bool more)
  *  Override disconnect() to send any last messages required before the session is terminated.
  *  Be sure to call flush() to ensure the data is actually written to the write buffer. */
 void Session::disconnect() {
+  if (server().useSSL && ssl_) {
+    ssl_->shutdown();
+    printSSLErrors();
+  }
   disconnected();
 }
 
@@ -319,10 +306,8 @@ void Session::disconnect() {
  *  Override disconnected() to perform cleanup operations when a connection is unexpectedly lost */
 void Session::disconnected() {
   if (connected_) { 
-    if (ssl_ != nullptr) {
-      if (SSL_shutdown(ssl_) == 0) {
-        SSL_shutdown(ssl_);
-      }
+    if (ssl_) {
+      delete ssl_;
       ssl_ = nullptr;
       printSSLErrors();
     }
@@ -332,13 +317,6 @@ void Session::disconnected() {
     clog << ip << ":" << port_ << " disconnected" << endl;
     clog.flush();
     close(getSocket());
-    if (ssl_ != nullptr) {
-      SSL_free(ssl_);
-      ssl_ = nullptr;
-    }
-    if (server().useSSL_) {
-      printSSLErrors();
-    }
     delete this;
   }  
 }

@@ -100,8 +100,6 @@ class Socket {
   private:
     int domain_;
     int events_;
-    static int refcount_;
-    static bool sslinitialized_;
     friend class EPoll;
 };
 

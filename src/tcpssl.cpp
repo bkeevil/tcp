@@ -141,7 +141,7 @@ void print_san_name(const char* label, X509* const cert)
 int verify_callback(int preverify, X509_STORE_CTX* x509_ctx)
 {
     int depth = X509_STORE_CTX_get_error_depth(x509_ctx);
-    int err = X509_STORE_CTX_get_error(x509_ctx);
+    //int err = X509_STORE_CTX_get_error(x509_ctx);
     
     X509* cert = X509_STORE_CTX_get_current_cert(x509_ctx);
     X509_NAME* iname = cert ? X509_get_issuer_name(cert) : NULL;
@@ -179,7 +179,7 @@ int ctx_password_callback(char *buf, int size, int rwflag, void *userdata)
 
 int ssl_password_callback(char *buf, int size, int rwflag, void *userdata)
 {
-  SSLSession *ssl = (SSLSession*)userdata;
+  SSL *ssl = (SSL*)userdata;
   if (ssl != NULL) {
     return ssl->passwordCallback(buf,size,rwflag);
   } else {
@@ -187,10 +187,10 @@ int ssl_password_callback(char *buf, int size, int rwflag, void *userdata)
   }
 }
 
-SSLContext::SSLContext(bool server) : server_(server)
+SSLContext::SSLContext(SSLMode mode) : mode_(mode)
 {
   initSSLLibrary();
-  const SSL_METHOD *meth = (server) ? TLS_server_method() : TLS_client_method();
+  const SSL_METHOD *meth = (mode == SSLMode::SERVER) ? TLS_server_method() : TLS_client_method();
   unsigned long ssl_err = ERR_get_error();
   if (meth == NULL) {
     print_error_string(ssl_err, "TLS_method");
@@ -209,14 +209,20 @@ SSLContext::~SSLContext()
   SSL_CTX_free(ctx_);
 }
 
-bool SSLContext::setOptions(bool verifypeer = false, bool compression = true, bool tlsonly = true)
+void SSLContext::setOptions(bool verifypeer, bool compression, bool tlsonly)
 {
   long flags = 0;
-  long res = 1;
-  unsigned long ssl_err = 0;
+  //long res = 1;
+  //unsigned long ssl_err = 0;
     
-  if (!server_ && verifypeer) {
-    SSL_CTX_set_verify(ctx_, SSL_VERIFY_PEER, verify_callback);
+  if (verifypeer) {
+    if (mode_ == SSLMode::SERVER) {
+      SSL_CTX_set_verify(ctx_, SSL_VERIFY_PEER | SSL_VERIFY_FAIL_IF_NO_PEER_CERT | SSL_VERIFY_CLIENT_ONCE, verify_callback);
+    } else {
+      SSL_CTX_set_verify(ctx_, SSL_VERIFY_PEER, verify_callback);
+    }
+  } else {
+    SSL_CTX_set_verify(ctx_, SSL_VERIFY_NONE, NULL);
   }
   SSL_CTX_set_verify_depth(ctx_, 4);
   
@@ -231,12 +237,12 @@ bool SSLContext::setOptions(bool verifypeer = false, bool compression = true, bo
     flags |= SSL_OP_NO_COMPRESSION;
   }  
 
-  long old_opts = SSL_CTX_set_options(ctx_, flags);
+  SSL_CTX_set_options(ctx_, flags);
   
   printSSLErrors();  
 }
 
-bool SSLContext::setVerifyPaths(char *cafile, char *capath)
+bool SSLContext::setVerifyPaths(const char *cafile, const char *capath)
 {
   long res = 1;
   unsigned long ssl_err = 0;
@@ -261,7 +267,7 @@ bool SSLContext::setVerifyPaths(char *cafile, char *capath)
   return true;
 }
 
-bool SSLContext::setCertificateAndKey(char *certfile, char *keyfile)
+bool SSLContext::setCertificateAndKey(const char *certfile, const char *keyfile)
 {
   long res = 1;
   unsigned long ssl_err = 0;
@@ -315,26 +321,29 @@ int SSLContext::passwordCallback(char *buf, int size, int rwflag)
   }
 }
 
-SSLSession::SSLSession(SSLContext &context)
+SSL::SSL(SSLContext &context)
 {
-  SSL_new(context.handle());
+  mode_ = context.mode();
+  ssl_ = SSL_new(context.handle());
 }
 
-SSLSession::~SSLSession()
+SSL::~SSL()
 {
   SSL_free(ssl_);
 }
 
-bool SSLSession::setOptions(bool verifypeer = false)
+void SSL::setOptions(bool verifypeer)
 {
   if (verifypeer) {
     SSL_set_verify(ssl_, SSL_VERIFY_PEER, verify_callback);
+  } else {
+    SSL_set_verify(ssl_, SSL_VERIFY_NONE, NULL);
   }
   
   printSSLErrors();  
 }
 
-bool SSLSession::setCertificateAndKey(char *certfile, char *keyfile)
+bool SSL::setCertificateAndKey(const char *certfile, const char *keyfile)
 {
   long res = 1;
   unsigned long ssl_err = 0;
@@ -377,7 +386,7 @@ bool SSLSession::setCertificateAndKey(char *certfile, char *keyfile)
   }
 }
 
-int SSLSession::passwordCallback(char *buf, int size, int rwflag)
+int SSL::passwordCallback(char *buf, int size, int rwflag)
 {
   if (keypass) {
     int lsize = max<int>(size,strlen(keypass));
@@ -385,6 +394,112 @@ int SSLSession::passwordCallback(char *buf, int size, int rwflag)
     return lsize;
   } else {
     return 0;
+  }
+}
+
+bool SSL::setfd(int socket)
+{
+  if (socket == 0) {
+    cerr << "SSLSession::setfd: socket is NULL" << endl;
+    return false;
+  } else {
+    int res = SSL_set_fd(ssl_,socket);
+    if (res != 1) {
+      unsigned long ssl_err = ERR_get_error();
+      print_error_string(ssl_err,"SSL_set_fd");
+      return false;
+    } else {
+      return true;
+    }
+  }
+}
+
+bool SSL::connect()
+{
+  int res = SSL_connect(ssl_);
+  if (res <= 0) {
+    unsigned long ssl_err = ERR_get_error();
+    print_error_string(ssl_err,"SSL_connect");
+    return false;
+  } else {
+    return true;
+  }
+}
+
+bool SSL::accept()
+{
+  int res = SSL_connect(ssl_);
+  if (res <= 0) {
+    unsigned long ssl_err = ERR_get_error();
+    print_error_string(ssl_err,"SSL_connect");
+    return false;
+  } else {
+    return true;
+  }
+}
+
+int SSL::pending()
+{
+  return SSL_pending(ssl_);
+}
+
+int SSL::peek(void *buffer, const int size)
+{
+  int res = SSL_peek(ssl_,buffer,size);
+  if (res <= 0) {
+    unsigned long ssl_err = SSL_get_error(ssl_,res);
+    switch (ssl_err) {
+      case SSL_ERROR_WANT_READ: cerr << "peek wants read" << endl; break; 
+      case SSL_ERROR_WANT_WRITE: cerr << "peek wants write" << endl; break;
+      default: print_error_string(ssl_err,"SSL_peek");
+    }
+  } 
+  return res;
+} 
+
+int SSL::read(void *buffer, const int size)
+{
+  int res = SSL_read(ssl_,buffer,size);
+  if (res <= 0) {
+    unsigned long ssl_err = SSL_get_error(ssl_,res);
+    switch (ssl_err) {
+      case SSL_ERROR_WANT_READ: cerr << "read wants read" << endl; break; 
+      case SSL_ERROR_WANT_WRITE: cerr << "read wants write" << endl; break;
+      default: print_error_string(ssl_err,"SSL_read");
+    }
+  } 
+  return res;
+}
+
+int SSL::write(const void *buffer, const int size)
+{
+  int res = SSL_write(ssl_,buffer,size);
+  if (res <= 0) {
+    unsigned long ssl_err = SSL_get_error(ssl_,res);
+    switch (ssl_err) {
+      case SSL_ERROR_WANT_READ: cerr << "write wants read" << endl; break; 
+      case SSL_ERROR_WANT_WRITE: cerr << "write wants write" << endl; break;
+      default: print_error_string(ssl_err,"SSL_write");
+    }
+  } 
+  return res;
+}
+
+void SSL::clear()
+{
+  int res = SSL_clear(ssl_);
+  if ( res != 1) {
+    unsigned long ssl_err = ERR_get_error();
+    print_error_string(ssl_err,"SSL_clear");
+  }
+}
+
+void SSL::shutdown()
+{
+  int res = SSL_shutdown(ssl_);
+  if ( res != 1) {
+    unsigned long ssl_err = ERR_get_error();
+    print_error_string(ssl_err,"SSL_shutdown");
   }
 }
 

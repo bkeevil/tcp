@@ -35,6 +35,7 @@ add_library(tcp
   src/tcpsocket.cpp
   src/tcpclient.cpp
   src/tcpserver.cpp
+  src/tcpssl.cpp
 )
 
 #target_link_libraries(tcp rt)

@@ -25,7 +25,7 @@ int main() {
   EchoClient client(AF_INET,true);
   cl = &client;
   client.useSSL = true;
-  client.cafile = "/home/bkeevil/projects/sslserver/testkeys/testca.crt";
+  client.ctx().setVerifyPaths("/home/bkeevil/projects/sslserver/testkeys/testca.crt",NULL);
   client.certfile = "/home/bkeevil/projects/sslserver/testkeys/mqtt-client-test.crt";
   client.keyfile = "/home/bkeevil/projects/sslserver/testkeys/mqtt-client-test.key";
   client.connect(string("localhost"),1234);
