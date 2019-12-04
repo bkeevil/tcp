@@ -1,12 +1,14 @@
 # Overview
 
-A TCP client/server library for Linux and that uses the C++ iostream interface.
+A TCP client/server library for Linux that supports SSL. The library uses the EPoll mechanism to respond to OS events in a single thread. This library is designed to be run in a single thread.
 
 ## Documentation
 
 I used Doxygen to embed the documentation in the code. Once Doxygen is installed on your system,
 go to the repository root type `doxygen` to generate the documentation.
 Documentation is generated to the docs\ directory.
+
+The documentation is currently a bit behind as the library is being actively developed.
 
 ## Installation
 
@@ -22,6 +24,7 @@ make
 ## Testing
 
 To run CTest unit testing:
+(this is broken)
 
 ```
 cd build
