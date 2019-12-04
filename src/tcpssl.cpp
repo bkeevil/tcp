@@ -419,7 +419,12 @@ bool SSL::connect()
   int res = SSL_connect(ssl_);
   if (res <= 0) {
     unsigned long ssl_err = ERR_get_error();
-    print_error_string(ssl_err,"SSL_connect");
+    switch (ssl_err) {
+      case SSL_ERROR_WANT_READ: cerr << "peek wants read" << endl; break; 
+      case SSL_ERROR_WANT_WRITE: cerr << "peek wants write" << endl; break;
+      default: print_error_string(ssl_err,"SSL_peek");
+    }
+    printSSLErrors();
     return false;
   } else {
     return true;
@@ -428,10 +433,15 @@ bool SSL::connect()
 
 bool SSL::accept()
 {
-  int res = SSL_connect(ssl_);
+  int res = SSL_accept(ssl_);
   if (res <= 0) {
     unsigned long ssl_err = ERR_get_error();
-    print_error_string(ssl_err,"SSL_connect");
+    switch (ssl_err) {
+      case SSL_ERROR_WANT_READ: cerr << "peek wants read" << endl; break; 
+      case SSL_ERROR_WANT_WRITE: cerr << "peek wants write" << endl; break;
+      default: print_error_string(ssl_err,"SSL_peek");
+    }
+    printSSLErrors();
     return false;
   } else {
     return true;
