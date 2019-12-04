@@ -101,10 +101,11 @@ $(document).ready(function(){initNavTree('index.html','');});
 <div class="title">Overview </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>A TCP client/server library for Linux and that uses the C++ iostream interface.</p>
+<div class="textblock"><p>A TCP client/server library for Linux that supports SSL. The library uses the EPoll mechanism to respond to OS events in a single thread. This library is designed to be run in a single thread.</p>
 <h1><a class="anchor" id="autotoc_md1"></a>
 Documentation</h1>
 <p>I used Doxygen to embed the documentation in the code. Once Doxygen is installed on your system, go to the repository root type <code>doxygen</code> to generate the documentation. Documentation is generated to the docs\ directory.</p>
+<p>The documentation is currently a bit behind as the library is being actively developed.</p>
 <h1><a class="anchor" id="autotoc_md2"></a>
 Installation</h1>
 <div class="fragment"><div class="line">git clone https://github.com/bkeevil/tcp.git</div>
@@ -115,7 +116,7 @@ Installation</h1>
 <div class="line">make</div>
 </div><!-- fragment --><h1><a class="anchor" id="autotoc_md3"></a>
 Testing</h1>
-<p>To run CTest unit testing:</p>
+<p>To run CTest unit testing: (this is broken)</p>
 <div class="fragment"><div class="line">cd build</div>
 <div class="line">ctest -v</div>
 </div><!-- fragment --> </div></div><!-- PageDoc -->
