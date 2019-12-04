@@ -42,10 +42,10 @@ bool Client::connect(const string &hostname, const in_port_t port)
   
   if (useSSL && !ssl_) {
     ssl_ = new tcp::SSL(ctx_);
-    if (!keypass.empty()) {
+/*     if (!keypass.empty()) {
       ssl_->keypass = (char*)malloc(keypass.length()+1);
       strncpy(ssl_->keypass, keypass.c_str(), keypass.length()+1);
-    }
+    } */
     ssl_->setOptions(verifypeer);
     if (!ssl_->setCertificateAndKey(certfile.c_str(),keyfile.c_str()))
       return false;
@@ -77,6 +77,28 @@ bool Client::connect(const string &hostname, const in_port_t port)
   return false;
 }
 
+void Client::readToInputBuffer() {
+  int size;
+  do {
+    uint8_t buffer[64];
+    size = read(&buffer[0],64);
+    for (int i=0;i<size;i++) {
+      inputBuffer.push_back(buffer[i]);
+    }
+  } while (size > 0);
+}
+
+void Client::sendOutputBuffer() {
+  size_t size = outputBuffer.size();
+  uint8_t *buffer = (uint8_t*)malloc(size);
+  for (size_t i=0;i<size;i++) {
+    buffer[i] = outputBuffer.at(0);
+    outputBuffer.pop_front();
+  }
+  write(buffer,size,false);
+  free(buffer);
+}
+
 void Client::handleEvents(uint32_t events) {
   if (state_ == State::CONNECTED) {
     if (events & EPOLLRDHUP) {
@@ -84,20 +106,26 @@ void Client::handleEvents(uint32_t events) {
       return;
     } 
     if (events & EPOLLIN) {
+      readToInputBuffer();
       dataAvailable();
+      if (outputBuffer.size() > 0U) 
+        setEvents(EPOLLIN | EPOLLOUT | EPOLLRDHUP);
+      else
+        setEvents(EPOLLIN | EPOLLRDHUP);
+    }
+    if (events & EPOLLOUT) {
+      sendOutputBuffer();
+      setEvents(EPOLLIN | EPOLLRDHUP);
     }
   } else if (state_ == State::CONNECTING) {
-    //setEvents(EPOLLIN | EPOLLRDHUP);
     if (events & EPOLLERR) {
-      cerr << "connect: " << strerror(errno) << endl;      
+      cerr << "handleEvents: " << strerror(errno) << endl;      
     }
     if (events & EPOLLRDHUP) {
       state_ = State::UNCONNECTED;
-      disconnected();
       return;
     }
     if (events & EPOLLOUT) {
-      //state_ = State::CONNECTED;
       connected();
     }
   }

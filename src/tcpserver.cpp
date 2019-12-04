@@ -221,6 +221,28 @@ Session::~Session() {
   server_.sessions.erase(getSocket());
 }
 
+void Session::readToInputBuffer() {
+  int size;
+  do {
+    uint8_t buffer[64];
+    size = read(&buffer[0],64);
+    for (int i=0;i<size;i++) {
+      inputBuffer.push_back(buffer[i]);
+    }
+  } while (size > 0);
+}
+
+void Session::sendOutputBuffer() {
+  size_t size = outputBuffer.size();
+  uint8_t *buffer = (uint8_t*)malloc(size);
+  for (size_t i=0;i<size;i++) {
+    buffer[i] = outputBuffer.at(0);
+    outputBuffer.pop_front();
+  }
+  write(buffer,size,false);
+  free(buffer);
+}
+
 void Session::handleEvents(uint32_t events) {
   if (connected_) {
     if (events & EPOLLRDHUP) {
@@ -228,8 +250,17 @@ void Session::handleEvents(uint32_t events) {
       return;
     } 
     if (events & EPOLLIN) {
+      readToInputBuffer();
       dataAvailable();
+      if (outputBuffer.size() > 0U) 
+        setEvents(EPOLLIN | EPOLLOUT | EPOLLRDHUP);
+      else
+        setEvents(EPOLLIN | EPOLLRDHUP);
     }
+    if (events & EPOLLOUT) {
+      sendOutputBuffer();
+      setEvents(EPOLLIN | EPOLLRDHUP);
+    }  
   }
 }
 

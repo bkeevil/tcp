@@ -1,9 +1,12 @@
 #ifndef TCP_SSL_H
 #define TCP_SSL_H
 
+#include <string>
 #include <openssl/ssl.h>
 
 namespace tcp {
+
+using namespace std;
 
 void initSSLLibrary();
 void freeSSLLibrary();
@@ -15,11 +18,11 @@ class SSLContext {
   public:
     SSLContext(SSLMode mode);
     virtual ~SSLContext();
-    void setOptions(bool verifypeer = false, bool compression = true, bool tlsonly = true);
+    void setOptions(bool verifypeer = false, bool compression = true, bool tlsonly = false);
     bool useDefaultVerifyPaths() { return setVerifyPaths(NULL,NULL); }
     bool setVerifyPaths(const char *cafile = NULL, const char *capath = NULL);
     bool setCertificateAndKey(const char *certfile, const char *keyfile);
-    char *keypass;
+    string keypass;
     virtual int passwordCallback(char *buf, int size, int rwflag);
     SSL_CTX *handle() { return ctx_; }
     SSLMode mode() { return mode_; }
@@ -34,7 +37,7 @@ class SSL {
     virtual ~SSL();
     void setOptions(bool verifypeer = false);
     bool setCertificateAndKey(const char *certfile, const char *keyfile);
-    char *keypass;
+    string keypass;
     virtual int passwordCallback(char *buf, int size, int rwflag);
     ::SSL *handle() { return ssl_; }
     bool setfd(int socket);

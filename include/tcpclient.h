@@ -13,6 +13,8 @@
 #include <iostream>
 #include <map>
 #include <string.h>
+#include <vector>
+#include <deque>
 #include <unistd.h>
 #include <fcntl.h>
 #include <sys/types.h>
@@ -95,6 +97,10 @@ class Client : public Socket {
      */
     virtual void disconnect();
 
+    deque<uint8_t> outputBuffer;
+
+    deque<uint8_t> inputBuffer;
+
   protected:
     
     /** @brief Called by the EPoll object to process OS events sent to this handle
@@ -121,12 +127,14 @@ class Client : public Socket {
      */
     virtual void dataAvailable() = 0;  
 
+    void readToInputBuffer();
+    void sendOutputBuffer();
   private:
     State state_ {State::UNCONNECTED};
     in_port_t port_ {0};
     in_addr_t addr_ {0}; 
     static SSLContext ctx_; 
-    SSL *ssl_;
+    SSL *ssl_ {nullptr};
 };
 
 }

@@ -12,6 +12,7 @@
 
 #include <iostream>
 #include <map>
+#include <deque>
 #include <string.h>
 #include "tcpsocket.h"
 #include "tcpssl.h"
@@ -197,6 +198,12 @@ class Session : public Socket {
     int read(void *buffer, const int size);
     int peek(void *buffer, const int size);
     int write(const void *buffer, const int size, const bool more = false);
+
+    deque<uint8_t>inputBuffer;
+    deque<uint8_t>outputBuffer;
+    
+    void readToInputBuffer();
+    void sendOutputBuffer();
 
   private:
     Server& server_;

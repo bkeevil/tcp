@@ -36,7 +36,8 @@ void freeSSLLibrary()
 
 void printSSLErrors()
 {
-  ERR_print_errors_fp(stderr);
+  ERR_print_errors_fp(stdout);
+  cerr.sync_with_stdio();
 }
 
 void print_cn_name(const char* label, X509_NAME* const name)
@@ -312,9 +313,10 @@ bool SSLContext::setCertificateAndKey(const char *certfile, const char *keyfile)
 
 int SSLContext::passwordCallback(char *buf, int size, int rwflag)
 {
-  if (keypass) {
-    int lsize = max<int>(size,strlen(keypass));
-    strncpy(buf,keypass,lsize);
+  (void)rwflag;
+  if (!keypass.empty()) {
+    int lsize = max<int>(size,keypass.length());
+    strncpy(buf,keypass.c_str(),lsize);
     return lsize;
   } else {
     return 0;
@@ -388,9 +390,10 @@ bool SSL::setCertificateAndKey(const char *certfile, const char *keyfile)
 
 int SSL::passwordCallback(char *buf, int size, int rwflag)
 {
-  if (keypass) {
-    int lsize = max<int>(size,strlen(keypass));
-    strncpy(buf,keypass,lsize);
+  (void)rwflag;
+  if (!keypass.empty()) {
+    int lsize = max<int>(size,keypass.length());
+    strncpy(buf,keypass.c_str(),lsize);
     return lsize;
   } else {
     return 0;
@@ -420,9 +423,9 @@ bool SSL::connect()
   if (res <= 0) {
     unsigned long ssl_err = ERR_get_error();
     switch (ssl_err) {
-      case SSL_ERROR_WANT_READ: cerr << "peek wants read" << endl; break; 
+      case SSL_ERROR_WANT_READ: cerr << "connect wants read" << endl; break; 
       case SSL_ERROR_WANT_WRITE: cerr << "peek wants write" << endl; break;
-      default: print_error_string(ssl_err,"SSL_peek");
+      default: print_error_string(ssl_err,"SSL_connect");
     }
     printSSLErrors();
     return false;
@@ -437,9 +440,9 @@ bool SSL::accept()
   if (res <= 0) {
     unsigned long ssl_err = ERR_get_error();
     switch (ssl_err) {
-      case SSL_ERROR_WANT_READ: cerr << "peek wants read" << endl; break; 
-      case SSL_ERROR_WANT_WRITE: cerr << "peek wants write" << endl; break;
-      default: print_error_string(ssl_err,"SSL_peek");
+      case SSL_ERROR_WANT_READ: cerr << "accept wants read" << endl; break; 
+      case SSL_ERROR_WANT_WRITE: cerr << "accept wants write" << endl; break;
+      default: print_error_string(ssl_err,"SSL_accept");
     }
     printSSLErrors();
     return false;
