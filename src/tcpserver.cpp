@@ -20,6 +20,11 @@ Server::~Server() {
     stop();
 }
 
+void Server::start(in_port_t port, char *bindaddress, bool useSSL, int backlog)
+{
+  start(port,string(bindaddress),useSSL,backlog);
+} 
+
 void Server::start(in_port_t port, string bindaddress, bool useSSL, int backlog)
 {
   useSSL_ = useSSL;
@@ -187,6 +192,7 @@ bool Server::startListening(int backlog) {
     cerr.flush();
     return false;
   } else {
+    state_ = SocketState::LISTENING;
     clog << "Server started listening" << endl;
     clog.flush();
     return true;

@@ -45,7 +45,8 @@ class Server : public Socket {
 
     /** @brief   Start up the server */
     void start(in_port_t port, string bindaddress, bool useSSL = false, int backlog = 64);
-
+    void start(in_port_t port, char *bindaddress, bool useSSL = false, int backlog = 64);
+    
     /** @brief   Stop the server */
     void stop();
 

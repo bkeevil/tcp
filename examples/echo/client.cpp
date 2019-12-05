@@ -24,12 +24,11 @@ int main() {
   initSSLLibrary();
   EchoClient client(AF_INET,false);
   cl = &client;
-  //client.useSSL = true;
-  //client.ctx().setVerifyPaths("/home/bkeevil/projects/sslserver/testkeys/testca.crt",NULL);
-  //client.certfile = "/home/bkeevil/projects/sslserver/testkeys/mqtt-client-test.crt";
-  //client.keyfile = "/home/bkeevil/projects/sslserver/testkeys/mqtt-client-test.key";
+  client.ctx().setVerifyPaths("/home/bkeevil/projects/sslserver/testkeys/testca.crt",NULL);
+  client.certfile = "/home/bkeevil/projects/sslserver/testkeys/mqtt-client-test.crt";
+  client.keyfile = "/home/bkeevil/projects/sslserver/testkeys/mqtt-client-test.key";
   //client.write("Echo Server Hello World\n",25);
-  client.connect("localhost",1234);
+  client.connect("localhost",1234,true);
   std::thread threadObj(&threadfunc);
   while (true) {
     epoll.poll(100);

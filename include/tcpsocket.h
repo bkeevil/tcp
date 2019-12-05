@@ -162,7 +162,7 @@ class DataSocket : public Socket {
     size_t write_(const void *buffer, size_t size);
     deque<uint8_t> inputBuffer;
     deque<uint8_t> outputBuffer;
-    SSL *ssl_;
+    SSL *ssl_ {nullptr};
 
     friend class SSL;
 };

@@ -270,6 +270,7 @@ size_t DataSocket::write(const void *buffer, size_t size)
   for (size_t i=0;i<size;i++) {
     outputBuffer.push_back(buf[i]);
   }
+  updateEvents();
   return size;
 }
 

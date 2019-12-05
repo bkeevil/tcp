@@ -470,7 +470,7 @@ size_t SSL::read(void *buffer, size_t size)
     unsigned long ssl_err = SSL_get_error(ssl_,res);
     switch (ssl_err) {
       case SSL_ERROR_NONE: return 0;
-      case SSL_ERROR_WANT_READ: return read(buffer,size); break; 
+      case SSL_ERROR_WANT_READ: return 0; break; 
       case SSL_ERROR_WANT_WRITE: wantsWrite(); return read(buffer,size); break;
       default: print_error_string(ssl_err,"SSL_read"); return 0;
     }
