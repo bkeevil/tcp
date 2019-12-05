@@ -115,6 +115,8 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtcp_1_1Client.html">Client</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A blocking or non-blocking TCP client connection.  <a href="classtcp_1_1Client.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtcp_1_1DataSocket.html">DataSocket</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtcp_1_1EPoll.html">EPoll</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Encapsulates the <a class="el" href="classtcp_1_1EPoll.html" title="Encapsulates the EPoll interface.">EPoll</a> interface.  <a href="classtcp_1_1EPoll.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -134,6 +136,17 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
+<tr class="memitem:a2c9f9abccc28c28a2d375823ca900b1b"><td class="memItemLeft" align="right" valign="top"><a id="a2c9f9abccc28c28a2d375823ca900b1b"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacetcp.html#a2c9f9abccc28c28a2d375823ca900b1b">SocketState</a> { <br />
+&#160;&#160;<b>UNCONNECTED</b> =0, 
+<b>LISTENING</b>, 
+<b>CONNECTING</b>, 
+<b>CONNECTED</b>, 
+<br />
+&#160;&#160;<b>DISCONNECTED</b>
+<br />
+ }</td></tr>
+<tr class="memdesc:a2c9f9abccc28c28a2d375823ca900b1b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines the state of a Client connection. <br /></td></tr>
+<tr class="separator:a2c9f9abccc28c28a2d375823ca900b1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa4f0aa000e67ef4499d1167685f1df59"><td class="memItemLeft" align="right" valign="top"><a id="aa4f0aa000e67ef4499d1167685f1df59"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><b>SSLMode</b> { <b>CLIENT</b>, 
 <b>SERVER</b>
  }</td></tr>
@@ -141,27 +154,34 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a626a96602252225a453e0e77ad9ae270"><td class="memItemLeft" align="right" valign="top"><a id="a626a96602252225a453e0e77ad9ae270"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>initSSLLibrary</b> ()</td></tr>
+<tr class="memitem:a626a96602252225a453e0e77ad9ae270"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacetcp.html#a626a96602252225a453e0e77ad9ae270">initSSLLibrary</a> ()</td></tr>
+<tr class="memdesc:a626a96602252225a453e0e77ad9ae270"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the openSSL library.  <a href="namespacetcp.html#a626a96602252225a453e0e77ad9ae270">More...</a><br /></td></tr>
 <tr class="separator:a626a96602252225a453e0e77ad9ae270"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6110bae4d581a3bc0d7eca705775af9e"><td class="memItemLeft" align="right" valign="top"><a id="a6110bae4d581a3bc0d7eca705775af9e"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>freeSSLLibrary</b> ()</td></tr>
+<tr class="memitem:a6110bae4d581a3bc0d7eca705775af9e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacetcp.html#a6110bae4d581a3bc0d7eca705775af9e">freeSSLLibrary</a> ()</td></tr>
+<tr class="memdesc:a6110bae4d581a3bc0d7eca705775af9e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Free up resources created by the openSSL library.  <a href="namespacetcp.html#a6110bae4d581a3bc0d7eca705775af9e">More...</a><br /></td></tr>
 <tr class="separator:a6110bae4d581a3bc0d7eca705775af9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4e386f3935fd15d1413ab3ea56d5384d"><td class="memItemLeft" align="right" valign="top"><a id="a4e386f3935fd15d1413ab3ea56d5384d"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>printSSLErrors</b> ()</td></tr>
-<tr class="separator:a4e386f3935fd15d1413ab3ea56d5384d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac08eb6ac33f0fe64394f6b5a450cdb3a"><td class="memItemLeft" align="right" valign="top"><a id="ac08eb6ac33f0fe64394f6b5a450cdb3a"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>print_cn_name</b> (const char *label, X509_NAME *const name)</td></tr>
-<tr class="separator:ac08eb6ac33f0fe64394f6b5a450cdb3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4d3344d8b82a9fc8ff2d9b050c6da13d"><td class="memItemLeft" align="right" valign="top"><a id="a4d3344d8b82a9fc8ff2d9b050c6da13d"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>print_san_name</b> (const char *label, X509 *const cert)</td></tr>
-<tr class="separator:a4d3344d8b82a9fc8ff2d9b050c6da13d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af35eb16fc64325797d378578291721b9"><td class="memItemLeft" align="right" valign="top"><a id="af35eb16fc64325797d378578291721b9"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>verify_callback</b> (int preverify, X509_STORE_CTX *x509_ctx)</td></tr>
-<tr class="separator:af35eb16fc64325797d378578291721b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac0eaef59a83c801e51dc61cdd974a1d7"><td class="memItemLeft" align="right" valign="top"><a id="ac0eaef59a83c801e51dc61cdd974a1d7"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>print_error_string</b> (unsigned long err, const char *const label)</td></tr>
 <tr class="separator:ac0eaef59a83c801e51dc61cdd974a1d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6a39ed9feef0449d14ae8effcd2a0fc0"><td class="memItemLeft" align="right" valign="top"><a id="a6a39ed9feef0449d14ae8effcd2a0fc0"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>printSSLErrors_cb</b> (const char *str, size_t len, void *u)</td></tr>
+<tr class="separator:a6a39ed9feef0449d14ae8effcd2a0fc0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e386f3935fd15d1413ab3ea56d5384d"><td class="memItemLeft" align="right" valign="top"><a id="a4e386f3935fd15d1413ab3ea56d5384d"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacetcp.html#a4e386f3935fd15d1413ab3ea56d5384d">printSSLErrors</a> ()</td></tr>
+<tr class="memdesc:a4e386f3935fd15d1413ab3ea56d5384d"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method will log all errors to stderr. <br /></td></tr>
+<tr class="separator:a4e386f3935fd15d1413ab3ea56d5384d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac08eb6ac33f0fe64394f6b5a450cdb3a"><td class="memItemLeft" align="right" valign="top"><a id="ac08eb6ac33f0fe64394f6b5a450cdb3a"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacetcp.html#ac08eb6ac33f0fe64394f6b5a450cdb3a">print_cn_name</a> (const char *label, X509_NAME *const name)</td></tr>
+<tr class="memdesc:ac08eb6ac33f0fe64394f6b5a450cdb3a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prints the certificate common name to clog. <br /></td></tr>
+<tr class="separator:ac08eb6ac33f0fe64394f6b5a450cdb3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4d3344d8b82a9fc8ff2d9b050c6da13d"><td class="memItemLeft" align="right" valign="top"><a id="a4d3344d8b82a9fc8ff2d9b050c6da13d"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacetcp.html#a4d3344d8b82a9fc8ff2d9b050c6da13d">print_san_name</a> (const char *label, X509 *const cert)</td></tr>
+<tr class="memdesc:a4d3344d8b82a9fc8ff2d9b050c6da13d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prints the certificate subject alt name to clog. <br /></td></tr>
+<tr class="separator:a4d3344d8b82a9fc8ff2d9b050c6da13d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af35eb16fc64325797d378578291721b9"><td class="memItemLeft" align="right" valign="top"><a id="af35eb16fc64325797d378578291721b9"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacetcp.html#af35eb16fc64325797d378578291721b9">verify_callback</a> (int preverify, X509_STORE_CTX *x509_ctx)</td></tr>
+<tr class="memdesc:af35eb16fc64325797d378578291721b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prints the certificate details to clog. <br /></td></tr>
+<tr class="separator:af35eb16fc64325797d378578291721b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:affa831ea71d452b50c2be6d8b246e6df"><td class="memItemLeft" align="right" valign="top"><a id="affa831ea71d452b50c2be6d8b246e6df"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>ctx_password_callback</b> (char *buf, int size, int rwflag, void *userdata)</td></tr>
 <tr class="separator:affa831ea71d452b50c2be6d8b246e6df"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -180,7 +200,66 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>sslinitialized_</b> {
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Contains <a class="el" href="classtcp_1_1Socket.html" title="Encapsulates a socket handle that is capable of recieving epoll events.">Socket</a>, <a class="el" href="classtcp_1_1Server.html" title="Listens for TCP connections and establishes Sessions.">Server</a>, <a class="el" href="classtcp_1_1Session.html" title="Represents a TCP connection accepted by the Server.">Session</a> and <a class="el" href="classtcp_1_1Client.html" title="A blocking or non-blocking TCP client connection.">Client</a> classes for a tcp client/server. </p>
-</div></div><!-- contents -->
+</div><h2 class="groupheader">Function Documentation</h2>
+<a id="a6110bae4d581a3bc0d7eca705775af9e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6110bae4d581a3bc0d7eca705775af9e">&#9670;&nbsp;</a></span>freeSSLLibrary()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void tcp::freeSSLLibrary </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Free up resources created by the openSSL library. </p>
+<p>Applications should call this method at application shutdown. </p>
+
+<p class="definition">Definition at line <a class="el" href="tcpssl_8cpp_source.html#l00034">34</a> of file <a class="el" href="tcpssl_8cpp_source.html">tcpssl.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;{</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;  ERR_free_strings();</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;}</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a626a96602252225a453e0e77ad9ae270"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a626a96602252225a453e0e77ad9ae270">&#9670;&nbsp;</a></span>initSSLLibrary()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void tcp::initSSLLibrary </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Initialize the openSSL library. </p>
+<p>Applications should call this method once at application startup. It must be called before any other openSSL library functions are called. </p>
+
+<p class="definition">Definition at line <a class="el" href="tcpssl_8cpp_source.html#l00021">21</a> of file <a class="el" href="tcpssl_8cpp_source.html">tcpssl.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;{</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;  <span class="keywordflow">if</span> (!sslinitialized_) {</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    SSL_library_init();             </div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    OpenSSL_add_all_algorithms();</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    SSL_load_error_strings();</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    ERR_load_crypto_strings();</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    OpenSSL_add_all_ciphers();</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    sslinitialized_ = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    clog &lt;&lt; <span class="stringliteral">&quot;OpenSSL library initialized&quot;</span> &lt;&lt; endl;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;  }</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;}</div>
+</div><!-- fragment -->
+</div>
+</div>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

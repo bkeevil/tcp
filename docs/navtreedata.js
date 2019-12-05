@@ -28,6 +28,11 @@ var NAVTREE =
       [ "Installation", "index.html#autotoc_md2", null ],
       [ "Testing", "index.html#autotoc_md3", null ]
     ] ],
+    [ "Namespace Members", "namespacemembers.html", [
+      [ "All", "namespacemembers.html", null ],
+      [ "Functions", "namespacemembers_func.html", null ],
+      [ "Enumerations", "namespacemembers_enum.html", null ]
+    ] ],
     [ "Classes", "annotated.html", [
       [ "Class List", "annotated.html", "annotated_dup" ],
       [ "Class Index", "classes.html", null ],
@@ -35,8 +40,7 @@ var NAVTREE =
       [ "Class Members", "functions.html", [
         [ "All", "functions.html", null ],
         [ "Functions", "functions_func.html", null ],
-        [ "Variables", "functions_vars.html", null ],
-        [ "Enumerations", "functions_enum.html", null ]
+        [ "Variables", "functions_vars.html", null ]
       ] ]
     ] ],
     [ "Files", "files.html", [

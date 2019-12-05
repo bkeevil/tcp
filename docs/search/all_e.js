@@ -1,4 +1,7 @@
 var searchData=
 [
-  ['usessl_43',['useSSL',['../classtcp_1_1Client.html#abf15d35a9a8d4dcd5765c59288c434a7',1,'tcp::Client::useSSL()'],['../classtcp_1_1Server.html#a812ca756b192d6c3f24a4a1a80e91f21',1,'tcp::Server::useSSL()']]]
+  ['_7eclient_48',['~Client',['../classtcp_1_1Client.html#acb6c5cbd281a789dfe5ee38985dc9a1b',1,'tcp::Client']]],
+  ['_7eserver_49',['~Server',['../classtcp_1_1Server.html#a5e9ca770b9797466ef4206cc9b78585d',1,'tcp::Server']]],
+  ['_7esession_50',['~Session',['../classtcp_1_1Session.html#a2aabc44c9cbe31d562afd446c863cf3a',1,'tcp::Session']]],
+  ['_7esocket_51',['~Socket',['../classtcp_1_1Socket.html#ad4e0b338142a29e913b906225c0584ec',1,'tcp::Socket']]]
 ];

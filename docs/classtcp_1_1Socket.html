@@ -115,23 +115,26 @@ $(document).ready(function(){initNavTree('classtcp_1_1Socket.html','');});
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a051e4b7e58cf8243ef0138b306fc9670"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtcp_1_1Socket.html#a051e4b7e58cf8243ef0138b306fc9670">Socket</a> (const int domain=AF_INET, const int socket=0, const bool blocking=false, const int events=(EPOLLIN|EPOLLRDHUP))</td></tr>
+<tr class="memitem:a051e4b7e58cf8243ef0138b306fc9670"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtcp_1_1Socket.html#a051e4b7e58cf8243ef0138b306fc9670">Socket</a> (const int <a class="el" href="classtcp_1_1Socket.html#ab59208f2458274e28402b230cb4d6310">domain</a>=AF_INET, const int <a class="el" href="classtcp_1_1Socket.html#af4995f805c9976807f7fefd1dc90689e">socket</a>=0, const bool blocking=false, const int events=(EPOLLIN|EPOLLRDHUP))</td></tr>
 <tr class="memdesc:a051e4b7e58cf8243ef0138b306fc9670"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a blocking or non-blocking socket handle that responds to certain epoll events.  <a href="classtcp_1_1Socket.html#a051e4b7e58cf8243ef0138b306fc9670">More...</a><br /></td></tr>
 <tr class="separator:a051e4b7e58cf8243ef0138b306fc9670"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad4e0b338142a29e913b906225c0584ec"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtcp_1_1Socket.html#ad4e0b338142a29e913b906225c0584ec">~Socket</a> ()</td></tr>
 <tr class="memdesc:ad4e0b338142a29e913b906225c0584ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Closes the socket (if necessary) and destroys the <a class="el" href="classtcp_1_1Socket.html" title="Encapsulates a socket handle that is capable of recieving epoll events.">Socket</a>.  <a href="classtcp_1_1Socket.html#ad4e0b338142a29e913b906225c0584ec">More...</a><br /></td></tr>
 <tr class="separator:ad4e0b338142a29e913b906225c0584ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab996446e198ec58fb9f03c61be3c44cf"><td class="memItemLeft" align="right" valign="top"><a id="ab996446e198ec58fb9f03c61be3c44cf"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtcp_1_1Socket.html#ab996446e198ec58fb9f03c61be3c44cf">getSocket</a> () const</td></tr>
-<tr class="memdesc:ab996446e198ec58fb9f03c61be3c44cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the OS socket handle. <br /></td></tr>
-<tr class="separator:ab996446e198ec58fb9f03c61be3c44cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8fead485afc63e30d7dcae7f39583ca0"><td class="memItemLeft" align="right" valign="top"><a id="a8fead485afc63e30d7dcae7f39583ca0"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtcp_1_1Socket.html#a8fead485afc63e30d7dcae7f39583ca0">getDomain</a> () const</td></tr>
-<tr class="memdesc:a8fead485afc63e30d7dcae7f39583ca0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the socket domain (AF_INET, AF_INET6, AF_UNIX) <br /></td></tr>
-<tr class="separator:a8fead485afc63e30d7dcae7f39583ca0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af4995f805c9976807f7fefd1dc90689e"><td class="memItemLeft" align="right" valign="top"><a id="af4995f805c9976807f7fefd1dc90689e"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtcp_1_1Socket.html#af4995f805c9976807f7fefd1dc90689e">socket</a> () const</td></tr>
+<tr class="memdesc:af4995f805c9976807f7fefd1dc90689e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the OS socket handle. <br /></td></tr>
+<tr class="separator:af4995f805c9976807f7fefd1dc90689e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab59208f2458274e28402b230cb4d6310"><td class="memItemLeft" align="right" valign="top"><a id="ab59208f2458274e28402b230cb4d6310"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtcp_1_1Socket.html#ab59208f2458274e28402b230cb4d6310">domain</a> () const</td></tr>
+<tr class="memdesc:ab59208f2458274e28402b230cb4d6310"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the socket domain (AF_INET, AF_INET6, AF_UNIX) <br /></td></tr>
+<tr class="separator:ab59208f2458274e28402b230cb4d6310"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5ed00a56d910790a50da518f3731ac01"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtcp_1_1Socket.html#a5ed00a56d910790a50da518f3731ac01">setEvents</a> (int events)</td></tr>
 <tr class="memdesc:a5ed00a56d910790a50da518f3731ac01"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changes which epoll events the socket listens for.  <a href="classtcp_1_1Socket.html#a5ed00a56d910790a50da518f3731ac01">More...</a><br /></td></tr>
 <tr class="separator:a5ed00a56d910790a50da518f3731ac01"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a885bf8db13ca763538a7668195f5dba2"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtcp_1_1Socket.html#a885bf8db13ca763538a7668195f5dba2">disconnected</a> ()</td></tr>
+<tr class="memdesc:a885bf8db13ca763538a7668195f5dba2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called when a connection is disconnected.  <a href="classtcp_1_1Socket.html#a885bf8db13ca763538a7668195f5dba2">More...</a><br /></td></tr>
+<tr class="separator:a885bf8db13ca763538a7668195f5dba2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
@@ -141,9 +144,15 @@ Protected Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
+<tr class="memitem:a6bf2343caa8283ec40c337a7df0ee3fd"><td class="memItemLeft" align="right" valign="top"><a id="a6bf2343caa8283ec40c337a7df0ee3fd"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>domain_</b></td></tr>
+<tr class="separator:a6bf2343caa8283ec40c337a7df0ee3fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6fcf1da6bfc15303e471074bc299e76b"><td class="memItemLeft" align="right" valign="top"><a id="a6fcf1da6bfc15303e471074bc299e76b"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>socket_</b></td></tr>
 <tr class="separator:a6fcf1da6bfc15303e471074bc299e76b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a72f08cd52de1480fef5f8b120ab73da7"><td class="memItemLeft" align="right" valign="top"><a id="a72f08cd52de1480fef5f8b120ab73da7"></a>
+<a class="el" href="namespacetcp.html#a2c9f9abccc28c28a2d375823ca900b1b">SocketState</a>&#160;</td><td class="memItemRight" valign="bottom"><b>state_</b></td></tr>
+<tr class="separator:a72f08cd52de1480fef5f8b120ab73da7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
 Friends</h2></td></tr>
@@ -154,7 +163,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>EPoll</b></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Encapsulates a socket handle that is capable of recieving epoll events. </p>
 
-<p class="definition">Definition at line <a class="el" href="tcpsocket_8h_source.html#l00062">62</a> of file <a class="el" href="tcpsocket_8h_source.html">tcpsocket.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tcpsocket_8h_source.html#l00067">67</a> of file <a class="el" href="tcpsocket_8h_source.html">tcpsocket.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a051e4b7e58cf8243ef0138b306fc9670"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a051e4b7e58cf8243ef0138b306fc9670">&#9670;&nbsp;</a></span>Socket()</h2>
@@ -208,19 +217,19 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>EPoll</b></td></tr>
 A server session will create a <a class="el" href="classtcp_1_1Socket.html" title="Encapsulates a socket handle that is capable of recieving epoll events.">Socket</a> by providing the socket handle returned from an accept command. </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="tcpsocket_8cpp_source.html#l00087">87</a> of file <a class="el" href="tcpsocket_8cpp_source.html">tcpsocket.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;                                                                                        : socket_(socket), events_(events) </div>
+<div class="fragment"><div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;                                                                                        : socket_(<a class="code" href="classtcp_1_1Socket.html#af4995f805c9976807f7fefd1dc90689e">socket</a>), events_(events) </div>
 <div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;{ </div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;  <span class="keywordflow">if</span> ((domain != AF_INET) &amp;&amp; (domain != AF_INET6)) {</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;  <span class="keywordflow">if</span> ((<a class="code" href="classtcp_1_1Socket.html#ab59208f2458274e28402b230cb4d6310">domain</a> != AF_INET) &amp;&amp; (<a class="code" href="classtcp_1_1Socket.html#ab59208f2458274e28402b230cb4d6310">domain</a> != AF_INET6)) {</div>
 <div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    cerr &lt;&lt; <span class="stringliteral">&quot;Socket: Only IPv4 and IPv6 are supported.&quot;</span> &lt;&lt; endl;</div>
 <div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    <span class="keywordflow">return</span>;</div>
 <div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;  }</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;  domain_ = domain;</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;  <span class="keywordflow">if</span> (socket &lt; 0) {</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;  domain_ = <a class="code" href="classtcp_1_1Socket.html#ab59208f2458274e28402b230cb4d6310">domain</a>;</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;  <span class="keywordflow">if</span> (<a class="code" href="classtcp_1_1Socket.html#af4995f805c9976807f7fefd1dc90689e">socket</a> &lt; 0) {</div>
 <div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    cerr &lt;&lt; <span class="stringliteral">&quot;Socket: Socket parameter is &lt; 0&quot;</span> &lt;&lt; endl;;</div>
 <div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    <span class="keywordflow">return</span>;</div>
 <div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;  }</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;  <span class="keywordflow">if</span> (socket == 0) {</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    socket_ = ::socket(domain,SOCK_STREAM,0);</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;  <span class="keywordflow">if</span> (<a class="code" href="classtcp_1_1Socket.html#af4995f805c9976807f7fefd1dc90689e">socket</a> == 0) {</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    socket_ = <a class="code" href="classtcp_1_1Socket.html#af4995f805c9976807f7fefd1dc90689e">::socket</a>(<a class="code" href="classtcp_1_1Socket.html#ab59208f2458274e28402b230cb4d6310">domain</a>,SOCK_STREAM,0);</div>
 <div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <span class="keywordflow">if</span> (socket_ == -1) {</div>
 <div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;      cerr &lt;&lt; <span class="stringliteral">&quot;socket: &quot;</span> &lt;&lt; strerror(errno) &lt;&lt; endl;</div>
 <div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    }</div>
@@ -243,7 +252,17 @@ A server session will create a <a class="el" href="classtcp_1_1Socket.html" titl
 <div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    cerr &lt;&lt; <span class="stringliteral">&quot;Unable to add socket to epoll&quot;</span> &lt;&lt; endl;</div>
 <div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;  }</div>
 <div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;}</div>
-</div><!-- fragment -->
+</div><!-- fragment --><div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classtcp_1_1Socket_a051e4b7e58cf8243ef0138b306fc9670_cgraph.png" border="0" usemap="#classtcp_1_1Socket_a051e4b7e58cf8243ef0138b306fc9670_cgraph" alt=""/></div>
+<map name="classtcp_1_1Socket_a051e4b7e58cf8243ef0138b306fc9670_cgraph" id="classtcp_1_1Socket_a051e4b7e58cf8243ef0138b306fc9670_cgraph">
+<area shape="rect" title="Construct a blocking or non&#45;blocking socket handle that responds to certain epoll events." alt="" coords="5,31,144,57"/>
+<area shape="rect" href="classtcp_1_1Socket.html#ab59208f2458274e28402b230cb4d6310" title="Return the socket domain (AF_INET, AF_INET6, AF_UNIX)" alt="" coords="192,5,331,32"/>
+<area shape="rect" href="classtcp_1_1Socket.html#af4995f805c9976807f7fefd1dc90689e" title="Return the OS socket handle." alt="" coords="193,56,329,83"/>
+</map>
+</div>
+
 </div>
 </div>
 <a id="ad4e0b338142a29e913b906225c0584ec"></a>
@@ -267,18 +286,66 @@ A server session will create a <a class="el" href="classtcp_1_1Socket.html" titl
 
 <p class="definition">Definition at line <a class="el" href="tcpsocket_8cpp_source.html#l00123">123</a> of file <a class="el" href="tcpsocket_8cpp_source.html">tcpsocket.cpp</a>.</p>
 <div class="fragment"><div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;{</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;  epoll.remove(*<span class="keyword">this</span>);</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;  <span class="keywordflow">if</span> (socket_ &gt; 0) {</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;  <span class="keywordflow">if</span> (socket_ &gt; 0) {</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    epoll.remove(*<span class="keyword">this</span>);</div>
 <div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    <span class="keywordflow">if</span> (::close(socket_) == -1) {</div>
 <div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;      cerr &lt;&lt; <span class="stringliteral">&quot;close: &quot;</span> &lt;&lt; strerror(errno) &lt;&lt; endl;</div>
 <div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    } </div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;  }</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;  socket_ = 0;</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    socket_ = 0;</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;  }</div>
 <div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;}</div>
 </div><!-- fragment -->
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="a885bf8db13ca763538a7668195f5dba2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a885bf8db13ca763538a7668195f5dba2">&#9670;&nbsp;</a></span>disconnected()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void tcp::Socket::disconnected </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Called when a connection is disconnected. </p>
+<p>Sets the socket state to DISCONNECTED </p>
+
+<p>Reimplemented in <a class="el" href="classtcp_1_1Session.html#a47f6c95ff9ac648e18b066ac4cb58bbc">tcp::Session</a>, and <a class="el" href="classtcp_1_1DataSocket.html#aa55fc17452ad9de9344b55dab43e937d">tcp::DataSocket</a>.</p>
+
+<p class="definition">Definition at line <a class="el" href="tcpsocket_8cpp_source.html#l00147">147</a> of file <a class="el" href="tcpsocket_8cpp_source.html">tcpsocket.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;{</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;  <span class="keywordflow">if</span> (state_ != SocketState::DISCONNECTED) {</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;    state_ = SocketState::DISCONNECTED;</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    clog &lt;&lt; <span class="stringliteral">&quot;Disconnected&quot;</span> &lt;&lt; endl;</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;    clog.flush();  </div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;  }</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;}</div>
+</div><!-- fragment --><div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classtcp_1_1Socket_a885bf8db13ca763538a7668195f5dba2_icgraph.png" border="0" usemap="#classtcp_1_1Socket_a885bf8db13ca763538a7668195f5dba2_icgraph" alt=""/></div>
+<map name="classtcp_1_1Socket_a885bf8db13ca763538a7668195f5dba2_icgraph" id="classtcp_1_1Socket_a885bf8db13ca763538a7668195f5dba2_icgraph">
+<area shape="rect" title="Called when a connection is disconnected." alt="" coords="256,5,431,32"/>
+<area shape="rect" href="classtcp_1_1DataSocket.html#aa55fc17452ad9de9344b55dab43e937d" title="Called when a connection is disconnected." alt="" coords="5,5,208,32"/>
+</map>
+</div>
+
+</div>
+</div>
 <a id="a29e680be01356d68416f1e28d78a8397"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a29e680be01356d68416f1e28d78a8397">&#9670;&nbsp;</a></span>handleEvents()</h2>
 
@@ -311,7 +378,7 @@ A server session will create a <a class="el" href="classtcp_1_1Socket.html" titl
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="classtcp_1_1Session.html#a2150b4abea7d3ea26b076395a00528b8">tcp::Session</a>, <a class="el" href="classtcp_1_1Server.html#a87d114dd56e3d71bfba86fc1fc76baf3">tcp::Server</a>, and <a class="el" href="classtcp_1_1Client.html#aad864d7410c858a25ccae384f18344cf">tcp::Client</a>.</p>
+<p>Implemented in <a class="el" href="classtcp_1_1DataSocket.html#ad6e7e376a28de7cb0b1270be7a170ab4">tcp::DataSocket</a>, <a class="el" href="classtcp_1_1Client.html#aad864d7410c858a25ccae384f18344cf">tcp::Client</a>, and <a class="el" href="classtcp_1_1Server.html#a87d114dd56e3d71bfba86fc1fc76baf3">tcp::Server</a>.</p>
 
 </div>
 </div>
@@ -360,6 +427,8 @@ A server session will create a <a class="el" href="classtcp_1_1Socket.html" titl
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
+<div class="ttc" id="aclasstcp_1_1Socket_html_af4995f805c9976807f7fefd1dc90689e"><div class="ttname"><a href="classtcp_1_1Socket.html#af4995f805c9976807f7fefd1dc90689e">tcp::Socket::socket</a></div><div class="ttdeci">int socket() const</div><div class="ttdoc">Return the OS socket handle.</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8h_source.html#l00087">tcpsocket.h:87</a></div></div>
+<div class="ttc" id="aclasstcp_1_1Socket_html_ab59208f2458274e28402b230cb4d6310"><div class="ttname"><a href="classtcp_1_1Socket.html#ab59208f2458274e28402b230cb4d6310">tcp::Socket::domain</a></div><div class="ttdeci">int domain() const</div><div class="ttdoc">Return the socket domain (AF_INET, AF_INET6, AF_UNIX)</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8h_source.html#l00090">tcpsocket.h:90</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

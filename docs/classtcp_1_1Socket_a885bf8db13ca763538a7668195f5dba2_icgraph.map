@@ -1,0 +1,4 @@
+<map id="tcp::Socket::disconnected" name="tcp::Socket::disconnected">
+<area shape="rect" id="node1" title="Called when a connection is disconnected." alt="" coords="256,5,431,32"/>
+<area shape="rect" id="node2" href="$classtcp_1_1DataSocket.html#aa55fc17452ad9de9344b55dab43e937d" title="Called when a connection is disconnected." alt="" coords="5,5,208,32"/>
+</map>

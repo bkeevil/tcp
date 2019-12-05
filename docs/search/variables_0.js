@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['bindaddress_95',['bindaddress',['../classtcp_1_1Server.html#a89a23d92a046648e2081c75222b4668b',1,'tcp::Server']]]
+  ['certfile_102',['certfile',['../classtcp_1_1DataSocket.html#aa2ae19daf1b9079dbebd042ca14a6791',1,'tcp::DataSocket']]]
 ];

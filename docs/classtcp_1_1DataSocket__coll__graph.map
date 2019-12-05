@@ -1,0 +1,5 @@
+<map id="tcp::DataSocket" name="tcp::DataSocket">
+<area shape="rect" id="node1" title=" " alt="" coords="43,95,161,121"/>
+<area shape="rect" id="node2" href="$classtcp_1_1Socket.html" title="Encapsulates a socket handle that is capable of recieving epoll events." alt="" coords="5,5,95,32"/>
+<area shape="rect" id="node3" href="$classtcp_1_1SSL.html" title=" " alt="" coords="119,5,192,32"/>
+</map>

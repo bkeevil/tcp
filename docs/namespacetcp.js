@@ -1,6 +1,7 @@
 var namespacetcp =
 [
     [ "Client", "classtcp_1_1Client.html", "classtcp_1_1Client" ],
+    [ "DataSocket", "classtcp_1_1DataSocket.html", "classtcp_1_1DataSocket" ],
     [ "EPoll", "classtcp_1_1EPoll.html", "classtcp_1_1EPoll" ],
     [ "Server", "classtcp_1_1Server.html", "classtcp_1_1Server" ],
     [ "Session", "classtcp_1_1Session.html", "classtcp_1_1Session" ],

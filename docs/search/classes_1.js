@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['epoll_50',['EPoll',['../classtcp_1_1EPoll.html',1,'tcp']]]
+  ['datasocket_53',['DataSocket',['../classtcp_1_1DataSocket.html',1,'tcp']]]
 ];

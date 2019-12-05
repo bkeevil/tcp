@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['port_99',['port',['../classtcp_1_1Server.html#a50f4d09da8fd8e02e47290a37251130b',1,'tcp::Server']]]
+  ['verifypeer_106',['verifypeer',['../classtcp_1_1DataSocket.html#ad5cf967581e9d205554e9e9d002d78fc',1,'tcp::DataSocket']]]
 ];

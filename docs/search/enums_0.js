@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['state_103',['State',['../classtcp_1_1Client.html#aeb2b735d483337fd25ea86cfe8635817',1,'tcp::Client']]]
+  ['socketstate_107',['SocketState',['../namespacetcp.html#a2c9f9abccc28c28a2d375823ca900b1b',1,'tcp']]]
 ];

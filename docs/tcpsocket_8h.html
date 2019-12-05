@@ -99,7 +99,8 @@ $(document).ready(function(){initNavTree('tcpsocket_8h.html','');});
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
-<a href="#namespaces">Namespaces</a>  </div>
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#enum-members">Enumerations</a>  </div>
   <div class="headertitle">
 <div class="title">tcpsocket.h File Reference</div>  </div>
 </div><!--header-->
@@ -108,21 +109,25 @@ $(document).ready(function(){initNavTree('tcpsocket_8h.html','');});
 <p>Shared base classes for <a class="el" href="tcpclient_8h.html" title="Provides basic tcp client functionality.">tcpclient.h</a> and <a class="el" href="tcpserver_8h.html" title="Provides basic tcp server functionality.">tcpserver.h</a>.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;iostream&gt;</code><br />
-<code>#include &lt;vector&gt;</code><br />
+<code>#include &lt;deque&gt;</code><br />
 <code>#include &lt;map&gt;</code><br />
 <code>#include &lt;arpa/inet.h&gt;</code><br />
 <code>#include &lt;sys/epoll.h&gt;</code><br />
+<code>#include &quot;<a class="el" href="tcpssl_8h_source.html">tcpssl.h</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for tcpsocket.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="tcpsocket_8h__incl.png" border="0" usemap="#include_2tcpsocket_8h" alt=""/></div>
 <map name="include_2tcpsocket_8h" id="include_2tcpsocket_8h">
-<area shape="rect" title="Shared base classes for tcpclient.h and tcpserver.h." alt="" coords="141,5,275,32"/>
+<area shape="rect" title="Shared base classes for tcpclient.h and tcpserver.h." alt="" coords="229,5,363,32"/>
 <area shape="rect" title=" " alt="" coords="5,80,77,107"/>
-<area shape="rect" title=" " alt="" coords="101,80,160,107"/>
-<area shape="rect" title=" " alt="" coords="185,80,231,107"/>
-<area shape="rect" title=" " alt="" coords="256,80,339,107"/>
-<area shape="rect" title=" " alt="" coords="363,80,448,107"/>
+<area shape="rect" title=" " alt="" coords="102,80,159,107"/>
+<area shape="rect" title=" " alt="" coords="183,80,230,107"/>
+<area shape="rect" title=" " alt="" coords="255,80,337,107"/>
+<area shape="rect" title=" " alt="" coords="361,80,447,107"/>
+<area shape="rect" href="tcpssl_8h.html" title="Provides ssl client and server functionality." alt="" coords="471,80,539,107"/>
+<area shape="rect" title=" " alt="" coords="427,155,482,181"/>
+<area shape="rect" title=" " alt="" coords="507,155,605,181"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -130,10 +135,10 @@ This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
 <div class="center"><img src="tcpsocket_8h__dep__incl.png" border="0" usemap="#include_2tcpsocket_8hdep" alt=""/></div>
 <map name="include_2tcpsocket_8hdep" id="include_2tcpsocket_8hdep">
-<area shape="rect" title="Shared base classes for tcpclient.h and tcpserver.h." alt="" coords="149,5,284,32"/>
+<area shape="rect" title="Shared base classes for tcpclient.h and tcpserver.h." alt="" coords="197,5,332,32"/>
 <area shape="rect" href="tcpsocket_8cpp_source.html" title=" " alt="" coords="5,80,132,107"/>
 <area shape="rect" href="tcpclient_8h.html" title="Provides basic tcp client functionality." alt="" coords="100,155,227,181"/>
-<area shape="rect" href="tcpssl_8h_source.html" title=" " alt="" coords="208,80,321,107"/>
+<area shape="rect" href="tcpssl_8h.html" title="Provides ssl client and server functionality." alt="" coords="208,80,321,107"/>
 <area shape="rect" href="tcpserver_8h.html" title="Provides basic tcp server functionality." alt="" coords="303,155,435,181"/>
 <area shape="rect" href="tcpclient_8cpp_source.html" title=" " alt="" coords="69,229,188,256"/>
 <area shape="rect" href="tcpssl_8cpp_source.html" title=" " alt="" coords="213,229,317,256"/>
@@ -151,12 +156,28 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtcp_1_1Socket.html">tcp::Socket</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Encapsulates a socket handle that is capable of recieving epoll events.  <a href="classtcp_1_1Socket.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtcp_1_1DataSocket.html">tcp::DataSocket</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
 Namespaces</h2></td></tr>
 <tr class="memitem:namespacetcp"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacetcp.html">tcp</a></td></tr>
 <tr class="memdesc:namespacetcp"><td class="mdescLeft">&#160;</td><td class="mdescRight">Contains <a class="el" href="classtcp_1_1Socket.html" title="Encapsulates a socket handle that is capable of recieving epoll events.">Socket</a>, <a class="el" href="classtcp_1_1Server.html" title="Listens for TCP connections and establishes Sessions.">Server</a>, <a class="el" href="classtcp_1_1Session.html" title="Represents a TCP connection accepted by the Server.">Session</a> and <a class="el" href="classtcp_1_1Client.html" title="A blocking or non-blocking TCP client connection.">Client</a> classes for a tcp client/server. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:a2c9f9abccc28c28a2d375823ca900b1b"><td class="memItemLeft" align="right" valign="top"><a id="a2c9f9abccc28c28a2d375823ca900b1b"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacetcp.html#a2c9f9abccc28c28a2d375823ca900b1b">tcp::SocketState</a> { <br />
+&#160;&#160;<b>UNCONNECTED</b> =0, 
+<b>LISTENING</b>, 
+<b>CONNECTING</b>, 
+<b>CONNECTED</b>, 
+<br />
+&#160;&#160;<b>DISCONNECTED</b>
+<br />
+ }</td></tr>
+<tr class="memdesc:a2c9f9abccc28c28a2d375823ca900b1b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines the state of a Client connection. <br /></td></tr>
+<tr class="separator:a2c9f9abccc28c28a2d375823ca900b1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Shared base classes for <a class="el" href="tcpclient_8h.html" title="Provides basic tcp client functionality.">tcpclient.h</a> and <a class="el" href="tcpserver_8h.html" title="Provides basic tcp server functionality.">tcpserver.h</a>. </p>
