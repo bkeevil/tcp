@@ -4,11 +4,13 @@ A TCP client/server library for Linux that supports SSL. The library uses the EP
 
 ## Documentation
 
-I used Doxygen to embed the documentation in the code. Once Doxygen is installed on your system,
-go to the repository root type `doxygen` to generate the documentation.
-Documentation is generated to the docs\ directory.
+See the docs directory for html docs or go here:
 
-The documentation is currently a bit behind as the library is being actively developed.
+https://bkeevil.github.io/tcp/
+
+If you have Doxygen set up on your machine, go to the repository root type `doxygen` to generate fresh documentation.
+
+The documentation in the repository is currently a bit behind because the library is being actively developed.
 
 ## Installation
 
