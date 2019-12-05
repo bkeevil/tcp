@@ -1,6 +1,6 @@
 # Overview
 
-A TCP client/server library for Linux that supports SSL. The library uses the EPoll mechanism to respond to OS events in a single thread. This library is designed to be run in a single thread.
+A TCP client/server library for Linux that supports SSL. The library uses the EPoll mechanism to respond to OS events in a single thread.
 
 ## Documentation
 
