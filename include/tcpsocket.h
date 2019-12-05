@@ -13,10 +13,11 @@
 #define TCP_SOCKET_H
 
 #include <iostream>
-#include <vector>
+#include <deque>
 #include <map>
 #include <arpa/inet.h>
 #include <sys/epoll.h>
+#include "tcpssl.h"
 
 /** @brief Contains Socket, Server, Session and Client classes for a tcp client/server */
 namespace tcp {
@@ -24,6 +25,10 @@ namespace tcp {
 using namespace std;
 
 class Socket;
+
+/** @brief  Determines the state of a Client connection */
+enum class SocketState { UNCONNECTED=0, LISTENING, CONNECTING, CONNECTED, DISCONNECTED };
+
 
 /** @brief   Encapsulates the EPoll interface
  *  @details Applications need to call EPoll.poll() at regular intervals to check for and respond to network
@@ -79,16 +84,20 @@ class Socket {
     ~Socket();
   
     /** @brief Return the OS socket handle */
-    int getSocket() const { return socket_; }
+    int socket() const { return socket_; }
     
     /** @brief Return the socket domain (AF_INET, AF_INET6, AF_UNIX) */
-    int getDomain() const { return domain_; }
+    int domain() const { return domain_; }
 
     /** @brief Changes which epoll events the socket listens for.
      *  Descendant classes may want to override this
      *  @param events A bitmask of event flags. See the epoll documentation */
     bool setEvents(int events);
     
+    /** @brief   Called when a connection is disconnected
+     *  @details Sets the socket state to DISCONNECTED */
+    virtual void disconnected();
+
   protected:
 
     /** @brief   Called when the socket recieves an event from the OS
@@ -96,11 +105,66 @@ class Socket {
      *  @param   events   A bitmask of event flags. See the epoll documentation */
     virtual void handleEvents(uint32_t events) = 0;
 
-    int socket_;
-  private:
     int domain_;
+    int socket_;
+    SocketState state_;
+  private:
     int events_;
     friend class EPoll;
+};
+
+class DataSocket : public Socket {
+  public:
+    DataSocket(const int domain = AF_INET, const int socket = 0, const bool blocking = false, const int events = (EPOLLIN | EPOLLRDHUP)) :
+      Socket(domain,socket,blocking,events) {}
+
+    size_t read(void *buffer, size_t size);
+    size_t write(const void *buffer, size_t size);
+
+    /** @brief If true, the client will attempt to verify the peer certificate */
+    bool verifypeer {false};
+
+    /** @brief The filename of the client certificate in PEM format */
+    string certfile;
+
+    /** @brief The filename of the client private key in PEM format */
+    string keyfile;
+
+    /** @brief The password for the private key file, if required */
+    string keypass;
+
+    /** @brief Returns the ssl object for the current connection */
+    SSL *ssl() { return ssl_; }
+  protected:
+    void readToInputBuffer();
+    void sendOutputBuffer();
+    void updateEvents();
+
+    /** @brief   Called by the EPoll class when the listening socket recieves an event from the OS.
+     *  @details The listening socket recieves the EPOLLIN event when a new connection is available to be 
+     *           accepted. This is handled by tcp::Server, which calls the acceptConnection method. 
+     */
+        
+    void handleEvents(uint32_t events) override;
+    
+    /** @brief   Called when a connection is disconnected
+     *  @details Frees the SSL object that is associated with the connection
+     */
+    void disconnected() override;
+
+    /** @brief    Called when new data is available for reading in the input buffer
+     *  @details  Clients must override the abstract dataAvailable method to do something in 
+     *            response to received data 
+     */
+    virtual void dataAvailable() = 0;
+    
+    size_t read_(void *buffer, size_t size);
+    size_t write_(const void *buffer, size_t size);
+    deque<uint8_t> inputBuffer;
+    deque<uint8_t> outputBuffer;
+    SSL *ssl_;
+
+    friend class SSL;
 };
 
 extern EPoll epoll;

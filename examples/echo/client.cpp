@@ -16,10 +16,7 @@ void threadfunc() {
     memset(c,0,256);
     cin.getline(c,255);
     c[strlen(c)] = '\n';
-    for (size_t i=0;i < strlen(c);i++)
-      cl->outputBuffer.push_back((uint8_t)c[i]);
-    if (strlen(c) > 0)
-      cl->setEvents(EPOLLIN | EPOLLOUT | EPOLLRDHUP);
+    cl->write(c,strlen(c));
   }
 }
 

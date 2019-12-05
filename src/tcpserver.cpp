@@ -20,14 +20,15 @@ Server::~Server() {
     stop();
 }
 
-void Server::start()
+void Server::start(in_port_t port, string bindaddress, bool useSSL, int backlog)
 {
+  useSSL_ = useSSL;
   memset(&addr_,0,sizeof(addr_));  
   if ((bindaddress == "") || (bindaddress == "0.0.0.0") || (bindaddress == "::")) {
-    if (getDomain() == AF_INET) {
+    if (domain() == AF_INET) {
       reinterpret_cast<struct sockaddr_in*>(&addr_)->sin_addr.s_addr = INADDR_ANY;
     }
-    if (getDomain() == AF_INET6) {
+    if (domain() == AF_INET6) {
       reinterpret_cast<struct sockaddr_in6*>(&addr_)->sin6_addr = IN6ADDR_ANY_INIT;
     }
   } else {
@@ -35,25 +36,27 @@ void Server::start()
       cerr << "Interface " << bindaddress << " not found" << endl;
     }
   }
-  if (getDomain() == AF_INET) {
+  if (domain() == AF_INET) {
     addr_.ss_family = AF_INET;
     reinterpret_cast<struct sockaddr_in*>(&addr_)->sin_port = htons(port);
   }
-  if (getDomain() == AF_INET6) {
+  if (domain() == AF_INET6) {
     addr_.ss_family = AF_INET6;
     reinterpret_cast<struct sockaddr_in6*>(&addr_)->sin6_port = htons(port);
   }  
 
   int enable = 1;
-  if (setsockopt(getSocket(), SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(enable)) < 0)
+  if (setsockopt(socket_, SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(enable)) < 0)
     cerr << "Server could not set socket option SO_REUSEADDR" << endl;  
-  
-  listening_ = (bindToAddress() && startListening());
+
+  if (bindToAddress((struct sockaddr*)&addr_,(domain_ == AF_INET ? sizeof(struct sockaddr_in) : sizeof(struct sockaddr_in6)))) {
+    startListening(backlog);
+  }
 }
 
 void Server::stop()
 { 
-  if (listening_) {
+  if (listening()) {
     clog << "Sending disconnect to all sessions" << endl;
     clog.flush();
     std::map<int,Session*>::iterator it;
@@ -61,11 +64,11 @@ void Server::stop()
       it->second->disconnect();
     }
   }
-  ::close(getSocket());
+  ::close(socket_);
 }
 
 void Server::handleEvents(uint32_t events) {
-  if (listening_ && (events & EPOLLIN)) {
+  if (listening() && (events & EPOLLIN)) {
     acceptConnection();
   }
 }
@@ -116,7 +119,7 @@ bool Server::findifaddr(const string ifname, sockaddr *addr) {
       if (getnameinfo(item->ifa_addr,(f == AF_INET) ? sizeof(struct sockaddr_in) : sizeof(struct sockaddr_in6),host, NI_MAXHOST, NULL, 0, NI_NUMERICHOST) != 0) {
         host[0] = 0;
       }
-      if ((f == getDomain()) && ((ifname.compare(item->ifa_name) == 0) || (ifname.compare(host) == 0))) {
+      if (f == domain_ && ((ifname.compare(item->ifa_name) == 0) || (ifname.compare(host) == 0))) {
         if (f == AF_INET) {
           *(sockaddr_in*)addr = *(sockaddr_in*)item->ifa_addr;
           result = true;
@@ -138,16 +141,16 @@ bool Server::findifaddr(const string ifname, sockaddr *addr) {
   return result;
 }
 
-bool Server::bindToAddress() {
-  if (::bind(getSocket(),addr(),addrlen()) == -1) {
+bool Server::bindToAddress(sockaddr *addr, socklen_t len) {
+  if (::bind(socket_,addr,len) == -1) {
     cerr << "bind: " << strerror(errno) << endl;
     cerr.flush();
     return false;
   } else {
     char ip[INET6_ADDRSTRLEN];
     memset(&ip,0,INET6_ADDRSTRLEN);      
-    if (addr_.ss_family == AF_INET) {
-      struct sockaddr_in * a = reinterpret_cast<struct sockaddr_in*>(addr());
+    if (addr->sa_family == AF_INET) {
+      struct sockaddr_in * a = reinterpret_cast<struct sockaddr_in*>(addr);
       if (a->sin_addr.s_addr == INADDR_ANY) {
         clog << "Server bound to any IP4";
       } else {
@@ -160,7 +163,7 @@ bool Server::bindToAddress() {
         clog << " on port " << ntohs(a->sin_port) << endl;
       }
     } else {
-      struct sockaddr_in6 * a = reinterpret_cast<struct sockaddr_in6*>(addr());
+      struct sockaddr_in6 * a = reinterpret_cast<struct sockaddr_in6*>(addr);
       inet_ntop(AF_INET6,&a->sin6_addr,ip,INET6_ADDRSTRLEN);  
       if (strcmp(ip,"::") == 0) {
         clog << "Server bound to any IP6";
@@ -178,8 +181,8 @@ bool Server::bindToAddress() {
   }
 }
 
-bool Server::startListening() {
-  if (listen(getSocket(),listenBacklog_) == -1) {
+bool Server::startListening(int backlog) {
+  if (listen(socket_,backlog) == -1) {
     cerr << "listen: " << strerror(errno) << endl;
     cerr.flush();
     return false;
@@ -193,7 +196,7 @@ bool Server::startListening() {
 bool Server::acceptConnection() {
   struct sockaddr_in peer_addr;
   socklen_t peer_addr_len = sizeof(struct sockaddr_in);
-  int conn_sock = ::accept(getSocket(),(struct sockaddr *) &peer_addr, &peer_addr_len);
+  int conn_sock = ::accept(socket_,(struct sockaddr *) &peer_addr, &peer_addr_len);
   if (conn_sock == -1) {
     cerr << "accept: " << strerror(errno) << endl;
     cerr.flush();
@@ -218,99 +221,35 @@ bool Server::acceptConnection() {
 /* Session */
 
 Session::~Session() { 
-  server_.sessions.erase(getSocket());
-}
-
-void Session::readToInputBuffer() {
-  int size;
-  do {
-    uint8_t buffer[64];
-    size = intread(&buffer[0],64);
-    for (int i=0;i<size;i++) {
-      inputBuffer.push_back(buffer[i]);
-    }
-  } while (size > 0);
-}
-
-void Session::sendOutputBuffer() {
-  size_t size = outputBuffer.size();
-  if (size == 0) return;
-  uint8_t *buffer = (uint8_t*)malloc(size);
-  for (size_t i=0;i<size;i++) {
-    buffer[i] = outputBuffer.at(0);
-    outputBuffer.pop_front();
-  }
-  int res = intwrite(buffer,size,false);
-  (void)res;
-  free(buffer);
-}
-
-void Session::handleEvents(uint32_t events) {
-  if (connected_) {
-    if (events & EPOLLRDHUP) {
-      disconnected();
-      return;
-    } 
-    if (events & EPOLLIN) {
-      readToInputBuffer();
-      dataAvailable();
-      if (outputBuffer.size() > 0U) 
-        setEvents(EPOLLIN | EPOLLOUT | EPOLLRDHUP);
-      else
-        setEvents(EPOLLIN | EPOLLRDHUP);
-    }
-    if (events & EPOLLOUT) {
-      sendOutputBuffer();
-      setEvents(EPOLLIN | EPOLLRDHUP);
-    }  
-  }
+  server_.sessions.erase(socket_);
 }
 
 /** @brief Server calls this method to signal the start of the session 
  *  Override accepted() to perform initial actions when a session starts */ 
 void Session::accepted() {
   char ip[INET6_ADDRSTRLEN];
-  inet_ntop(getDomain(),&addr_,ip,INET_ADDRSTRLEN);
+  inet_ntop(domain_,&addr_,ip,INET_ADDRSTRLEN);
   clog << "Connection from " << ip << ":" << port_ << " accepted" << endl;
   clog.flush();
-  if (server().useSSL) {
+  if (server().useSSL_) {
     ssl_ = new tcp::SSL(*this,server().ctx());
-    ssl_->setfd(getSocket());
-    connected_ = ssl_->accept();
+    ssl_->setfd(socket_);
+    if (ssl_->accept())
+      state_ = SocketState::CONNECTED;
+    else
+      disconnected();
   } else {
-    connected_ = true;
+    state_ = SocketState::CONNECTED;
   }
 }
-
-int Session::intread(void *buffer, const int size)
-{
-  if (server().useSSL && ssl_) {
-    return ssl_->read(buffer,size);
-  } else {
-    return ::recv(getSocket(),buffer,size,0);
-  }
-}
-
-int Session::intwrite(const void *buffer, const int size, const bool more)
-{
-  if (server().useSSL && ssl_) {
-    return ssl_->write(buffer,size);
-  } else {
-    if (more)
-      return ::send(getSocket(),buffer,size,MSG_MORE);
-    else  
-      return ::send(getSocket(),buffer,size,0);
-  }
-}
-
 
 /** @brief   Starts a graceful shutdown of the session 
  *  Override disconnect() to send any last messages required before the session is terminated.
  *  Be sure to call flush() to ensure the data is actually written to the write buffer. */
 void Session::disconnect() {
-  if (server().useSSL && ssl_) {
+  if (ssl_) {
     ssl_->shutdown();
-    printSSLErrors();
+    printSSLErrors();    
   }
   disconnected();
 }
@@ -318,18 +257,17 @@ void Session::disconnect() {
 /** @brief  Called in response to a disconnected TCP Connection
  *  Override disconnected() to perform cleanup operations when a connection is unexpectedly lost */
 void Session::disconnected() {
-  if (connected_) { 
+  if (connected()) { 
     if (ssl_) {
       delete ssl_;
       ssl_ = nullptr;
       printSSLErrors();
     }
-    connected_ = false;
+    state_ = SocketState::DISCONNECTED;
     char ip[INET_ADDRSTRLEN];
-    inet_ntop(getDomain(),&(addr_),ip,INET_ADDRSTRLEN);
+    inet_ntop(domain_,&(addr_),ip,INET_ADDRSTRLEN);
     clog << ip << ":" << port_ << " disconnected" << endl;
     clog.flush();
-    close(getSocket());
     delete this;
   }  
 }

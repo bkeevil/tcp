@@ -32,15 +32,11 @@ using namespace std;
 using namespace tcp;
 
 /** @brief  A blocking or non-blocking TCP client connection */
-class Client : public Socket {
+class Client : public DataSocket {
   public:
-    
-    /** @brief  Determines the state of a Client connection */
-    enum State { UNCONNECTED=0, CONNECTING, CONNECTED, DISCONNECTED };
-    
     /** @brief  Creates a blocking or a non-blocking client */
     /** @param blocking If true, a blocking socket will be created. Otherwise a non-blocking socket is created */
-    Client(const int domain = AF_INET, bool blocking = false) : Socket(domain,0,blocking) {}
+    Client(const int domain = AF_INET, bool blocking = false) : DataSocket(domain,0,blocking) {}
     
     /** @brief   Destroys the client 
       * @details Will call disconnect() first if necessary. This allows clients to be disconnected 
@@ -49,7 +45,7 @@ class Client : public Socket {
     virtual ~Client();
     
     /** @brief Return the client state. See the State enum for possible values */
-    State state() { return state_; }
+    SocketState state() { return state_; }
 
     /** @brief Returns the port number used for the last call to connect() */
     in_port_t port() { return port_; }
@@ -58,35 +54,16 @@ class Client : public Socket {
     in_addr_t addr() { return addr_; }
    
     /** @brief Returns the ssl context object for all client connections */
-    SSLContext &ctx() { return ctx_; }
-
-    /** @brief If true, the client will attempt to verify the peer certificate */
-    bool verifypeer {false};
-
-    /** @brief The filename of the client certificate in PEM format */
-    string certfile;
-
-    /** @brief The filename of the client private key in PEM format */
-    string keyfile;
-
-    /** @brief The password for the private key file, if required */
-    string keypass;
-
-    /** @brief Returns the ssl object for the current connection */
-    SSL *ssl() { return ssl_; }
-
-    /** @brief Whether or not to use SSL on connection */
-    bool useSSL {false};
-    
+    static SSLContext &ctx() { return ctx_; }
+   
     /** @brief   Initiates a connection to a server
      *  @details If the client is a blocking client, the call blocks until a connection is established. 
      *  @remark  Check the value of state() to determine if a non-blocking socket CONNECTED or is CONNECTING
      *  @return  True if the connection was initiated
      */
-    virtual bool connect(const string &hostname, const in_port_t port);
+    virtual bool connect(const string &hostname, const in_port_t port, bool useSSL = false);
 
-    /** @brief   Shutdown the socket and closes the connection 
-     *  @details Internally calls disconnect()
+    /** @brief   Disconnects the session gracefully 
      *  @details Override disconnect() to perform additional cleanup operations before a session is
      *           intentionally closed.
      */
@@ -94,48 +71,22 @@ class Client : public Socket {
 
   protected:
     
-    /** @brief Called by the EPoll object to process OS events sent to this handle
-     *  Session monitors for available data and disconnected TCP sessions 
+    /** @brief   Called by the EPoll object to process OS events sent to this handle
+     *  @details Extends the behavior of DataSocket::handleEvents to monitors for an initial 
+     *           EPOLLIN signal that a new non-blocking connection has been established.
      */
     void handleEvents(uint32_t events) override;
 
-    /** @brief An event handler called when the client connects to the server
-     *  Override connected() to perform operations when a connection is first established 
+    /** @brief   An event handler called when the client connects to the server
+     *  @details Override connected() to perform operations when a connection is first established 
      */ 
     virtual void connected();
     
-    /** @brief   Called when a tcp connection is dropped 
-     *  Shuts down the network Socket.
-     *  An application can override disconnected() to perform additional cleanup operations 
-     *  before the underlying TCP connection gets torn down. 
-     *  @remark  To intentionally close a Session, call disconnect() instead 
-     */
-    virtual void disconnected();
-
-    /** @brief    Called when new data is available for reading in the input buffer
-     *  @details  Clients must override the abstract dataAvailable method to do something in 
-     *            response to received data 
-     */
-    virtual void dataAvailable() {};  
-
-    int intread(void *buffer, const int size);
-    int intwrite(const void *buffer, const int size, const bool more = false);
-
-    void readToInputBuffer();
-
-    void sendOutputBuffer();
-
-    deque<uint8_t> outputBuffer;
-
-    deque<uint8_t> inputBuffer;
-
     friend class SSL;
   private:
-    State state_ {State::UNCONNECTED};
     in_port_t port_ {0};
-    in_addr_t addr_ {0}; 
+    in_addr_t addr_ {0};
     static SSLContext ctx_; 
-    SSL *ssl_ {nullptr};
 };
 
 }

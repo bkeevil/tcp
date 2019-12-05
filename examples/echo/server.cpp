@@ -6,14 +6,11 @@
 int main() { 
   initSSLLibrary();
   EchoServer server(AF_INET);
-  server.bindaddress = "lo";
-  server.port = 1234;
   //server.ctx().setVerifyPaths("/home/bkeevil/projects/sslserver/testkeys/testca.crt",NULL);
   //server.ctx().setCertificateAndKey(
   //  "/home/bkeevil/projects/sslserver/testkeys/mqtt-server-test.crt",
   //  "/home/bkeevil/projects/sslserver/testkeys/mqtt-server-test.key");
-  //server.useSSL = true;
-  server.start();
+  server.start(1234,string("lo"));
   //server.printifaddrs();
   if (!server.listening()) {
     cerr << "Failed to start server" << endl;

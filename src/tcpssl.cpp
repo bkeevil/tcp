@@ -36,138 +36,148 @@ void freeSSLLibrary()
   ERR_free_strings();
 }
 
-void printSSLErrors()
+void print_error_string(unsigned long err, const char* const label)
 {
-  ERR_print_errors_fp(stdout);
-  cerr.sync_with_stdio();
+  const char* const str = ERR_reason_error_string(err);
+  if(str)
+    cerr << str << endl;
+  else
+    cerr << label << " failed: " << err << hex << " (0x" << err << dec << endl;
 }
 
+int printSSLErrors_cb(const char *str, size_t len, void *u)
+{
+  (void)u;
+  for (size_t i=0;i<len;i++) {
+    cerr.put(str[i]);
+  }
+  cerr << endl;
+  return 1;
+}
+
+void printSSLErrors()
+{
+  ERR_print_errors_cb(printSSLErrors_cb,NULL);
+}
+
+/** @brief Prints the certificate common name to clog */
 void print_cn_name(const char* label, X509_NAME* const name)
 {
     int idx = -1, success = 0;
     unsigned char *utf8 = NULL;
     
-    do
-    {
-        if(!name) break; /* failed */
-        
-        idx = X509_NAME_get_index_by_NID(name, NID_commonName, -1);
-        if(!(idx > -1))  break; /* failed */
-        
-        X509_NAME_ENTRY* entry = X509_NAME_get_entry(name, idx);
-        if(!entry) break; /* failed */
-        
-        ASN1_STRING* data = X509_NAME_ENTRY_get_data(entry);
-        if(!data) break; /* failed */
-        
-        int length = ASN1_STRING_to_UTF8(&utf8, data);
-        if(!utf8 || !(length > 0))  break; /* failed */
-        
-        fprintf(stdout, "  %s: %s\n", label, utf8);
-        success = 1;
-        
+    do {
+      if(!name) break; /* failed */
+      
+      idx = X509_NAME_get_index_by_NID(name, NID_commonName, -1);
+      if(!(idx > -1))  break; /* failed */
+      
+      X509_NAME_ENTRY* entry = X509_NAME_get_entry(name, idx);
+      if(!entry) break; /* failed */
+      
+      ASN1_STRING* data = X509_NAME_ENTRY_get_data(entry);
+      if(!data) break; /* failed */
+      
+      int length = ASN1_STRING_to_UTF8(&utf8, data);
+      if(!utf8 || !(length > 0))  break; /* failed */
+      
+      clog << "  " << label << ": " << utf8 << endl;
+
+      success = 1;
+      
     } while (0);
     
     if(utf8)
-        OPENSSL_free(utf8);
+      OPENSSL_free(utf8);
     
     if(!success)
-        fprintf(stdout, "  %s: <not available>\n", label);
+      clog << "  " << label << ": <not available>" << endl;
 }
 
+/** @brief Prints the certificate subject alt name to clog */
 void print_san_name(const char* label, X509* const cert)
 {
     int success = 0;
     GENERAL_NAMES* names = NULL;
     unsigned char* utf8 = NULL;
     
-    do
-    {
-        if(!cert) break; /* failed */
+    do {
+      if(!cert) break; /* failed */
+      
+      names = (GENERAL_NAMES*)X509_get_ext_d2i(cert, NID_subject_alt_name, 0, 0 );
+      if(!names) break;
+      
+      int i = 0, count = sk_GENERAL_NAME_num(names);
+      if(!count) break; /* failed */
+      
+      for( i = 0; i < count; ++i )
+      {
+        GENERAL_NAME* entry = sk_GENERAL_NAME_value(names, i);
+        if(!entry) continue;
         
-        names = (GENERAL_NAMES*)X509_get_ext_d2i(cert, NID_subject_alt_name, 0, 0 );
-        if(!names) break;
-        
-        int i = 0, count = sk_GENERAL_NAME_num(names);
-        if(!count) break; /* failed */
-        
-        for( i = 0; i < count; ++i )
+        if(GEN_DNS == entry->type)
         {
-            GENERAL_NAME* entry = sk_GENERAL_NAME_value(names, i);
-            if(!entry) continue;
-            
-            if(GEN_DNS == entry->type)
-            {
-                int len1 = 0, len2 = -1;
-                
-                len1 = ASN1_STRING_to_UTF8(&utf8, entry->d.dNSName);
-                if(utf8) {
-                    len2 = (int)strlen((const char*)utf8);
-                }
-                
-                if(len1 != len2) {
-                    fprintf(stderr, "  Strlen and ASN1_STRING size do not match (embedded null?): %d vs %d\n", len2, len1);
-                }
-                
-                /* If there's a problem with string lengths, then     */
-                /* we skip the candidate and move on to the next.     */
-                /* Another policy would be to fails since it probably */
-                /* indicates the client is under attack.              */
-                if(utf8 && len1 && len2 && (len1 == len2)) {
-                    fprintf(stdout, "  %s: %s\n", label, utf8);
-                    success = 1;
-                }
-                
-                if(utf8) {
-                    OPENSSL_free(utf8), utf8 = NULL;
-                }
-            }
-            else
-            {
-                fprintf(stderr, "  Unknown GENERAL_NAME type: %d\n", entry->type);
-            }
+          int len1 = 0, len2 = -1;
+          
+          len1 = ASN1_STRING_to_UTF8(&utf8, entry->d.dNSName);
+          if(utf8) {
+            len2 = (int)strlen((const char*)utf8);
+          }
+          
+          if(len1 != len2) {
+            cerr << "  Strlen and ASN1_STRING size do not match (embedded null?): " << len2 << " vs " << len1 << endl;
+          }
+          
+          /* If there's a problem with string lengths, then     */
+          /* we skip the candidate and move on to the next.     */
+          /* Another policy would be to fails since it probably */
+          /* indicates the client is under attack.              */
+          if(utf8 && len1 && len2 && (len1 == len2)) {
+            clog << "  " << label << ": " << utf8 << endl;
+              success = 1;
+          }
+          
+          if(utf8) {
+            OPENSSL_free(utf8), utf8 = NULL;
+          }
+        } else {
+          clog << "  Unknown GENERAL_NAME type: " << entry->type << endl;
         }
+      }
 
     } while (0);
     
     if(names)
-        GENERAL_NAMES_free(names);
+      GENERAL_NAMES_free(names);
     
     if(utf8)
-        OPENSSL_free(utf8);
+      OPENSSL_free(utf8);
     
     if(!success)
-        fprintf(stdout, "  %s: <not available>\n", label);
+      clog << "  " << label << ": <not available>" << endl;
     
 }
 
+/** @brief Prints the certificate details to clog */
 int verify_callback(int preverify, X509_STORE_CTX* x509_ctx)
 {
-    int depth = X509_STORE_CTX_get_error_depth(x509_ctx);
-    //int err = X509_STORE_CTX_get_error(x509_ctx);
-    
-    X509* cert = X509_STORE_CTX_get_current_cert(x509_ctx);
-    X509_NAME* iname = cert ? X509_get_issuer_name(cert) : NULL;
-    X509_NAME* sname = cert ? X509_get_subject_name(cert) : NULL;
-    
-    print_cn_name("Issuer (cn)", iname);
-    print_cn_name("Subject (cn)", sname);
-    
-    if(depth == 0) {
-        /* If depth is 0, its the server's certificate. Print the SANs too */
-        print_san_name("Subject (san)", cert);
-    }
+  int depth = X509_STORE_CTX_get_error_depth(x509_ctx);
+  int err = X509_STORE_CTX_get_error(x509_ctx);
+  (void)err;
 
-    return preverify;
-}
+  X509* cert = X509_STORE_CTX_get_current_cert(x509_ctx);
+  X509_NAME* iname = cert ? X509_get_issuer_name(cert) : NULL;
+  X509_NAME* sname = cert ? X509_get_subject_name(cert) : NULL;
+  
+  print_cn_name("Issuer (cn)", iname);
+  print_cn_name("Subject (cn)", sname);
+  
+  if(depth == 0) {
+      /* If depth is 0, its the server's certificate. Print the SANs too */
+      print_san_name("Subject (san)", cert);
+  }
 
-void print_error_string(unsigned long err, const char* const label)
-{
-    const char* const str = ERR_reason_error_string(err);
-    if(str)
-        fprintf(stderr, "%s\n", str);
-    else
-        fprintf(stderr, "%s failed: %lu (0x%lx)\n", label, err, err);
+  return preverify;
 }
 
 int ctx_password_callback(char *buf, int size, int rwflag, void *userdata)
@@ -215,8 +225,6 @@ SSLContext::~SSLContext()
 void SSLContext::setOptions(bool verifypeer, bool compression, bool tlsonly)
 {
   long flags = 0;
-  //long res = 1;
-  //unsigned long ssl_err = 0;
     
   if (verifypeer) {
     if (mode_ == SSLMode::SERVER) {
@@ -307,7 +315,6 @@ bool SSLContext::setCertificateAndKey(const char *certfile, const char *keyfile)
     SSL_CTX_set_default_passwd_cb_userdata(ctx_,this);
     
     return true;
-
   } else {
     return false;
   }
@@ -325,7 +332,9 @@ int SSLContext::passwordCallback(char *buf, int size, int rwflag)
   }
 }
 
-SSL::SSL(Socket &owner, SSLContext &context) : owner_(owner)
+/* SSL */
+
+SSL::SSL(DataSocket &owner, SSLContext &context) : owner_(owner)
 {
   mode_ = context.mode();
   ssl_ = SSL_new(context.handle());
@@ -384,7 +393,6 @@ bool SSL::setCertificateAndKey(const char *certfile, const char *keyfile)
     SSL_set_default_passwd_cb_userdata(ssl_,this);
     
     return true;
-
   } else {
     return false;
   }
@@ -405,13 +413,13 @@ int SSL::passwordCallback(char *buf, int size, int rwflag)
 bool SSL::setfd(int socket)
 {
   if (socket == 0) {
-    cerr << "SSLSession::setfd: socket is NULL" << endl;
+    cerr << "SSL::setfd: socket is NULL" << endl;
     return false;
   } else {
     int res = SSL_set_fd(ssl_,socket);
     if (res != 1) {
       unsigned long ssl_err = ERR_get_error();
-      print_error_string(ssl_err,"SSL_set_fd");
+      print_error_string(ssl_err,"SSL::set_fd");
       return false;
     } else {
       return true;
@@ -425,8 +433,9 @@ bool SSL::connect()
   if (res <= 0) {
     unsigned long ssl_err = ERR_get_error();
     switch (ssl_err) {
-      case SSL_ERROR_WANT_READ: cerr << "connect wants read" << endl; break; 
-      case SSL_ERROR_WANT_WRITE: cerr << "peek wants write" << endl; break;
+      case SSL_ERROR_NONE: return true;
+      case SSL_ERROR_WANT_READ: wantsRead(); return connect(); break; 
+      case SSL_ERROR_WANT_WRITE: wantsWrite(); return connect(); break;
       default: print_error_string(ssl_err,"SSL_connect");
     }
     printSSLErrors();
@@ -442,8 +451,9 @@ bool SSL::accept()
   if (res <= 0) {
     unsigned long ssl_err = ERR_get_error();
     switch (ssl_err) {
-      case SSL_ERROR_WANT_READ: cerr << "accept wants read" << endl; break; 
-      case SSL_ERROR_WANT_WRITE: cerr << "accept wants write" << endl; break;
+      case SSL_ERROR_NONE: return true;
+      case SSL_ERROR_WANT_READ: wantsRead(); return accept(); break; 
+      case SSL_ERROR_WANT_WRITE: wantsWrite(); return accept(); break;
       default: print_error_string(ssl_err,"SSL_accept");
     }
     printSSLErrors();
@@ -453,7 +463,7 @@ bool SSL::accept()
   }
 }
 
-int SSL::read(void *buffer, const int size)
+size_t SSL::read(void *buffer, size_t size)
 {
   int res = SSL_read(ssl_,buffer,size);
   if (res <= 0) {
@@ -462,13 +472,14 @@ int SSL::read(void *buffer, const int size)
       case SSL_ERROR_NONE: return 0;
       case SSL_ERROR_WANT_READ: return read(buffer,size); break; 
       case SSL_ERROR_WANT_WRITE: wantsWrite(); return read(buffer,size); break;
-      default: print_error_string(ssl_err,"SSL_read");
+      default: print_error_string(ssl_err,"SSL_read"); return 0;
     }
+  } else {
+    return res;
   }
-  return res; 
 }
 
-int SSL::write(const void *buffer, const int size)
+size_t SSL::write(const void *buffer, size_t size)
 {
   int res = SSL_write(ssl_,buffer,size);
   if (res <= 0) {
@@ -477,10 +488,11 @@ int SSL::write(const void *buffer, const int size)
       case SSL_ERROR_NONE: return 0;
       case SSL_ERROR_WANT_READ: wantsRead(); return write(buffer,size); break; 
       case SSL_ERROR_WANT_WRITE: return write(buffer,size); break;
-      default: print_error_string(ssl_err,"SSL_write");
+      default: print_error_string(ssl_err,"SSL_write"); return 0; break;
     }
-  } 
-  return res;
+  } else {
+    return res;
+  }
 }
 
 void SSL::clear()
@@ -503,18 +515,12 @@ void SSL::shutdown()
 
 void SSL::wantsRead()
 {
-  if (mode_ == SSLMode::CLIENT)
-    static_cast<Client&>(owner_).readToInputBuffer();
-  else
-    static_cast<Session&>(owner_).readToInputBuffer();
+  owner_.readToInputBuffer();
 }
 
 void SSL::wantsWrite()
 {
-  if (mode_ == SSLMode::CLIENT)
-    static_cast<Client&>(owner_).sendOutputBuffer();
-  else
-    static_cast<Session&>(owner_).sendOutputBuffer();
+  owner_.sendOutputBuffer();
 }
 
 } // namespace tcp

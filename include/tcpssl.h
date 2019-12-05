@@ -1,3 +1,13 @@
+/** @file    tcpssl.h
+ *  @brief   Provides ssl client and server functionality
+ *  @details A single SSLContext class is shared by all clients of an application
+ *           A single SSLContext class is created for each listening server in an application
+ *  @author  Bond Keevil
+ *  @version 1.0
+ *  @date    2019
+ *  @copyright GPLv3.0
+ */
+
 #ifndef TCP_SSL_H
 #define TCP_SSL_H
 
@@ -9,9 +19,21 @@ namespace tcp {
 
 using namespace std;
 
+/** @brief   Initialize the openSSL library
+ *  @details Applications should call this method once at application startup.
+ *           It must be called before any other openSSL library functions are called.
+ */
 void initSSLLibrary();
+
+/** @brief   Free up resources created by the openSSL library
+ *  @details Applications should call this method at application shutdown.
+ */
 void freeSSLLibrary();
+
+/** @brief   This method will log all errors to stderr */
 void printSSLErrors();
+
+class DataSocket;
 
 enum class SSLMode { CLIENT, SERVER };
 
@@ -34,7 +56,7 @@ class SSLContext {
 
 class SSL {
   public:
-    SSL(Socket &owner, SSLContext &context);
+    SSL(DataSocket &owner, SSLContext &context);
     virtual ~SSL();
     void setOptions(bool verifypeer = false);
     bool setCertificateAndKey(const char *certfile, const char *keyfile);
@@ -44,8 +66,8 @@ class SSL {
     bool setfd(int socket);
     bool connect();
     bool accept();
-    int read(void *buffer, const int size);
-    int write(const void *buffer, const int size);
+    size_t read(void *buffer, size_t size);
+    size_t write(const void *buffer, size_t size);
     void clear();
     void shutdown();
     SSLMode mode() { return mode_; }
@@ -53,7 +75,7 @@ class SSL {
     void wantsRead();
     void wantsWrite();
   private:
-    Socket &owner_;
+    DataSocket &owner_;
     SSLMode mode_;
     ::SSL *ssl_;
 };

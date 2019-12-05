@@ -33,9 +33,9 @@ bool EPoll::add(Socket& socket, int events)
 {
   struct epoll_event ev;
   ev.events = events;
-  ev.data.fd = socket.getSocket();
-  if (epoll_ctl(handle_,EPOLL_CTL_ADD,socket.getSocket(),&ev) != -1) {
-    sockets[socket.getSocket()] = &socket;
+  ev.data.fd = socket.socket_;
+  if (epoll_ctl(handle_,EPOLL_CTL_ADD,socket.socket_,&ev) != -1) {
+    sockets[socket.socket_] = &socket;
     return true;
   } else {
     return false;
@@ -46,14 +46,14 @@ bool EPoll::update(Socket& socket, int events)
 {
   struct epoll_event ev;
   ev.events = events;
-  ev.data.fd = socket.getSocket();
-  return (epoll_ctl(handle_,EPOLL_CTL_MOD,socket.getSocket(),&ev) != -1);
+  ev.data.fd = socket.socket_;
+  return (epoll_ctl(handle_,EPOLL_CTL_MOD,socket.socket_,&ev) != -1);
 }
 
 bool EPoll::remove(Socket& socket) 
 {
-  if (epoll_ctl(handle_,EPOLL_CTL_DEL,socket.getSocket(),NULL) != -1) {
-    sockets.erase(socket.getSocket());
+  if (epoll_ctl(handle_,EPOLL_CTL_DEL,socket.socket_,NULL) != -1) {
+    sockets.erase(socket.socket_);
     return true;
   } else {
     return false;
@@ -122,13 +122,13 @@ Socket::Socket(const int domain, const int socket, const bool blocking, const in
 
 Socket::~Socket() 
 {
-  epoll.remove(*this);
   if (socket_ > 0) {
+    epoll.remove(*this);
     if (::close(socket_) == -1) {
       cerr << "close: " << strerror(errno) << endl;
     } 
+    socket_ = 0;
   }
-  socket_ = 0;
 }
 
 bool Socket::setEvents(int events) 
@@ -142,6 +142,135 @@ bool Socket::setEvents(int events)
     } 
   }
   return true;
+}
+
+void Socket::disconnected()
+{
+  if (state_ != SocketState::DISCONNECTED) {
+    state_ = SocketState::DISCONNECTED;
+    clog << "Disconnected" << endl;
+    clog.flush();  
+  }
+}
+
+/* DataSocket */
+
+void DataSocket::disconnected()
+{
+  if (ssl_) {
+    delete ssl_;
+    ssl_ = nullptr;
+    printSSLErrors();
+  }
+  Socket::disconnected();
+}
+
+void DataSocket::readToInputBuffer()
+{
+  uint8_t buffer[256];
+  int size;
+  do {
+    size = read_(&buffer[0],256);
+    for (int i=0;i<size;i++) {
+      inputBuffer.push_back(buffer[i]);
+    }
+  } while (size > 0);
+}
+
+void DataSocket::sendOutputBuffer()
+{
+  size_t size = outputBuffer.size();
+  if (size == 0) return;
+  uint8_t *buffer = (uint8_t*)malloc(size);
+  for (size_t i=0;i<size;i++) {
+    buffer[i] = outputBuffer.at(0);
+    outputBuffer.pop_front();
+  }
+  size_t res = write_(buffer,size);
+  if (res == size) {
+    setEvents(EPOLLIN | EPOLLRDHUP);
+  } else {
+    for (size_t i=res;i<size;i++) {
+      outputBuffer.push_front(buffer[i]);
+    }
+    setEvents(EPOLLIN | EPOLLOUT | EPOLLRDHUP);
+  }
+  free(buffer);
+}
+
+void DataSocket::updateEvents()
+{
+  if (outputBuffer.size() > 0U) 
+    setEvents(EPOLLIN | EPOLLOUT | EPOLLRDHUP);
+  else
+    setEvents(EPOLLIN | EPOLLRDHUP);  
+}
+
+void DataSocket::handleEvents(uint32_t events)
+{
+  if (state_ == SocketState::CONNECTED) {
+    if (events & EPOLLRDHUP) {
+      disconnected();
+      return;
+    } 
+    if (events & EPOLLIN) {
+      readToInputBuffer();
+      dataAvailable();
+      updateEvents();
+    }
+    if (events & EPOLLOUT) {
+      sendOutputBuffer();
+      updateEvents();
+    }  
+  }
+}
+
+size_t DataSocket::read_(void *buffer, size_t size)
+{
+  if (state_ == SocketState::CONNECTED) {
+    if (ssl_) {
+      return ssl_->read(buffer,size);
+    } else {
+      return ::recv(socket(),buffer,size,0);
+    }
+  } else {
+    return 0;
+  }
+}
+
+size_t DataSocket::write_(const void *buffer, size_t size)
+{
+  if (state_ == SocketState::CONNECTED) {
+    if (ssl_) {
+      return ssl_->write(buffer,size);
+    } else {
+      return ::send(socket(),buffer,size,0);
+    }
+  } else {
+    return 0;
+  }
+}
+
+size_t DataSocket::read(void *buffer, size_t size)
+{
+  size_t s = max<size_t>(size,inputBuffer.size());
+  if (s == 0)
+    return 0;
+  uint8_t *buf = (uint8_t*)buffer;
+  for (size_t i=0;i<s;i++) {
+    buf[i] = inputBuffer.at(0);
+    inputBuffer.pop_front();
+  }
+  return s;
+}
+
+size_t DataSocket::write(const void *buffer, size_t size)
+{
+  uint8_t *buf = (uint8_t*)buffer;
+  for (size_t i=0;i<size;i++) {
+    outputBuffer.push_back(buf[i]);
+  }
+  return size;
 }
 
 } // namespace tcp
