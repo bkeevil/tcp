@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['sessions_100',['sessions',['../classtcp_1_1Server.html#af10f0e0759175e0267b17eabe826fd1b',1,'tcp::Server']]]
+  ['verifypeer_124',['verifypeer',['../classtcp_1_1DataSocket.html#ad5cf967581e9d205554e9e9d002d78fc',1,'tcp::DataSocket']]]
 ];

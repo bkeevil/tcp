@@ -1,5 +1,5 @@
 <map id="tcp::DataSocket::disconnected" name="tcp::DataSocket::disconnected">
 <area shape="rect" id="node1" title="Called when a connection is disconnected." alt="" coords="5,31,208,57"/>
-<area shape="rect" id="node2" href="$classtcp_1_1Socket.html#a885bf8db13ca763538a7668195f5dba2" title="Called when a connection is disconnected." alt="" coords="256,5,431,32"/>
+<area shape="rect" id="node2" href="$classtcp_1_1Socket.html#a885bf8db13ca763538a7668195f5dba2" title="Called when a connection is disconnected due to a network error." alt="" coords="256,5,431,32"/>
 <area shape="rect" id="node3" href="$namespacetcp.html#a4e386f3935fd15d1413ab3ea56d5384d" title="This method will log all errors to stderr." alt="" coords="277,56,410,83"/>
 </map>

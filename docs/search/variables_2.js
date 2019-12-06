@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['sessions_105',['sessions',['../classtcp_1_1Server.html#af10f0e0759175e0267b17eabe826fd1b',1,'tcp::Server']]]
+  ['keyfile_119',['keyfile',['../classtcp_1_1DataSocket.html#aa4fe90d294c4ed4f4f71087ed076cbb5',1,'tcp::DataSocket']]],
+  ['keypass_120',['keypass',['../classtcp_1_1DataSocket.html#a4ab7473a48684200eba7eed80c9fc810',1,'tcp::DataSocket']]]
 ];

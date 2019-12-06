@@ -1,0 +1,5 @@
+<map id="tcp::DataSocket::write" name="tcp::DataSocket::write">
+<area shape="rect" id="node1" title="Writes the contents of buffer to the outputBuffer." alt="" coords="5,5,159,32"/>
+<area shape="rect" id="node2" href="$classtcp_1_1DataSocket.html#a96b20f5702de291a8d0b13f32a5663fe" title="Sets the value of the sockets EPoll event flags." alt="" coords="207,5,383,32"/>
+<area shape="rect" id="node3" href="$classtcp_1_1Socket.html#a5ed00a56d910790a50da518f3731ac01" title="Changes which epoll events the socket listens for." alt="" coords="431,5,587,32"/>
+</map>

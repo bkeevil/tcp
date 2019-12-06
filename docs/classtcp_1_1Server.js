@@ -8,6 +8,7 @@ var classtcp_1_1Server =
     [ "handleEvents", "classtcp_1_1Server.html#a87d114dd56e3d71bfba86fc1fc76baf3", null ],
     [ "listening", "classtcp_1_1Server.html#a387b2b684c0bb5fe2a64e1a9effa3a28", null ],
     [ "printifaddrs", "classtcp_1_1Server.html#aeb5b84daa153a2ae4f0a2fa7e3fa80ff", null ],
+    [ "start", "classtcp_1_1Server.html#a70868653e561a88f7d15dc051dfec0e2", null ],
     [ "start", "classtcp_1_1Server.html#a2f4ef415f2f23facdfc5f47d147b12a5", null ],
     [ "stop", "classtcp_1_1Server.html#a5eb47cde0c24cc829fd49ec37f5b58fa", null ],
     [ "Session", "classtcp_1_1Server.html#afbdd63a566878ce30072e785ca7e7740", null ],

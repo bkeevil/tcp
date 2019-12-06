@@ -570,7 +570,7 @@ $(document).ready(function(){initNavTree('tcpssl_8cpp_source.html','');});
 <div class="line"><a name="l00470"></a><span class="lineno">  470</span>&#160;    <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> ssl_err = SSL_get_error(ssl_,res);</div>
 <div class="line"><a name="l00471"></a><span class="lineno">  471</span>&#160;    <span class="keywordflow">switch</span> (ssl_err) {</div>
 <div class="line"><a name="l00472"></a><span class="lineno">  472</span>&#160;      <span class="keywordflow">case</span> SSL_ERROR_NONE: <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00473"></a><span class="lineno">  473</span>&#160;      <span class="keywordflow">case</span> SSL_ERROR_WANT_READ: <span class="keywordflow">return</span> read(buffer,size); <span class="keywordflow">break</span>; </div>
+<div class="line"><a name="l00473"></a><span class="lineno">  473</span>&#160;      <span class="keywordflow">case</span> SSL_ERROR_WANT_READ: <span class="keywordflow">return</span> 0; <span class="keywordflow">break</span>; </div>
 <div class="line"><a name="l00474"></a><span class="lineno">  474</span>&#160;      <span class="keywordflow">case</span> SSL_ERROR_WANT_WRITE: wantsWrite(); <span class="keywordflow">return</span> read(buffer,size); <span class="keywordflow">break</span>;</div>
 <div class="line"><a name="l00475"></a><span class="lineno">  475</span>&#160;      <span class="keywordflow">default</span>: print_error_string(ssl_err,<span class="stringliteral">&quot;SSL_read&quot;</span>); <span class="keywordflow">return</span> 0;</div>
 <div class="line"><a name="l00476"></a><span class="lineno">  476</span>&#160;    }</div>

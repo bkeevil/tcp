@@ -117,9 +117,9 @@ Collaboration diagram for tcp::Session:</div>
 <div class="center"><img src="classtcp_1_1Session__coll__graph.png" border="0" usemap="#tcp_1_1Session_coll__map" alt="Collaboration graph"/></div>
 <map name="tcp_1_1Session_coll__map" id="tcp_1_1Session_coll__map">
 <area shape="rect" title="Represents a TCP connection accepted by the Server." alt="" coords="55,171,149,197"/>
-<area shape="rect" href="classtcp_1_1DataSocket.html" title=" " alt="" coords="43,95,161,121"/>
+<area shape="rect" href="classtcp_1_1DataSocket.html" title="Represents a buffered socket that can send and receive data using optional SSL encryption." alt="" coords="43,95,161,121"/>
 <area shape="rect" href="classtcp_1_1Socket.html" title="Encapsulates a socket handle that is capable of recieving epoll events." alt="" coords="5,5,95,32"/>
-<area shape="rect" href="classtcp_1_1SSL.html" title=" " alt="" coords="119,5,192,32"/>
+<area shape="rect" href="classtcp_1_1SSL.html" title="Encapsulates an SSL record." alt="" coords="119,5,192,32"/>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
@@ -148,11 +148,15 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memitem:ab8859df9db0049daa55aa29f24b216c7 inherit pub_methods_classtcp_1_1DataSocket"><td class="memItemLeft" align="right" valign="top"><a id="ab8859df9db0049daa55aa29f24b216c7"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>DataSocket</b> (const int <a class="el" href="classtcp_1_1Socket.html#ab59208f2458274e28402b230cb4d6310">domain</a>=AF_INET, const int <a class="el" href="classtcp_1_1Socket.html#af4995f805c9976807f7fefd1dc90689e">socket</a>=0, const bool blocking=false, const int events=(EPOLLIN|EPOLLRDHUP))</td></tr>
 <tr class="separator:ab8859df9db0049daa55aa29f24b216c7 inherit pub_methods_classtcp_1_1DataSocket"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad710eca0814aced0bcefe605993e9bb8 inherit pub_methods_classtcp_1_1DataSocket"><td class="memItemLeft" align="right" valign="top"><a id="ad710eca0814aced0bcefe605993e9bb8"></a>
-size_t&#160;</td><td class="memItemRight" valign="bottom"><b>read</b> (void *buffer, size_t size)</td></tr>
+<tr class="memitem:ab4f93153ab86b43018387bed21b66a76 inherit pub_methods_classtcp_1_1DataSocket"><td class="memItemLeft" align="right" valign="top"><a id="ab4f93153ab86b43018387bed21b66a76"></a>
+size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtcp_1_1DataSocket.html#ab4f93153ab86b43018387bed21b66a76">available</a> ()</td></tr>
+<tr class="memdesc:ab4f93153ab86b43018387bed21b66a76 inherit pub_methods_classtcp_1_1DataSocket"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns how many bytes are available in the inputBuffer. <br /></td></tr>
+<tr class="separator:ab4f93153ab86b43018387bed21b66a76 inherit pub_methods_classtcp_1_1DataSocket"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad710eca0814aced0bcefe605993e9bb8 inherit pub_methods_classtcp_1_1DataSocket"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtcp_1_1DataSocket.html#ad710eca0814aced0bcefe605993e9bb8">read</a> (void *buffer, size_t size)</td></tr>
+<tr class="memdesc:ad710eca0814aced0bcefe605993e9bb8 inherit pub_methods_classtcp_1_1DataSocket"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads up to size bytes from inputBuffer into buffer.  <a href="classtcp_1_1DataSocket.html#ad710eca0814aced0bcefe605993e9bb8">More...</a><br /></td></tr>
 <tr class="separator:ad710eca0814aced0bcefe605993e9bb8 inherit pub_methods_classtcp_1_1DataSocket"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6a10d49abbaf997785391f56c5be280f inherit pub_methods_classtcp_1_1DataSocket"><td class="memItemLeft" align="right" valign="top"><a id="a6a10d49abbaf997785391f56c5be280f"></a>
-size_t&#160;</td><td class="memItemRight" valign="bottom"><b>write</b> (const void *buffer, size_t size)</td></tr>
+<tr class="memitem:a6a10d49abbaf997785391f56c5be280f inherit pub_methods_classtcp_1_1DataSocket"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtcp_1_1DataSocket.html#a6a10d49abbaf997785391f56c5be280f">write</a> (const void *buffer, size_t size)</td></tr>
+<tr class="memdesc:a6a10d49abbaf997785391f56c5be280f inherit pub_methods_classtcp_1_1DataSocket"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes the contents of buffer to the outputBuffer.  <a href="classtcp_1_1DataSocket.html#a6a10d49abbaf997785391f56c5be280f">More...</a><br /></td></tr>
 <tr class="separator:a6a10d49abbaf997785391f56c5be280f inherit pub_methods_classtcp_1_1DataSocket"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a72bdb08a69e5abacd814ca92cc3c488e inherit pub_methods_classtcp_1_1DataSocket"><td class="memItemLeft" align="right" valign="top"><a id="a72bdb08a69e5abacd814ca92cc3c488e"></a>
 <a class="el" href="classtcp_1_1SSL.html">SSL</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtcp_1_1DataSocket.html#a72bdb08a69e5abacd814ca92cc3c488e">ssl</a> ()</td></tr>
@@ -173,9 +177,6 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtcp_1_1Socket.html#ab59208f2458274e28402b230cb4d6310">domain</a> () const</td></tr>
 <tr class="memdesc:ab59208f2458274e28402b230cb4d6310 inherit pub_methods_classtcp_1_1Socket"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the socket domain (AF_INET, AF_INET6, AF_UNIX) <br /></td></tr>
 <tr class="separator:ab59208f2458274e28402b230cb4d6310 inherit pub_methods_classtcp_1_1Socket"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5ed00a56d910790a50da518f3731ac01 inherit pub_methods_classtcp_1_1Socket"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtcp_1_1Socket.html#a5ed00a56d910790a50da518f3731ac01">setEvents</a> (int events)</td></tr>
-<tr class="memdesc:a5ed00a56d910790a50da518f3731ac01 inherit pub_methods_classtcp_1_1Socket"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changes which epoll events the socket listens for.  <a href="classtcp_1_1Socket.html#a5ed00a56d910790a50da518f3731ac01">More...</a><br /></td></tr>
-<tr class="separator:a5ed00a56d910790a50da518f3731ac01 inherit pub_methods_classtcp_1_1Socket"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
@@ -197,17 +198,21 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 <tr class="separator:a47f6c95ff9ac648e18b066ac4cb58bbc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_methods_classtcp_1_1DataSocket"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classtcp_1_1DataSocket')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="classtcp_1_1DataSocket.html">tcp::DataSocket</a></td></tr>
 <tr class="memitem:a4f4942d527cb18aaba3a82fd360a94b9 inherit pro_methods_classtcp_1_1DataSocket"><td class="memItemLeft" align="right" valign="top"><a id="a4f4942d527cb18aaba3a82fd360a94b9"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>readToInputBuffer</b> ()</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtcp_1_1DataSocket.html#a4f4942d527cb18aaba3a82fd360a94b9">readToInputBuffer</a> ()</td></tr>
+<tr class="memdesc:a4f4942d527cb18aaba3a82fd360a94b9 inherit pro_methods_classtcp_1_1DataSocket"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads all available data from the socket into inputBuffer. <br /></td></tr>
 <tr class="separator:a4f4942d527cb18aaba3a82fd360a94b9 inherit pro_methods_classtcp_1_1DataSocket"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad49eff9d3b22d85c9f3cf89a46fb688f inherit pro_methods_classtcp_1_1DataSocket"><td class="memItemLeft" align="right" valign="top"><a id="ad49eff9d3b22d85c9f3cf89a46fb688f"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>sendOutputBuffer</b> ()</td></tr>
+<tr class="memitem:ad49eff9d3b22d85c9f3cf89a46fb688f inherit pro_methods_classtcp_1_1DataSocket"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtcp_1_1DataSocket.html#ad49eff9d3b22d85c9f3cf89a46fb688f">sendOutputBuffer</a> ()</td></tr>
+<tr class="memdesc:ad49eff9d3b22d85c9f3cf89a46fb688f inherit pro_methods_classtcp_1_1DataSocket"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes all available data from the outputBuffer to the socket.  <a href="classtcp_1_1DataSocket.html#ad49eff9d3b22d85c9f3cf89a46fb688f">More...</a><br /></td></tr>
 <tr class="separator:ad49eff9d3b22d85c9f3cf89a46fb688f inherit pro_methods_classtcp_1_1DataSocket"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab25807dd716c3bef4f57aca0f8708767 inherit pro_methods_classtcp_1_1DataSocket"><td class="memItemLeft" align="right" valign="top"><a id="ab25807dd716c3bef4f57aca0f8708767"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>updateEvents</b> ()</td></tr>
-<tr class="separator:ab25807dd716c3bef4f57aca0f8708767 inherit pro_methods_classtcp_1_1DataSocket"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a96b20f5702de291a8d0b13f32a5663fe inherit pro_methods_classtcp_1_1DataSocket"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtcp_1_1DataSocket.html#a96b20f5702de291a8d0b13f32a5663fe">canSend</a> (bool value)</td></tr>
+<tr class="memdesc:a96b20f5702de291a8d0b13f32a5663fe inherit pro_methods_classtcp_1_1DataSocket"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the value of the sockets <a class="el" href="classtcp_1_1EPoll.html" title="Encapsulates the EPoll interface.">EPoll</a> event flags.  <a href="classtcp_1_1DataSocket.html#a96b20f5702de291a8d0b13f32a5663fe">More...</a><br /></td></tr>
+<tr class="separator:a96b20f5702de291a8d0b13f32a5663fe inherit pro_methods_classtcp_1_1DataSocket"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad6e7e376a28de7cb0b1270be7a170ab4 inherit pro_methods_classtcp_1_1DataSocket"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtcp_1_1DataSocket.html#ad6e7e376a28de7cb0b1270be7a170ab4">handleEvents</a> (uint32_t events) override</td></tr>
 <tr class="memdesc:ad6e7e376a28de7cb0b1270be7a170ab4 inherit pro_methods_classtcp_1_1DataSocket"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called by the <a class="el" href="classtcp_1_1EPoll.html" title="Encapsulates the EPoll interface.">EPoll</a> class when the listening socket recieves an event from the OS.  <a href="classtcp_1_1DataSocket.html#ad6e7e376a28de7cb0b1270be7a170ab4">More...</a><br /></td></tr>
 <tr class="separator:ad6e7e376a28de7cb0b1270be7a170ab4 inherit pro_methods_classtcp_1_1DataSocket"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac0364f0b64f59bf3645f790c8c66c7e8 inherit pro_methods_classtcp_1_1DataSocket"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtcp_1_1DataSocket.html#ac0364f0b64f59bf3645f790c8c66c7e8">disconnect</a> () override</td></tr>
+<tr class="memdesc:ac0364f0b64f59bf3645f790c8c66c7e8 inherit pro_methods_classtcp_1_1DataSocket"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shuts down any <a class="el" href="classtcp_1_1SSL.html" title="Encapsulates an SSL record.">SSL</a> connection gracefully and frees its resources.  <a href="classtcp_1_1DataSocket.html#ac0364f0b64f59bf3645f790c8c66c7e8">More...</a><br /></td></tr>
+<tr class="separator:ac0364f0b64f59bf3645f790c8c66c7e8 inherit pro_methods_classtcp_1_1DataSocket"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa55fc17452ad9de9344b55dab43e937d inherit pro_methods_classtcp_1_1DataSocket"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtcp_1_1DataSocket.html#aa55fc17452ad9de9344b55dab43e937d">disconnected</a> () override</td></tr>
 <tr class="memdesc:aa55fc17452ad9de9344b55dab43e937d inherit pro_methods_classtcp_1_1DataSocket"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called when a connection is disconnected.  <a href="classtcp_1_1DataSocket.html#aa55fc17452ad9de9344b55dab43e937d">More...</a><br /></td></tr>
 <tr class="separator:aa55fc17452ad9de9344b55dab43e937d inherit pro_methods_classtcp_1_1DataSocket"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -217,6 +222,10 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>read_</b> (void *bu
 <tr class="memitem:a369e7612cb49468b318487f9fe771326 inherit pro_methods_classtcp_1_1DataSocket"><td class="memItemLeft" align="right" valign="top"><a id="a369e7612cb49468b318487f9fe771326"></a>
 size_t&#160;</td><td class="memItemRight" valign="bottom"><b>write_</b> (const void *buffer, size_t size)</td></tr>
 <tr class="separator:a369e7612cb49468b318487f9fe771326 inherit pro_methods_classtcp_1_1DataSocket"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_methods_classtcp_1_1Socket"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classtcp_1_1Socket')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="classtcp_1_1Socket.html">tcp::Socket</a></td></tr>
+<tr class="memitem:a5ed00a56d910790a50da518f3731ac01 inherit pro_methods_classtcp_1_1Socket"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtcp_1_1Socket.html#a5ed00a56d910790a50da518f3731ac01">setEvents</a> (int events)</td></tr>
+<tr class="memdesc:a5ed00a56d910790a50da518f3731ac01 inherit pro_methods_classtcp_1_1Socket"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changes which epoll events the socket listens for.  <a href="classtcp_1_1Socket.html#a5ed00a56d910790a50da518f3731ac01">More...</a><br /></td></tr>
+<tr class="separator:a5ed00a56d910790a50da518f3731ac01 inherit pro_methods_classtcp_1_1Socket"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
 Friends</h2></td></tr>
@@ -254,24 +263,29 @@ deque&lt; uint8_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>inp
 deque&lt; uint8_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>outputBuffer</b></td></tr>
 <tr class="separator:a80989e7ed4e8d4778828f0ebc09215cc inherit pro_attribs_classtcp_1_1DataSocket"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af69fd8106c3210fd6db39f50cf3bc680 inherit pro_attribs_classtcp_1_1DataSocket"><td class="memItemLeft" align="right" valign="top"><a id="af69fd8106c3210fd6db39f50cf3bc680"></a>
-<a class="el" href="classtcp_1_1SSL.html">SSL</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>ssl_</b></td></tr>
+<a class="el" href="classtcp_1_1SSL.html">SSL</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>ssl_</b> {nullptr}</td></tr>
 <tr class="separator:af69fd8106c3210fd6db39f50cf3bc680 inherit pro_attribs_classtcp_1_1DataSocket"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_attribs_classtcp_1_1Socket"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classtcp_1_1Socket')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="classtcp_1_1Socket.html">tcp::Socket</a></td></tr>
-<tr class="memitem:a6bf2343caa8283ec40c337a7df0ee3fd inherit pro_attribs_classtcp_1_1Socket"><td class="memItemLeft" align="right" valign="top"><a id="a6bf2343caa8283ec40c337a7df0ee3fd"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>domain_</b></td></tr>
+<tr class="memitem:a6bf2343caa8283ec40c337a7df0ee3fd inherit pro_attribs_classtcp_1_1Socket"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtcp_1_1Socket.html#a6bf2343caa8283ec40c337a7df0ee3fd">domain_</a></td></tr>
+<tr class="memdesc:a6bf2343caa8283ec40c337a7df0ee3fd inherit pro_attribs_classtcp_1_1Socket"><td class="mdescLeft">&#160;</td><td class="mdescRight">Either AF_INET or AF_INET6.  <a href="classtcp_1_1Socket.html#a6bf2343caa8283ec40c337a7df0ee3fd">More...</a><br /></td></tr>
 <tr class="separator:a6bf2343caa8283ec40c337a7df0ee3fd inherit pro_attribs_classtcp_1_1Socket"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6fcf1da6bfc15303e471074bc299e76b inherit pro_attribs_classtcp_1_1Socket"><td class="memItemLeft" align="right" valign="top"><a id="a6fcf1da6bfc15303e471074bc299e76b"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>socket_</b></td></tr>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtcp_1_1Socket.html#a6fcf1da6bfc15303e471074bc299e76b">socket_</a></td></tr>
+<tr class="memdesc:a6fcf1da6bfc15303e471074bc299e76b inherit pro_attribs_classtcp_1_1Socket"><td class="mdescLeft">&#160;</td><td class="mdescRight">The unix socket handle. <br /></td></tr>
 <tr class="separator:a6fcf1da6bfc15303e471074bc299e76b inherit pro_attribs_classtcp_1_1Socket"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a72f08cd52de1480fef5f8b120ab73da7 inherit pro_attribs_classtcp_1_1Socket"><td class="memItemLeft" align="right" valign="top"><a id="a72f08cd52de1480fef5f8b120ab73da7"></a>
-<a class="el" href="namespacetcp.html#a2c9f9abccc28c28a2d375823ca900b1b">SocketState</a>&#160;</td><td class="memItemRight" valign="bottom"><b>state_</b></td></tr>
+<a class="el" href="namespacetcp.html#a2c9f9abccc28c28a2d375823ca900b1b">SocketState</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtcp_1_1Socket.html#a72f08cd52de1480fef5f8b120ab73da7">state_</a></td></tr>
+<tr class="memdesc:a72f08cd52de1480fef5f8b120ab73da7 inherit pro_attribs_classtcp_1_1Socket"><td class="mdescLeft">&#160;</td><td class="mdescRight">The socket state. <br /></td></tr>
 <tr class="separator:a72f08cd52de1480fef5f8b120ab73da7 inherit pro_attribs_classtcp_1_1Socket"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2f9da75083a9c40fa1a56f916fe4cc03 inherit pro_attribs_classtcp_1_1Socket"><td class="memItemLeft" align="right" valign="top"><a id="a2f9da75083a9c40fa1a56f916fe4cc03"></a>
+recursive_mutex&#160;</td><td class="memItemRight" valign="bottom"><b>mtx</b></td></tr>
+<tr class="separator:a2f9da75083a9c40fa1a56f916fe4cc03 inherit pro_attribs_classtcp_1_1Socket"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Represents a TCP connection accepted by the <a class="el" href="classtcp_1_1Server.html" title="Listens for TCP connections and establishes Sessions.">Server</a>. </p>
 <p>A <a class="el" href="classtcp_1_1Session.html" title="Represents a TCP connection accepted by the Server.">Session</a> descendant class is instantiated by the server using the Session::createSession() method. It is destroyed by calling <a class="el" href="classtcp_1_1Session.html#a06aca557aa2fd4a627c8dab23ed92de8" title="Shutdown the socket and close the session.">disconnect()</a> or <a class="el" href="classtcp_1_1Session.html#a47f6c95ff9ac648e18b066ac4cb58bbc" title="Called when a tcp connection is dropped.">disconnected()</a> </p>
 
-<p class="definition">Definition at line <a class="el" href="tcpserver_8h_source.html#l00104">104</a> of file <a class="el" href="tcpserver_8h_source.html">tcpserver.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tcpserver_8h_source.html#l00105">105</a> of file <a class="el" href="tcpserver_8h_source.html">tcpserver.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a07ef64bbc41a51c2cfc8bdf45bea54cb"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a07ef64bbc41a51c2cfc8bdf45bea54cb">&#9670;&nbsp;</a></span>Session()</h2>
@@ -316,8 +330,8 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>socket_</b></td></tr>
 <p>Creates a new session. </p>
 <p>The constructor is protected and is called by the <a class="el" href="classtcp_1_1Server.html#a503569c7d9545817fad80ec775e56e07" title="Called when the server needs to create a new object of the tcp::Session class.">Server::createSession()</a> method </p>
 
-<p class="definition">Definition at line <a class="el" href="tcpserver_8h_source.html#l00132">132</a> of file <a class="el" href="tcpserver_8h_source.html">tcpserver.h</a>.</p>
-<div class="fragment"><div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;      : DataSocket(<a class="code" href="classtcp_1_1Session.html#ac9f9163e6b30946cd5d1f3809d79f4e9">server</a>.domain_,<a class="code" href="classtcp_1_1Socket.html#af4995f805c9976807f7fefd1dc90689e">socket</a>), server_(<a class="code" href="classtcp_1_1Session.html#ac9f9163e6b30946cd5d1f3809d79f4e9">server</a>), port_(peer_addr.sin_port), addr_(peer_addr.sin_addr.s_addr) { }</div>
+<p class="definition">Definition at line <a class="el" href="tcpserver_8h_source.html#l00133">133</a> of file <a class="el" href="tcpserver_8h_source.html">tcpserver.h</a>.</p>
+<div class="fragment"><div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;      : DataSocket(<a class="code" href="classtcp_1_1Session.html#ac9f9163e6b30946cd5d1f3809d79f4e9">server</a>.<a class="code" href="classtcp_1_1Socket.html#a6bf2343caa8283ec40c337a7df0ee3fd">domain_</a>,<a class="code" href="classtcp_1_1Socket.html#af4995f805c9976807f7fefd1dc90689e">socket</a>), server_(<a class="code" href="classtcp_1_1Session.html#ac9f9163e6b30946cd5d1f3809d79f4e9">server</a>), port_(peer_addr.sin_port), addr_(peer_addr.sin_addr.s_addr) { }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -349,23 +363,23 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>socket_</b></td></tr>
 <p><a class="el" href="classtcp_1_1Server.html" title="Listens for TCP connections and establishes Sessions.">Server</a> calls this method to signal the start of the session Override <a class="el" href="classtcp_1_1Session.html#a753f6851639aad6ee9714d02a87696f9" title="Called by the Server::acceptConnection after a connection has been accepted.">accepted()</a> to perform initial actions when a session starts.</p>
 <p>Override accepted to perform operations when a session is first established. In the base class, <a class="el" href="classtcp_1_1Session.html#a753f6851639aad6ee9714d02a87696f9" title="Called by the Server::acceptConnection after a connection has been accepted.">accepted()</a> prints a message to clog. </p>
 
-<p class="definition">Definition at line <a class="el" href="tcpserver_8cpp_source.html#l00229">229</a> of file <a class="el" href="tcpserver_8cpp_source.html">tcpserver.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;                       {</div>
-<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;  <span class="keywordtype">char</span> ip[INET6_ADDRSTRLEN];</div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;  inet_ntop(domain_,&amp;addr_,ip,INET_ADDRSTRLEN);</div>
-<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;  clog &lt;&lt; <span class="stringliteral">&quot;Connection from &quot;</span> &lt;&lt; ip &lt;&lt; <span class="stringliteral">&quot;:&quot;</span> &lt;&lt; port_ &lt;&lt; <span class="stringliteral">&quot; accepted&quot;</span> &lt;&lt; endl;</div>
-<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;  clog.flush();</div>
-<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;  <span class="keywordflow">if</span> (<a class="code" href="classtcp_1_1Session.html#ac9f9163e6b30946cd5d1f3809d79f4e9">server</a>().useSSL_) {</div>
-<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;    ssl_ = <span class="keyword">new</span> <a class="code" href="classtcp_1_1SSL.html">tcp::SSL</a>(*<span class="keyword">this</span>,<a class="code" href="classtcp_1_1Session.html#ac9f9163e6b30946cd5d1f3809d79f4e9">server</a>().ctx());</div>
-<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;    ssl_-&gt;setfd(socket_);</div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;    <span class="keywordflow">if</span> (ssl_-&gt;accept())</div>
-<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;      state_ = SocketState::CONNECTED;</div>
-<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;    <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;      <a class="code" href="classtcp_1_1Session.html#a47f6c95ff9ac648e18b066ac4cb58bbc">disconnected</a>();</div>
-<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;  } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;    state_ = SocketState::CONNECTED;</div>
-<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;  }</div>
-<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;}</div>
+<p class="definition">Definition at line <a class="el" href="tcpserver_8cpp_source.html#l00235">235</a> of file <a class="el" href="tcpserver_8cpp_source.html">tcpserver.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;                       {</div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;  <span class="keywordtype">char</span> ip[INET6_ADDRSTRLEN];</div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;  inet_ntop(<a class="code" href="classtcp_1_1Socket.html#a6bf2343caa8283ec40c337a7df0ee3fd">domain_</a>,&amp;addr_,ip,INET_ADDRSTRLEN);</div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;  clog &lt;&lt; <span class="stringliteral">&quot;Connection from &quot;</span> &lt;&lt; ip &lt;&lt; <span class="stringliteral">&quot;:&quot;</span> &lt;&lt; port_ &lt;&lt; <span class="stringliteral">&quot; accepted&quot;</span> &lt;&lt; endl;</div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;  clog.flush();</div>
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;  <span class="keywordflow">if</span> (<a class="code" href="classtcp_1_1Session.html#ac9f9163e6b30946cd5d1f3809d79f4e9">server</a>().useSSL_) {</div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;    ssl_ = <span class="keyword">new</span> <a class="code" href="classtcp_1_1SSL.html">tcp::SSL</a>(*<span class="keyword">this</span>,<a class="code" href="classtcp_1_1Session.html#ac9f9163e6b30946cd5d1f3809d79f4e9">server</a>().ctx());</div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;    ssl_-&gt;setfd(<a class="code" href="classtcp_1_1Socket.html#a6fcf1da6bfc15303e471074bc299e76b">socket_</a>);</div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;    <span class="keywordflow">if</span> (ssl_-&gt;accept())</div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;      <a class="code" href="classtcp_1_1Socket.html#a72f08cd52de1480fef5f8b120ab73da7">state_</a> = SocketState::CONNECTED;</div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;    <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;      <a class="code" href="classtcp_1_1Session.html#a47f6c95ff9ac648e18b066ac4cb58bbc">disconnected</a>();</div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;  } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;    <a class="code" href="classtcp_1_1Socket.html#a72f08cd52de1480fef5f8b120ab73da7">state_</a> = SocketState::CONNECTED;</div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;  }</div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -397,8 +411,8 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>socket_</b></td></tr>
 
 <p>Implements <a class="el" href="classtcp_1_1DataSocket.html#ae6e1cc8d0fee6f7807f2a74e1fff67de">tcp::DataSocket</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="tcpserver_8h_source.html#l00140">140</a> of file <a class="el" href="tcpserver_8h_source.html">tcpserver.h</a>.</p>
-<div class="fragment"><div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;{};</div>
+<p class="definition">Definition at line <a class="el" href="tcpserver_8h_source.html#l00141">141</a> of file <a class="el" href="tcpserver_8h_source.html">tcpserver.h</a>.</p>
+<div class="fragment"><div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;{};</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -431,14 +445,16 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>socket_</b></td></tr>
 <p>Override <a class="el" href="classtcp_1_1Session.html#a06aca557aa2fd4a627c8dab23ed92de8" title="Shutdown the socket and close the session.">disconnect()</a> to perform additional cleanup operations before a session is intentionally closed. </p><dl class="section warning"><dt>Warning</dt><dd><a class="el" href="classtcp_1_1Session.html#a06aca557aa2fd4a627c8dab23ed92de8" title="Shutdown the socket and close the session.">disconnect()</a> causes the <a class="el" href="classtcp_1_1Session.html" title="Represents a TCP connection accepted by the Server.">Session</a> to be destroyed</dd></dl>
 <p>Be sure to call flush() to ensure the data is actually written to the write buffer. </p>
 
-<p class="definition">Definition at line <a class="el" href="tcpserver_8cpp_source.html#l00249">249</a> of file <a class="el" href="tcpserver_8cpp_source.html">tcpserver.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;                         {</div>
-<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;  <span class="keywordflow">if</span> (ssl_) {</div>
-<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;    ssl_-&gt;shutdown();</div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;    <a class="code" href="namespacetcp.html#a4e386f3935fd15d1413ab3ea56d5384d">printSSLErrors</a>();    </div>
-<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;  }</div>
-<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;  <a class="code" href="classtcp_1_1Session.html#a47f6c95ff9ac648e18b066ac4cb58bbc">disconnected</a>();</div>
-<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;}</div>
+<p>Reimplemented from <a class="el" href="classtcp_1_1Socket.html#a79b42453c6031e3bd0594665ae686422">tcp::Socket</a>.</p>
+
+<p class="definition">Definition at line <a class="el" href="tcpserver_8cpp_source.html#l00255">255</a> of file <a class="el" href="tcpserver_8cpp_source.html">tcpserver.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;                         {</div>
+<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;  <span class="keywordflow">if</span> (ssl_) {</div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;    ssl_-&gt;shutdown();</div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;    <a class="code" href="namespacetcp.html#a4e386f3935fd15d1413ab3ea56d5384d">printSSLErrors</a>();    </div>
+<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;  }</div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;  <a class="code" href="classtcp_1_1Session.html#a47f6c95ff9ac648e18b066ac4cb58bbc">disconnected</a>();</div>
+<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;}</div>
 </div><!-- fragment --><div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -482,22 +498,22 @@ Here is the call graph for this function:</div>
 
 <p>Reimplemented from <a class="el" href="classtcp_1_1Socket.html#a885bf8db13ca763538a7668195f5dba2">tcp::Socket</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="tcpserver_8cpp_source.html#l00259">259</a> of file <a class="el" href="tcpserver_8cpp_source.html">tcpserver.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;                           {</div>
-<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;  <span class="keywordflow">if</span> (<a class="code" href="classtcp_1_1Session.html#a7c114f15013ee8e3097669bf6095a5e6">connected</a>()) { </div>
-<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;    <span class="keywordflow">if</span> (ssl_) {</div>
-<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;      <span class="keyword">delete</span> ssl_;</div>
-<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;      ssl_ = <span class="keyword">nullptr</span>;</div>
-<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;      <a class="code" href="namespacetcp.html#a4e386f3935fd15d1413ab3ea56d5384d">printSSLErrors</a>();</div>
-<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;    }</div>
-<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;    state_ = SocketState::DISCONNECTED;</div>
-<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;    <span class="keywordtype">char</span> ip[INET_ADDRSTRLEN];</div>
-<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;    inet_ntop(domain_,&amp;(addr_),ip,INET_ADDRSTRLEN);</div>
-<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;    clog &lt;&lt; ip &lt;&lt; <span class="stringliteral">&quot;:&quot;</span> &lt;&lt; port_ &lt;&lt; <span class="stringliteral">&quot; disconnected&quot;</span> &lt;&lt; endl;</div>
-<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;    clog.flush();</div>
-<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;    <span class="keyword">delete</span> <span class="keyword">this</span>;</div>
-<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;  }  </div>
-<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;}</div>
+<p class="definition">Definition at line <a class="el" href="tcpserver_8cpp_source.html#l00265">265</a> of file <a class="el" href="tcpserver_8cpp_source.html">tcpserver.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;                           {</div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;  <span class="keywordflow">if</span> (<a class="code" href="classtcp_1_1Session.html#a7c114f15013ee8e3097669bf6095a5e6">connected</a>()) { </div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;    <span class="keywordflow">if</span> (ssl_) {</div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;      <span class="keyword">delete</span> ssl_;</div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;      ssl_ = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;      <a class="code" href="namespacetcp.html#a4e386f3935fd15d1413ab3ea56d5384d">printSSLErrors</a>();</div>
+<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;    }</div>
+<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;    <a class="code" href="classtcp_1_1Socket.html#a72f08cd52de1480fef5f8b120ab73da7">state_</a> = SocketState::DISCONNECTED;</div>
+<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;    <span class="keywordtype">char</span> ip[INET_ADDRSTRLEN];</div>
+<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;    inet_ntop(<a class="code" href="classtcp_1_1Socket.html#a6bf2343caa8283ec40c337a7df0ee3fd">domain_</a>,&amp;(addr_),ip,INET_ADDRSTRLEN);</div>
+<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;    clog &lt;&lt; ip &lt;&lt; <span class="stringliteral">&quot;:&quot;</span> &lt;&lt; port_ &lt;&lt; <span class="stringliteral">&quot; disconnected&quot;</span> &lt;&lt; endl;</div>
+<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;    clog.flush();</div>
+<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;    <span class="keyword">delete</span> <span class="keyword">this</span>;</div>
+<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;  }  </div>
+<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;}</div>
 </div><!-- fragment --><div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -517,11 +533,14 @@ Here is the call graph for this function:</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="anamespacetcp_html_a4e386f3935fd15d1413ab3ea56d5384d"><div class="ttname"><a href="namespacetcp.html#a4e386f3935fd15d1413ab3ea56d5384d">tcp::printSSLErrors</a></div><div class="ttdeci">void printSSLErrors()</div><div class="ttdoc">This method will log all errors to stderr.</div><div class="ttdef"><b>Definition:</b> <a href="tcpssl_8cpp_source.html#l00058">tcpssl.cpp:58</a></div></div>
-<div class="ttc" id="aclasstcp_1_1Session_html_a7c114f15013ee8e3097669bf6095a5e6"><div class="ttname"><a href="classtcp_1_1Session.html#a7c114f15013ee8e3097669bf6095a5e6">tcp::Session::connected</a></div><div class="ttdeci">bool connected() const</div><div class="ttdoc">Returns true if the session is connected to a peer.</div><div class="ttdef"><b>Definition:</b> <a href="tcpserver_8h_source.html#l00117">tcpserver.h:117</a></div></div>
-<div class="ttc" id="aclasstcp_1_1SSL_html"><div class="ttname"><a href="classtcp_1_1SSL.html">tcp::SSL</a></div><div class="ttdef"><b>Definition:</b> <a href="tcpssl_8h_source.html#l00057">tcpssl.h:57</a></div></div>
-<div class="ttc" id="aclasstcp_1_1Socket_html_af4995f805c9976807f7fefd1dc90689e"><div class="ttname"><a href="classtcp_1_1Socket.html#af4995f805c9976807f7fefd1dc90689e">tcp::Socket::socket</a></div><div class="ttdeci">int socket() const</div><div class="ttdoc">Return the OS socket handle.</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8h_source.html#l00087">tcpsocket.h:87</a></div></div>
-<div class="ttc" id="aclasstcp_1_1Session_html_ac9f9163e6b30946cd5d1f3809d79f4e9"><div class="ttname"><a href="classtcp_1_1Session.html#ac9f9163e6b30946cd5d1f3809d79f4e9">tcp::Session::server</a></div><div class="ttdeci">Server &amp; server() const</div><div class="ttdoc">Returns a reference to the Server that owns this Session.</div><div class="ttdef"><b>Definition:</b> <a href="tcpserver_8h_source.html#l00108">tcpserver.h:108</a></div></div>
-<div class="ttc" id="aclasstcp_1_1Session_html_a47f6c95ff9ac648e18b066ac4cb58bbc"><div class="ttname"><a href="classtcp_1_1Session.html#a47f6c95ff9ac648e18b066ac4cb58bbc">tcp::Session::disconnected</a></div><div class="ttdeci">void disconnected() override</div><div class="ttdoc">Called when a tcp connection is dropped.</div><div class="ttdef"><b>Definition:</b> <a href="tcpserver_8cpp_source.html#l00259">tcpserver.cpp:259</a></div></div>
+<div class="ttc" id="aclasstcp_1_1Session_html_a7c114f15013ee8e3097669bf6095a5e6"><div class="ttname"><a href="classtcp_1_1Session.html#a7c114f15013ee8e3097669bf6095a5e6">tcp::Session::connected</a></div><div class="ttdeci">bool connected() const</div><div class="ttdoc">Returns true if the session is connected to a peer.</div><div class="ttdef"><b>Definition:</b> <a href="tcpserver_8h_source.html#l00118">tcpserver.h:118</a></div></div>
+<div class="ttc" id="aclasstcp_1_1SSL_html"><div class="ttname"><a href="classtcp_1_1SSL.html">tcp::SSL</a></div><div class="ttdoc">Encapsulates an SSL record.</div><div class="ttdef"><b>Definition:</b> <a href="tcpssl_8h_source.html#l00059">tcpssl.h:59</a></div></div>
+<div class="ttc" id="aclasstcp_1_1Socket_html_a72f08cd52de1480fef5f8b120ab73da7"><div class="ttname"><a href="classtcp_1_1Socket.html#a72f08cd52de1480fef5f8b120ab73da7">tcp::Socket::state_</a></div><div class="ttdeci">SocketState state_</div><div class="ttdoc">The socket state.</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8h_source.html#l00124">tcpsocket.h:124</a></div></div>
+<div class="ttc" id="aclasstcp_1_1Socket_html_a6fcf1da6bfc15303e471074bc299e76b"><div class="ttname"><a href="classtcp_1_1Socket.html#a6fcf1da6bfc15303e471074bc299e76b">tcp::Socket::socket_</a></div><div class="ttdeci">int socket_</div><div class="ttdoc">The unix socket handle.</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8h_source.html#l00121">tcpsocket.h:121</a></div></div>
+<div class="ttc" id="aclasstcp_1_1Socket_html_af4995f805c9976807f7fefd1dc90689e"><div class="ttname"><a href="classtcp_1_1Socket.html#af4995f805c9976807f7fefd1dc90689e">tcp::Socket::socket</a></div><div class="ttdeci">int socket() const</div><div class="ttdoc">Return the OS socket handle.</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8h_source.html#l00091">tcpsocket.h:91</a></div></div>
+<div class="ttc" id="aclasstcp_1_1Socket_html_a6bf2343caa8283ec40c337a7df0ee3fd"><div class="ttname"><a href="classtcp_1_1Socket.html#a6bf2343caa8283ec40c337a7df0ee3fd">tcp::Socket::domain_</a></div><div class="ttdeci">int domain_</div><div class="ttdoc">Either AF_INET or AF_INET6.</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8h_source.html#l00118">tcpsocket.h:118</a></div></div>
+<div class="ttc" id="aclasstcp_1_1Session_html_ac9f9163e6b30946cd5d1f3809d79f4e9"><div class="ttname"><a href="classtcp_1_1Session.html#ac9f9163e6b30946cd5d1f3809d79f4e9">tcp::Session::server</a></div><div class="ttdeci">Server &amp; server() const</div><div class="ttdoc">Returns a reference to the Server that owns this Session.</div><div class="ttdef"><b>Definition:</b> <a href="tcpserver_8h_source.html#l00109">tcpserver.h:109</a></div></div>
+<div class="ttc" id="aclasstcp_1_1Session_html_a47f6c95ff9ac648e18b066ac4cb58bbc"><div class="ttname"><a href="classtcp_1_1Session.html#a47f6c95ff9ac648e18b066ac4cb58bbc">tcp::Session::disconnected</a></div><div class="ttdeci">void disconnected() override</div><div class="ttdoc">Called when a tcp connection is dropped.</div><div class="ttdef"><b>Definition:</b> <a href="tcpserver_8cpp_source.html#l00265">tcpserver.cpp:265</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
