@@ -102,11 +102,7 @@ void Client::connected() {
 }
 
 void Client::disconnect() {
-  if (ssl_ && (state_ == SocketState::CONNECTED)) {
-    ssl_->shutdown();
-    printSSLErrors();
-  }
-  disconnected();
+  DataSocket::disconnect();
 }
 
 } // namespace mqttS

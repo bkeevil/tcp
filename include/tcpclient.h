@@ -34,8 +34,11 @@ using namespace tcp;
 /** @brief  A blocking or non-blocking TCP client connection */
 class Client : public DataSocket {
   public:
-    /** @brief  Creates a blocking or a non-blocking client */
-    /** @param blocking If true, a blocking socket will be created. Otherwise a non-blocking socket is created */
+    
+    /** @brief  Creates a blocking or a non-blocking client
+     *  @param doain    Either AF_INET or AF_INET6
+     *  @param blocking If true, a blocking socket will be created. Otherwise a non-blocking socket is created 
+     */
     Client(const int domain = AF_INET, bool blocking = false) : DataSocket(domain,0,blocking) {}
     
     /** @brief   Destroys the client 
@@ -44,6 +47,9 @@ class Client : public DataSocket {
       */
     virtual ~Client();
     
+    /** @brief Returns the ssl context object for all client connections */
+    static SSLContext &ctx() { return ctx_; }
+   
     /** @brief Return the client state. See the State enum for possible values */
     SocketState state() { return state_; }
 
@@ -52,9 +58,6 @@ class Client : public DataSocket {
     
     /** @brief Returns the ip address number used for the last call to connect() */
     in_addr_t addr() { return addr_; }
-   
-    /** @brief Returns the ssl context object for all client connections */
-    static SSLContext &ctx() { return ctx_; }
    
     /** @brief   Initiates a connection to a server
      *  @details If the client is a blocking client, the call blocks until a connection is established. 
@@ -83,6 +86,7 @@ class Client : public DataSocket {
     virtual void connected();
     
     friend class SSL;
+  
   private:
     in_port_t port_ {0};
     in_addr_t addr_ {0};

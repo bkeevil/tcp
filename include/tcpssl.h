@@ -37,6 +37,7 @@ class DataSocket;
 
 enum class SSLMode { CLIENT, SERVER };
 
+/** @brief   Encapsulates an SSL_CTX record */
 class SSLContext {
   public:
     SSLContext(SSLMode mode);
@@ -45,24 +46,23 @@ class SSLContext {
     bool useDefaultVerifyPaths() { return setVerifyPaths(NULL,NULL); }
     bool setVerifyPaths(const char *cafile = NULL, const char *capath = NULL);
     bool setCertificateAndKey(const char *certfile, const char *keyfile);
-    string keypass;
     virtual int passwordCallback(char *buf, int size, int rwflag);
     SSL_CTX *handle() { return ctx_; }
     SSLMode mode() { return mode_; }
+    string keypass;
   private:
     SSL_CTX *ctx_;
     SSLMode mode_;
 };
 
+/** @brief   Encapsulates an SSL record */
 class SSL {
   public:
     SSL(DataSocket &owner, SSLContext &context);
     virtual ~SSL();
     void setOptions(bool verifypeer = false);
     bool setCertificateAndKey(const char *certfile, const char *keyfile);
-    string keypass;
     virtual int passwordCallback(char *buf, int size, int rwflag);
-    ::SSL *handle() { return ssl_; }
     bool setfd(int socket);
     bool connect();
     bool accept();
@@ -70,7 +70,9 @@ class SSL {
     size_t write(const void *buffer, size_t size);
     void clear();
     void shutdown();
+    ::SSL *handle() { return ssl_; }
     SSLMode mode() { return mode_; }
+    string keypass;
   protected:
     void wantsRead();
     void wantsWrite();

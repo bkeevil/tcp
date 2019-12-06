@@ -8,7 +8,8 @@
 
 using namespace std;
 
-EchoClient *cl;
+mutex mtx;
+string cmd;
 
 void threadfunc() {
   char c[255];
@@ -16,14 +17,15 @@ void threadfunc() {
     memset(c,0,256);
     cin.getline(c,255);
     c[strlen(c)] = '\n';
-    cl->write(c,strlen(c));
+    mtx.lock();
+    cmd.assign(c);
+    mtx.unlock();
   }
 }
 
 int main() { 
   initSSLLibrary();
   EchoClient client(AF_INET,false);
-  cl = &client;
   client.ctx().setVerifyPaths("/home/bkeevil/projects/sslserver/testkeys/testca.crt",NULL);
   client.certfile = "/home/bkeevil/projects/sslserver/testkeys/mqtt-client-test.crt";
   client.keyfile = "/home/bkeevil/projects/sslserver/testkeys/mqtt-client-test.key";
@@ -32,6 +34,12 @@ int main() {
   std::thread threadObj(&threadfunc);
   while (true) {
     epoll.poll(100);
+    mtx.lock();
+    if (!cmd.empty()) {
+      client.write(cmd.c_str(),cmd.length());
+      cmd.clear();
+    }
+    mtx.unlock();
   }
   freeSSLLibrary();
   threadObj.join();
