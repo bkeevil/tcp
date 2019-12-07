@@ -13,10 +13,8 @@ jobs:
       run: ls
     - name: make build dir
       run: mkdir build
-    - name: cd build dir
-      run: cd build
     - name: run cmake
-      run: cmake ..
+      run: build/cmake
     - name: configure
       run: ./configure
     - name: make all
