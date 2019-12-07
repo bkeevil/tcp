@@ -9,7 +9,7 @@ using namespace tcp;
 
 class EchoServer : public tcp::Server {
   public:
-    EchoServer(const int domain = AF_INET) : Server(domain) {}
+    EchoServer(EPoll &epoll, const int domain = AF_INET) : Server(epoll,domain) {}
   protected:
     Session* createSession(const int socket, const sockaddr_in peer_address) override;
 };
@@ -19,7 +19,7 @@ class EchoServer : public tcp::Server {
  */
 class EchoSession : public tcp::Session {
   public:
-    EchoSession(Server& server, const int socket, const struct sockaddr_in peer_addr) : Session(server,socket,peer_addr) {}
+    EchoSession(EPoll &epoll, Server& server, const int socket, const struct sockaddr_in peer_addr) : Session(epoll,server,socket,peer_addr) {}
     void dataAvailable() override;
   protected:
     void accepted() override;

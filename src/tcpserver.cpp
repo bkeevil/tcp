@@ -51,10 +51,10 @@ void Server::start(in_port_t port, string bindaddress, bool useSSL, int backlog)
   }  
 
   int enable = 1;
-  if (setsockopt(socket_, SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(enable)) < 0)
+  if (setsockopt(socket(), SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(enable)) < 0)
     cerr << "Server could not set socket option SO_REUSEADDR" << endl;  
 
-  if (bindToAddress((struct sockaddr*)&addr_,(domain_ == AF_INET ? sizeof(struct sockaddr_in) : sizeof(struct sockaddr_in6)))) {
+  if (bindToAddress((struct sockaddr*)&addr_,(domain() == AF_INET ? sizeof(struct sockaddr_in) : sizeof(struct sockaddr_in6)))) {
     startListening(backlog);
   }
 }
@@ -69,7 +69,7 @@ void Server::stop()
       it->second->disconnect();
     }
   }
-  ::close(socket_);
+  disconnect();
 }
 
 void Server::handleEvents(uint32_t events) {
@@ -124,7 +124,7 @@ bool Server::findifaddr(const string ifname, sockaddr *addr) {
       if (getnameinfo(item->ifa_addr,(f == AF_INET) ? sizeof(struct sockaddr_in) : sizeof(struct sockaddr_in6),host, NI_MAXHOST, NULL, 0, NI_NUMERICHOST) != 0) {
         host[0] = 0;
       }
-      if (f == domain_ && ((ifname.compare(item->ifa_name) == 0) || (ifname.compare(host) == 0))) {
+      if (f == domain() && ((ifname.compare(item->ifa_name) == 0) || (ifname.compare(host) == 0))) {
         if (f == AF_INET) {
           *(sockaddr_in*)addr = *(sockaddr_in*)item->ifa_addr;
           result = true;
@@ -147,7 +147,7 @@ bool Server::findifaddr(const string ifname, sockaddr *addr) {
 }
 
 bool Server::bindToAddress(sockaddr *addr, socklen_t len) {
-  if (::bind(socket_,addr,len) == -1) {
+  if (::bind(socket(),addr,len) == -1) {
     cerr << "bind: " << strerror(errno) << endl;
     cerr.flush();
     return false;
@@ -187,7 +187,7 @@ bool Server::bindToAddress(sockaddr *addr, socklen_t len) {
 }
 
 bool Server::startListening(int backlog) {
-  if (listen(socket_,backlog) == -1) {
+  if (listen(socket(),backlog) == -1) {
     cerr << "listen: " << strerror(errno) << endl;
     cerr.flush();
     return false;
@@ -202,7 +202,7 @@ bool Server::startListening(int backlog) {
 bool Server::acceptConnection() {
   struct sockaddr_in peer_addr;
   socklen_t peer_addr_len = sizeof(struct sockaddr_in);
-  int conn_sock = ::accept(socket_,(struct sockaddr *) &peer_addr, &peer_addr_len);
+  int conn_sock = ::accept(socket(),(struct sockaddr *) &peer_addr, &peer_addr_len);
   if (conn_sock == -1) {
     cerr << "accept: " << strerror(errno) << endl;
     cerr.flush();
@@ -227,19 +227,19 @@ bool Server::acceptConnection() {
 /* Session */
 
 Session::~Session() { 
-  server_.sessions.erase(socket_);
+  server_.sessions.erase(socket());
 }
 
 /** @brief Server calls this method to signal the start of the session 
  *  Override accepted() to perform initial actions when a session starts */ 
 void Session::accepted() {
   char ip[INET6_ADDRSTRLEN];
-  inet_ntop(domain_,&addr_,ip,INET_ADDRSTRLEN);
+  inet_ntop(domain(),&addr_,ip,INET_ADDRSTRLEN);
   clog << "Connection from " << ip << ":" << port_ << " accepted" << endl;
   clog.flush();
   if (server().useSSL_) {
     ssl_ = new tcp::SSL(*this,server().ctx());
-    ssl_->setfd(socket_);
+    ssl_->setfd(socket());
     if (ssl_->accept())
       state_ = SocketState::CONNECTED;
     else
@@ -271,7 +271,7 @@ void Session::disconnected() {
     }
     state_ = SocketState::DISCONNECTED;
     char ip[INET_ADDRSTRLEN];
-    inet_ntop(domain_,&(addr_),ip,INET_ADDRSTRLEN);
+    inet_ntop(domain(),&(addr_),ip,INET_ADDRSTRLEN);
     clog << ip << ":" << port_ << " disconnected" << endl;
     clog.flush();
     delete this;

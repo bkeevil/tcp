@@ -35,7 +35,7 @@ class Server : public Socket {
     /** @brief   Construct a server instance
      *  @param   domain   Either AF_INET or AF_INET6
      */
-    Server(const int domain = AF_INET) : Socket(domain,0,false,EPOLLIN) {}
+    Server(EPoll &epoll, const int domain = AF_INET) : Socket(epoll,domain,0,false,EPOLLIN) {}
     
     /** @brief   Destroy the server instance
      *  @details Destoying the server stops it from listening and ends all sessions by calling the 
@@ -130,8 +130,8 @@ class Session : public DataSocket {
     /** @brief   Creates a new session
      *  @details The constructor is protected and is called by the Server::createSession() method 
      */
-    Session(Server& server, const int socket, const struct sockaddr_in peer_addr) 
-      : DataSocket(server.domain_,socket), server_(server), port_(peer_addr.sin_port), addr_(peer_addr.sin_addr.s_addr) { }
+    Session(EPoll &epoll, Server& server, const int socket, const struct sockaddr_in peer_addr) 
+      : DataSocket(epoll,server.domain(),socket), server_(server), port_(peer_addr.sin_port), addr_(peer_addr.sin_addr.s_addr) { }
     
     /** @brief The destructor is protected and is called by the disconnect() or disconnected() methods */
     virtual ~Session();

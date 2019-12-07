@@ -3,9 +3,11 @@
 #include "tcpssl.h"
 #include "echoserver.h"
 
+EPoll epoll;
+
 int main() { 
   initSSLLibrary();
-  EchoServer server(AF_INET);
+  EchoServer server(epoll,AF_INET);
   server.ctx().setVerifyPaths("/home/bkeevil/projects/sslserver/testkeys/testca.crt",NULL);
   server.ctx().setCertificateAndKey(
     "/home/bkeevil/projects/sslserver/testkeys/mqtt-server-test.crt",

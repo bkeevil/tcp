@@ -11,32 +11,25 @@
 
 namespace tcp {
 
-EPoll epoll;
-
 EPoll::EPoll() 
 {
-  mtx.lock();
   handle_ = epoll_create1(0);
   if (handle_ == -1) {
     cerr << "epoll_create1: " << strerror(errno) << endl;
   }
-  mtx.unlock();
 }
 
 EPoll::~EPoll() 
 {
-  mtx.lock();
   sockets.clear();
   if (handle_ > 0) {
     ::close(handle_);
   }
-  mtx.unlock();
 }
 
 bool EPoll::add(Socket& socket, int events) 
 {
   struct epoll_event ev;
-  mtx.lock();
   bool result = false;
   ev.events = events;
   ev.data.fd = socket.socket_;
@@ -44,7 +37,6 @@ bool EPoll::add(Socket& socket, int events)
     sockets[socket.socket_] = &socket;
     result = true;
   } 
-  mtx.unlock();
   return result;
 }
 
@@ -52,65 +44,51 @@ bool EPoll::update(Socket& socket, int events)
 {
   bool result;
   struct epoll_event ev;
-  mtx.lock();
   ev.events = events;
   ev.data.fd = socket.socket_;
   result = (epoll_ctl(handle_,EPOLL_CTL_MOD,socket.socket_,&ev) != -1);
-  mtx.unlock();
   return result;
 }
 
 bool EPoll::remove(Socket& socket) 
 {
-  mtx.lock();
   bool result = false;
   if (epoll_ctl(handle_,EPOLL_CTL_DEL,socket.socket_,NULL) != -1) {
-    mtx.lock();
     sockets.erase(socket.socket_);
-    mtx.unlock();
     result = true;
   } 
-  mtx.unlock();
   return result;
 }
 
 void EPoll::poll(int timeout) 
 {  
-  mtx.lock();
   int nfds = epoll_wait(handle_,events,MAX_EVENTS,timeout); 
   if (nfds == -1) {
     if (errno != EINTR) 
       cerr << "epoll_wait: " << strerror(errno) << endl;
   } else {
-    vector<thread*> pool;
     for (int n = 0; n < nfds; ++n) {
-      handleEvents(pool,events[n].events,events[n].data.fd);
-    }
-    for (auto it : pool) {
-      it->join();
+      handleEvents(events[n].events,events[n].data.fd);
     }
   }
-  mtx.unlock();
 }
 
-void EPoll::handleEvents(vector<thread*> pool, uint32_t events, int fd) 
+void EPoll::handleEvents(uint32_t events, int fd) 
 {
   Socket* socket = sockets[fd];
   if (socket != nullptr) {
-    thread *th = new thread(&Socket::threadHandleEvents,socket,events);
-    pool.push_back(th);
+    socket->handleEvents(events);
   }
 }
 
 /* Socket */
 
-Socket::Socket(const int domain, const int socket, const bool blocking, const int events) : socket_(socket), events_(events) 
+Socket::Socket(EPoll &epoll, const int domain, const int socket, const bool blocking, const int events) : epoll_(epoll), events_(events), domain_(domain), socket_(socket) 
 { 
   if ((domain != AF_INET) && (domain != AF_INET6)) {
     cerr << "Socket: Only IPv4 and IPv6 are supported." << endl;
     return;
   }
-  domain_ = domain;
   if (socket < 0) {
     cerr << "Socket: Socket parameter is < 0" << endl;;
     return;
@@ -136,7 +114,7 @@ Socket::Socket(const int domain, const int socket, const bool blocking, const in
     }
   }
   
-  if (!epoll.add(*this,events)) {
+  if (!epoll_.add(*this,events)) {
     cerr << "Unable to add socket to epoll" << endl;
   }
   
@@ -147,7 +125,7 @@ Socket::~Socket()
 {
   if (socket_ > 0) {
     mtx.lock();
-    epoll.remove(*this);
+    epoll_.remove(*this);
     if (::close(socket_) == -1) {
       cerr << "close: " << strerror(errno) << endl;
     } 
@@ -161,7 +139,7 @@ bool Socket::setEvents(int events)
   mtx.lock();
   bool result = false;
   if (events != events_) { 
-    if (epoll.update(*this,events)) { 
+    if (epoll_.update(*this,events)) { 
       events_ = events; 
       result = true;
     } 

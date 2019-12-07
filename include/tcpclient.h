@@ -39,7 +39,7 @@ class Client : public DataSocket {
      *  @param doain    Either AF_INET or AF_INET6
      *  @param blocking If true, a blocking socket will be created. Otherwise a non-blocking socket is created 
      */
-    Client(const int domain = AF_INET, bool blocking = false) : DataSocket(domain,0,blocking) {}
+    Client(EPoll &epoll, const int domain = AF_INET, bool blocking = false) : DataSocket(epoll,domain,0,blocking) {}
     
     /** @brief   Destroys the client 
       * @details Will call disconnect() first if necessary. This allows clients to be disconnected 

@@ -61,10 +61,9 @@ class EPoll {
     bool add(Socket& socket, int events);
     bool update(Socket& socket, int events);
     bool remove(Socket& socket);    
-    void handleEvents(vector<thread*> pool, uint32_t events, int fd);
+    void handleEvents(uint32_t events, int fd);
     int handle_;
     epoll_event events[MAX_EVENTS];
-    recursive_mutex mtx;
     std::map<int,tcp::Socket*> sockets;
     friend class Socket;
 };
@@ -75,7 +74,7 @@ class Socket {
   
     /**
      * @brief Construct a blocking or non-blocking socket handle that responds to certain epoll events 
-     * 
+     * @param domain Either AF_INET or AF_INET6
      * @param socket The socket handle to encapsulate. If 0 is provided, a socket handle will be automatically created.
      * @param blocking If true, a blocking socket will be created. If false, a non-blocking socket will be created.
      * @param events A bit flag of the epoll events to register interest include
@@ -83,10 +82,10 @@ class Socket {
      * @remark A client or server listener will typically call the constructor with socket=0 to start with a new socket.
      * @remark A server session will create a Socket by providing the socket handle returned from an accept command.
      */
-    Socket(const int domain = AF_INET, const int socket = 0, const bool blocking = false, const int events = (EPOLLIN | EPOLLRDHUP));
+    Socket(EPoll &epoll, const int domain = AF_INET, const int socket = 0, const bool blocking = false, const int events = (EPOLLIN | EPOLLRDHUP));
 
-    /** @brief Closes the socket (if necessary) and destroys the Socket
-     *  @remark The socket should first be shut down using the Linux shutdown() command  */
+    /** @brief Closes the socket (if necessary) and then odestroys the Socket
+     *  @remark An active socket should first be shut down using the disconnect() command  */
     ~Socket();
   
     /** @brief Return the OS socket handle */
@@ -110,27 +109,30 @@ class Socket {
      *  @param   events   A bitmask of event flags. See the epoll documentation */
     virtual void handleEvents(uint32_t events) = 0;
 
-    void threadHandleEvents(uint32_t events) { handleEvents(events); }
-
     /** @brief   Called when a connection is disconnected due to a network error
      *  @details Sets the socket state to DISCONNECTED and frees its resources. 
      *           Override disconnected to perform additional cleanup of a dropped socket connection. */
     virtual void disconnected();
 
-    /** @brief   Either AF_INET or AF_INET6
-     *  @details This is set when a socket is constructed */
-    int domain_;
-
-    /** @brief   The unix socket handle */
-    int socket_;
-
-    /** @brief   The socket state */
-    SocketState state_;
-
+    /** @brief   Mutex for providing exclusive access to the socket */
     recursive_mutex mtx;
 
+    /** @brief   Returns a pointer to the epoll instance used by this socket */
+    EPoll &epoll() { return epoll_; }
+
+    /** @brief   Either AF_INET or AF_INET6 */
+    int domain() { return domain_; }
+
+    /** @brief   The unix socket handle */
+    int socket() { return socket_; }
+
+    SocketState state_;    
+
   private:
+    EPoll &epoll_;
     int events_;
+    int domain_;
+    int socket_;
     friend class EPoll;
 };
 
@@ -138,10 +140,10 @@ class Socket {
  *  @details This class provides properties and methods common to both the Client and Session classes */
 class DataSocket : public Socket {
   public:
-    DataSocket(const int domain = AF_INET, const int socket = 0, const bool blocking = false, const int events = (EPOLLIN | EPOLLRDHUP)) :
-      Socket(domain,socket,blocking,events) {}
+    DataSocket(EPoll &epoll, const int domain = AF_INET, const int socket = 0, const bool blocking = false, const int events = (EPOLLIN | EPOLLRDHUP)) :
+      Socket(epoll,domain,socket,blocking,events) {}
 
-    /** @brief Returns how many bytes are available in the inputBuffer */
+    /** @brief Returns an estimate of how many bytes are available in the inputBuffer */
     size_t available() { return inputBuffer.size(); }
 
     /** @brief   Reads up to size bytes from inputBuffer into buffer
@@ -164,9 +166,6 @@ class DataSocket : public Socket {
     /** @brief The password for the private key file, if required */
     string keypass;
 
-    /** @brief Returns the ssl object for the current connection */
-    SSL *ssl() { return ssl_; }
-  
   protected:
 
     /** @brief Reads all available data from the socket into inputBuffer */
@@ -200,17 +199,17 @@ class DataSocket : public Socket {
      *            response to received data 
      */
     virtual void dataAvailable() = 0;
-    
+
+    /** @brief   Exposes the underlying SSL record used for openSSL calls to descendant classes */
+    SSL *ssl_ {nullptr};
+
+  private:    
     size_t read_(void *buffer, size_t size);
     size_t write_(const void *buffer, size_t size);
     deque<uint8_t> inputBuffer;
     deque<uint8_t> outputBuffer;
-    SSL *ssl_ {nullptr};
-
     friend class SSL;
 };
-
-extern EPoll epoll;
 
 } // namespace tcp
 

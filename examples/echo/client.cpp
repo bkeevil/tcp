@@ -10,6 +10,7 @@ using namespace std;
 
 mutex mtx;
 string cmd;
+EPoll epoll;
 
 void threadfunc() {
   char c[255];
@@ -25,7 +26,7 @@ void threadfunc() {
 
 int main() { 
   initSSLLibrary();
-  EchoClient client(AF_INET,false);
+  EchoClient client(epoll,AF_INET,false);
   client.ctx().setVerifyPaths("/home/bkeevil/projects/sslserver/testkeys/testca.crt",NULL);
   client.certfile = "/home/bkeevil/projects/sslserver/testkeys/mqtt-client-test.crt";
   client.keyfile = "/home/bkeevil/projects/sslserver/testkeys/mqtt-client-test.key";

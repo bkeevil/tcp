@@ -4,8 +4,14 @@
 
 /** @brief Display any data received to cout */
 void EchoClient::dataAvailable() {
-  for (auto it : inputBuffer) {
-    cout << (char)it;
+  int da = available();
+  if (da > 0) {
+    mtx.lock();
+    char *buf = (char*)malloc(da+1);
+    int dr = read(buf,da);
+    buf[da] = 0;
+    (void)dr;
+    cout << buf;
+    mtx.unlock();
   }
-  inputBuffer.clear();
 }

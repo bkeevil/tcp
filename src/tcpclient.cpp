@@ -53,7 +53,7 @@ bool Client::connect(const string &hostname, const in_port_t port, bool useSSL)
   clog.flush();
 
   for (rp = result; rp != nullptr; rp = rp->ai_next) {
-    if (::connect(socket_,rp->ai_addr,rp->ai_addrlen) == -1) {
+    if (::connect(socket(),rp->ai_addr,rp->ai_addrlen) == -1) {
       if (errno == EINPROGRESS) {
         state_ = SocketState::CONNECTING;
         setEvents(EPOLLIN | EPOLLOUT | EPOLLRDHUP);
