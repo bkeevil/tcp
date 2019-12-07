@@ -4,6 +4,8 @@
 
 A TCP client/server library for Linux that supports SSL. The library uses the EPoll mechanism to respond to OS events in a single thread.
 
+Under active development
+
 ## Documentation
 
 See the docs directory for html docs or go here:
