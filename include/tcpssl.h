@@ -30,7 +30,7 @@ void initSSLLibrary();
  */
 void freeSSLLibrary();
 
-/** @brief   This method will log all errors to stderr */
+/** @brief   This method logs openSSL errors to cerr */
 void printSSLErrors();
 
 class DataSocket;

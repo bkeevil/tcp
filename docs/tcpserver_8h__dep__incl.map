@@ -1,5 +1,4 @@
 <map id="include/tcpserver.h" name="include/tcpserver.h">
-<area shape="rect" id="node1" title="Provides basic tcp server functionality." alt="" coords="69,5,201,32"/>
-<area shape="rect" id="node2" href="$tcpserver_8cpp_source.html" title=" " alt="" coords="5,80,128,107"/>
-<area shape="rect" id="node3" href="$tcpssl_8cpp_source.html" title=" " alt="" coords="152,80,256,107"/>
+<area shape="rect" id="node1" title="Provides basic tcp server functionality." alt="" coords="5,5,137,32"/>
+<area shape="rect" id="node2" href="$tcpserver_8cpp_source.html" title=" " alt="" coords="10,80,133,107"/>
 </map>

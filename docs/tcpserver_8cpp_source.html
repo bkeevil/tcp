@@ -154,10 +154,10 @@ $(document).ready(function(){initNavTree('tcpserver_8cpp_source.html','');});
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  }  </div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;  <span class="keywordtype">int</span> enable = 1;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  <span class="keywordflow">if</span> (setsockopt(socket_, SOL_SOCKET, SO_REUSEADDR, &amp;enable, <span class="keyword">sizeof</span>(enable)) &lt; 0)</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  <span class="keywordflow">if</span> (setsockopt(socket(), SOL_SOCKET, SO_REUSEADDR, &amp;enable, <span class="keyword">sizeof</span>(enable)) &lt; 0)</div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    cerr &lt;&lt; <span class="stringliteral">&quot;Server could not set socket option SO_REUSEADDR&quot;</span> &lt;&lt; endl;  </div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;  <span class="keywordflow">if</span> (bindToAddress((<span class="keyword">struct</span> sockaddr*)&amp;addr_,(domain_ == AF_INET ? <span class="keyword">sizeof</span>(<span class="keyword">struct</span> sockaddr_in) : <span class="keyword">sizeof</span>(<span class="keyword">struct</span> sockaddr_in6)))) {</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;  <span class="keywordflow">if</span> (bindToAddress((<span class="keyword">struct</span> sockaddr*)&amp;addr_,(domain() == AF_INET ? <span class="keyword">sizeof</span>(<span class="keyword">struct</span> sockaddr_in) : <span class="keyword">sizeof</span>(<span class="keyword">struct</span> sockaddr_in6)))) {</div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    startListening(backlog);</div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;  }</div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;}</div>
@@ -172,7 +172,7 @@ $(document).ready(function(){initNavTree('tcpserver_8cpp_source.html','');});
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;      it-&gt;second-&gt;disconnect();</div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    }</div>
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;  }</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;  ::close(socket_);</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;  disconnect();</div>
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;}</div>
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160; </div>
 <div class="line"><a name="l00075"></a><span class="lineno"><a class="line" href="classtcp_1_1Server.html#a87d114dd56e3d71bfba86fc1fc76baf3">   75</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classtcp_1_1Server.html#a87d114dd56e3d71bfba86fc1fc76baf3">Server::handleEvents</a>(uint32_t events) {</div>
@@ -227,7 +227,7 @@ $(document).ready(function(){initNavTree('tcpserver_8cpp_source.html','');});
 <div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;      <span class="keywordflow">if</span> (getnameinfo(item-&gt;ifa_addr,(f == AF_INET) ? <span class="keyword">sizeof</span>(<span class="keyword">struct</span> sockaddr_in) : <span class="keyword">sizeof</span>(<span class="keyword">struct</span> sockaddr_in6),host, NI_MAXHOST, NULL, 0, NI_NUMERICHOST) != 0) {</div>
 <div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;        host[0] = 0;</div>
 <div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;      }</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;      <span class="keywordflow">if</span> (f == domain_ &amp;&amp; ((ifname.compare(item-&gt;ifa_name) == 0) || (ifname.compare(host) == 0))) {</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;      <span class="keywordflow">if</span> (f == domain() &amp;&amp; ((ifname.compare(item-&gt;ifa_name) == 0) || (ifname.compare(host) == 0))) {</div>
 <div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;        <span class="keywordflow">if</span> (f == AF_INET) {</div>
 <div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;          *(sockaddr_in*)addr = *(sockaddr_in*)item-&gt;ifa_addr;</div>
 <div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;          result = <span class="keyword">true</span>;</div>
@@ -250,7 +250,7 @@ $(document).ready(function(){initNavTree('tcpserver_8cpp_source.html','');});
 <div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;}</div>
 <div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160; </div>
 <div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;<span class="keywordtype">bool</span> Server::bindToAddress(sockaddr *addr, socklen_t len) {</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;  <span class="keywordflow">if</span> (::bind(socket_,addr,len) == -1) {</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;  <span class="keywordflow">if</span> (::bind(socket(),addr,len) == -1) {</div>
 <div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    cerr &lt;&lt; <span class="stringliteral">&quot;bind: &quot;</span> &lt;&lt; strerror(errno) &lt;&lt; endl;</div>
 <div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;    cerr.flush();</div>
 <div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
@@ -290,7 +290,7 @@ $(document).ready(function(){initNavTree('tcpserver_8cpp_source.html','');});
 <div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;}</div>
 <div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160; </div>
 <div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;<span class="keywordtype">bool</span> Server::startListening(<span class="keywordtype">int</span> backlog) {</div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;  <span class="keywordflow">if</span> (listen(socket_,backlog) == -1) {</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;  <span class="keywordflow">if</span> (listen(socket(),backlog) == -1) {</div>
 <div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;    cerr &lt;&lt; <span class="stringliteral">&quot;listen: &quot;</span> &lt;&lt; strerror(errno) &lt;&lt; endl;</div>
 <div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;    cerr.flush();</div>
 <div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
@@ -305,7 +305,7 @@ $(document).ready(function(){initNavTree('tcpserver_8cpp_source.html','');});
 <div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;<span class="keywordtype">bool</span> Server::acceptConnection() {</div>
 <div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;  <span class="keyword">struct </span>sockaddr_in peer_addr;</div>
 <div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;  socklen_t peer_addr_len = <span class="keyword">sizeof</span>(<span class="keyword">struct </span>sockaddr_in);</div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;  <span class="keywordtype">int</span> conn_sock = ::accept(socket_,(<span class="keyword">struct</span> sockaddr *) &amp;peer_addr, &amp;peer_addr_len);</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;  <span class="keywordtype">int</span> conn_sock = ::accept(socket(),(<span class="keyword">struct</span> sockaddr *) &amp;peer_addr, &amp;peer_addr_len);</div>
 <div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;  <span class="keywordflow">if</span> (conn_sock == -1) {</div>
 <div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;    cerr &lt;&lt; <span class="stringliteral">&quot;accept: &quot;</span> &lt;&lt; strerror(errno) &lt;&lt; endl;</div>
 <div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;    cerr.flush();</div>
@@ -330,17 +330,17 @@ $(document).ready(function(){initNavTree('tcpserver_8cpp_source.html','');});
 <div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;<span class="comment">/* Session */</span></div>
 <div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160; </div>
 <div class="line"><a name="l00229"></a><span class="lineno"><a class="line" href="classtcp_1_1Session.html#a2aabc44c9cbe31d562afd446c863cf3a">  229</a></span>&#160;<a class="code" href="classtcp_1_1Session.html#a2aabc44c9cbe31d562afd446c863cf3a">Session::~Session</a>() { </div>
-<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;  server_.sessions.erase(socket_);</div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;  server_.sessions.erase(socket());</div>
 <div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;}</div>
 <div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160; </div>
 <div class="line"><a name="l00235"></a><span class="lineno"><a class="line" href="classtcp_1_1Session.html#a753f6851639aad6ee9714d02a87696f9">  235</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classtcp_1_1Session.html#a753f6851639aad6ee9714d02a87696f9">Session::accepted</a>() {</div>
 <div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;  <span class="keywordtype">char</span> ip[INET6_ADDRSTRLEN];</div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;  inet_ntop(domain_,&amp;addr_,ip,INET_ADDRSTRLEN);</div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;  inet_ntop(domain(),&amp;addr_,ip,INET_ADDRSTRLEN);</div>
 <div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;  clog &lt;&lt; <span class="stringliteral">&quot;Connection from &quot;</span> &lt;&lt; ip &lt;&lt; <span class="stringliteral">&quot;:&quot;</span> &lt;&lt; port_ &lt;&lt; <span class="stringliteral">&quot; accepted&quot;</span> &lt;&lt; endl;</div>
 <div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;  clog.flush();</div>
 <div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;  <span class="keywordflow">if</span> (server().useSSL_) {</div>
 <div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;    ssl_ = <span class="keyword">new</span> <a class="code" href="classtcp_1_1SSL.html">tcp::SSL</a>(*<span class="keyword">this</span>,server().ctx());</div>
-<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;    ssl_-&gt;setfd(socket_);</div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;    ssl_-&gt;setfd(socket());</div>
 <div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;    <span class="keywordflow">if</span> (ssl_-&gt;accept())</div>
 <div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;      state_ = SocketState::CONNECTED;</div>
 <div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;    <span class="keywordflow">else</span></div>
@@ -367,7 +367,7 @@ $(document).ready(function(){initNavTree('tcpserver_8cpp_source.html','');});
 <div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;    }</div>
 <div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;    state_ = SocketState::DISCONNECTED;</div>
 <div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;    <span class="keywordtype">char</span> ip[INET_ADDRSTRLEN];</div>
-<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;    inet_ntop(domain_,&amp;(addr_),ip,INET_ADDRSTRLEN);</div>
+<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;    inet_ntop(domain(),&amp;(addr_),ip,INET_ADDRSTRLEN);</div>
 <div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;    clog &lt;&lt; ip &lt;&lt; <span class="stringliteral">&quot;:&quot;</span> &lt;&lt; port_ &lt;&lt; <span class="stringliteral">&quot; disconnected&quot;</span> &lt;&lt; endl;</div>
 <div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;    clog.flush();</div>
 <div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;    <span class="keyword">delete</span> <span class="keyword">this</span>;</div>
@@ -377,7 +377,7 @@ $(document).ready(function(){initNavTree('tcpserver_8cpp_source.html','');});
 <div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="anamespacetcp_html_a4e386f3935fd15d1413ab3ea56d5384d"><div class="ttname"><a href="namespacetcp.html#a4e386f3935fd15d1413ab3ea56d5384d">tcp::printSSLErrors</a></div><div class="ttdeci">void printSSLErrors()</div><div class="ttdoc">This method will log all errors to stderr.</div><div class="ttdef"><b>Definition:</b> <a href="tcpssl_8cpp_source.html#l00058">tcpssl.cpp:58</a></div></div>
+<div class="ttc" id="anamespacetcp_html_a4e386f3935fd15d1413ab3ea56d5384d"><div class="ttname"><a href="namespacetcp.html#a4e386f3935fd15d1413ab3ea56d5384d">tcp::printSSLErrors</a></div><div class="ttdeci">void printSSLErrors()</div><div class="ttdoc">This method logs openSSL errors to cerr.</div><div class="ttdef"><b>Definition:</b> <a href="tcpssl_8cpp_source.html#l00056">tcpssl.cpp:56</a></div></div>
 <div class="ttc" id="atcpserver_8h_html"><div class="ttname"><a href="tcpserver_8h.html">tcpserver.h</a></div><div class="ttdoc">Provides basic tcp server functionality.</div></div>
 <div class="ttc" id="aclasstcp_1_1Server_html_a2f4ef415f2f23facdfc5f47d147b12a5"><div class="ttname"><a href="classtcp_1_1Server.html#a2f4ef415f2f23facdfc5f47d147b12a5">tcp::Server::start</a></div><div class="ttdeci">void start(in_port_t port, string bindaddress, bool useSSL=false, int backlog=64)</div><div class="ttdoc">Start up the server.</div><div class="ttdef"><b>Definition:</b> <a href="tcpserver_8cpp_source.html#l00028">tcpserver.cpp:28</a></div></div>
 <div class="ttc" id="aclasstcp_1_1Server_html_a08a70dd5ea919f05c6eabe69afdd1c71"><div class="ttname"><a href="classtcp_1_1Server.html#a08a70dd5ea919f05c6eabe69afdd1c71">tcp::Server::findifaddr</a></div><div class="ttdeci">bool findifaddr(const string ifname, sockaddr *addr)</div><div class="ttdoc">Returns an interface address from an interface name and domain.</div><div class="ttdef"><b>Definition:</b> <a href="tcpserver_8cpp_source.html#l00113">tcpserver.cpp:113</a></div></div>
@@ -389,7 +389,7 @@ $(document).ready(function(){initNavTree('tcpserver_8cpp_source.html','');});
 <div class="ttc" id="aclasstcp_1_1Server_html_a87d114dd56e3d71bfba86fc1fc76baf3"><div class="ttname"><a href="classtcp_1_1Server.html#a87d114dd56e3d71bfba86fc1fc76baf3">tcp::Server::handleEvents</a></div><div class="ttdeci">void handleEvents(uint32_t events) override</div><div class="ttdoc">Called by the EPoll class when the listening socket recieves an event from the OS.</div><div class="ttdef"><b>Definition:</b> <a href="tcpserver_8cpp_source.html#l00075">tcpserver.cpp:75</a></div></div>
 <div class="ttc" id="aclasstcp_1_1Server_html_a5eb47cde0c24cc829fd49ec37f5b58fa"><div class="ttname"><a href="classtcp_1_1Server.html#a5eb47cde0c24cc829fd49ec37f5b58fa">tcp::Server::stop</a></div><div class="ttdeci">void stop()</div><div class="ttdoc">Stop the server.</div><div class="ttdef"><b>Definition:</b> <a href="tcpserver_8cpp_source.html#l00062">tcpserver.cpp:62</a></div></div>
 <div class="ttc" id="aclasstcp_1_1Session_html_a47f6c95ff9ac648e18b066ac4cb58bbc"><div class="ttname"><a href="classtcp_1_1Session.html#a47f6c95ff9ac648e18b066ac4cb58bbc">tcp::Session::disconnected</a></div><div class="ttdeci">void disconnected() override</div><div class="ttdoc">Called when a tcp connection is dropped.</div><div class="ttdef"><b>Definition:</b> <a href="tcpserver_8cpp_source.html#l00265">tcpserver.cpp:265</a></div></div>
-<div class="ttc" id="anamespacetcp_html"><div class="ttname"><a href="namespacetcp.html">tcp</a></div><div class="ttdoc">Contains Socket, Server, Session and Client classes for a tcp client/server.</div><div class="ttdef"><b>Definition:</b> <a href="tcpclient_8cpp_source.html#l00005">tcpclient.cpp:5</a></div></div>
+<div class="ttc" id="anamespacetcp_html"><div class="ttname"><a href="namespacetcp.html">tcp</a></div><div class="ttdoc">Contains classes for a tcp client/server library.</div><div class="ttdef"><b>Definition:</b> <a href="tcpclient_8cpp_source.html#l00005">tcpclient.cpp:5</a></div></div>
 <div class="ttc" id="aclasstcp_1_1Session_html_a753f6851639aad6ee9714d02a87696f9"><div class="ttname"><a href="classtcp_1_1Session.html#a753f6851639aad6ee9714d02a87696f9">tcp::Session::accepted</a></div><div class="ttdeci">virtual void accepted()</div><div class="ttdoc">Called by the Server::acceptConnection after a connection has been accepted.</div><div class="ttdef"><b>Definition:</b> <a href="tcpserver_8cpp_source.html#l00235">tcpserver.cpp:235</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

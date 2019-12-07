@@ -9,8 +9,6 @@
 #include <openssl/x509v3.h>
 #include <openssl/opensslconf.h>
 #include "tcpssl.h"
-#include "tcpclient.h"
-#include "tcpserver.h"
 
 namespace tcp {
 
@@ -57,7 +55,8 @@ int printSSLErrors_cb(const char *str, size_t len, void *u)
 
 void printSSLErrors()
 {
-  ERR_print_errors_cb(printSSLErrors_cb,NULL);
+  ERR_print_errors_fp(stdout);
+  //ERR_print_errors_cb(&printSSLErrors_cb,NULL);
 }
 
 /** @brief Prints the certificate common name to clog */

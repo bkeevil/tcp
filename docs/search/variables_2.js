@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['keyfile_119',['keyfile',['../classtcp_1_1DataSocket.html#aa4fe90d294c4ed4f4f71087ed076cbb5',1,'tcp::DataSocket']]],
-  ['keypass_120',['keypass',['../classtcp_1_1DataSocket.html#a4ab7473a48684200eba7eed80c9fc810',1,'tcp::DataSocket']]]
+  ['mtx_119',['mtx',['../classtcp_1_1Socket.html#a2f9da75083a9c40fa1a56f916fe4cc03',1,'tcp::Socket']]]
 ];

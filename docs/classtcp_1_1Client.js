@@ -1,6 +1,6 @@
 var classtcp_1_1Client =
 [
-    [ "Client", "classtcp_1_1Client.html#a9102bc9e27395fe3f8a5123449f8b579", null ],
+    [ "Client", "classtcp_1_1Client.html#a083e6b73c75d7cb7c847d040631b34be", null ],
     [ "~Client", "classtcp_1_1Client.html#acb6c5cbd281a789dfe5ee38985dc9a1b", null ],
     [ "addr", "classtcp_1_1Client.html#a4900e6d30b3f634d4a2ce286f63c4d94", null ],
     [ "connect", "classtcp_1_1Client.html#ac90956469303e3869fd05b9ec5a71446", null ],

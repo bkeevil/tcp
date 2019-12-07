@@ -23,7 +23,7 @@
 #include <sys/epoll.h>
 #include "tcpssl.h"
 
-/** @brief Contains Socket, Server, Session and Client classes for a tcp client/server */
+/** @brief Contains classes for a tcp client/server library*/
 namespace tcp {
 
 using namespace std;
@@ -84,14 +84,14 @@ class Socket {
      */
     Socket(EPoll &epoll, const int domain = AF_INET, const int socket = 0, const bool blocking = false, const int events = (EPOLLIN | EPOLLRDHUP));
 
-    /** @brief Closes the socket (if necessary) and then odestroys the Socket
+    /** @brief Closes and destroys the socket
      *  @remark An active socket should first be shut down using the disconnect() command  */
     ~Socket();
   
-    /** @brief Return the OS socket handle */
+    /** @brief Return the linux socket handle */
     int socket() const { return socket_; }
     
-    /** @brief Return the socket domain (AF_INET, AF_INET6, AF_UNIX) */
+    /** @brief Return the socket domain (AF_INET or AF_INET6) */
     int domain() const { return domain_; }
 
     /** @brief   Shuts down the socket gracefully */
@@ -104,7 +104,7 @@ class Socket {
      *  @param events A bitmask of event flags. See the epoll documentation */
     bool setEvents(int events);
 
-    /** @brief   Called when the socket recieves an event from the OS
+    /** @brief   Called when the socket recieves an epoll event
      *  @details Descendant classes override this abstract method to respond to epoll events
      *  @param   events   A bitmask of event flags. See the epoll documentation */
     virtual void handleEvents(uint32_t events) = 0;
@@ -114,16 +114,16 @@ class Socket {
      *           Override disconnected to perform additional cleanup of a dropped socket connection. */
     virtual void disconnected();
 
-    /** @brief   Mutex for providing exclusive access to the socket */
+    /** @brief   The mutex used to provide exclusive access to the socket */
     recursive_mutex mtx;
 
-    /** @brief   Returns a pointer to the epoll instance used by this socket */
+    /** @brief   Returns a reference to the epoll instance used by this socket */
     EPoll &epoll() { return epoll_; }
 
-    /** @brief   Either AF_INET or AF_INET6 */
+    /** @brief   Returns the domain (AF_INET or AF_INET6) */
     int domain() { return domain_; }
 
-    /** @brief   The unix socket handle */
+    /** @brief   Returns the unix socket handle */
     int socket() { return socket_; }
 
     SocketState state_;    

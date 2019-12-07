@@ -1,12 +1,14 @@
 <map id="include/tcpsocket.h" name="include/tcpsocket.h">
-<area shape="rect" id="node1" title="Shared base classes for tcpclient.h and tcpserver.h." alt="" coords="263,5,398,32"/>
+<area shape="rect" id="node1" title="Shared base classes for tcpclient.h and tcpserver.h." alt="" coords="341,5,475,32"/>
 <area shape="rect" id="node2" title=" " alt="" coords="5,80,77,107"/>
 <area shape="rect" id="node3" title=" " alt="" coords="102,80,159,107"/>
 <area shape="rect" id="node4" title=" " alt="" coords="183,80,230,107"/>
 <area shape="rect" id="node5" title=" " alt="" coords="255,80,313,107"/>
-<area shape="rect" id="node6" title=" " alt="" coords="337,80,420,107"/>
-<area shape="rect" id="node7" title=" " alt="" coords="444,80,529,107"/>
-<area shape="rect" id="node8" href="$tcpssl_8h.html" title="Provides ssl client and server functionality." alt="" coords="554,80,622,107"/>
-<area shape="rect" id="node9" title=" " alt="" coords="510,155,565,181"/>
-<area shape="rect" id="node10" title=" " alt="" coords="589,155,688,181"/>
+<area shape="rect" id="node6" title=" " alt="" coords="337,80,396,107"/>
+<area shape="rect" id="node7" title=" " alt="" coords="420,80,479,107"/>
+<area shape="rect" id="node8" title=" " alt="" coords="503,80,585,107"/>
+<area shape="rect" id="node9" title=" " alt="" coords="609,80,695,107"/>
+<area shape="rect" id="node10" href="$tcpssl_8h.html" title="Provides ssl client and server functionality." alt="" coords="719,80,787,107"/>
+<area shape="rect" id="node11" title=" " alt="" coords="675,155,730,181"/>
+<area shape="rect" id="node12" title=" " alt="" coords="755,155,853,181"/>
 </map>

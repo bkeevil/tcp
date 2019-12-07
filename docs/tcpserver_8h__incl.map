@@ -1,14 +1,16 @@
 <map id="include/tcpserver.h" name="include/tcpserver.h">
-<area shape="rect" id="node1" title="Provides basic tcp server functionality." alt="" coords="177,5,309,32"/>
+<area shape="rect" id="node1" title="Provides basic tcp server functionality." alt="" coords="199,5,331,32"/>
 <area shape="rect" id="node2" title=" " alt="" coords="5,155,77,181"/>
 <area shape="rect" id="node3" title=" " alt="" coords="102,155,149,181"/>
 <area shape="rect" id="node4" title=" " alt="" coords="173,155,230,181"/>
-<area shape="rect" id="node5" title=" " alt="" coords="405,80,470,107"/>
-<area shape="rect" id="node6" href="$tcpsocket_8h.html" title="Shared base classes for tcpclient.h and tcpserver.h." alt="" coords="239,80,329,107"/>
-<area shape="rect" id="node10" href="$tcpssl_8h.html" title="Provides ssl client and server functionality." alt="" coords="554,155,622,181"/>
-<area shape="rect" id="node7" title=" " alt="" coords="255,155,313,181"/>
-<area shape="rect" id="node8" title=" " alt="" coords="337,155,420,181"/>
-<area shape="rect" id="node9" title=" " alt="" coords="444,155,529,181"/>
-<area shape="rect" id="node11" title=" " alt="" coords="510,229,565,256"/>
-<area shape="rect" id="node12" title=" " alt="" coords="589,229,688,256"/>
+<area shape="rect" id="node5" title=" " alt="" coords="451,80,517,107"/>
+<area shape="rect" id="node6" href="$tcpsocket_8h.html" title="Shared base classes for tcpclient.h and tcpserver.h." alt="" coords="285,80,376,107"/>
+<area shape="rect" id="node12" href="$tcpssl_8h.html" title="Provides ssl client and server functionality." alt="" coords="719,155,787,181"/>
+<area shape="rect" id="node7" title=" " alt="" coords="553,155,612,181"/>
+<area shape="rect" id="node8" title=" " alt="" coords="636,155,695,181"/>
+<area shape="rect" id="node9" title=" " alt="" coords="255,155,313,181"/>
+<area shape="rect" id="node10" title=" " alt="" coords="337,155,420,181"/>
+<area shape="rect" id="node11" title=" " alt="" coords="444,155,529,181"/>
+<area shape="rect" id="node13" title=" " alt="" coords="675,229,730,256"/>
+<area shape="rect" id="node14" title=" " alt="" coords="755,229,853,256"/>
 </map>

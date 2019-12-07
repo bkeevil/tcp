@@ -107,7 +107,7 @@ $(document).ready(function(){initNavTree('namespacetcp.html','');});
 </div><!--header-->
 <div class="contents">
 
-<p>Contains <a class="el" href="classtcp_1_1Socket.html" title="Encapsulates a socket handle that is capable of recieving epoll events.">Socket</a>, <a class="el" href="classtcp_1_1Server.html" title="Listens for TCP connections and establishes Sessions.">Server</a>, <a class="el" href="classtcp_1_1Session.html" title="Represents a TCP connection accepted by the Server.">Session</a> and <a class="el" href="classtcp_1_1Client.html" title="A blocking or non-blocking TCP client connection.">Client</a> classes for a tcp client/server.  
+<p>Contains classes for a tcp client/server library.  
 <a href="namespacetcp.html#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
@@ -171,7 +171,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>printSSLErrors_cb</b> 
 <tr class="separator:a6a39ed9feef0449d14ae8effcd2a0fc0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4e386f3935fd15d1413ab3ea56d5384d"><td class="memItemLeft" align="right" valign="top"><a id="a4e386f3935fd15d1413ab3ea56d5384d"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacetcp.html#a4e386f3935fd15d1413ab3ea56d5384d">printSSLErrors</a> ()</td></tr>
-<tr class="memdesc:a4e386f3935fd15d1413ab3ea56d5384d"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method will log all errors to stderr. <br /></td></tr>
+<tr class="memdesc:a4e386f3935fd15d1413ab3ea56d5384d"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method logs openSSL errors to cerr. <br /></td></tr>
 <tr class="separator:a4e386f3935fd15d1413ab3ea56d5384d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac08eb6ac33f0fe64394f6b5a450cdb3a"><td class="memItemLeft" align="right" valign="top"><a id="ac08eb6ac33f0fe64394f6b5a450cdb3a"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacetcp.html#ac08eb6ac33f0fe64394f6b5a450cdb3a">print_cn_name</a> (const char *label, X509_NAME *const name)</td></tr>
@@ -194,15 +194,12 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>ssl_password_callback<
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:a0be6bb056944eded89f71b0efeeeee4a"><td class="memItemLeft" align="right" valign="top"><a id="a0be6bb056944eded89f71b0efeeeee4a"></a>
-<a class="el" href="classtcp_1_1EPoll.html">EPoll</a>&#160;</td><td class="memItemRight" valign="bottom"><b>epoll</b></td></tr>
-<tr class="separator:a0be6bb056944eded89f71b0efeeeee4a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5b1bcea6befd54bfb23906b45766353c"><td class="memItemLeft" align="right" valign="top"><a id="a5b1bcea6befd54bfb23906b45766353c"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>sslinitialized_</b> {false}</td></tr>
 <tr class="separator:a5b1bcea6befd54bfb23906b45766353c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Contains <a class="el" href="classtcp_1_1Socket.html" title="Encapsulates a socket handle that is capable of recieving epoll events.">Socket</a>, <a class="el" href="classtcp_1_1Server.html" title="Listens for TCP connections and establishes Sessions.">Server</a>, <a class="el" href="classtcp_1_1Session.html" title="Represents a TCP connection accepted by the Server.">Session</a> and <a class="el" href="classtcp_1_1Client.html" title="A blocking or non-blocking TCP client connection.">Client</a> classes for a tcp client/server. </p>
+<div class="textblock"><p>Contains classes for a tcp client/server library. </p>
 </div><h2 class="groupheader">Enumeration Type Documentation</h2>
 <a id="a2c9f9abccc28c28a2d375823ca900b1b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2c9f9abccc28c28a2d375823ca900b1b">&#9670;&nbsp;</a></span>SocketState</h2>
@@ -227,8 +224,8 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>sslinitialized_</b> {
 <p>Determines the state of a socket. </p>
 <p>Not all states are valid for every socket type. </p>
 
-<p class="definition">Definition at line <a class="el" href="tcpsocket_8h_source.html#l00033">33</a> of file <a class="el" href="tcpsocket_8h_source.html">tcpsocket.h</a>.</p>
-<div class="fragment"><div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;{UNCONNECTED=0, LISTENING, CONNECTING, CONNECTED, DISCONNECTED};</div>
+<p class="definition">Definition at line <a class="el" href="tcpsocket_8h_source.html#l00035">35</a> of file <a class="el" href="tcpsocket_8h_source.html">tcpsocket.h</a>.</p>
+<div class="fragment"><div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;{UNCONNECTED=0, LISTENING, CONNECTING, CONNECTED, DISCONNECTED};</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -251,10 +248,10 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>sslinitialized_</b> {
 <p>Free up resources created by the openSSL library. </p>
 <p>Applications should call this method at application shutdown. </p>
 
-<p class="definition">Definition at line <a class="el" href="tcpssl_8cpp_source.html#l00034">34</a> of file <a class="el" href="tcpssl_8cpp_source.html">tcpssl.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;{</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;  ERR_free_strings();</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;}</div>
+<p class="definition">Definition at line <a class="el" href="tcpssl_8cpp_source.html#l00032">32</a> of file <a class="el" href="tcpssl_8cpp_source.html">tcpssl.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;{</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;  ERR_free_strings();</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -276,18 +273,18 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>sslinitialized_</b> {
 <p>Initialize the openSSL library. </p>
 <p>Applications should call this method once at application startup. It must be called before any other openSSL library functions are called. </p>
 
-<p class="definition">Definition at line <a class="el" href="tcpssl_8cpp_source.html#l00021">21</a> of file <a class="el" href="tcpssl_8cpp_source.html">tcpssl.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;{</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;  <span class="keywordflow">if</span> (!sslinitialized_) {</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    SSL_library_init();             </div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    OpenSSL_add_all_algorithms();</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    SSL_load_error_strings();</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    ERR_load_crypto_strings();</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    OpenSSL_add_all_ciphers();</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    sslinitialized_ = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    clog &lt;&lt; <span class="stringliteral">&quot;OpenSSL library initialized&quot;</span> &lt;&lt; endl;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;  }</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;}</div>
+<p class="definition">Definition at line <a class="el" href="tcpssl_8cpp_source.html#l00019">19</a> of file <a class="el" href="tcpssl_8cpp_source.html">tcpssl.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;{</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;  <span class="keywordflow">if</span> (!sslinitialized_) {</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    SSL_library_init();             </div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    OpenSSL_add_all_algorithms();</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    SSL_load_error_strings();</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    ERR_load_crypto_strings();</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    OpenSSL_add_all_ciphers();</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    sslinitialized_ = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    clog &lt;&lt; <span class="stringliteral">&quot;OpenSSL library initialized&quot;</span> &lt;&lt; endl;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;  }</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;}</div>
 </div><!-- fragment -->
 </div>
 </div>

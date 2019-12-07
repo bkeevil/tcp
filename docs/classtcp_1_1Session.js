@@ -1,6 +1,6 @@
 var classtcp_1_1Session =
 [
-    [ "Session", "classtcp_1_1Session.html#a07ef64bbc41a51c2cfc8bdf45bea54cb", null ],
+    [ "Session", "classtcp_1_1Session.html#ac31917e552fd7232e85b7c5a91e6a3c1", null ],
     [ "~Session", "classtcp_1_1Session.html#a2aabc44c9cbe31d562afd446c863cf3a", null ],
     [ "accepted", "classtcp_1_1Session.html#a753f6851639aad6ee9714d02a87696f9", null ],
     [ "connected", "classtcp_1_1Session.html#a7c114f15013ee8e3097669bf6095a5e6", null ],
