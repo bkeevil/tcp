@@ -32,9 +32,13 @@ add_executable(echoclient
   client.cpp
 )
 
-target_link_libraries(echoserver tcp)
+
 target_link_libraries(echoclient tcp)
 target_link_libraries(echoclient rt)
 target_link_libraries (echoclient ${CMAKE_THREAD_LIBS_INIT})
 target_link_libraries(echoclient ${OPENSSL_LIBRARIES} )
+
+target_link_libraries(echoserver tcp)
+target_link_libraries(echoserver rt)
+target_link_libraries(echoserver ${CMAKE_THREAD_LIBS_INIT})
 target_link_libraries(echoserver ${OPENSSL_LIBRARIES} )

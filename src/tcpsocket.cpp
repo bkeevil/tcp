@@ -82,18 +82,23 @@ void EPoll::poll(int timeout)
     if (errno != EINTR) 
       cerr << "epoll_wait: " << strerror(errno) << endl;
   } else {
+    vector<thread*> pool;
     for (int n = 0; n < nfds; ++n) {
-      handleEvents(events[n].events,events[n].data.fd);
+      handleEvents(pool,events[n].events,events[n].data.fd);
+    }
+    for (auto it : pool) {
+      it->join();
     }
   }
   mtx.unlock();
 }
 
-void EPoll::handleEvents(uint32_t events, int fd) 
+void EPoll::handleEvents(vector<thread*> pool, uint32_t events, int fd) 
 {
   Socket* socket = sockets[fd];
   if (socket != nullptr) {
-    socket->handleEvents(events);
+    thread *th = new thread(&Socket::threadHandleEvents,socket,events);
+    pool.push_back(th);
   }
 }
 

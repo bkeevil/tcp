@@ -16,6 +16,8 @@
 #include <iostream>
 #include <deque>
 #include <map>
+#include <vector>
+#include <thread>
 #include <mutex>
 #include <arpa/inet.h>
 #include <sys/epoll.h>
@@ -59,7 +61,7 @@ class EPoll {
     bool add(Socket& socket, int events);
     bool update(Socket& socket, int events);
     bool remove(Socket& socket);    
-    void handleEvents(uint32_t events, int fd);
+    void handleEvents(vector<thread*> pool, uint32_t events, int fd);
     int handle_;
     epoll_event events[MAX_EVENTS];
     recursive_mutex mtx;
@@ -107,6 +109,8 @@ class Socket {
      *  @details Descendant classes override this abstract method to respond to epoll events
      *  @param   events   A bitmask of event flags. See the epoll documentation */
     virtual void handleEvents(uint32_t events) = 0;
+
+    void threadHandleEvents(uint32_t events) { handleEvents(events); }
 
     /** @brief   Called when a connection is disconnected due to a network error
      *  @details Sets the socket state to DISCONNECTED and frees its resources. 
