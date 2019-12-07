@@ -238,7 +238,7 @@ void Session::accepted() {
   clog << "Connection from " << ip << ":" << port_ << " accepted" << endl;
   clog.flush();
   if (server().useSSL_) {
-    ssl_ = new tcp::SSL(*this,server().ctx());
+    ssl_ = createSSL(server().ctx());
     ssl_->setfd(socket());
     if (ssl_->accept())
       state_ = SocketState::CONNECTED;

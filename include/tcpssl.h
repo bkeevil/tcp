@@ -107,36 +107,129 @@ class SSLContext {
 /** @brief   Encapsulates an SSL connection data structure */
 class SSL {
   public:
+    /** @brief   Constructor
+     *  @param   owner    [in]  The tcp::Session or tcp::Client this SSL object is for
+     *  @param   context  [in]  The context object used as defaults for this SSL connection
+     */
     SSL(DataSocket &owner, SSLContext &context);
+    
+    /** @brief   Destructor */
     virtual ~SSL();
+    
+    /** @brief   Sets default options for all SSL objects created from this context 
+     *  @details Additional options can be set in the SSLContext object associated with this SSL object
+     *  @param   verifypeer  [in]  If true, the server/client will validate the peer certificate
+     *  @remarks Logs error information to cerr but does not return error information.
+     */
     void setOptions(bool verifypeer = false);
+
+    /** @brief   Sets the certificate filename and key filename
+     *  @details Sets the certificate and key file for the SSL connection
+     *           To set this property for all client or server connections, see the corresponding method 
+     *           in the SSLContext class
+     *  @param   certfile    [in]  The filename of a certificate chain in PEM (or CRT) format
+     *  @param   keyfile     [in]  The filename of a private key in PEM (or CRT) format
+     *  @returns True of the certificate and key were successfully set, false otherwise. Check cerr log for details.
+     *  @remarks If the keyfile requires a password to decrypt, passwordCallback will be called to provide 
+     *           that password.
+     */
     bool setCertificateAndKey(const char *certfile, const char *keyfile);
+
+    /** @brief   Sets the value of the private key password */
+    void setPrivateKeyPassword(string value) { keypass_ = value; }
+
+    /** @brief   Called when a password to decrypt a private key is required
+     *  @details Descendant classes may want to override this to provide a more secure means of storing the 
+     *           private key password. The default behavior is to return the value of keypass_.
+     *  @remarks See the openSSL function `SSL_CTX_set_default_passwd_cb` for more details
+     *  @remarks This must be public because it is called from the passwordCallback() function
+     *  @remarks This password callback function only applies to private keys assigned to this SSL_CTX object,
+     *           it is not 'inherited' from any SSL objects created from it.
+     */
     virtual int passwordCallback(char *buf, int size, int rwflag);
+
+    /** @brief   Sets the socket file descripter for this SSL object
+     *  @details An application must set the file descriptor for the socket prior to calling accept() or connect()
+     *  @param   socket   [in]  The linux socket handle
+     */    
     bool setfd(int socket);
 
     /** @brief   Returns the peer certificate subject name or an empty string if none was sent */
-    string &getSubjectName(string &result);
+    string &getSubjectName();
 
     /** @brief   Return true if the peer certificate was verified or if no certificate was presented */
     bool verifyResult();
 
+    /** @brief   Starts the SSL client handshake sequence */
     bool connect();
+
+    /** @brief   Starts the SSL server handshake sequence */
     bool accept();
+
+    /** @brief   Reads and decrypts SSL socket data
+     *  @param   buffer  [in]  Where to place the read data
+     *  @param   size    [in]  The size of buffer
+     *  @returns The number of bytes actually read
+     *  @remarks Logs error messages to cerr
+     */
     size_t read(void *buffer, size_t size);
+    
+    /** @brief   Encrypts and writes SSL socket data
+     *  @param   buffer  [in]  Where to place the read data
+     *  @param   size    [in]  The size of buffer
+     *  @returns The number of bytes actually read
+     *  @remarks Logs error messages to cerr
+     */
     size_t write(const void *buffer, size_t size);
+
+    /** @brief   Resets the SSL object for another connection
+     *  @details This method could be used by a client reconnecting to the same server
+     */
     void clear();
+    
+    /** @brief   Closes the SSL connection gracefully */
     void shutdown();
-    ::SSL *handle() { return ssl_; }
-    SSLMode mode() { return mode_; }
-    string keypass;
+
+    /** @brief   If True, the certificate will be checked for validity on the first read/write operation */
+    bool requiresCertPostValidation { false };
+     
+    /** @brief   A client/server may store the internal hostname property for certificate post validation */
+    void setHostname(const string value) { hostname_ = value; }
+
   protected:
-    void wantsRead();
-    void wantsWrite();
+
+    /** @brief   Performs a post handshake validation of the peer certificate
+     *  @details The post validation is performed on the first read or write operation
+     *           If the post validation fails the session is disconnected.
+     *           This check is only performed if requiresCertPostValidation is true
+     */
+    bool performCertPostValidation();
+
+    /** @brief   Validate the peer certificate subject name
+     *  @details This function should return true if the subject name is considered valid. 
+     *           It is intended to verify that the hostname matches the certificate subjectname.
+     *           The default implementation uses whte wildcmp function to perform a wildcard compare.
+     *           Only called if checkPeerSubjectName is true.  */
+    virtual bool validateSubjectName(const string &subjectName, const string &hostName);
+
+    DataSocket &owner_;  /**< A reference to the socket        */
+    SSLMode mode_;       /**< Either SERVER or CLIENT          */
+    ::SSL *ssl_;         /**< The openSSL handle for API calls */
+    friend class SSLContext;
   private:
-    DataSocket &owner_;
-    SSLMode mode_;
-    ::SSL *ssl_;
+    void wantsRead();    /**< Responds to a wantsRead message from SSL_write()  */
+    void wantsWrite();   /**< Responds to a wantsWrite message from SSL_read()  */
+    string subjectName_;
+    string hostname_;
+    string keypass_;
 };
+
+/** @brief   Wildcard compare function 
+ *  @details This compare function performs comparisons against a string using the * and ? wildcard characters.
+ *  @remarks Used internally to validate that hostName matches a certificate subjectName.
+ *           Exposed because it might be useful elsewhere in a program.
+ */
+int wildcmp(const char *wild, const char *string);
 
 } // namespace
 

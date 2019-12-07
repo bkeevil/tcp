@@ -28,7 +28,7 @@ int main() {
   initSSLLibrary();
   EchoClient client(epoll,AF_INET,false);
   client.verifyPeer = true;
-  //client.checkPeerSubjectName = true;
+  client.checkPeerSubjectName = true;
   client.ctx().setVerifyPaths("/home/bkeevil/projects/sslserver/testkeys/testca.crt",NULL);
   client.certfile = "/home/bkeevil/projects/sslserver/testkeys/mqtt-client-test.crt";
   client.keyfile = "/home/bkeevil/projects/sslserver/testkeys/mqtt-client-test.key";

@@ -59,6 +59,40 @@ void printSSLErrors()
   ERR_print_errors_cb(&printSSLErrors_cb,NULL);
 }
 
+int wildcmp(const char *wild, const char *string) {
+  // Written by Jack Handy - <A href="mailto:jakkhandy@hotmail.com">jakkhandy@hotmail.com</A>
+  const char *cp = NULL, *mp = NULL;
+
+  while ((*string) && (*wild != '*')) {
+    if ((*wild != *string) && (*wild != '?')) {
+      return 0;
+    }
+    wild++;
+    string++;
+  }
+
+  while (*string) {
+    if (*wild == '*') {
+      if (!*++wild) {
+        return 1;
+      }
+      mp = wild;
+      cp = string+1;
+    } else if ((*wild == *string) || (*wild == '?')) {
+      wild++;
+      string++;
+    } else {
+      wild = mp;
+      string = cp++;
+    }
+  }
+
+  while (*wild == '*') {
+    wild++;
+  }
+  return !*wild;
+}
+
 /** @brief Prints the certificate common name to clog */
 void print_cn_name(const char* label, X509_NAME* const name)
 {
@@ -406,9 +440,9 @@ bool SSL::setCertificateAndKey(const char *certfile, const char *keyfile)
 int SSL::passwordCallback(char *buf, int size, int rwflag)
 {
   (void)rwflag;
-  if (!keypass.empty()) {
-    int lsize = max<int>(size,keypass.length());
-    strncpy(buf,keypass.c_str(),lsize);
+  if (!keypass_.empty()) {
+    int lsize = max<int>(size,keypass_.length());
+    strncpy(buf,keypass_.c_str(),lsize);
     return lsize;
   } else {
     return 0;
@@ -432,9 +466,12 @@ bool SSL::setfd(int socket)
   }
 }
 
-string &SSL::getSubjectName(string &result)
+string &SSL::getSubjectName()
 {  
-  result.clear();
+  if (!subjectName_.empty()) {
+    return subjectName_;
+  }
+
   X509 *cert = SSL_get_peer_certificate(ssl_);
   if (cert) {
     X509_NAME* sname = X509_get_subject_name(cert);
@@ -456,7 +493,7 @@ string &SSL::getSubjectName(string &result)
         int length = ASN1_STRING_to_UTF8(&utf8, data);
         if(!utf8 || !(length > 0))  break; /* failed */
       
-        result.assign((char*)utf8);
+        subjectName_.assign((char*)utf8);
       
       } while (0);
     
@@ -465,7 +502,33 @@ string &SSL::getSubjectName(string &result)
     }
     X509_free(cert);
   }
-  return result;
+  return subjectName_;
+}
+
+bool SSL::validateSubjectName(const string &subjectName, const string &hostname)
+{
+  return wildcmp(subjectName.c_str(),hostname.c_str());
+}
+
+bool SSL::performCertPostValidation()
+{
+  if (!verifyResult()) {
+    cerr << "Peer certificate validation failed" << endl;
+    return false;
+  } else {
+    
+    if (!getSubjectName().empty()) {
+      if (!validateSubjectName(subjectName_,hostname_)) {
+        cerr << "Peer certificate subject name " << subjectName_ << " does not match host name " << hostname_ << endl;
+        return false;
+      }
+    }
+    
+    requiresCertPostValidation = false;
+
+  }
+
+  return true;
 }
 
 bool SSL::verifyResult()
@@ -511,6 +574,9 @@ bool SSL::accept()
 
 size_t SSL::read(void *buffer, size_t size)
 {
+  if (requiresCertPostValidation && !performCertPostValidation())
+    owner_.disconnected();
+    
   int res = SSL_read(ssl_,buffer,size);
   if (res <= 0) {
     unsigned long ssl_err = SSL_get_error(ssl_,res);
@@ -527,6 +593,9 @@ size_t SSL::read(void *buffer, size_t size)
 
 size_t SSL::write(const void *buffer, size_t size)
 {
+  if (requiresCertPostValidation && !performCertPostValidation())
+    owner_.disconnected();
+
   int res = SSL_write(ssl_,buffer,size);
   if (res <= 0) {
     unsigned long ssl_err = SSL_get_error(ssl_,res);

@@ -190,8 +190,9 @@ class DataSocket : public Socket {
      *            response to received data */
     virtual void dataAvailable() = 0;
 
-    /** @brief   Exposes the underlying SSL record used for openSSL calls to descendant classes */
-    SSL *ssl_ {nullptr};
+    /** @brief    Factory method for returning an SSL object.
+     *  @details  Override to replace the SSL class used. */
+    SSL *createSSL(SSLContext &context);
 
   private:    
     size_t read_(void *buffer, size_t size);
