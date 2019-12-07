@@ -13,7 +13,7 @@ set(CMAKE_CXX_FLAGS_DEBUG "-g")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
 find_package(Threads)
-find_package(Boost 1.65 COMPONENTS program_options REQUIRED)
+find_package(Boost 1.5 COMPONENTS program_options REQUIRED)
 find_package(OpenSSL REQUIRED)
 message("OpenSSL include dir: ${OPENSSL_INCLUDE_DIR}")
 message("OpenSSL libraries: ${OPENSSL_LIBRARIES}")
