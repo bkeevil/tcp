@@ -1,5 +1,7 @@
 # Overview
 
+![](https://github.com/bkeevil/tcp/workflows/C%2FC++%20Ubuntu%20Build/badge.svg)
+
 A TCP client/server library for Linux that supports SSL. The library uses the EPoll mechanism to respond to OS events in a single thread.
 
 ## Documentation
