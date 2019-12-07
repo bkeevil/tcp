@@ -9,6 +9,8 @@ jobs:
     
     steps:
     - uses: actions/checkout@master
+    - name: install libboost-program-options-dev
+      run: apt install -y libboost-program-options-dev
     - name: make build dir
       run: mkdir build
     - name: run cmake
