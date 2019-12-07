@@ -1,6 +1,6 @@
 <map id="tcp::Socket::setEvents" name="tcp::Socket::setEvents">
 <area shape="rect" id="node1" title="Changes which epoll events the socket listens for." alt="" coords="469,42,625,69"/>
-<area shape="rect" id="node2" href="$classtcp_1_1DataSocket.html#a96b20f5702de291a8d0b13f32a5663fe" title="Sets the value of the sockets EPoll event flags." alt="" coords="245,42,421,69"/>
+<area shape="rect" id="node2" href="$classtcp_1_1DataSocket.html#a96b20f5702de291a8d0b13f32a5663fe" title="Sets the epoll event flags." alt="" coords="245,42,421,69"/>
 <area shape="rect" id="node3" href="$classtcp_1_1DataSocket.html#ad49eff9d3b22d85c9f3cf89a46fb688f" title="Writes all available data from the outputBuffer to the socket." alt="" coords="5,5,197,47"/>
 <area shape="rect" id="node4" href="$classtcp_1_1DataSocket.html#a6a10d49abbaf997785391f56c5be280f" title="Writes the contents of buffer to the outputBuffer." alt="" coords="25,71,178,98"/>
 </map>

@@ -152,22 +152,22 @@ bool Socket::setEvents(int events)
 
 void Socket::disconnect() {
   mtx.lock();
-  if (state_ != SocketState::DISCONNECTED) {  
+  if (state_ == SocketState::CONNECTED) {  
     ::shutdown(socket_,SHUT_RDWR);
-    state_ = SocketState::DISCONNECTED;
-    clog << "Disconnected" << endl;
-    clog.flush(); 
   }
   mtx.unlock();
+  disconnected();
 }
 
 void Socket::disconnected()
 {
   mtx.lock();
   if (state_ != SocketState::DISCONNECTED) {
+    ::close(socket_);
+    socket_ = 0;
     state_ = SocketState::DISCONNECTED;
     clog << "Disconnected" << endl;
-    clog.flush();  
+    clog.flush(); 
   }
   mtx.unlock();
 }
@@ -183,25 +183,24 @@ void DataSocket::disconnect()
     ssl_ = nullptr;
     printSSLErrors();
   }
-  Socket::disconnect();
   mtx.unlock();
+  Socket::disconnect();
 }
 
 void DataSocket::disconnected()
 {
-  mtx.lock();
+  mtx.lock();  // Do I need to use lock here?
   if (ssl_) {
     delete ssl_;
     ssl_ = nullptr;
     printSSLErrors();
   }
-  Socket::disconnected();
   mtx.unlock();
+  Socket::disconnected();
 }
 
 void DataSocket::readToInputBuffer()
 {
-  mtx.lock();
   uint8_t buffer[256];
   int size;
   do {
@@ -210,7 +209,6 @@ void DataSocket::readToInputBuffer()
       inputBuffer.push_back(buffer[i]);
     }
   } while (size > 0);
-  mtx.unlock();
 }
 
 void DataSocket::sendOutputBuffer()
@@ -236,30 +234,37 @@ void DataSocket::sendOutputBuffer()
 
 void DataSocket::canSend(bool value) 
 {
+  int events = EPOLLIN | EPOLLRDHUP;
   if (value)
-    setEvents(EPOLLIN | EPOLLOUT | EPOLLRDHUP);
-  else
-    setEvents(EPOLLIN | EPOLLRDHUP);  
+    events |= EPOLLOUT;
+  setEvents(events);
 }
 
 void DataSocket::handleEvents(uint32_t events)
 {
   if (state_ == SocketState::CONNECTED) {
-    mtx.lock();
     if (events & EPOLLRDHUP) {
       disconnected();
     } else {
       if (events & EPOLLIN) {
+        mtx.lock();
         readToInputBuffer();
         dataAvailable();
-        canSend(outputBuffer.size() > 0U);
+        if (outputBuffer.size() > 0U) {
+          sendOutputBuffer();
+          canSend(outputBuffer.size() > 0U);
+        } else {
+          canSend(false);  
+        }
+        mtx.unlock();
       }
       if (events & EPOLLOUT) {
+        mtx.lock();
         sendOutputBuffer();
         canSend(outputBuffer.size() > 0U);
-      }  
+        mtx.unlock();
+      }
     }
-    mtx.unlock();
   }
 }
 
@@ -267,13 +272,11 @@ size_t DataSocket::read_(void *buffer, size_t size)
 {
   if (state_ == SocketState::CONNECTED) {
     size_t result;
-    mtx.lock();
     if (ssl_) {
       result = ssl_->read(buffer,size);
     } else {
       result = ::recv(socket(),buffer,size,0);
     }
-    mtx.unlock();
     return result;
   } else {
     return 0;
@@ -284,13 +287,11 @@ size_t DataSocket::write_(const void *buffer, size_t size)
 {
   if (state_ == SocketState::CONNECTED) {
     size_t result;
-    mtx.lock();
     if (ssl_) {
       result = ssl_->write(buffer,size);
     } else {
       result = ::send(socket(),buffer,size,0);
     }
-    mtx.unlock();
     return result;
   } else {
     return 0;
@@ -299,30 +300,37 @@ size_t DataSocket::write_(const void *buffer, size_t size)
 
 size_t DataSocket::read(void *buffer, size_t size)
 {
-  size_t result;
-  mtx.lock();
-  result = max<size_t>(size,inputBuffer.size());
-  if (result > 0) {
-    uint8_t *buf = (uint8_t*)buffer;
-    for (size_t i=0;i<result;i++) {
-      buf[i] = inputBuffer.at(0);
-      inputBuffer.pop_front();
+  size_t result = 0;
+  if (size) {
+    mtx.lock();
+    result = max<size_t>(size,inputBuffer.size());
+    if (result > 0) {
+      for (size_t i=0;i<result;++i) {
+        ((uint8_t*)buffer)[i] = inputBuffer.at(0);
+        inputBuffer.pop_front();
+      }
     }
+    mtx.unlock();
   }
-  mtx.unlock();
   return result;
 }
 
 size_t DataSocket::write(const void *buffer, size_t size)
 {
-  mtx.lock();
-  uint8_t *buf = (uint8_t*)buffer;
-  for (size_t i=0;i<size;i++) {
-    outputBuffer.push_back(buf[i]);
+  size_t result = 0U;
+  if (size) {
+    mtx.lock();
+    try {
+      for (size_t i=0;i<size;++i) {
+        outputBuffer.push_back(((uint8_t*)buffer)[i]);
+        ++result;
+      }
+      canSend(true);
+    } catch (const std::bad_alloc&) {
+      mtx.unlock();
+    }
   }
-  canSend(outputBuffer.size() > 0U);
-  mtx.unlock();
-  return size;
+  return result;
 }
 
 } // namespace tcp

@@ -514,12 +514,16 @@ void SSL::shutdown()
 
 void SSL::wantsRead()
 {
+  owner_.mtx.lock();
   owner_.readToInputBuffer();
+  owner_.mtx.unlock();
 }
 
 void SSL::wantsWrite()
 {
+  owner_.mtx.lock();
   owner_.sendOutputBuffer();
+  owner_.mtx.unlock();
 }
 
 } // namespace tcp

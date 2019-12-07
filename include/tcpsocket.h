@@ -134,7 +134,7 @@ class DataSocket : public Socket {
     DataSocket(EPoll &epoll, const int domain = AF_INET, const int socket = 0, const bool blocking = false, const int events = (EPOLLIN | EPOLLRDHUP)) :
       Socket(epoll,domain,socket,blocking,events) {}
 
-    /** @brief Returns an estimate of how many bytes are available in the inputBuffer */
+    /** @brief Returns the number of bytes available in the inputBuffer */
     size_t available() { return inputBuffer.size(); }
 
     /** @brief   Reads up to size bytes from inputBuffer into buffer
@@ -145,13 +145,13 @@ class DataSocket : public Socket {
      *  @details The content of the outputBuffer will be sent automatically at the next EPoll event */
     size_t write(const void *buffer, size_t size);
 
-    /** @brief If true, the client will attempt to verify the peer certificate */
+    /** @brief If true, openSSL will attempt to verify the peer certificate */
     bool verifypeer {false};
 
-    /** @brief The filename of the client certificate in PEM format */
+    /** @brief The filename of the openSSL certificate in PEM format */
     string certfile;
 
-    /** @brief The filename of the client private key in PEM format */
+    /** @brief The filename of the openSSL private key in PEM format */
     string keyfile;
 
     /** @brief The password for the private key file, if required */
@@ -167,16 +167,16 @@ class DataSocket : public Socket {
      *           with the next call to sendOutputBuffer() */
     void sendOutputBuffer();
 
-    /** @brief   Sets the value of the sockets EPoll event flags
+    /** @brief   Sets the epoll event flags
      *  @details The flags will include EPOLLOUT if value==true */
     void canSend(bool value);
 
-    /** @brief   Called by the EPoll class when the listening socket recieves an event from the OS.
+    /** @brief   Called by the EPoll class when the listening socket recieves an epoll event
      *  @details Calls either disconnected(), readToInputBuffer() + dataAvailable() or sendOutputBuffer()
      *           depending on the events that have been set. */        
     void handleEvents(uint32_t events) override;
     
-    /** @brief   Shuts down any SSL connection gracefully and frees its resources
+    /** @brief   Shuts down any SSL connection gracefully
      *  @details Socket::disconnect() is called to shutdown the underlying socket */
     void disconnect() override;
 
@@ -185,10 +185,9 @@ class DataSocket : public Socket {
      */
     void disconnected() override;
 
-    /** @brief    Called when new data is available for reading from inputBuffer
+    /** @brief    Called whenever new data is appended to the inputBuffer
      *  @details  Clients should override the dataAvailable method to do something in 
-     *            response to received data 
-     */
+     *            response to received data */
     virtual void dataAvailable() = 0;
 
     /** @brief   Exposes the underlying SSL record used for openSSL calls to descendant classes */

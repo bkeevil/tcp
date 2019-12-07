@@ -344,13 +344,15 @@ Here is the call graph for this function:</div>
 
 <p>Reimplemented in <a class="el" href="classtcp_1_1DataSocket.html#aa55fc17452ad9de9344b55dab43e937d">tcp::DataSocket</a>, and <a class="el" href="classtcp_1_1Session.html#a47f6c95ff9ac648e18b066ac4cb58bbc">tcp::Session</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="tcpsocket_8cpp_source.html#l00164">164</a> of file <a class="el" href="tcpsocket_8cpp_source.html">tcpsocket.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;{</div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;  <a class="code" href="classtcp_1_1Socket.html#a2f9da75083a9c40fa1a56f916fe4cc03">mtx</a>.lock();</div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;  <span class="keywordflow">if</span> (<a class="code" href="classtcp_1_1Socket.html#a72f08cd52de1480fef5f8b120ab73da7">state_</a> != SocketState::DISCONNECTED) {</div>
+<p class="definition">Definition at line <a class="el" href="tcpsocket_8cpp_source.html#l00162">162</a> of file <a class="el" href="tcpsocket_8cpp_source.html">tcpsocket.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;{</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;  <a class="code" href="classtcp_1_1Socket.html#a2f9da75083a9c40fa1a56f916fe4cc03">mtx</a>.lock();</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;  <span class="keywordflow">if</span> (<a class="code" href="classtcp_1_1Socket.html#a72f08cd52de1480fef5f8b120ab73da7">state_</a> != SocketState::DISCONNECTED) {</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;    ::close(socket_);</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;    socket_ = 0;</div>
 <div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;    <a class="code" href="classtcp_1_1Socket.html#a72f08cd52de1480fef5f8b120ab73da7">state_</a> = SocketState::DISCONNECTED;</div>
 <div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;    clog &lt;&lt; <span class="stringliteral">&quot;Disconnected&quot;</span> &lt;&lt; endl;</div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;    clog.flush();  </div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;    clog.flush(); </div>
 <div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;  }</div>
 <div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;  <a class="code" href="classtcp_1_1Socket.html#a2f9da75083a9c40fa1a56f916fe4cc03">mtx</a>.unlock();</div>
 <div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;}</div>
@@ -455,7 +457,7 @@ Here is the caller graph for this function:</div>
 <div class="center"><img src="classtcp_1_1Socket_a5ed00a56d910790a50da518f3731ac01_icgraph.png" border="0" usemap="#classtcp_1_1Socket_a5ed00a56d910790a50da518f3731ac01_icgraph" alt=""/></div>
 <map name="classtcp_1_1Socket_a5ed00a56d910790a50da518f3731ac01_icgraph" id="classtcp_1_1Socket_a5ed00a56d910790a50da518f3731ac01_icgraph">
 <area shape="rect" title="Changes which epoll events the socket listens for." alt="" coords="469,42,625,69"/>
-<area shape="rect" href="classtcp_1_1DataSocket.html#a96b20f5702de291a8d0b13f32a5663fe" title="Sets the value of the sockets EPoll event flags." alt="" coords="245,42,421,69"/>
+<area shape="rect" href="classtcp_1_1DataSocket.html#a96b20f5702de291a8d0b13f32a5663fe" title="Sets the epoll event flags." alt="" coords="245,42,421,69"/>
 <area shape="rect" href="classtcp_1_1DataSocket.html#ad49eff9d3b22d85c9f3cf89a46fb688f" title="Writes all available data from the outputBuffer to the socket." alt="" coords="5,5,197,47"/>
 <area shape="rect" href="classtcp_1_1DataSocket.html#a6a10d49abbaf997785391f56c5be280f" title="Writes the contents of buffer to the outputBuffer." alt="" coords="25,71,178,98"/>
 </map>

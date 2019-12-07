@@ -1,4 +1,4 @@
 <map id="tcp::Client::disconnect" name="tcp::Client::disconnect">
 <area shape="rect" id="node1" title="Disconnects the session gracefully." alt="" coords="5,5,159,32"/>
-<area shape="rect" id="node2" href="$classtcp_1_1DataSocket.html#ac0364f0b64f59bf3645f790c8c66c7e8" title="Shuts down any SSL connection gracefully and frees its resources." alt="" coords="207,5,395,32"/>
+<area shape="rect" id="node2" href="$classtcp_1_1DataSocket.html#ac0364f0b64f59bf3645f790c8c66c7e8" title="Shuts down any SSL connection gracefully." alt="" coords="207,5,395,32"/>
 </map>

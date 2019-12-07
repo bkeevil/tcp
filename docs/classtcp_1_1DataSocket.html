@@ -131,7 +131,7 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a6b1d702915ace990ee09c59eaf53fa19"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab4f93153ab86b43018387bed21b66a76"><td class="memItemLeft" align="right" valign="top"><a id="ab4f93153ab86b43018387bed21b66a76"></a>
 size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtcp_1_1DataSocket.html#ab4f93153ab86b43018387bed21b66a76">available</a> ()</td></tr>
-<tr class="memdesc:ab4f93153ab86b43018387bed21b66a76"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an estimate of how many bytes are available in the inputBuffer. <br /></td></tr>
+<tr class="memdesc:ab4f93153ab86b43018387bed21b66a76"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of bytes available in the inputBuffer. <br /></td></tr>
 <tr class="separator:ab4f93153ab86b43018387bed21b66a76"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad710eca0814aced0bcefe605993e9bb8"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtcp_1_1DataSocket.html#ad710eca0814aced0bcefe605993e9bb8">read</a> (void *buffer, size_t size)</td></tr>
 <tr class="memdesc:ad710eca0814aced0bcefe605993e9bb8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads up to size bytes from inputBuffer into buffer.  <a href="classtcp_1_1DataSocket.html#ad710eca0814aced0bcefe605993e9bb8">More...</a><br /></td></tr>
@@ -159,15 +159,15 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 Public Attributes</h2></td></tr>
 <tr class="memitem:ad5cf967581e9d205554e9e9d002d78fc"><td class="memItemLeft" align="right" valign="top"><a id="ad5cf967581e9d205554e9e9d002d78fc"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtcp_1_1DataSocket.html#ad5cf967581e9d205554e9e9d002d78fc">verifypeer</a> {false}</td></tr>
-<tr class="memdesc:ad5cf967581e9d205554e9e9d002d78fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">If true, the client will attempt to verify the peer certificate. <br /></td></tr>
+<tr class="memdesc:ad5cf967581e9d205554e9e9d002d78fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">If true, openSSL will attempt to verify the peer certificate. <br /></td></tr>
 <tr class="separator:ad5cf967581e9d205554e9e9d002d78fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa2ae19daf1b9079dbebd042ca14a6791"><td class="memItemLeft" align="right" valign="top"><a id="aa2ae19daf1b9079dbebd042ca14a6791"></a>
 string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtcp_1_1DataSocket.html#aa2ae19daf1b9079dbebd042ca14a6791">certfile</a></td></tr>
-<tr class="memdesc:aa2ae19daf1b9079dbebd042ca14a6791"><td class="mdescLeft">&#160;</td><td class="mdescRight">The filename of the client certificate in PEM format. <br /></td></tr>
+<tr class="memdesc:aa2ae19daf1b9079dbebd042ca14a6791"><td class="mdescLeft">&#160;</td><td class="mdescRight">The filename of the openSSL certificate in PEM format. <br /></td></tr>
 <tr class="separator:aa2ae19daf1b9079dbebd042ca14a6791"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa4fe90d294c4ed4f4f71087ed076cbb5"><td class="memItemLeft" align="right" valign="top"><a id="aa4fe90d294c4ed4f4f71087ed076cbb5"></a>
 string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtcp_1_1DataSocket.html#aa4fe90d294c4ed4f4f71087ed076cbb5">keyfile</a></td></tr>
-<tr class="memdesc:aa4fe90d294c4ed4f4f71087ed076cbb5"><td class="mdescLeft">&#160;</td><td class="mdescRight">The filename of the client private key in PEM format. <br /></td></tr>
+<tr class="memdesc:aa4fe90d294c4ed4f4f71087ed076cbb5"><td class="mdescLeft">&#160;</td><td class="mdescRight">The filename of the openSSL private key in PEM format. <br /></td></tr>
 <tr class="separator:aa4fe90d294c4ed4f4f71087ed076cbb5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4ab7473a48684200eba7eed80c9fc810"><td class="memItemLeft" align="right" valign="top"><a id="a4ab7473a48684200eba7eed80c9fc810"></a>
 string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtcp_1_1DataSocket.html#a4ab7473a48684200eba7eed80c9fc810">keypass</a></td></tr>
@@ -184,19 +184,19 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memdesc:ad49eff9d3b22d85c9f3cf89a46fb688f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes all available data from the outputBuffer to the socket.  <a href="classtcp_1_1DataSocket.html#ad49eff9d3b22d85c9f3cf89a46fb688f">More...</a><br /></td></tr>
 <tr class="separator:ad49eff9d3b22d85c9f3cf89a46fb688f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a96b20f5702de291a8d0b13f32a5663fe"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtcp_1_1DataSocket.html#a96b20f5702de291a8d0b13f32a5663fe">canSend</a> (bool value)</td></tr>
-<tr class="memdesc:a96b20f5702de291a8d0b13f32a5663fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the value of the sockets <a class="el" href="classtcp_1_1EPoll.html" title="Encapsulates the EPoll interface.">EPoll</a> event flags.  <a href="classtcp_1_1DataSocket.html#a96b20f5702de291a8d0b13f32a5663fe">More...</a><br /></td></tr>
+<tr class="memdesc:a96b20f5702de291a8d0b13f32a5663fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the epoll event flags.  <a href="classtcp_1_1DataSocket.html#a96b20f5702de291a8d0b13f32a5663fe">More...</a><br /></td></tr>
 <tr class="separator:a96b20f5702de291a8d0b13f32a5663fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad6e7e376a28de7cb0b1270be7a170ab4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtcp_1_1DataSocket.html#ad6e7e376a28de7cb0b1270be7a170ab4">handleEvents</a> (uint32_t events) override</td></tr>
-<tr class="memdesc:ad6e7e376a28de7cb0b1270be7a170ab4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called by the <a class="el" href="classtcp_1_1EPoll.html" title="Encapsulates the EPoll interface.">EPoll</a> class when the listening socket recieves an event from the OS.  <a href="classtcp_1_1DataSocket.html#ad6e7e376a28de7cb0b1270be7a170ab4">More...</a><br /></td></tr>
+<tr class="memdesc:ad6e7e376a28de7cb0b1270be7a170ab4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called by the <a class="el" href="classtcp_1_1EPoll.html" title="Encapsulates the EPoll interface.">EPoll</a> class when the listening socket recieves an epoll event.  <a href="classtcp_1_1DataSocket.html#ad6e7e376a28de7cb0b1270be7a170ab4">More...</a><br /></td></tr>
 <tr class="separator:ad6e7e376a28de7cb0b1270be7a170ab4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac0364f0b64f59bf3645f790c8c66c7e8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtcp_1_1DataSocket.html#ac0364f0b64f59bf3645f790c8c66c7e8">disconnect</a> () override</td></tr>
-<tr class="memdesc:ac0364f0b64f59bf3645f790c8c66c7e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shuts down any <a class="el" href="classtcp_1_1SSL.html" title="Encapsulates an SSL record.">SSL</a> connection gracefully and frees its resources.  <a href="classtcp_1_1DataSocket.html#ac0364f0b64f59bf3645f790c8c66c7e8">More...</a><br /></td></tr>
+<tr class="memdesc:ac0364f0b64f59bf3645f790c8c66c7e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shuts down any <a class="el" href="classtcp_1_1SSL.html" title="Encapsulates an SSL record.">SSL</a> connection gracefully.  <a href="classtcp_1_1DataSocket.html#ac0364f0b64f59bf3645f790c8c66c7e8">More...</a><br /></td></tr>
 <tr class="separator:ac0364f0b64f59bf3645f790c8c66c7e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa55fc17452ad9de9344b55dab43e937d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtcp_1_1DataSocket.html#aa55fc17452ad9de9344b55dab43e937d">disconnected</a> () override</td></tr>
 <tr class="memdesc:aa55fc17452ad9de9344b55dab43e937d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called when a connection is disconnected.  <a href="classtcp_1_1DataSocket.html#aa55fc17452ad9de9344b55dab43e937d">More...</a><br /></td></tr>
 <tr class="separator:aa55fc17452ad9de9344b55dab43e937d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae6e1cc8d0fee6f7807f2a74e1fff67de"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtcp_1_1DataSocket.html#ae6e1cc8d0fee6f7807f2a74e1fff67de">dataAvailable</a> ()=0</td></tr>
-<tr class="memdesc:ae6e1cc8d0fee6f7807f2a74e1fff67de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called when new data is available for reading from inputBuffer.  <a href="classtcp_1_1DataSocket.html#ae6e1cc8d0fee6f7807f2a74e1fff67de">More...</a><br /></td></tr>
+<tr class="memdesc:ae6e1cc8d0fee6f7807f2a74e1fff67de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called whenever new data is appended to the inputBuffer.  <a href="classtcp_1_1DataSocket.html#ae6e1cc8d0fee6f7807f2a74e1fff67de">More...</a><br /></td></tr>
 <tr class="separator:ae6e1cc8d0fee6f7807f2a74e1fff67de"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_methods_classtcp_1_1Socket"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classtcp_1_1Socket')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="classtcp_1_1Socket.html">tcp::Socket</a></td></tr>
 <tr class="memitem:a5ed00a56d910790a50da518f3731ac01 inherit pro_methods_classtcp_1_1Socket"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtcp_1_1Socket.html#a5ed00a56d910790a50da518f3731ac01">setEvents</a> (int events)</td></tr>
@@ -259,22 +259,22 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>SSL</b></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Sets the value of the sockets <a class="el" href="classtcp_1_1EPoll.html" title="Encapsulates the EPoll interface.">EPoll</a> event flags. </p>
+<p>Sets the epoll event flags. </p>
 <p>The flags will include EPOLLOUT if value==true </p>
 
-<p class="definition">Definition at line <a class="el" href="tcpsocket_8cpp_source.html#l00237">237</a> of file <a class="el" href="tcpsocket_8cpp_source.html">tcpsocket.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;{</div>
-<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;  <span class="keywordflow">if</span> (value)</div>
-<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;    <a class="code" href="classtcp_1_1Socket.html#a5ed00a56d910790a50da518f3731ac01">setEvents</a>(EPOLLIN | EPOLLOUT | EPOLLRDHUP);</div>
-<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;  <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;    <a class="code" href="classtcp_1_1Socket.html#a5ed00a56d910790a50da518f3731ac01">setEvents</a>(EPOLLIN | EPOLLRDHUP);  </div>
-<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;}</div>
+<p class="definition">Definition at line <a class="el" href="tcpsocket_8cpp_source.html#l00235">235</a> of file <a class="el" href="tcpsocket_8cpp_source.html">tcpsocket.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;{</div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;  <span class="keywordtype">int</span> events = EPOLLIN | EPOLLRDHUP;</div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;  <span class="keywordflow">if</span> (value)</div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;    events |= EPOLLOUT;</div>
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;  <a class="code" href="classtcp_1_1Socket.html#a5ed00a56d910790a50da518f3731ac01">setEvents</a>(events);</div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;}</div>
 </div><!-- fragment --><div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classtcp_1_1DataSocket_a96b20f5702de291a8d0b13f32a5663fe_cgraph.png" border="0" usemap="#classtcp_1_1DataSocket_a96b20f5702de291a8d0b13f32a5663fe_cgraph" alt=""/></div>
 <map name="classtcp_1_1DataSocket_a96b20f5702de291a8d0b13f32a5663fe_cgraph" id="classtcp_1_1DataSocket_a96b20f5702de291a8d0b13f32a5663fe_cgraph">
-<area shape="rect" title="Sets the value of the sockets EPoll event flags." alt="" coords="5,5,181,32"/>
+<area shape="rect" title="Sets the epoll event flags." alt="" coords="5,5,181,32"/>
 <area shape="rect" href="classtcp_1_1Socket.html#a5ed00a56d910790a50da518f3731ac01" title="Changes which epoll events the socket listens for." alt="" coords="229,5,385,32"/>
 </map>
 </div>
@@ -283,7 +283,7 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classtcp_1_1DataSocket_a96b20f5702de291a8d0b13f32a5663fe_icgraph.png" border="0" usemap="#classtcp_1_1DataSocket_a96b20f5702de291a8d0b13f32a5663fe_icgraph" alt=""/></div>
 <map name="classtcp_1_1DataSocket_a96b20f5702de291a8d0b13f32a5663fe_icgraph" id="classtcp_1_1DataSocket_a96b20f5702de291a8d0b13f32a5663fe_icgraph">
-<area shape="rect" title="Sets the value of the sockets EPoll event flags." alt="" coords="245,42,421,69"/>
+<area shape="rect" title="Sets the epoll event flags." alt="" coords="245,42,421,69"/>
 <area shape="rect" href="classtcp_1_1DataSocket.html#ad49eff9d3b22d85c9f3cf89a46fb688f" title="Writes all available data from the outputBuffer to the socket." alt="" coords="5,5,197,47"/>
 <area shape="rect" href="classtcp_1_1DataSocket.html#a6a10d49abbaf997785391f56c5be280f" title="Writes the contents of buffer to the outputBuffer." alt="" coords="25,71,178,98"/>
 </map>
@@ -314,7 +314,7 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Called when new data is available for reading from inputBuffer. </p>
+<p>Called whenever new data is appended to the inputBuffer. </p>
 <p>Clients should override the dataAvailable method to do something in response to received data </p>
 
 <p>Implemented in <a class="el" href="classtcp_1_1Session.html#ac50d0b1abf886d24b9d2c6baff886b13">tcp::Session</a>.</p>
@@ -344,7 +344,7 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Shuts down any <a class="el" href="classtcp_1_1SSL.html" title="Encapsulates an SSL record.">SSL</a> connection gracefully and frees its resources. </p>
+<p>Shuts down any <a class="el" href="classtcp_1_1SSL.html" title="Encapsulates an SSL record.">SSL</a> connection gracefully. </p>
 <p><a class="el" href="classtcp_1_1Socket.html#a79b42453c6031e3bd0594665ae686422" title="Shuts down the socket gracefully.">Socket::disconnect()</a> is called to shutdown the underlying socket </p>
 
 <p>Reimplemented from <a class="el" href="classtcp_1_1Socket.html#a79b42453c6031e3bd0594665ae686422">tcp::Socket</a>.</p>
@@ -358,15 +358,15 @@ Here is the caller graph for this function:</div>
 <div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;    <a class="code" href="classtcp_1_1DataSocket.html#af69fd8106c3210fd6db39f50cf3bc680">ssl_</a> = <span class="keyword">nullptr</span>;</div>
 <div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;    <a class="code" href="namespacetcp.html#a4e386f3935fd15d1413ab3ea56d5384d">printSSLErrors</a>();</div>
 <div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;  }</div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;  <a class="code" href="classtcp_1_1Socket.html#a79b42453c6031e3bd0594665ae686422">Socket::disconnect</a>();</div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;  <a class="code" href="classtcp_1_1Socket.html#a2f9da75083a9c40fa1a56f916fe4cc03">mtx</a>.unlock();</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;  <a class="code" href="classtcp_1_1Socket.html#a2f9da75083a9c40fa1a56f916fe4cc03">mtx</a>.unlock();</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;  <a class="code" href="classtcp_1_1Socket.html#a79b42453c6031e3bd0594665ae686422">Socket::disconnect</a>();</div>
 <div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;}</div>
 </div><!-- fragment --><div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classtcp_1_1DataSocket_ac0364f0b64f59bf3645f790c8c66c7e8_icgraph.png" border="0" usemap="#classtcp_1_1DataSocket_ac0364f0b64f59bf3645f790c8c66c7e8_icgraph" alt=""/></div>
 <map name="classtcp_1_1DataSocket_ac0364f0b64f59bf3645f790c8c66c7e8_icgraph" id="classtcp_1_1DataSocket_ac0364f0b64f59bf3645f790c8c66c7e8_icgraph">
-<area shape="rect" title="Shuts down any SSL connection gracefully and frees its resources." alt="" coords="207,5,395,32"/>
+<area shape="rect" title="Shuts down any SSL connection gracefully." alt="" coords="207,5,395,32"/>
 <area shape="rect" href="classtcp_1_1Client.html#ae3a6955a856204ed74c181316365884d" title="Disconnects the session gracefully." alt="" coords="5,5,159,32"/>
 </map>
 </div>
@@ -403,14 +403,14 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="tcpsocket_8cpp_source.html#l00190">190</a> of file <a class="el" href="tcpsocket_8cpp_source.html">tcpsocket.cpp</a>.</p>
 <div class="fragment"><div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;{</div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;  <a class="code" href="classtcp_1_1Socket.html#a2f9da75083a9c40fa1a56f916fe4cc03">mtx</a>.lock();</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;  <a class="code" href="classtcp_1_1Socket.html#a2f9da75083a9c40fa1a56f916fe4cc03">mtx</a>.lock();  <span class="comment">// Do I need to use lock here?</span></div>
 <div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;  <span class="keywordflow">if</span> (<a class="code" href="classtcp_1_1DataSocket.html#af69fd8106c3210fd6db39f50cf3bc680">ssl_</a>) {</div>
 <div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;    <span class="keyword">delete</span> <a class="code" href="classtcp_1_1DataSocket.html#af69fd8106c3210fd6db39f50cf3bc680">ssl_</a>;</div>
 <div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;    <a class="code" href="classtcp_1_1DataSocket.html#af69fd8106c3210fd6db39f50cf3bc680">ssl_</a> = <span class="keyword">nullptr</span>;</div>
 <div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;    <a class="code" href="namespacetcp.html#a4e386f3935fd15d1413ab3ea56d5384d">printSSLErrors</a>();</div>
 <div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;  }</div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;  <a class="code" href="classtcp_1_1Socket.html#a885bf8db13ca763538a7668195f5dba2">Socket::disconnected</a>();</div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;  <a class="code" href="classtcp_1_1Socket.html#a2f9da75083a9c40fa1a56f916fe4cc03">mtx</a>.unlock();</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;  <a class="code" href="classtcp_1_1Socket.html#a2f9da75083a9c40fa1a56f916fe4cc03">mtx</a>.unlock();</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;  <a class="code" href="classtcp_1_1Socket.html#a885bf8db13ca763538a7668195f5dba2">Socket::disconnected</a>();</div>
 <div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;}</div>
 </div><!-- fragment --><div class="dynheader">
 Here is the call graph for this function:</div>
@@ -449,31 +449,38 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Called by the <a class="el" href="classtcp_1_1EPoll.html" title="Encapsulates the EPoll interface.">EPoll</a> class when the listening socket recieves an event from the OS. </p>
-<p>Calls either <a class="el" href="classtcp_1_1DataSocket.html#aa55fc17452ad9de9344b55dab43e937d" title="Called when a connection is disconnected.">disconnected()</a>, <a class="el" href="classtcp_1_1DataSocket.html#a4f4942d527cb18aaba3a82fd360a94b9" title="Reads all available data from the socket into inputBuffer.">readToInputBuffer()</a> + <a class="el" href="classtcp_1_1DataSocket.html#ae6e1cc8d0fee6f7807f2a74e1fff67de" title="Called when new data is available for reading from inputBuffer.">dataAvailable()</a> or <a class="el" href="classtcp_1_1DataSocket.html#ad49eff9d3b22d85c9f3cf89a46fb688f" title="Writes all available data from the outputBuffer to the socket.">sendOutputBuffer()</a> depending on the events that have been set. </p>
+<p>Called by the <a class="el" href="classtcp_1_1EPoll.html" title="Encapsulates the EPoll interface.">EPoll</a> class when the listening socket recieves an epoll event. </p>
+<p>Calls either <a class="el" href="classtcp_1_1DataSocket.html#aa55fc17452ad9de9344b55dab43e937d" title="Called when a connection is disconnected.">disconnected()</a>, <a class="el" href="classtcp_1_1DataSocket.html#a4f4942d527cb18aaba3a82fd360a94b9" title="Reads all available data from the socket into inputBuffer.">readToInputBuffer()</a> + <a class="el" href="classtcp_1_1DataSocket.html#ae6e1cc8d0fee6f7807f2a74e1fff67de" title="Called whenever new data is appended to the inputBuffer.">dataAvailable()</a> or <a class="el" href="classtcp_1_1DataSocket.html#ad49eff9d3b22d85c9f3cf89a46fb688f" title="Writes all available data from the outputBuffer to the socket.">sendOutputBuffer()</a> depending on the events that have been set. </p>
 
 <p>Implements <a class="el" href="classtcp_1_1Socket.html#a29e680be01356d68416f1e28d78a8397">tcp::Socket</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="tcpsocket_8cpp_source.html#l00245">245</a> of file <a class="el" href="tcpsocket_8cpp_source.html">tcpsocket.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;{</div>
-<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;  <span class="keywordflow">if</span> (<a class="code" href="classtcp_1_1Socket.html#a72f08cd52de1480fef5f8b120ab73da7">state_</a> == SocketState::CONNECTED) {</div>
-<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;    <a class="code" href="classtcp_1_1Socket.html#a2f9da75083a9c40fa1a56f916fe4cc03">mtx</a>.lock();</div>
-<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;    <span class="keywordflow">if</span> (events &amp; EPOLLRDHUP) {</div>
-<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;      <a class="code" href="classtcp_1_1DataSocket.html#aa55fc17452ad9de9344b55dab43e937d">disconnected</a>();</div>
-<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;    } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;      <span class="keywordflow">if</span> (events &amp; EPOLLIN) {</div>
-<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;        <a class="code" href="classtcp_1_1DataSocket.html#a4f4942d527cb18aaba3a82fd360a94b9">readToInputBuffer</a>();</div>
-<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;        <a class="code" href="classtcp_1_1DataSocket.html#ae6e1cc8d0fee6f7807f2a74e1fff67de">dataAvailable</a>();</div>
-<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;        <a class="code" href="classtcp_1_1DataSocket.html#a96b20f5702de291a8d0b13f32a5663fe">canSend</a>(outputBuffer.size() &gt; 0U);</div>
-<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;      }</div>
-<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;      <span class="keywordflow">if</span> (events &amp; EPOLLOUT) {</div>
-<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;        <a class="code" href="classtcp_1_1DataSocket.html#ad49eff9d3b22d85c9f3cf89a46fb688f">sendOutputBuffer</a>();</div>
-<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;        <a class="code" href="classtcp_1_1DataSocket.html#a96b20f5702de291a8d0b13f32a5663fe">canSend</a>(outputBuffer.size() &gt; 0U);</div>
-<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;      }  </div>
-<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;    }</div>
-<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;    <a class="code" href="classtcp_1_1Socket.html#a2f9da75083a9c40fa1a56f916fe4cc03">mtx</a>.unlock();</div>
-<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;  }</div>
-<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;}</div>
+<p class="definition">Definition at line <a class="el" href="tcpsocket_8cpp_source.html#l00243">243</a> of file <a class="el" href="tcpsocket_8cpp_source.html">tcpsocket.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;{</div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;  <span class="keywordflow">if</span> (<a class="code" href="classtcp_1_1Socket.html#a72f08cd52de1480fef5f8b120ab73da7">state_</a> == SocketState::CONNECTED) {</div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;    <span class="keywordflow">if</span> (events &amp; EPOLLRDHUP) {</div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;      <a class="code" href="classtcp_1_1DataSocket.html#aa55fc17452ad9de9344b55dab43e937d">disconnected</a>();</div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;      <span class="keywordflow">if</span> (events &amp; EPOLLIN) {</div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;        <a class="code" href="classtcp_1_1Socket.html#a2f9da75083a9c40fa1a56f916fe4cc03">mtx</a>.lock();</div>
+<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;        <a class="code" href="classtcp_1_1DataSocket.html#a4f4942d527cb18aaba3a82fd360a94b9">readToInputBuffer</a>();</div>
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;        <a class="code" href="classtcp_1_1DataSocket.html#ae6e1cc8d0fee6f7807f2a74e1fff67de">dataAvailable</a>();</div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;        <span class="keywordflow">if</span> (outputBuffer.size() &gt; 0U) {</div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;          <a class="code" href="classtcp_1_1DataSocket.html#ad49eff9d3b22d85c9f3cf89a46fb688f">sendOutputBuffer</a>();</div>
+<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;          <a class="code" href="classtcp_1_1DataSocket.html#a96b20f5702de291a8d0b13f32a5663fe">canSend</a>(outputBuffer.size() &gt; 0U);</div>
+<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;        } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;          <a class="code" href="classtcp_1_1DataSocket.html#a96b20f5702de291a8d0b13f32a5663fe">canSend</a>(<span class="keyword">false</span>);  </div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;        }</div>
+<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;        <a class="code" href="classtcp_1_1Socket.html#a2f9da75083a9c40fa1a56f916fe4cc03">mtx</a>.unlock();</div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;      }</div>
+<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;      <span class="keywordflow">if</span> (events &amp; EPOLLOUT) {</div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;        <a class="code" href="classtcp_1_1Socket.html#a2f9da75083a9c40fa1a56f916fe4cc03">mtx</a>.lock();</div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;        <a class="code" href="classtcp_1_1DataSocket.html#ad49eff9d3b22d85c9f3cf89a46fb688f">sendOutputBuffer</a>();</div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;        <a class="code" href="classtcp_1_1DataSocket.html#a96b20f5702de291a8d0b13f32a5663fe">canSend</a>(outputBuffer.size() &gt; 0U);</div>
+<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;        <a class="code" href="classtcp_1_1Socket.html#a2f9da75083a9c40fa1a56f916fe4cc03">mtx</a>.unlock();</div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;      }</div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;    }</div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;  }</div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -506,21 +513,22 @@ Here is the call graph for this function:</div>
 <p>Reads up to size bytes from inputBuffer into buffer. </p>
 <dl class="section return"><dt>Returns</dt><dd>The number of bytes actually read </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="tcpsocket_8cpp_source.html#l00300">300</a> of file <a class="el" href="tcpsocket_8cpp_source.html">tcpsocket.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;{</div>
-<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;  <span class="keywordtype">size_t</span> result;</div>
-<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;  <a class="code" href="classtcp_1_1Socket.html#a2f9da75083a9c40fa1a56f916fe4cc03">mtx</a>.lock();</div>
-<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;  result = max&lt;size_t&gt;(size,inputBuffer.size());</div>
-<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;  <span class="keywordflow">if</span> (result &gt; 0) {</div>
-<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;    uint8_t *buf = (uint8_t*)buffer;</div>
-<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i=0;i&lt;result;i++) {</div>
-<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;      buf[i] = inputBuffer.at(0);</div>
-<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;      inputBuffer.pop_front();</div>
-<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;    }</div>
-<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;  }</div>
-<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;  <a class="code" href="classtcp_1_1Socket.html#a2f9da75083a9c40fa1a56f916fe4cc03">mtx</a>.unlock();</div>
-<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;  <span class="keywordflow">return</span> result;</div>
-<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;}</div>
+<p class="definition">Definition at line <a class="el" href="tcpsocket_8cpp_source.html#l00301">301</a> of file <a class="el" href="tcpsocket_8cpp_source.html">tcpsocket.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;{</div>
+<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;  <span class="keywordtype">size_t</span> result = 0;</div>
+<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;  <span class="keywordflow">if</span> (size) {</div>
+<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;    <a class="code" href="classtcp_1_1Socket.html#a2f9da75083a9c40fa1a56f916fe4cc03">mtx</a>.lock();</div>
+<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;    result = max&lt;size_t&gt;(size,inputBuffer.size());</div>
+<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;    <span class="keywordflow">if</span> (result &gt; 0) {</div>
+<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;      <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i=0;i&lt;result;++i) {</div>
+<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;        ((uint8_t*)buffer)[i] = inputBuffer.at(0);</div>
+<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;        inputBuffer.pop_front();</div>
+<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;      }</div>
+<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;    }</div>
+<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;    <a class="code" href="classtcp_1_1Socket.html#a2f9da75083a9c40fa1a56f916fe4cc03">mtx</a>.unlock();</div>
+<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;  }</div>
+<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;  <span class="keywordflow">return</span> result;</div>
+<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -550,33 +558,33 @@ Here is the call graph for this function:</div>
 <p>Writes all available data from the outputBuffer to the socket. </p>
 <p>Any data that could not be written will be retained in the outputBuffer and sent with the next call to <a class="el" href="classtcp_1_1DataSocket.html#ad49eff9d3b22d85c9f3cf89a46fb688f" title="Writes all available data from the outputBuffer to the socket.">sendOutputBuffer()</a> </p>
 
-<p class="definition">Definition at line <a class="el" href="tcpsocket_8cpp_source.html#l00216">216</a> of file <a class="el" href="tcpsocket_8cpp_source.html">tcpsocket.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;{</div>
-<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;  <a class="code" href="classtcp_1_1Socket.html#a2f9da75083a9c40fa1a56f916fe4cc03">mtx</a>.lock();</div>
-<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;  <span class="keywordtype">size_t</span> size = outputBuffer.size();</div>
-<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;  <span class="keywordflow">if</span> (size == 0) <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;  uint8_t *buffer = (uint8_t*)malloc(size);</div>
-<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;  <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i=0;i&lt;size;i++) {</div>
-<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;    buffer[i] = outputBuffer.at(0);</div>
-<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;    outputBuffer.pop_front();</div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;  }</div>
-<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;  <span class="keywordtype">size_t</span> res = write_(buffer,size);</div>
-<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;  <a class="code" href="classtcp_1_1DataSocket.html#a96b20f5702de291a8d0b13f32a5663fe">canSend</a>(res!=size);</div>
-<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;  <span class="keywordflow">if</span> (res != size) {</div>
-<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i=res;i&lt;size;i++) {</div>
-<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;      outputBuffer.push_front(buffer[i]);</div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;    }</div>
-<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;  }</div>
-<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;  free(buffer);</div>
-<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;  <a class="code" href="classtcp_1_1Socket.html#a2f9da75083a9c40fa1a56f916fe4cc03">mtx</a>.unlock();</div>
-<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;}</div>
+<p class="definition">Definition at line <a class="el" href="tcpsocket_8cpp_source.html#l00214">214</a> of file <a class="el" href="tcpsocket_8cpp_source.html">tcpsocket.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;{</div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;  <a class="code" href="classtcp_1_1Socket.html#a2f9da75083a9c40fa1a56f916fe4cc03">mtx</a>.lock();</div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;  <span class="keywordtype">size_t</span> size = outputBuffer.size();</div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;  <span class="keywordflow">if</span> (size == 0) <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;  uint8_t *buffer = (uint8_t*)malloc(size);</div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;  <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i=0;i&lt;size;i++) {</div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;    buffer[i] = outputBuffer.at(0);</div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;    outputBuffer.pop_front();</div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;  }</div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;  <span class="keywordtype">size_t</span> res = write_(buffer,size);</div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;  <a class="code" href="classtcp_1_1DataSocket.html#a96b20f5702de291a8d0b13f32a5663fe">canSend</a>(res!=size);</div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;  <span class="keywordflow">if</span> (res != size) {</div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i=res;i&lt;size;i++) {</div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;      outputBuffer.push_front(buffer[i]);</div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;    }</div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;  }</div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;  free(buffer);</div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;  <a class="code" href="classtcp_1_1Socket.html#a2f9da75083a9c40fa1a56f916fe4cc03">mtx</a>.unlock();</div>
+<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;}</div>
 </div><!-- fragment --><div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classtcp_1_1DataSocket_ad49eff9d3b22d85c9f3cf89a46fb688f_cgraph.png" border="0" usemap="#classtcp_1_1DataSocket_ad49eff9d3b22d85c9f3cf89a46fb688f_cgraph" alt=""/></div>
 <map name="classtcp_1_1DataSocket_ad49eff9d3b22d85c9f3cf89a46fb688f_cgraph" id="classtcp_1_1DataSocket_ad49eff9d3b22d85c9f3cf89a46fb688f_cgraph">
 <area shape="rect" title="Writes all available data from the outputBuffer to the socket." alt="" coords="5,5,197,47"/>
-<area shape="rect" href="classtcp_1_1DataSocket.html#a96b20f5702de291a8d0b13f32a5663fe" title="Sets the value of the sockets EPoll event flags." alt="" coords="245,13,421,39"/>
+<area shape="rect" href="classtcp_1_1DataSocket.html#a96b20f5702de291a8d0b13f32a5663fe" title="Sets the epoll event flags." alt="" coords="245,13,421,39"/>
 <area shape="rect" href="classtcp_1_1Socket.html#a5ed00a56d910790a50da518f3731ac01" title="Changes which epoll events the socket listens for." alt="" coords="469,13,625,39"/>
 </map>
 </div>
@@ -612,24 +620,30 @@ Here is the call graph for this function:</div>
 <p>Writes the contents of buffer to the outputBuffer. </p>
 <p>The content of the outputBuffer will be sent automatically at the next <a class="el" href="classtcp_1_1EPoll.html" title="Encapsulates the EPoll interface.">EPoll</a> event </p>
 
-<p class="definition">Definition at line <a class="el" href="tcpsocket_8cpp_source.html#l00316">316</a> of file <a class="el" href="tcpsocket_8cpp_source.html">tcpsocket.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;{</div>
-<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;  <a class="code" href="classtcp_1_1Socket.html#a2f9da75083a9c40fa1a56f916fe4cc03">mtx</a>.lock();</div>
-<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;  uint8_t *buf = (uint8_t*)buffer;</div>
-<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;  <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i=0;i&lt;size;i++) {</div>
-<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;    outputBuffer.push_back(buf[i]);</div>
-<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;  }</div>
-<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;  <a class="code" href="classtcp_1_1DataSocket.html#a96b20f5702de291a8d0b13f32a5663fe">canSend</a>(outputBuffer.size() &gt; 0U);</div>
-<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;  <a class="code" href="classtcp_1_1Socket.html#a2f9da75083a9c40fa1a56f916fe4cc03">mtx</a>.unlock();</div>
-<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;  <span class="keywordflow">return</span> size;</div>
-<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;}</div>
+<p class="definition">Definition at line <a class="el" href="tcpsocket_8cpp_source.html#l00318">318</a> of file <a class="el" href="tcpsocket_8cpp_source.html">tcpsocket.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;{</div>
+<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;  <span class="keywordtype">size_t</span> result = 0U;</div>
+<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;  <span class="keywordflow">if</span> (size) {</div>
+<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;    <a class="code" href="classtcp_1_1Socket.html#a2f9da75083a9c40fa1a56f916fe4cc03">mtx</a>.lock();</div>
+<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;    <span class="keywordflow">try</span> {</div>
+<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;      <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i=0;i&lt;size;++i) {</div>
+<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;        outputBuffer.push_back(((uint8_t*)buffer)[i]);</div>
+<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;        ++result;</div>
+<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;      }</div>
+<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;      <a class="code" href="classtcp_1_1DataSocket.html#a96b20f5702de291a8d0b13f32a5663fe">canSend</a>(<span class="keyword">true</span>);</div>
+<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;    } <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::bad_alloc&amp;) {</div>
+<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;      <a class="code" href="classtcp_1_1Socket.html#a2f9da75083a9c40fa1a56f916fe4cc03">mtx</a>.unlock();</div>
+<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;    }</div>
+<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;  }</div>
+<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;  <span class="keywordflow">return</span> result;</div>
+<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;}</div>
 </div><!-- fragment --><div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classtcp_1_1DataSocket_a6a10d49abbaf997785391f56c5be280f_cgraph.png" border="0" usemap="#classtcp_1_1DataSocket_a6a10d49abbaf997785391f56c5be280f_cgraph" alt=""/></div>
 <map name="classtcp_1_1DataSocket_a6a10d49abbaf997785391f56c5be280f_cgraph" id="classtcp_1_1DataSocket_a6a10d49abbaf997785391f56c5be280f_cgraph">
 <area shape="rect" title="Writes the contents of buffer to the outputBuffer." alt="" coords="5,5,159,32"/>
-<area shape="rect" href="classtcp_1_1DataSocket.html#a96b20f5702de291a8d0b13f32a5663fe" title="Sets the value of the sockets EPoll event flags." alt="" coords="207,5,383,32"/>
+<area shape="rect" href="classtcp_1_1DataSocket.html#a96b20f5702de291a8d0b13f32a5663fe" title="Sets the epoll event flags." alt="" coords="207,5,383,32"/>
 <area shape="rect" href="classtcp_1_1Socket.html#a5ed00a56d910790a50da518f3731ac01" title="Changes which epoll events the socket listens for." alt="" coords="431,5,587,32"/>
 </map>
 </div>
@@ -643,17 +657,17 @@ Here is the call graph for this function:</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="anamespacetcp_html_a4e386f3935fd15d1413ab3ea56d5384d"><div class="ttname"><a href="namespacetcp.html#a4e386f3935fd15d1413ab3ea56d5384d">tcp::printSSLErrors</a></div><div class="ttdeci">void printSSLErrors()</div><div class="ttdoc">This method logs openSSL errors to cerr.</div><div class="ttdef"><b>Definition:</b> <a href="tcpssl_8cpp_source.html#l00056">tcpssl.cpp:56</a></div></div>
-<div class="ttc" id="aclasstcp_1_1Socket_html_a885bf8db13ca763538a7668195f5dba2"><div class="ttname"><a href="classtcp_1_1Socket.html#a885bf8db13ca763538a7668195f5dba2">tcp::Socket::disconnected</a></div><div class="ttdeci">virtual void disconnected()</div><div class="ttdoc">Called when a connection is disconnected due to a network error.</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8cpp_source.html#l00164">tcpsocket.cpp:164</a></div></div>
+<div class="ttc" id="aclasstcp_1_1Socket_html_a885bf8db13ca763538a7668195f5dba2"><div class="ttname"><a href="classtcp_1_1Socket.html#a885bf8db13ca763538a7668195f5dba2">tcp::Socket::disconnected</a></div><div class="ttdeci">virtual void disconnected()</div><div class="ttdoc">Called when a connection is disconnected due to a network error.</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8cpp_source.html#l00162">tcpsocket.cpp:162</a></div></div>
 <div class="ttc" id="aclasstcp_1_1Socket_html_a2f9da75083a9c40fa1a56f916fe4cc03"><div class="ttname"><a href="classtcp_1_1Socket.html#a2f9da75083a9c40fa1a56f916fe4cc03">tcp::Socket::mtx</a></div><div class="ttdeci">recursive_mutex mtx</div><div class="ttdoc">The mutex used to provide exclusive access to the socket.</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8h_source.html#l00114">tcpsocket.h:114</a></div></div>
 <div class="ttc" id="aclasstcp_1_1DataSocket_html_a4f4942d527cb18aaba3a82fd360a94b9"><div class="ttname"><a href="classtcp_1_1DataSocket.html#a4f4942d527cb18aaba3a82fd360a94b9">tcp::DataSocket::readToInputBuffer</a></div><div class="ttdeci">void readToInputBuffer()</div><div class="ttdoc">Reads all available data from the socket into inputBuffer.</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8cpp_source.html#l00202">tcpsocket.cpp:202</a></div></div>
 <div class="ttc" id="aclasstcp_1_1Socket_html_a72f08cd52de1480fef5f8b120ab73da7"><div class="ttname"><a href="classtcp_1_1Socket.html#a72f08cd52de1480fef5f8b120ab73da7">tcp::Socket::state_</a></div><div class="ttdeci">SocketState state_</div><div class="ttdoc">Descendant classes can manipulate the socket state directly.</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8h_source.html#l00120">tcpsocket.h:120</a></div></div>
-<div class="ttc" id="aclasstcp_1_1DataSocket_html_ad49eff9d3b22d85c9f3cf89a46fb688f"><div class="ttname"><a href="classtcp_1_1DataSocket.html#ad49eff9d3b22d85c9f3cf89a46fb688f">tcp::DataSocket::sendOutputBuffer</a></div><div class="ttdeci">void sendOutputBuffer()</div><div class="ttdoc">Writes all available data from the outputBuffer to the socket.</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8cpp_source.html#l00216">tcpsocket.cpp:216</a></div></div>
+<div class="ttc" id="aclasstcp_1_1DataSocket_html_ad49eff9d3b22d85c9f3cf89a46fb688f"><div class="ttname"><a href="classtcp_1_1DataSocket.html#ad49eff9d3b22d85c9f3cf89a46fb688f">tcp::DataSocket::sendOutputBuffer</a></div><div class="ttdeci">void sendOutputBuffer()</div><div class="ttdoc">Writes all available data from the outputBuffer to the socket.</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8cpp_source.html#l00214">tcpsocket.cpp:214</a></div></div>
 <div class="ttc" id="aclasstcp_1_1DataSocket_html_aa55fc17452ad9de9344b55dab43e937d"><div class="ttname"><a href="classtcp_1_1DataSocket.html#aa55fc17452ad9de9344b55dab43e937d">tcp::DataSocket::disconnected</a></div><div class="ttdeci">void disconnected() override</div><div class="ttdoc">Called when a connection is disconnected.</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8cpp_source.html#l00190">tcpsocket.cpp:190</a></div></div>
-<div class="ttc" id="aclasstcp_1_1DataSocket_html_af69fd8106c3210fd6db39f50cf3bc680"><div class="ttname"><a href="classtcp_1_1DataSocket.html#af69fd8106c3210fd6db39f50cf3bc680">tcp::DataSocket::ssl_</a></div><div class="ttdeci">SSL * ssl_</div><div class="ttdoc">Exposes the underlying SSL record used for openSSL calls to descendant classes.</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8h_source.html#l00195">tcpsocket.h:195</a></div></div>
+<div class="ttc" id="aclasstcp_1_1DataSocket_html_af69fd8106c3210fd6db39f50cf3bc680"><div class="ttname"><a href="classtcp_1_1DataSocket.html#af69fd8106c3210fd6db39f50cf3bc680">tcp::DataSocket::ssl_</a></div><div class="ttdeci">SSL * ssl_</div><div class="ttdoc">Exposes the underlying SSL record used for openSSL calls to descendant classes.</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8h_source.html#l00194">tcpsocket.h:194</a></div></div>
 <div class="ttc" id="aclasstcp_1_1Socket_html_a79b42453c6031e3bd0594665ae686422"><div class="ttname"><a href="classtcp_1_1Socket.html#a79b42453c6031e3bd0594665ae686422">tcp::Socket::disconnect</a></div><div class="ttdeci">virtual void disconnect()</div><div class="ttdoc">Shuts down the socket gracefully.</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8cpp_source.html#l00153">tcpsocket.cpp:153</a></div></div>
-<div class="ttc" id="aclasstcp_1_1DataSocket_html_a96b20f5702de291a8d0b13f32a5663fe"><div class="ttname"><a href="classtcp_1_1DataSocket.html#a96b20f5702de291a8d0b13f32a5663fe">tcp::DataSocket::canSend</a></div><div class="ttdeci">void canSend(bool value)</div><div class="ttdoc">Sets the value of the sockets EPoll event flags.</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8cpp_source.html#l00237">tcpsocket.cpp:237</a></div></div>
+<div class="ttc" id="aclasstcp_1_1DataSocket_html_a96b20f5702de291a8d0b13f32a5663fe"><div class="ttname"><a href="classtcp_1_1DataSocket.html#a96b20f5702de291a8d0b13f32a5663fe">tcp::DataSocket::canSend</a></div><div class="ttdeci">void canSend(bool value)</div><div class="ttdoc">Sets the epoll event flags.</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8cpp_source.html#l00235">tcpsocket.cpp:235</a></div></div>
 <div class="ttc" id="aclasstcp_1_1Socket_html_a5ed00a56d910790a50da518f3731ac01"><div class="ttname"><a href="classtcp_1_1Socket.html#a5ed00a56d910790a50da518f3731ac01">tcp::Socket::setEvents</a></div><div class="ttdeci">bool setEvents(int events)</div><div class="ttdoc">Changes which epoll events the socket listens for.</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8cpp_source.html#l00137">tcpsocket.cpp:137</a></div></div>
-<div class="ttc" id="aclasstcp_1_1DataSocket_html_ae6e1cc8d0fee6f7807f2a74e1fff67de"><div class="ttname"><a href="classtcp_1_1DataSocket.html#ae6e1cc8d0fee6f7807f2a74e1fff67de">tcp::DataSocket::dataAvailable</a></div><div class="ttdeci">virtual void dataAvailable()=0</div><div class="ttdoc">Called when new data is available for reading from inputBuffer.</div></div>
+<div class="ttc" id="aclasstcp_1_1DataSocket_html_ae6e1cc8d0fee6f7807f2a74e1fff67de"><div class="ttname"><a href="classtcp_1_1DataSocket.html#ae6e1cc8d0fee6f7807f2a74e1fff67de">tcp::DataSocket::dataAvailable</a></div><div class="ttdeci">virtual void dataAvailable()=0</div><div class="ttdoc">Called whenever new data is appended to the inputBuffer.</div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

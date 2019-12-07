@@ -614,15 +614,19 @@ $(document).ready(function(){initNavTree('tcpssl_8cpp_source.html','');});
 <div class="line"><a name="l00514"></a><span class="lineno">  514</span>&#160; </div>
 <div class="line"><a name="l00515"></a><span class="lineno">  515</span>&#160;<span class="keywordtype">void</span> SSL::wantsRead()</div>
 <div class="line"><a name="l00516"></a><span class="lineno">  516</span>&#160;{</div>
-<div class="line"><a name="l00517"></a><span class="lineno">  517</span>&#160;  owner_.readToInputBuffer();</div>
-<div class="line"><a name="l00518"></a><span class="lineno">  518</span>&#160;}</div>
-<div class="line"><a name="l00519"></a><span class="lineno">  519</span>&#160; </div>
-<div class="line"><a name="l00520"></a><span class="lineno">  520</span>&#160;<span class="keywordtype">void</span> SSL::wantsWrite()</div>
-<div class="line"><a name="l00521"></a><span class="lineno">  521</span>&#160;{</div>
-<div class="line"><a name="l00522"></a><span class="lineno">  522</span>&#160;  owner_.sendOutputBuffer();</div>
-<div class="line"><a name="l00523"></a><span class="lineno">  523</span>&#160;}</div>
-<div class="line"><a name="l00524"></a><span class="lineno">  524</span>&#160; </div>
-<div class="line"><a name="l00525"></a><span class="lineno">  525</span>&#160;} <span class="comment">// namespace tcp</span></div>
+<div class="line"><a name="l00517"></a><span class="lineno">  517</span>&#160;  owner_.mtx.lock();</div>
+<div class="line"><a name="l00518"></a><span class="lineno">  518</span>&#160;  owner_.readToInputBuffer();</div>
+<div class="line"><a name="l00519"></a><span class="lineno">  519</span>&#160;  owner_.mtx.unlock();</div>
+<div class="line"><a name="l00520"></a><span class="lineno">  520</span>&#160;}</div>
+<div class="line"><a name="l00521"></a><span class="lineno">  521</span>&#160; </div>
+<div class="line"><a name="l00522"></a><span class="lineno">  522</span>&#160;<span class="keywordtype">void</span> SSL::wantsWrite()</div>
+<div class="line"><a name="l00523"></a><span class="lineno">  523</span>&#160;{</div>
+<div class="line"><a name="l00524"></a><span class="lineno">  524</span>&#160;  owner_.mtx.lock();</div>
+<div class="line"><a name="l00525"></a><span class="lineno">  525</span>&#160;  owner_.sendOutputBuffer();</div>
+<div class="line"><a name="l00526"></a><span class="lineno">  526</span>&#160;  owner_.mtx.unlock();</div>
+<div class="line"><a name="l00527"></a><span class="lineno">  527</span>&#160;}</div>
+<div class="line"><a name="l00528"></a><span class="lineno">  528</span>&#160; </div>
+<div class="line"><a name="l00529"></a><span class="lineno">  529</span>&#160;} <span class="comment">// namespace tcp</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="anamespacetcp_html_a6110bae4d581a3bc0d7eca705775af9e"><div class="ttname"><a href="namespacetcp.html#a6110bae4d581a3bc0d7eca705775af9e">tcp::freeSSLLibrary</a></div><div class="ttdeci">void freeSSLLibrary()</div><div class="ttdoc">Free up resources created by the openSSL library.</div><div class="ttdef"><b>Definition:</b> <a href="tcpssl_8cpp_source.html#l00032">tcpssl.cpp:32</a></div></div>
