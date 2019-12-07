@@ -23,7 +23,7 @@
 #include <sys/epoll.h>
 #include "tcpssl.h"
 
-/** @brief Contains classes for a tcp client/server library*/
+/** @brief A tcp client/server library for linux that supports openSSL and EPoll */
 namespace tcp {
 
 using namespace std;
@@ -34,20 +34,17 @@ class Socket;
  *  @details Not all states are valid for every socket type. */
 enum class SocketState {UNCONNECTED=0, LISTENING, CONNECTING, CONNECTED, DISCONNECTED};
 
-
 /** @brief   Encapsulates the EPoll interface
- *  @details Applications need to call `EPoll.poll(100)` at regular intervals to check for and respond to network
- *           events. A global `epoll` singleton object is provided for single threaded applications to use. 
+ *  @details Applications need to provide an epoll object for each thread in the application
+ *           that uses sockets. These threads then call `EPoll.poll(100)` at regular intervals 
+ *           to check for and respond to network events. 
  *  
  *  @details Appropriate events are added/remove from the epoll event list when a tcp::Socket 
  *           is created/destroyed. See the protected tcp::Socket.setEvents() method if you need
- *           to change which events to listen to.
- * 
- *  @details When incoming events are recieved, they are automatically dispatched to the appropriate 
- *           tcp::Socket.handleEvents() method.
+ *           to change which events a socket listens to.
  *
- *  @details It is possible to have more than one EPoll in a multi-threaded application
- *           but the poll() method for each instance has to be called individually.
+ *  @details When incoming events are recieved, they are automatically dispatched to the virtual
+ *           Socket.handleEvents() method.
  */
 class EPoll {
   public:
@@ -72,15 +69,14 @@ class EPoll {
 class Socket {
   public:
   
-    /**
-     * @brief Construct a blocking or non-blocking socket handle that responds to certain epoll events 
-     * @param domain Either AF_INET or AF_INET6
-     * @param socket The socket handle to encapsulate. If 0 is provided, a socket handle will be automatically created.
-     * @param blocking If true, a blocking socket will be created. If false, a non-blocking socket will be created.
-     * @param events A bit flag of the epoll events to register interest include
+    /** @brief Construct a blocking or non-blocking socket handle that responds to certain epoll events 
+     *  @param domain Either AF_INET or AF_INET6
+     *  @param socket The socket handle to encapsulate. If 0 is provided, a socket handle will be automatically created.
+     *  @param blocking If true, a blocking socket will be created. If false, a non-blocking socket will be created.
+     *  @param events A bit flag of the epoll events to register interest include
      * 
-     * @remark A client or server listener will typically call the constructor with socket=0 to start with a new socket.
-     * @remark A server session will create a Socket by providing the socket handle returned from an accept command.
+     *  @remark A client or server listener will typically call the constructor with socket=0 to start with a new socket.
+     *  @remark A server session will create a Socket by providing the socket handle returned from an accept command.
      */
     Socket(EPoll &epoll, const int domain = AF_INET, const int socket = 0, const bool blocking = false, const int events = (EPOLLIN | EPOLLRDHUP));
 
@@ -120,12 +116,7 @@ class Socket {
     /** @brief   Returns a reference to the epoll instance used by this socket */
     EPoll &epoll() { return epoll_; }
 
-    /** @brief   Returns the domain (AF_INET or AF_INET6) */
-    int domain() { return domain_; }
-
-    /** @brief   Returns the unix socket handle */
-    int socket() { return socket_; }
-
+    /** @brief   Descendant classes can manipulate the socket state directly */
     SocketState state_;    
 
   private:
