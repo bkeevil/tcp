@@ -8,18 +8,21 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@master
     - name: make build dir
       run: mkdir build
-    - name: cd build dir
-      run: cd build
     - name: run cmake
+      working-directory: build
       run: cmake ..
     - name: configure
+      working-directory: build
       run: ./configure
     - name: make all
+      working-directory: build
       run: make all
     - name: make check
+      working-directory: build
       run: make check
     - name: make distcheck
+      working-directory: build
       run: make distcheck
