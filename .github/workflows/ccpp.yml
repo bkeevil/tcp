@@ -9,8 +9,8 @@ jobs:
     
     steps:
     - uses: actions/checkout@master
-    - name: ls
-      run: ls
+    - name: cd tcp
+      run: cd tcp
     - name: make build dir
       run: mkdir build
     - name: run cmake
