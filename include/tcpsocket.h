@@ -29,6 +29,7 @@ namespace tcp {
 using namespace std;
 
 class Socket;
+class SSLContext;
 
 /** @brief   Determines the state of a socket. 
  *  @details Not all states are valid for every socket type. */
@@ -193,6 +194,9 @@ class DataSocket : public Socket {
     /** @brief    Factory method for returning an SSL object.
      *  @details  Override to replace the SSL class used. */
     SSL *createSSL(SSLContext &context);
+
+    /** @brief   Exposes the underlying SSL record used for openSSL calls to descendant classes */
+    SSL *ssl_ {nullptr};
 
   private:    
     size_t read_(void *buffer, size_t size);

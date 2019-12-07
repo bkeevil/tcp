@@ -518,13 +518,12 @@ bool SSL::performCertPostValidation()
   } else {
     
     if (!getSubjectName().empty()) {
+      requiresCertPostValidation = false;
       if (!validateSubjectName(subjectName_,hostname_)) {
-        cerr << "Peer certificate subject name " << subjectName_ << " does not match host name " << hostname_ << endl;
+        cerr << "Peer certificate subject name '" << subjectName_ << "' does not match host name '" << hostname_ << "'" << endl;
         return false;
       }
     }
-    
-    requiresCertPostValidation = false;
 
   }
 

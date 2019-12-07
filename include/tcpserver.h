@@ -92,7 +92,6 @@ class Server : public Socket {
     bool startListening(int backlog);
     bool acceptConnection();
     bool useSSL_ {false};
-    in_port_t port_ {0}; 
     SSLContext ctx_ {SSLMode::SERVER};
     struct sockaddr_storage addr_;
     friend class Session;
@@ -123,7 +122,7 @@ class Session : public DataSocket {
      *           intentionally closed.
      *  @warning disconnect() causes the Session to be destroyed
      */
-    virtual void disconnect();
+    void disconnect() override;
 
   protected:
     
@@ -135,10 +134,6 @@ class Session : public DataSocket {
     
     /** @brief The destructor is protected and is called by the disconnect() or disconnected() methods */
     virtual ~Session();
-
-    /** @brief   Called in response to data being available on the socket
-     *  @details Override this virtual abstract method in descendent classes to read incoming data */
-    virtual void dataAvailable() {};
 
     /** @brief   Called by the Server::acceptConnection after a connection has been accepted
      *  @details Override accepted to perform operations when a session is first established.
