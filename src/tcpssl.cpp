@@ -328,9 +328,9 @@ bool SSLContext::setCertificateAndKey(const char *certfile, const char *keyfile)
 int SSLContext::passwordCallback(char *buf, int size, int rwflag)
 {
   (void)rwflag;
-  if (!keypass.empty()) {
-    int lsize = max<int>(size,keypass.length());
-    strncpy(buf,keypass.c_str(),lsize);
+  if (!keypass_.empty()) {
+    int lsize = max<int>(size,keypass_.length());
+    strncpy(buf,keypass_.c_str(),lsize);
     return lsize;
   } else {
     return 0;
@@ -341,8 +341,8 @@ int SSLContext::passwordCallback(char *buf, int size, int rwflag)
 
 SSL::SSL(DataSocket &owner, SSLContext &context) : owner_(owner)
 {
-  mode_ = context.mode();
-  ssl_ = SSL_new(context.handle());
+  mode_ = context.mode_;
+  ssl_ = SSL_new(context.ctx_);
 }
 
 SSL::~SSL()
