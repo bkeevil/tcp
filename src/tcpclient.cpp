@@ -30,6 +30,7 @@ bool Client::connect(const string &hostname, const in_port_t port, bool useSSL)
   hints.ai_socktype = SOCK_STREAM;
   hints.ai_flags |= AI_CANONNAME;
   string service = to_string(port);
+  hostname_.assign(hostname);
   errorcode = getaddrinfo(hostname.c_str(),service.c_str(),&hints,&result);
   if (errorcode != 0) {
     fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(errorcode));
@@ -40,9 +41,10 @@ bool Client::connect(const string &hostname, const in_port_t port, bool useSSL)
     delete ssl_;
     ssl_ = nullptr;
   }
+
   if (useSSL) {
     ssl_ = new tcp::SSL(*this,ctx_);
-    ssl_->setOptions(verifypeer);
+    ssl_->setOptions(verifyPeer);
     if (!ssl_->setCertificateAndKey(certfile.c_str(),keyfile.c_str()))
       return false;
     if (!ssl_->setfd(socket()))
@@ -74,7 +76,82 @@ bool Client::connect(const string &hostname, const in_port_t port, bool useSSL)
   return false;
 }
 
-void Client::handleEvents(uint32_t events) {
+void Client::connected() {
+  if (ssl_) {
+    ssl_->connect();
+    printSSLErrors(); 
+    readToInputBuffer();
+    if (!validatePeerCertificate())
+      return;
+  }
+    
+  state_ = SocketState::CONNECTED;
+  clog << "Connected" << endl;
+
+  clog.flush();  
+}
+
+int wildcmp(const char *wild, const char *string) {
+  // Written by Jack Handy - <A href="mailto:jakkhandy@hotmail.com">jakkhandy@hotmail.com</A>
+  const char *cp = NULL, *mp = NULL;
+
+  while ((*string) && (*wild != '*')) {
+    if ((*wild != *string) && (*wild != '?')) {
+      return 0;
+    }
+    wild++;
+    string++;
+  }
+
+  while (*string) {
+    if (*wild == '*') {
+      if (!*++wild) {
+        return 1;
+      }
+      mp = wild;
+      cp = string+1;
+    } else if ((*wild == *string) || (*wild == '?')) {
+      wild++;
+      string++;
+    } else {
+      wild = mp;
+      string = cp++;
+    }
+  }
+
+  while (*wild == '*') {
+    wild++;
+  }
+  return !*wild;
+}
+
+bool Client::validateSubjectName(string &subjectName, string &hostName)
+{
+  return wildcmp(subjectName.c_str(),hostName.c_str());
+}
+
+bool Client::validatePeerCertificate()
+{
+  if (ssl_ && verifyPeer) {
+    if (!ssl_->verifyResult()) {
+      cerr << "Peer certificate validation failed" << endl;
+      disconnected();
+      return false;
+    }
+    ssl_->getSubjectName(subjectName_);
+    if (!subjectName_.empty()) {
+      if (!validateSubjectName(subjectName_,hostname_)) {
+        cerr << "Peer certificate subject name does not match host name" << endl;
+        disconnected();
+        return false;
+      }
+    }
+  }  
+  return true;
+}
+
+void Client::handleEvents(uint32_t events) 
+{
   if (state_ == SocketState::CONNECTING) {
     if (events & EPOLLERR) {
       cerr << "handleEvents: " << strerror(errno) << endl;      
@@ -89,20 +166,6 @@ void Client::handleEvents(uint32_t events) {
   } else {
     DataSocket::handleEvents(events);
   }
-}
-
-void Client::connected() {
-  if (ssl_) {
-    ssl_->connect();
-    printSSLErrors();
-  }
-  state_ = SocketState::CONNECTED;
-  clog << "Connected" << endl;
-  clog.flush();  
-}
-
-void Client::disconnect() {
-  DataSocket::disconnect();
 }
 
 } // namespace mqttS

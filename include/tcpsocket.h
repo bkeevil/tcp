@@ -146,7 +146,7 @@ class DataSocket : public Socket {
     size_t write(const void *buffer, size_t size);
 
     /** @brief If true, openSSL will attempt to verify the peer certificate */
-    bool verifypeer {false};
+    bool verifyPeer {false};
 
     /** @brief The filename of the openSSL certificate in PEM format */
     string certfile;

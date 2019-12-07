@@ -27,13 +27,15 @@ void threadfunc() {
 int main() { 
   initSSLLibrary();
   EchoClient client(epoll,AF_INET,false);
+  client.verifyPeer = true;
+  //client.checkPeerSubjectName = true;
   client.ctx().setVerifyPaths("/home/bkeevil/projects/sslserver/testkeys/testca.crt",NULL);
   client.certfile = "/home/bkeevil/projects/sslserver/testkeys/mqtt-client-test.crt";
   client.keyfile = "/home/bkeevil/projects/sslserver/testkeys/mqtt-client-test.key";
   //client.write("Echo Server Hello World\n",25);
   client.connect("localhost",1234,true);
   std::thread threadObj(&threadfunc);
-  while (true) {
+  while (client.state() != SocketState::DISCONNECTED) {
     epoll.poll(100);
     mtx.lock();
     if (!cmd.empty()) {

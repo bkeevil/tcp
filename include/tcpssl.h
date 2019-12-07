@@ -64,6 +64,13 @@ class SSL {
     bool setCertificateAndKey(const char *certfile, const char *keyfile);
     virtual int passwordCallback(char *buf, int size, int rwflag);
     bool setfd(int socket);
+
+    /** @brief   Returns the peer certificate subject name or an empty string if none was sent */
+    string &getSubjectName(string &result);
+
+    /** @brief   Return true if the peer certificate was verified or if no certificate was presented */
+    bool verifyResult();
+
     bool connect();
     bool accept();
     size_t read(void *buffer, size_t size);

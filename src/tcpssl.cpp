@@ -38,7 +38,7 @@ void print_error_string(unsigned long err, const char* const label)
 {
   const char* const str = ERR_reason_error_string(err);
   if(str)
-    cerr << str << endl;
+    cerr << label << ": " << str << endl;
   else
     cerr << label << " failed: " << err << hex << " (0x" << err << dec << endl;
 }
@@ -56,7 +56,7 @@ int printSSLErrors_cb(const char *str, size_t len, void *u)
 void printSSLErrors()
 {
   ERR_print_errors_fp(stdout);
-  //ERR_print_errors_cb(&printSSLErrors_cb,NULL);
+  ERR_print_errors_cb(&printSSLErrors_cb,NULL);
 }
 
 /** @brief Prints the certificate common name to clog */
@@ -174,6 +174,12 @@ int verify_callback(int preverify, X509_STORE_CTX* x509_ctx)
   if(depth == 0) {
       /* If depth is 0, its the server's certificate. Print the SANs too */
       print_san_name("Subject (san)", cert);
+  }
+
+  if (preverify) {
+    clog << "Certificate verification passed" << endl;
+  } else {
+    clog << "Certificate verification failed" << endl;
   }
 
   return preverify;
@@ -348,6 +354,7 @@ void SSL::setOptions(bool verifypeer)
 {
   if (verifypeer) {
     SSL_set_verify(ssl_, SSL_VERIFY_PEER, verify_callback);
+    SSL_CTX_set_verify
   } else {
     SSL_set_verify(ssl_, SSL_VERIFY_NONE, NULL);
   }
@@ -424,6 +431,47 @@ bool SSL::setfd(int socket)
       return true;
     }
   }
+}
+
+string &SSL::getSubjectName(string &result)
+{  
+  result.clear();
+  X509 *cert = SSL_get_peer_certificate(ssl_);
+  if (cert) {
+    X509_NAME* sname = X509_get_subject_name(cert);
+    if (sname) {
+
+      int idx = -1;
+      unsigned char *utf8 = NULL;
+    
+      do {
+        idx = X509_NAME_get_index_by_NID(sname, NID_commonName, -1);
+        if(!(idx > -1))  break; /* failed */
+      
+        X509_NAME_ENTRY* entry = X509_NAME_get_entry(sname, idx);
+        if(!entry) break; /* failed */
+      
+        ASN1_STRING* data = X509_NAME_ENTRY_get_data(entry);
+        if(!data) break; /* failed */
+      
+        int length = ASN1_STRING_to_UTF8(&utf8, data);
+        if(!utf8 || !(length > 0))  break; /* failed */
+      
+        result.assign((char*)utf8);
+      
+      } while (0);
+    
+      if(utf8)
+        OPENSSL_free(utf8);
+    }
+    X509_free(cert);
+  }
+  return result;
+}
+
+bool SSL::verifyResult()
+{
+  return (SSL_get_verify_result(ssl_) == X509_V_OK);
 }
 
 bool SSL::connect()
