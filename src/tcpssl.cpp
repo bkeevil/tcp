@@ -354,7 +354,6 @@ void SSL::setOptions(bool verifypeer)
 {
   if (verifypeer) {
     SSL_set_verify(ssl_, SSL_VERIFY_PEER, verify_callback);
-    SSL_CTX_set_verify
   } else {
     SSL_set_verify(ssl_, SSL_VERIFY_NONE, NULL);
   }
