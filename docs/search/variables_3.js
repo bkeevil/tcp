@@ -1,6 +1,4 @@
 var searchData=
 [
-  ['sessions_121',['sessions',['../classtcp_1_1Server.html#af10f0e0759175e0267b17eabe826fd1b',1,'tcp::Server']]],
-  ['ssl_5f_122',['ssl_',['../classtcp_1_1DataSocket.html#af69fd8106c3210fd6db39f50cf3bc680',1,'tcp::DataSocket']]],
-  ['state_5f_123',['state_',['../classtcp_1_1Socket.html#a72f08cd52de1480fef5f8b120ab73da7',1,'tcp::Socket']]]
+  ['owner_5f_169',['owner_',['../classtcp_1_1SSL.html#a5b781b93330cd34209d114a2fb933e23',1,'tcp::SSL']]]
 ];

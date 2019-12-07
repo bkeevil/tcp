@@ -1,0 +1,7 @@
+<map id="tcp::SSL::setOptions" name="tcp::SSL::setOptions">
+<area shape="rect" id="node1" title="Sets default options for all SSL objects created from this context." alt="" coords="5,31,149,57"/>
+<area shape="rect" id="node2" href="$namespacetcp.html#a4e386f3935fd15d1413ab3ea56d5384d" title="This method logs openSSL errors to cerr." alt="" coords="198,5,331,32"/>
+<area shape="rect" id="node3" href="$namespacetcp.html#af35eb16fc64325797d378578291721b9" title="Prints the certificate details to clog." alt="" coords="197,56,332,83"/>
+<area shape="rect" id="node4" href="$namespacetcp.html#ac08eb6ac33f0fe64394f6b5a450cdb3a" title="Prints the certificate common name to clog." alt="" coords="383,31,517,57"/>
+<area shape="rect" id="node5" href="$namespacetcp.html#a4d3344d8b82a9fc8ff2d9b050c6da13d" title="Prints the certificate subject alt name to clog." alt="" coords="380,81,520,108"/>
+</map>

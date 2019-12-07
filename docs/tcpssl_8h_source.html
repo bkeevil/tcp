@@ -125,59 +125,109 @@ $(document).ready(function(){initNavTree('tcpssl_8h_source.html','');});
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
 <div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="classtcp_1_1SSLContext.html">   41</a></span>&#160;<span class="keyword">class </span><a class="code" href="classtcp_1_1SSLContext.html">SSLContext</a> {</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <a class="code" href="classtcp_1_1SSLContext.html">SSLContext</a>(SSLMode mode);</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keyword">virtual</span> ~<a class="code" href="classtcp_1_1SSLContext.html">SSLContext</a>();</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keywordtype">void</span> setOptions(<span class="keywordtype">bool</span> verifypeer = <span class="keyword">false</span>, <span class="keywordtype">bool</span> compression = <span class="keyword">true</span>, <span class="keywordtype">bool</span> tlsonly = <span class="keyword">false</span>);</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordtype">bool</span> useDefaultVerifyPaths() { <span class="keywordflow">return</span> setVerifyPaths(NULL,NULL); }</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordtype">bool</span> setVerifyPaths(<span class="keyword">const</span> <span class="keywordtype">char</span> *cafile = NULL, <span class="keyword">const</span> <span class="keywordtype">char</span> *capath = NULL);</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordtype">bool</span> setCertificateAndKey(<span class="keyword">const</span> <span class="keywordtype">char</span> *certfile, <span class="keyword">const</span> <span class="keywordtype">char</span> *keyfile);</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">int</span> passwordCallback(<span class="keywordtype">char</span> *buf, <span class="keywordtype">int</span> size, <span class="keywordtype">int</span> rwflag);</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    SSL_CTX *handle() { <span class="keywordflow">return</span> ctx_; }</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    SSLMode mode() { <span class="keywordflow">return</span> mode_; }</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordtype">string</span> keypass;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;  <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    SSL_CTX *ctx_;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    SSLMode mode_;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;};</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
-<div class="line"><a name="l00059"></a><span class="lineno"><a class="line" href="classtcp_1_1SSL.html">   59</a></span>&#160;<span class="keyword">class </span><a class="code" href="classtcp_1_1SSL.html">SSL</a> {</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;  <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <a class="code" href="classtcp_1_1SSL.html">SSL</a>(<a class="code" href="classtcp_1_1DataSocket.html">DataSocket</a> &amp;owner, <a class="code" href="classtcp_1_1SSLContext.html">SSLContext</a> &amp;context);</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keyword">virtual</span> ~<a class="code" href="classtcp_1_1SSL.html">SSL</a>();</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordtype">void</span> setOptions(<span class="keywordtype">bool</span> verifypeer = <span class="keyword">false</span>);</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keywordtype">bool</span> setCertificateAndKey(<span class="keyword">const</span> <span class="keywordtype">char</span> *certfile, <span class="keyword">const</span> <span class="keywordtype">char</span> *keyfile);</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">int</span> passwordCallback(<span class="keywordtype">char</span> *buf, <span class="keywordtype">int</span> size, <span class="keywordtype">int</span> rwflag);</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keywordtype">bool</span> setfd(<span class="keywordtype">int</span> socket);</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keywordtype">bool</span> connect();</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keywordtype">bool</span> accept();</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keywordtype">size_t</span> read(<span class="keywordtype">void</span> *buffer, <span class="keywordtype">size_t</span> size);</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keywordtype">size_t</span> write(<span class="keyword">const</span> <span class="keywordtype">void</span> *buffer, <span class="keywordtype">size_t</span> size);</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="keywordtype">void</span> clear();</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keywordtype">void</span> shutdown();</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <a class="code" href="classtcp_1_1SSL.html">::SSL</a> *handle() { <span class="keywordflow">return</span> ssl_; }</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    SSLMode mode() { <span class="keywordflow">return</span> mode_; }</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="keywordtype">string</span> keypass;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;  <span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="keywordtype">void</span> wantsRead();</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="keywordtype">void</span> wantsWrite();</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;  <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <a class="code" href="classtcp_1_1DataSocket.html">DataSocket</a> &amp;owner_;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    SSLMode mode_;</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <a class="code" href="classtcp_1_1SSL.html">::SSL</a> *ssl_;</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;};</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160; </div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;} <span class="comment">// namespace</span></div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160; </div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    </div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <a class="code" href="classtcp_1_1SSLContext.html">SSLContext</a>(SSLMode mode);</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keyword">virtual</span> ~<a class="code" href="classtcp_1_1SSLContext.html">SSLContext</a>();</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    </div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordtype">void</span> setOptions(<span class="keywordtype">bool</span> verifypeer = <span class="keyword">false</span>, <span class="keywordtype">bool</span> compression = <span class="keyword">true</span>, <span class="keywordtype">bool</span> tlsonly = <span class="keyword">false</span>);</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
+<div class="line"><a name="l00062"></a><span class="lineno"><a class="line" href="classtcp_1_1SSLContext.html#af758117bbcfa608cb77533f85536fdee">   62</a></span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classtcp_1_1SSLContext.html#af758117bbcfa608cb77533f85536fdee">useDefaultVerifyPaths</a>() { <span class="keywordflow">return</span> setVerifyPaths(NULL,NULL); }</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keywordtype">bool</span> setVerifyPaths(<span class="keyword">const</span> <span class="keywordtype">char</span> *cafile = NULL, <span class="keyword">const</span> <span class="keywordtype">char</span> *capath = NULL);</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <span class="keywordtype">bool</span> setCertificateAndKey(<span class="keyword">const</span> <span class="keywordtype">char</span> *certfile, <span class="keyword">const</span> <span class="keywordtype">char</span> *keyfile);</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    </div>
+<div class="line"><a name="l00087"></a><span class="lineno"><a class="line" href="classtcp_1_1SSLContext.html#a99d28b74c4a3490e4e70acb34b174bed">   87</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classtcp_1_1SSLContext.html#a99d28b74c4a3490e4e70acb34b174bed">setPrivateKeyPassword</a>(<span class="keywordtype">string</span> value) { keypass_ = value; }</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160; </div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">int</span> passwordCallback(<span class="keywordtype">char</span> *buf, <span class="keywordtype">int</span> size, <span class="keywordtype">int</span> rwflag);</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160; </div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;  <span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00100"></a><span class="lineno"><a class="line" href="classtcp_1_1SSLContext.html#a06c2a33dba08bd1e3fc06aa26e32b08c">  100</a></span>&#160;    SSL_CTX *<a class="code" href="classtcp_1_1SSLContext.html#a06c2a33dba08bd1e3fc06aa26e32b08c">ctx_</a>; </div>
+<div class="line"><a name="l00101"></a><span class="lineno"><a class="line" href="classtcp_1_1SSLContext.html#a0a496fa48faf0385e83f0af741fbe8e5">  101</a></span>&#160;    SSLMode <a class="code" href="classtcp_1_1SSLContext.html#a0a496fa48faf0385e83f0af741fbe8e5">mode_</a>; </div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classtcp_1_1SSL.html">SSL</a>;</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;  <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    <span class="keywordtype">string</span> keypass_;</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;};</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160; </div>
+<div class="line"><a name="l00108"></a><span class="lineno"><a class="line" href="classtcp_1_1SSL.html">  108</a></span>&#160;<span class="keyword">class </span><a class="code" href="classtcp_1_1SSL.html">SSL</a> {</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;  <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    <a class="code" href="classtcp_1_1SSL.html">SSL</a>(<a class="code" href="classtcp_1_1DataSocket.html">DataSocket</a> &amp;owner, <a class="code" href="classtcp_1_1SSLContext.html">SSLContext</a> &amp;context);</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    </div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    <span class="keyword">virtual</span> ~<a class="code" href="classtcp_1_1SSL.html">SSL</a>();</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    </div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    <span class="keywordtype">void</span> setOptions(<span class="keywordtype">bool</span> verifypeer = <span class="keyword">false</span>);</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160; </div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;    <span class="keywordtype">bool</span> setCertificateAndKey(<span class="keyword">const</span> <span class="keywordtype">char</span> *certfile, <span class="keyword">const</span> <span class="keywordtype">char</span> *keyfile);</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160; </div>
+<div class="line"><a name="l00139"></a><span class="lineno"><a class="line" href="classtcp_1_1SSL.html#ae7ff81755ad4d55d16846b57d352a1b9">  139</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classtcp_1_1SSL.html#ae7ff81755ad4d55d16846b57d352a1b9">setPrivateKeyPassword</a>(<span class="keywordtype">string</span> value) { keypass_ = value; }</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160; </div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">int</span> passwordCallback(<span class="keywordtype">char</span> *buf, <span class="keywordtype">int</span> size, <span class="keywordtype">int</span> rwflag);</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160; </div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    <span class="keywordtype">bool</span> setfd(<span class="keywordtype">int</span> socket);</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160; </div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;    <span class="keywordtype">string</span> &amp;getSubjectName();</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160; </div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;    <span class="keywordtype">bool</span> verifyResult();</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160; </div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;    <span class="keywordtype">bool</span> connect();</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160; </div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;    <span class="keywordtype">bool</span> accept();</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160; </div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;    <span class="keywordtype">size_t</span> read(<span class="keywordtype">void</span> *buffer, <span class="keywordtype">size_t</span> size);</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;    </div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;    <span class="keywordtype">size_t</span> write(<span class="keyword">const</span> <span class="keywordtype">void</span> *buffer, <span class="keywordtype">size_t</span> size);</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160; </div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;    <span class="keywordtype">void</span> clear();</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;    </div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;    <span class="keywordtype">void</span> shutdown();</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160; </div>
+<div class="line"><a name="l00194"></a><span class="lineno"><a class="line" href="classtcp_1_1SSL.html#ae20d7fdc901966734dd2b3eef30b021a">  194</a></span>&#160;    <span class="keywordtype">bool</span> requiresCertPostValidation { <span class="keyword">false</span> };</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;     </div>
+<div class="line"><a name="l00197"></a><span class="lineno"><a class="line" href="classtcp_1_1SSL.html#a92730a7efde880079924b43a5ffecfee">  197</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classtcp_1_1SSL.html#a92730a7efde880079924b43a5ffecfee">setHostname</a>(<span class="keyword">const</span> <span class="keywordtype">string</span> value) { hostname_ = value; }</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160; </div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;  <span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160; </div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;    <span class="keywordtype">bool</span> performCertPostValidation();</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160; </div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> validateSubjectName(<span class="keyword">const</span> <span class="keywordtype">string</span> &amp;subjectName, <span class="keyword">const</span> <span class="keywordtype">string</span> &amp;hostName);</div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160; </div>
+<div class="line"><a name="l00215"></a><span class="lineno"><a class="line" href="classtcp_1_1SSL.html#a5b781b93330cd34209d114a2fb933e23">  215</a></span>&#160;    <a class="code" href="classtcp_1_1DataSocket.html">DataSocket</a> &amp;<a class="code" href="classtcp_1_1SSL.html#a5b781b93330cd34209d114a2fb933e23">owner_</a>;  </div>
+<div class="line"><a name="l00216"></a><span class="lineno"><a class="line" href="classtcp_1_1SSL.html#acd0b5ed7b52543323f2cdd5457c17f92">  216</a></span>&#160;    SSLMode <a class="code" href="classtcp_1_1SSL.html#acd0b5ed7b52543323f2cdd5457c17f92">mode_</a>;       </div>
+<div class="line"><a name="l00217"></a><span class="lineno"><a class="line" href="classtcp_1_1SSL.html#a77e346256506c8d1bfa2bed13a54ac37">  217</a></span>&#160;    <a class="code" href="classtcp_1_1SSL.html">::SSL</a> *<a class="code" href="classtcp_1_1SSL.html#a77e346256506c8d1bfa2bed13a54ac37">ssl_</a>;         </div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;    <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classtcp_1_1SSLContext.html">SSLContext</a>;</div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;  <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;    <span class="keywordtype">void</span> wantsRead();    </div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;    <span class="keywordtype">void</span> wantsWrite();   </div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;    <span class="keywordtype">string</span> subjectName_;</div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;    <span class="keywordtype">string</span> hostname_;</div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;    <span class="keywordtype">string</span> keypass_;</div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;};</div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160; </div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;<span class="keywordtype">int</span> <a class="code" href="namespacetcp.html#a10cdbfc95787e461db970973680800f3">wildcmp</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *wild, <span class="keyword">const</span> <span class="keywordtype">char</span> *<span class="keywordtype">string</span>);</div>
+<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160; </div>
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;} <span class="comment">// namespace</span></div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160; </div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="anamespacetcp_html_a6110bae4d581a3bc0d7eca705775af9e"><div class="ttname"><a href="namespacetcp.html#a6110bae4d581a3bc0d7eca705775af9e">tcp::freeSSLLibrary</a></div><div class="ttdeci">void freeSSLLibrary()</div><div class="ttdoc">Free up resources created by the openSSL library.</div><div class="ttdef"><b>Definition:</b> <a href="tcpssl_8cpp_source.html#l00032">tcpssl.cpp:32</a></div></div>
 <div class="ttc" id="anamespacetcp_html_a4e386f3935fd15d1413ab3ea56d5384d"><div class="ttname"><a href="namespacetcp.html#a4e386f3935fd15d1413ab3ea56d5384d">tcp::printSSLErrors</a></div><div class="ttdeci">void printSSLErrors()</div><div class="ttdoc">This method logs openSSL errors to cerr.</div><div class="ttdef"><b>Definition:</b> <a href="tcpssl_8cpp_source.html#l00056">tcpssl.cpp:56</a></div></div>
+<div class="ttc" id="aclasstcp_1_1SSLContext_html_a0a496fa48faf0385e83f0af741fbe8e5"><div class="ttname"><a href="classtcp_1_1SSLContext.html#a0a496fa48faf0385e83f0af741fbe8e5">tcp::SSLContext::mode_</a></div><div class="ttdeci">SSLMode mode_</div><div class="ttdoc">The mode of the context object is passed to SSL objects created from this context.</div><div class="ttdef"><b>Definition:</b> <a href="tcpssl_8h_source.html#l00101">tcpssl.h:101</a></div></div>
 <div class="ttc" id="atcpsocket_8h_html"><div class="ttname"><a href="tcpsocket_8h.html">tcpsocket.h</a></div><div class="ttdoc">Shared base classes for tcpclient.h and tcpserver.h.</div></div>
 <div class="ttc" id="aclasstcp_1_1DataSocket_html"><div class="ttname"><a href="classtcp_1_1DataSocket.html">tcp::DataSocket</a></div><div class="ttdoc">Represents a buffered socket that can send and receive data using optional SSL encryption.</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8h_source.html#l00132">tcpsocket.h:132</a></div></div>
-<div class="ttc" id="aclasstcp_1_1SSL_html"><div class="ttname"><a href="classtcp_1_1SSL.html">tcp::SSL</a></div><div class="ttdoc">Encapsulates an SSL record.</div><div class="ttdef"><b>Definition:</b> <a href="tcpssl_8h_source.html#l00059">tcpssl.h:59</a></div></div>
+<div class="ttc" id="aclasstcp_1_1SSL_html"><div class="ttname"><a href="classtcp_1_1SSL.html">tcp::SSL</a></div><div class="ttdoc">Encapsulates an SSL connection data structure.</div><div class="ttdef"><b>Definition:</b> <a href="tcpssl_8h_source.html#l00108">tcpssl.h:108</a></div></div>
+<div class="ttc" id="aclasstcp_1_1SSLContext_html_a99d28b74c4a3490e4e70acb34b174bed"><div class="ttname"><a href="classtcp_1_1SSLContext.html#a99d28b74c4a3490e4e70acb34b174bed">tcp::SSLContext::setPrivateKeyPassword</a></div><div class="ttdeci">void setPrivateKeyPassword(string value)</div><div class="ttdoc">Sets the value of the private key password.</div><div class="ttdef"><b>Definition:</b> <a href="tcpssl_8h_source.html#l00087">tcpssl.h:87</a></div></div>
 <div class="ttc" id="anamespacetcp_html_a626a96602252225a453e0e77ad9ae270"><div class="ttname"><a href="namespacetcp.html#a626a96602252225a453e0e77ad9ae270">tcp::initSSLLibrary</a></div><div class="ttdeci">void initSSLLibrary()</div><div class="ttdoc">Initialize the openSSL library.</div><div class="ttdef"><b>Definition:</b> <a href="tcpssl_8cpp_source.html#l00019">tcpssl.cpp:19</a></div></div>
-<div class="ttc" id="aclasstcp_1_1SSLContext_html"><div class="ttname"><a href="classtcp_1_1SSLContext.html">tcp::SSLContext</a></div><div class="ttdoc">Encapsulates an SSL_CTX record.</div><div class="ttdef"><b>Definition:</b> <a href="tcpssl_8h_source.html#l00041">tcpssl.h:41</a></div></div>
+<div class="ttc" id="aclasstcp_1_1SSL_html_a92730a7efde880079924b43a5ffecfee"><div class="ttname"><a href="classtcp_1_1SSL.html#a92730a7efde880079924b43a5ffecfee">tcp::SSL::setHostname</a></div><div class="ttdeci">void setHostname(const string value)</div><div class="ttdoc">A client/server may store the internal hostname property for certificate post validation.</div><div class="ttdef"><b>Definition:</b> <a href="tcpssl_8h_source.html#l00197">tcpssl.h:197</a></div></div>
+<div class="ttc" id="aclasstcp_1_1SSLContext_html"><div class="ttname"><a href="classtcp_1_1SSLContext.html">tcp::SSLContext</a></div><div class="ttdoc">Encapsulates an openSSL SSL_CTX record.</div><div class="ttdef"><b>Definition:</b> <a href="tcpssl_8h_source.html#l00041">tcpssl.h:41</a></div></div>
+<div class="ttc" id="aclasstcp_1_1SSLContext_html_af758117bbcfa608cb77533f85536fdee"><div class="ttname"><a href="classtcp_1_1SSLContext.html#af758117bbcfa608cb77533f85536fdee">tcp::SSLContext::useDefaultVerifyPaths</a></div><div class="ttdeci">bool useDefaultVerifyPaths()</div><div class="ttdoc">Use the default operating system certificate store for validation.</div><div class="ttdef"><b>Definition:</b> <a href="tcpssl_8h_source.html#l00062">tcpssl.h:62</a></div></div>
+<div class="ttc" id="aclasstcp_1_1SSL_html_a77e346256506c8d1bfa2bed13a54ac37"><div class="ttname"><a href="classtcp_1_1SSL.html#a77e346256506c8d1bfa2bed13a54ac37">tcp::SSL::ssl_</a></div><div class="ttdeci">::SSL * ssl_</div><div class="ttdoc">The openSSL handle for API calls.</div><div class="ttdef"><b>Definition:</b> <a href="tcpssl_8h_source.html#l00217">tcpssl.h:217</a></div></div>
+<div class="ttc" id="anamespacetcp_html_a10cdbfc95787e461db970973680800f3"><div class="ttname"><a href="namespacetcp.html#a10cdbfc95787e461db970973680800f3">tcp::wildcmp</a></div><div class="ttdeci">int wildcmp(const char *wild, const char *string)</div><div class="ttdoc">Wildcard compare function.</div><div class="ttdef"><b>Definition:</b> <a href="tcpssl_8cpp_source.html#l00062">tcpssl.cpp:62</a></div></div>
+<div class="ttc" id="aclasstcp_1_1SSL_html_ae7ff81755ad4d55d16846b57d352a1b9"><div class="ttname"><a href="classtcp_1_1SSL.html#ae7ff81755ad4d55d16846b57d352a1b9">tcp::SSL::setPrivateKeyPassword</a></div><div class="ttdeci">void setPrivateKeyPassword(string value)</div><div class="ttdoc">Sets the value of the private key password.</div><div class="ttdef"><b>Definition:</b> <a href="tcpssl_8h_source.html#l00139">tcpssl.h:139</a></div></div>
+<div class="ttc" id="aclasstcp_1_1SSL_html_a5b781b93330cd34209d114a2fb933e23"><div class="ttname"><a href="classtcp_1_1SSL.html#a5b781b93330cd34209d114a2fb933e23">tcp::SSL::owner_</a></div><div class="ttdeci">DataSocket &amp; owner_</div><div class="ttdoc">A reference to the socket</div><div class="ttdef"><b>Definition:</b> <a href="tcpssl_8h_source.html#l00215">tcpssl.h:215</a></div></div>
+<div class="ttc" id="aclasstcp_1_1SSL_html_acd0b5ed7b52543323f2cdd5457c17f92"><div class="ttname"><a href="classtcp_1_1SSL.html#acd0b5ed7b52543323f2cdd5457c17f92">tcp::SSL::mode_</a></div><div class="ttdeci">SSLMode mode_</div><div class="ttdoc">Either SERVER or CLIENT</div><div class="ttdef"><b>Definition:</b> <a href="tcpssl_8h_source.html#l00216">tcpssl.h:216</a></div></div>
+<div class="ttc" id="aclasstcp_1_1SSLContext_html_a06c2a33dba08bd1e3fc06aa26e32b08c"><div class="ttname"><a href="classtcp_1_1SSLContext.html#a06c2a33dba08bd1e3fc06aa26e32b08c">tcp::SSLContext::ctx_</a></div><div class="ttdeci">SSL_CTX * ctx_</div><div class="ttdoc">The openSSL context object.</div><div class="ttdef"><b>Definition:</b> <a href="tcpssl_8h_source.html#l00100">tcpssl.h:100</a></div></div>
 <div class="ttc" id="anamespacetcp_html"><div class="ttname"><a href="namespacetcp.html">tcp</a></div><div class="ttdoc">A tcp client/server library for linux that supports openSSL and EPoll.</div><div class="ttdef"><b>Definition:</b> <a href="tcpclient_8cpp_source.html#l00005">tcpclient.cpp:5</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

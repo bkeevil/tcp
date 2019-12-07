@@ -99,61 +99,457 @@ $(document).ready(function(){initNavTree('classtcp_1_1SSLContext.html','');});
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-attribs">Public Attributes</a> &#124;
+<a href="#pro-attribs">Protected Attributes</a> &#124;
+<a href="#friends">Friends</a> &#124;
 <a href="classtcp_1_1SSLContext-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">tcp::SSLContext Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>Encapsulates an SSL_CTX record.  
+<p>Encapsulates an openSSL SSL_CTX record.  
  <a href="classtcp_1_1SSLContext.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="tcpssl_8h_source.html">tcpssl.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:adb9100157037431e3f393780a5dd3926"><td class="memItemLeft" align="right" valign="top"><a id="adb9100157037431e3f393780a5dd3926"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>SSLContext</b> (SSLMode mode)</td></tr>
+<tr class="memitem:adb9100157037431e3f393780a5dd3926"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtcp_1_1SSLContext.html#adb9100157037431e3f393780a5dd3926">SSLContext</a> (SSLMode mode)</td></tr>
+<tr class="memdesc:adb9100157037431e3f393780a5dd3926"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="classtcp_1_1SSLContext.html#adb9100157037431e3f393780a5dd3926">More...</a><br /></td></tr>
 <tr class="separator:adb9100157037431e3f393780a5dd3926"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9b5f7146ce2b887844d3ac9f158c6e23"><td class="memItemLeft" align="right" valign="top"><a id="a9b5f7146ce2b887844d3ac9f158c6e23"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setOptions</b> (bool verifypeer=false, bool compression=true, bool tlsonly=false)</td></tr>
+<tr class="memitem:ad3ad704ad93f0e5e2e662a98d6f05de8"><td class="memItemLeft" align="right" valign="top"><a id="ad3ad704ad93f0e5e2e662a98d6f05de8"></a>
+virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtcp_1_1SSLContext.html#ad3ad704ad93f0e5e2e662a98d6f05de8">~SSLContext</a> ()</td></tr>
+<tr class="memdesc:ad3ad704ad93f0e5e2e662a98d6f05de8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor. <br /></td></tr>
+<tr class="separator:ad3ad704ad93f0e5e2e662a98d6f05de8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9b5f7146ce2b887844d3ac9f158c6e23"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtcp_1_1SSLContext.html#a9b5f7146ce2b887844d3ac9f158c6e23">setOptions</a> (bool verifypeer=false, bool compression=true, bool tlsonly=false)</td></tr>
+<tr class="memdesc:a9b5f7146ce2b887844d3ac9f158c6e23"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets default options for all <a class="el" href="classtcp_1_1SSL.html" title="Encapsulates an SSL connection data structure.">SSL</a> objects created from this context.  <a href="classtcp_1_1SSLContext.html#a9b5f7146ce2b887844d3ac9f158c6e23">More...</a><br /></td></tr>
 <tr class="separator:a9b5f7146ce2b887844d3ac9f158c6e23"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af758117bbcfa608cb77533f85536fdee"><td class="memItemLeft" align="right" valign="top"><a id="af758117bbcfa608cb77533f85536fdee"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>useDefaultVerifyPaths</b> ()</td></tr>
+<tr class="memitem:af758117bbcfa608cb77533f85536fdee"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtcp_1_1SSLContext.html#af758117bbcfa608cb77533f85536fdee">useDefaultVerifyPaths</a> ()</td></tr>
+<tr class="memdesc:af758117bbcfa608cb77533f85536fdee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Use the default operating system certificate store for validation.  <a href="classtcp_1_1SSLContext.html#af758117bbcfa608cb77533f85536fdee">More...</a><br /></td></tr>
 <tr class="separator:af758117bbcfa608cb77533f85536fdee"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a95a8ff865e6c991922a488228d79f945"><td class="memItemLeft" align="right" valign="top"><a id="a95a8ff865e6c991922a488228d79f945"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>setVerifyPaths</b> (const char *cafile=NULL, const char *capath=NULL)</td></tr>
+<tr class="memitem:a95a8ff865e6c991922a488228d79f945"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtcp_1_1SSLContext.html#a95a8ff865e6c991922a488228d79f945">setVerifyPaths</a> (const char *cafile=NULL, const char *capath=NULL)</td></tr>
+<tr class="memdesc:a95a8ff865e6c991922a488228d79f945"><td class="mdescLeft">&#160;</td><td class="mdescRight">Use the specified CA certificate or certificate directory.  <a href="classtcp_1_1SSLContext.html#a95a8ff865e6c991922a488228d79f945">More...</a><br /></td></tr>
 <tr class="separator:a95a8ff865e6c991922a488228d79f945"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab16699275973c221f9def10c3ea5438f"><td class="memItemLeft" align="right" valign="top"><a id="ab16699275973c221f9def10c3ea5438f"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>setCertificateAndKey</b> (const char *certfile, const char *keyfile)</td></tr>
+<tr class="memitem:ab16699275973c221f9def10c3ea5438f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtcp_1_1SSLContext.html#ab16699275973c221f9def10c3ea5438f">setCertificateAndKey</a> (const char *certfile, const char *keyfile)</td></tr>
+<tr class="memdesc:ab16699275973c221f9def10c3ea5438f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the certificate filename and key filename.  <a href="classtcp_1_1SSLContext.html#ab16699275973c221f9def10c3ea5438f">More...</a><br /></td></tr>
 <tr class="separator:ab16699275973c221f9def10c3ea5438f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad270938f6a1cbd98a82274f7416f468a"><td class="memItemLeft" align="right" valign="top"><a id="ad270938f6a1cbd98a82274f7416f468a"></a>
-virtual int&#160;</td><td class="memItemRight" valign="bottom"><b>passwordCallback</b> (char *buf, int size, int rwflag)</td></tr>
+<tr class="memitem:a99d28b74c4a3490e4e70acb34b174bed"><td class="memItemLeft" align="right" valign="top"><a id="a99d28b74c4a3490e4e70acb34b174bed"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtcp_1_1SSLContext.html#a99d28b74c4a3490e4e70acb34b174bed">setPrivateKeyPassword</a> (string value)</td></tr>
+<tr class="memdesc:a99d28b74c4a3490e4e70acb34b174bed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the value of the private key password. <br /></td></tr>
+<tr class="separator:a99d28b74c4a3490e4e70acb34b174bed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad270938f6a1cbd98a82274f7416f468a"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtcp_1_1SSLContext.html#ad270938f6a1cbd98a82274f7416f468a">passwordCallback</a> (char *buf, int size, int rwflag)</td></tr>
+<tr class="memdesc:ad270938f6a1cbd98a82274f7416f468a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called when a password to decrypt a private key is required.  <a href="classtcp_1_1SSLContext.html#ad270938f6a1cbd98a82274f7416f468a">More...</a><br /></td></tr>
 <tr class="separator:ad270938f6a1cbd98a82274f7416f468a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9c521bf853152351d046e96b5fef72a0"><td class="memItemLeft" align="right" valign="top"><a id="a9c521bf853152351d046e96b5fef72a0"></a>
-SSL_CTX *&#160;</td><td class="memItemRight" valign="bottom"><b>handle</b> ()</td></tr>
-<tr class="separator:a9c521bf853152351d046e96b5fef72a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3a1dced96aa449d53dad74ec4d3fe283"><td class="memItemLeft" align="right" valign="top"><a id="a3a1dced96aa449d53dad74ec4d3fe283"></a>
-SSLMode&#160;</td><td class="memItemRight" valign="bottom"><b>mode</b> ()</td></tr>
-<tr class="separator:a3a1dced96aa449d53dad74ec4d3fe283"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
-Public Attributes</h2></td></tr>
-<tr class="memitem:af3fa0763aba664262ea0adc1f012793f"><td class="memItemLeft" align="right" valign="top"><a id="af3fa0763aba664262ea0adc1f012793f"></a>
-string&#160;</td><td class="memItemRight" valign="bottom"><b>keypass</b></td></tr>
-<tr class="separator:af3fa0763aba664262ea0adc1f012793f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
+Protected Attributes</h2></td></tr>
+<tr class="memitem:a06c2a33dba08bd1e3fc06aa26e32b08c"><td class="memItemLeft" align="right" valign="top"><a id="a06c2a33dba08bd1e3fc06aa26e32b08c"></a>
+SSL_CTX *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtcp_1_1SSLContext.html#a06c2a33dba08bd1e3fc06aa26e32b08c">ctx_</a></td></tr>
+<tr class="memdesc:a06c2a33dba08bd1e3fc06aa26e32b08c"><td class="mdescLeft">&#160;</td><td class="mdescRight">The openSSL context object. <br /></td></tr>
+<tr class="separator:a06c2a33dba08bd1e3fc06aa26e32b08c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0a496fa48faf0385e83f0af741fbe8e5"><td class="memItemLeft" align="right" valign="top"><a id="a0a496fa48faf0385e83f0af741fbe8e5"></a>
+SSLMode&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtcp_1_1SSLContext.html#a0a496fa48faf0385e83f0af741fbe8e5">mode_</a></td></tr>
+<tr class="memdesc:a0a496fa48faf0385e83f0af741fbe8e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">The mode of the context object is passed to <a class="el" href="classtcp_1_1SSL.html" title="Encapsulates an SSL connection data structure.">SSL</a> objects created from this context. <br /></td></tr>
+<tr class="separator:a0a496fa48faf0385e83f0af741fbe8e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
+Friends</h2></td></tr>
+<tr class="memitem:a1d92fac07179773c5e8f55a5d0167c97"><td class="memItemLeft" align="right" valign="top"><a id="a1d92fac07179773c5e8f55a5d0167c97"></a>
+class&#160;</td><td class="memItemRight" valign="bottom"><b>SSL</b></td></tr>
+<tr class="separator:a1d92fac07179773c5e8f55a5d0167c97"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Encapsulates an SSL_CTX record. </p>
+<div class="textblock"><p>Encapsulates an openSSL SSL_CTX record. </p>
 
 <p class="definition">Definition at line <a class="el" href="tcpssl_8h_source.html#l00041">41</a> of file <a class="el" href="tcpssl_8h_source.html">tcpssl.h</a>.</p>
-</div><hr/>The documentation for this class was generated from the following files:<ul>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="adb9100157037431e3f393780a5dd3926"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adb9100157037431e3f393780a5dd3926">&#9670;&nbsp;</a></span>SSLContext()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">tcp::SSLContext::SSLContext </td>
+          <td>(</td>
+          <td class="paramtype">SSLMode&#160;</td>
+          <td class="paramname"><em>mode</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Constructor. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">mode</td><td>[in] Is this context record for client connections or a server </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="tcpssl_8cpp_source.html#l00242">242</a> of file <a class="el" href="tcpssl_8cpp_source.html">tcpssl.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;                                   : <a class="code" href="classtcp_1_1SSLContext.html#a0a496fa48faf0385e83f0af741fbe8e5">mode_</a>(mode)</div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;{</div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;  <a class="code" href="namespacetcp.html#a626a96602252225a453e0e77ad9ae270">initSSLLibrary</a>();</div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;  <span class="keyword">const</span> SSL_METHOD *meth = (mode == SSLMode::SERVER) ? TLS_server_method() : TLS_client_method();</div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;  <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> ssl_err = ERR_get_error();</div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;  <span class="keywordflow">if</span> (meth == NULL) {</div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;    print_error_string(ssl_err, <span class="stringliteral">&quot;TLS_method&quot;</span>);</div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;    <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;  }</div>
+<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;  <a class="code" href="classtcp_1_1SSLContext.html#a06c2a33dba08bd1e3fc06aa26e32b08c">ctx_</a> = SSL_CTX_new(meth);</div>
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;  ssl_err = ERR_get_error();</div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;  <span class="keywordflow">if</span> (<a class="code" href="classtcp_1_1SSLContext.html#a06c2a33dba08bd1e3fc06aa26e32b08c">ctx_</a> == NULL) {</div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;    print_error_string(ssl_err, <span class="stringliteral">&quot;SSL_CTX_new&quot;</span>);</div>
+<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;    <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;  }</div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;}</div>
+</div><!-- fragment --><div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classtcp_1_1SSLContext_adb9100157037431e3f393780a5dd3926_cgraph.png" border="0" usemap="#classtcp_1_1SSLContext_adb9100157037431e3f393780a5dd3926_cgraph" alt=""/></div>
+<map name="classtcp_1_1SSLContext_adb9100157037431e3f393780a5dd3926_cgraph" id="classtcp_1_1SSLContext_adb9100157037431e3f393780a5dd3926_cgraph">
+<area shape="rect" title="Constructor." alt="" coords="5,5,204,32"/>
+<area shape="rect" href="namespacetcp.html#a626a96602252225a453e0e77ad9ae270" title="Initialize the openSSL library." alt="" coords="252,5,381,32"/>
+</map>
+</div>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="ad270938f6a1cbd98a82274f7416f468a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad270938f6a1cbd98a82274f7416f468a">&#9670;&nbsp;</a></span>passwordCallback()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int tcp::SSLContext::passwordCallback </td>
+          <td>(</td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>buf</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>rwflag</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Called when a password to decrypt a private key is required. </p>
+<p>Descendant classes may want to override this to provide a more secure means of storing the private key password. The default behavior is to return the value of keypass_. </p><dl class="section remark"><dt>Remarks</dt><dd>See the openSSL function <code>SSL_CTX_set_default_passwd_cb</code> for more details </dd>
+<dd>
+This must be public because it is called from the <a class="el" href="classtcp_1_1SSLContext.html#ad270938f6a1cbd98a82274f7416f468a" title="Called when a password to decrypt a private key is required.">passwordCallback()</a> function </dd>
+<dd>
+This password callback function only applies to private keys assigned to this SSL_CTX object, it is not 'inherited' from any <a class="el" href="classtcp_1_1SSL.html" title="Encapsulates an SSL connection data structure.">SSL</a> objects created from it. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="tcpssl_8cpp_source.html#l00362">362</a> of file <a class="el" href="tcpssl_8cpp_source.html">tcpssl.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;{</div>
+<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;  (void)rwflag;</div>
+<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;  <span class="keywordflow">if</span> (!keypass_.empty()) {</div>
+<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;    <span class="keywordtype">int</span> lsize = max&lt;int&gt;(size,keypass_.length());</div>
+<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;    strncpy(buf,keypass_.c_str(),lsize);</div>
+<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;    <span class="keywordflow">return</span> lsize;</div>
+<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;  } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;    <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;  }</div>
+<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;}</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="ab16699275973c221f9def10c3ea5438f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab16699275973c221f9def10c3ea5438f">&#9670;&nbsp;</a></span>setCertificateAndKey()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool tcp::SSLContext::setCertificateAndKey </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>certfile</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>keyfile</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sets the certificate filename and key filename. </p>
+<p>Sets the certificate and key file for all <a class="el" href="classtcp_1_1SSL.html" title="Encapsulates an SSL connection data structure.">SSL</a> connections created from this context. This is primarily intended for servers but clients may want to connect to more than one server using the same certificate and key. This default certificate and key set can be overriden for a specific connection using the equivelant method from the <a class="el" href="classtcp_1_1SSL.html" title="Encapsulates an SSL connection data structure.">SSL</a> class. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">certfile</td><td>[in] The filename of a certificate chain in PEM (or CRT) format </td></tr>
+    <tr><td class="paramname">keyfile</td><td>[in] The filename of a private key in PEM (or CRT) format </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True of the certificate and key were successfully set, false otherwise. Check cerr log for details. </dd></dl>
+<dl class="section remark"><dt>Remarks</dt><dd>If the keyfile requires a password to decrypt, passwordCallback will be called to provide that password. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="tcpssl_8cpp_source.html#l00320">320</a> of file <a class="el" href="tcpssl_8cpp_source.html">tcpssl.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;{</div>
+<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;  <span class="keywordtype">long</span> res = 1;</div>
+<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;  <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> ssl_err = 0;</div>
+<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160; </div>
+<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;  <span class="keywordflow">if</span> ((certfile &amp;&amp; !keyfile) || (!certfile &amp;&amp; keyfile)) {</div>
+<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;    cerr &lt;&lt; <span class="stringliteral">&quot;Error: Both a certificate and a private key file are required&quot;</span> &lt;&lt; endl;</div>
+<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;  }  </div>
+<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160; </div>
+<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;  <span class="keywordflow">if</span> (certfile &amp;&amp; keyfile) {</div>
+<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;    res = SSL_CTX_use_certificate_file(<a class="code" href="classtcp_1_1SSLContext.html#a06c2a33dba08bd1e3fc06aa26e32b08c">ctx_</a>, certfile,  SSL_FILETYPE_PEM);</div>
+<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;    ssl_err = ERR_get_error();</div>
+<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;    <span class="keywordflow">if</span> ( res != 1) {</div>
+<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;      print_error_string(ssl_err,<span class="stringliteral">&quot;SSL_CTX_use_certificate_file&quot;</span>);</div>
+<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;      <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;    }</div>
+<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160; </div>
+<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;    res = SSL_CTX_use_PrivateKey_file(<a class="code" href="classtcp_1_1SSLContext.html#a06c2a33dba08bd1e3fc06aa26e32b08c">ctx_</a>, keyfile, SSL_FILETYPE_PEM);</div>
+<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;    ssl_err = ERR_get_error();</div>
+<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;    <span class="keywordflow">if</span> (res != 1) {</div>
+<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;      print_error_string(ssl_err,<span class="stringliteral">&quot;SSL_CTX_use_PrivateKey_file&quot;</span>);</div>
+<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;      <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;    }</div>
+<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160; </div>
+<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;    <span class="comment">/* Make sure the key and certificate file match. */</span></div>
+<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;    res = SSL_CTX_check_private_key(<a class="code" href="classtcp_1_1SSLContext.html#a06c2a33dba08bd1e3fc06aa26e32b08c">ctx_</a>);</div>
+<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;    ssl_err = ERR_get_error();</div>
+<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;    <span class="keywordflow">if</span> ( res != 1) {</div>
+<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;      print_error_string(ssl_err,<span class="stringliteral">&quot;SSL_CTX_check_private_key&quot;</span>);</div>
+<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;      <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;    }</div>
+<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160; </div>
+<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;    SSL_CTX_set_default_passwd_cb(<a class="code" href="classtcp_1_1SSLContext.html#a06c2a33dba08bd1e3fc06aa26e32b08c">ctx_</a>,&amp;ctx_password_callback);</div>
+<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;    SSL_CTX_set_default_passwd_cb_userdata(<a class="code" href="classtcp_1_1SSLContext.html#a06c2a33dba08bd1e3fc06aa26e32b08c">ctx_</a>,<span class="keyword">this</span>);</div>
+<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;    </div>
+<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;  } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;  }</div>
+<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;}</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a9b5f7146ce2b887844d3ac9f158c6e23"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9b5f7146ce2b887844d3ac9f158c6e23">&#9670;&nbsp;</a></span>setOptions()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void tcp::SSLContext::setOptions </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>verifypeer</em> = <code>false</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>compression</em> = <code>true</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>tlsonly</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sets default options for all <a class="el" href="classtcp_1_1SSL.html" title="Encapsulates an SSL connection data structure.">SSL</a> objects created from this context. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">verifypeer</td><td>[in] If true, the server/client will validate the peer certificate </td></tr>
+    <tr><td class="paramname">compression</td><td>[in] Set to false to disable <a class="el" href="classtcp_1_1SSL.html" title="Encapsulates an SSL connection data structure.">SSL</a> compression </td></tr>
+    <tr><td class="paramname">tlsonly</td><td>[in] if true, disable the SSLv2 and SSLv3 protocols. This is recommended. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section remark"><dt>Remarks</dt><dd>Logs error information to cerr but does not return error information. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="tcpssl_8cpp_source.html#l00264">264</a> of file <a class="el" href="tcpssl_8cpp_source.html">tcpssl.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;{</div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;  <span class="keywordtype">long</span> flags = 0;</div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;    </div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;  <span class="keywordflow">if</span> (verifypeer) {</div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="classtcp_1_1SSLContext.html#a0a496fa48faf0385e83f0af741fbe8e5">mode_</a> == SSLMode::SERVER) {</div>
+<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;      SSL_CTX_set_verify(<a class="code" href="classtcp_1_1SSLContext.html#a06c2a33dba08bd1e3fc06aa26e32b08c">ctx_</a>, SSL_VERIFY_PEER | SSL_VERIFY_FAIL_IF_NO_PEER_CERT | SSL_VERIFY_CLIENT_ONCE, <a class="code" href="namespacetcp.html#af35eb16fc64325797d378578291721b9">verify_callback</a>);</div>
+<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;      SSL_CTX_set_verify(<a class="code" href="classtcp_1_1SSLContext.html#a06c2a33dba08bd1e3fc06aa26e32b08c">ctx_</a>, SSL_VERIFY_PEER, <a class="code" href="namespacetcp.html#af35eb16fc64325797d378578291721b9">verify_callback</a>);</div>
+<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;    }</div>
+<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;  } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;    SSL_CTX_set_verify(<a class="code" href="classtcp_1_1SSLContext.html#a06c2a33dba08bd1e3fc06aa26e32b08c">ctx_</a>, SSL_VERIFY_NONE, NULL);</div>
+<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;  }</div>
+<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;  SSL_CTX_set_verify_depth(<a class="code" href="classtcp_1_1SSLContext.html#a06c2a33dba08bd1e3fc06aa26e32b08c">ctx_</a>, 4);</div>
+<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;  </div>
+<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;  <span class="keywordflow">if</span> (tlsonly) {</div>
+<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;    flags = SSL_OP_ALL | SSL_OP_NO_SSLv2 | SSL_OP_NO_SSLv3;</div>
+<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;    SSL_CTX_set_min_proto_version(<a class="code" href="classtcp_1_1SSLContext.html#a06c2a33dba08bd1e3fc06aa26e32b08c">ctx_</a>,TLS1_VERSION);</div>
+<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;  } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;    flags = SSL_OP_ALL;</div>
+<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;  }</div>
+<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160; </div>
+<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;  <span class="keywordflow">if</span> (!compression) {</div>
+<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;    flags |= SSL_OP_NO_COMPRESSION;</div>
+<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;  }  </div>
+<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160; </div>
+<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;  SSL_CTX_set_options(<a class="code" href="classtcp_1_1SSLContext.html#a06c2a33dba08bd1e3fc06aa26e32b08c">ctx_</a>, flags);</div>
+<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;  </div>
+<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;  <a class="code" href="namespacetcp.html#a4e386f3935fd15d1413ab3ea56d5384d">printSSLErrors</a>();  </div>
+<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;}</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a95a8ff865e6c991922a488228d79f945"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a95a8ff865e6c991922a488228d79f945">&#9670;&nbsp;</a></span>setVerifyPaths()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool tcp::SSLContext::setVerifyPaths </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>cafile</em> = <code>NULL</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>capath</em> = <code>NULL</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Use the specified CA certificate or certificate directory. </p>
+<p>Provide one or the other or set both to NULL to use the operating system certificate store </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">cafile</td><td>[in] The filename of a CA certificate chain in PEM (or CRT) format </td></tr>
+    <tr><td class="paramname">capath</td><td>[in] The path of a directory containing CA certificates that are considered valid </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if the CA filename or CA path were set successfully, false otherwise. Check cerr log for details. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="tcpssl_8cpp_source.html#l00295">295</a> of file <a class="el" href="tcpssl_8cpp_source.html">tcpssl.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;{</div>
+<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;  <span class="keywordtype">long</span> res = 1;</div>
+<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;  <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> ssl_err = 0;</div>
+<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160; </div>
+<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;  <span class="keywordflow">if</span> (cafile || capath) {</div>
+<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;    res = SSL_CTX_load_verify_locations(<a class="code" href="classtcp_1_1SSLContext.html#a06c2a33dba08bd1e3fc06aa26e32b08c">ctx_</a>, cafile, capath); </div>
+<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;    ssl_err = ERR_get_error();</div>
+<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;    <span class="keywordflow">if</span> (res == 0) {</div>
+<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;      print_error_string(ssl_err,<span class="stringliteral">&quot;SSL_CTX_load_verify_locations&quot;</span>);</div>
+<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;      <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;    }</div>
+<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;  } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;    res = SSL_CTX_set_default_verify_paths(<a class="code" href="classtcp_1_1SSLContext.html#a06c2a33dba08bd1e3fc06aa26e32b08c">ctx_</a>);</div>
+<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;    ssl_err = ERR_get_error();</div>
+<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;    <span class="keywordflow">if</span> (res == 0) {</div>
+<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;      print_error_string(ssl_err,<span class="stringliteral">&quot;SSL_CTX_set_default_verify_paths&quot;</span>);</div>
+<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;      <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;    }</div>
+<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;  }</div>
+<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;  </div>
+<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;  <a class="code" href="namespacetcp.html#a4e386f3935fd15d1413ab3ea56d5384d">printSSLErrors</a>();</div>
+<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;  <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;}</div>
+</div><!-- fragment --><div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classtcp_1_1SSLContext_a95a8ff865e6c991922a488228d79f945_cgraph.png" border="0" usemap="#classtcp_1_1SSLContext_a95a8ff865e6c991922a488228d79f945_cgraph" alt=""/></div>
+<map name="classtcp_1_1SSLContext_a95a8ff865e6c991922a488228d79f945_cgraph" id="classtcp_1_1SSLContext_a95a8ff865e6c991922a488228d79f945_cgraph">
+<area shape="rect" title="Use the specified CA certificate or certificate directory." alt="" coords="5,5,184,47"/>
+<area shape="rect" href="namespacetcp.html#a4e386f3935fd15d1413ab3ea56d5384d" title="This method logs openSSL errors to cerr." alt="" coords="232,13,365,39"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="af758117bbcfa608cb77533f85536fdee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af758117bbcfa608cb77533f85536fdee">&#9670;&nbsp;</a></span>useDefaultVerifyPaths()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool tcp::SSLContext::useDefaultVerifyPaths </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Use the default operating system certificate store for validation. </p>
+<dl class="section return"><dt>Returns</dt><dd>True if the CA filename or CA path were set successfully, false otherwise. Check cerr log for details. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="tcpssl_8h_source.html#l00062">62</a> of file <a class="el" href="tcpssl_8h_source.html">tcpssl.h</a>.</p>
+<div class="fragment"><div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;{ <span class="keywordflow">return</span> <a class="code" href="classtcp_1_1SSLContext.html#a95a8ff865e6c991922a488228d79f945">setVerifyPaths</a>(NULL,NULL); }</div>
+</div><!-- fragment -->
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li>include/<a class="el" href="tcpssl_8h_source.html">tcpssl.h</a></li>
 <li>src/<a class="el" href="tcpssl_8cpp_source.html">tcpssl.cpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
+<div class="ttc" id="anamespacetcp_html_a4e386f3935fd15d1413ab3ea56d5384d"><div class="ttname"><a href="namespacetcp.html#a4e386f3935fd15d1413ab3ea56d5384d">tcp::printSSLErrors</a></div><div class="ttdeci">void printSSLErrors()</div><div class="ttdoc">This method logs openSSL errors to cerr.</div><div class="ttdef"><b>Definition:</b> <a href="tcpssl_8cpp_source.html#l00056">tcpssl.cpp:56</a></div></div>
+<div class="ttc" id="aclasstcp_1_1SSLContext_html_a0a496fa48faf0385e83f0af741fbe8e5"><div class="ttname"><a href="classtcp_1_1SSLContext.html#a0a496fa48faf0385e83f0af741fbe8e5">tcp::SSLContext::mode_</a></div><div class="ttdeci">SSLMode mode_</div><div class="ttdoc">The mode of the context object is passed to SSL objects created from this context.</div><div class="ttdef"><b>Definition:</b> <a href="tcpssl_8h_source.html#l00101">tcpssl.h:101</a></div></div>
+<div class="ttc" id="aclasstcp_1_1SSLContext_html_a95a8ff865e6c991922a488228d79f945"><div class="ttname"><a href="classtcp_1_1SSLContext.html#a95a8ff865e6c991922a488228d79f945">tcp::SSLContext::setVerifyPaths</a></div><div class="ttdeci">bool setVerifyPaths(const char *cafile=NULL, const char *capath=NULL)</div><div class="ttdoc">Use the specified CA certificate or certificate directory.</div><div class="ttdef"><b>Definition:</b> <a href="tcpssl_8cpp_source.html#l00295">tcpssl.cpp:295</a></div></div>
+<div class="ttc" id="anamespacetcp_html_af35eb16fc64325797d378578291721b9"><div class="ttname"><a href="namespacetcp.html#af35eb16fc64325797d378578291721b9">tcp::verify_callback</a></div><div class="ttdeci">int verify_callback(int preverify, X509_STORE_CTX *x509_ctx)</div><div class="ttdoc">Prints the certificate details to clog.</div><div class="ttdef"><b>Definition:</b> <a href="tcpssl_8cpp_source.html#l00195">tcpssl.cpp:195</a></div></div>
+<div class="ttc" id="anamespacetcp_html_a626a96602252225a453e0e77ad9ae270"><div class="ttname"><a href="namespacetcp.html#a626a96602252225a453e0e77ad9ae270">tcp::initSSLLibrary</a></div><div class="ttdeci">void initSSLLibrary()</div><div class="ttdoc">Initialize the openSSL library.</div><div class="ttdef"><b>Definition:</b> <a href="tcpssl_8cpp_source.html#l00019">tcpssl.cpp:19</a></div></div>
+<div class="ttc" id="aclasstcp_1_1SSLContext_html_a06c2a33dba08bd1e3fc06aa26e32b08c"><div class="ttname"><a href="classtcp_1_1SSLContext.html#a06c2a33dba08bd1e3fc06aa26e32b08c">tcp::SSLContext::ctx_</a></div><div class="ttdeci">SSL_CTX * ctx_</div><div class="ttdoc">The openSSL context object.</div><div class="ttdef"><b>Definition:</b> <a href="tcpssl_8h_source.html#l00100">tcpssl.h:100</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

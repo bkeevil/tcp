@@ -1,0 +1,11 @@
+<map id="tcp::SSL::read" name="tcp::SSL::read">
+<area shape="rect" id="node1" title="Reads and decrypts SSL socket data." alt="" coords="5,107,112,133"/>
+<area shape="rect" id="node2" href="$classtcp_1_1DataSocket.html#aa55fc17452ad9de9344b55dab43e937d" title="Called when a connection is disconnected." alt="" coords="160,56,363,83"/>
+<area shape="rect" id="node5" href="$classtcp_1_1SSL.html#aecbc01ad1e01282c0018b28fde2b4187" title="Performs a post handshake validation of the peer certificate." alt="" coords="173,129,350,170"/>
+<area shape="rect" id="node3" href="$classtcp_1_1Socket.html#a885bf8db13ca763538a7668195f5dba2" title="Called when a connection is disconnected due to a network error." alt="" coords="426,5,601,32"/>
+<area shape="rect" id="node4" href="$namespacetcp.html#a4e386f3935fd15d1413ab3ea56d5384d" title="This method logs openSSL errors to cerr." alt="" coords="447,56,580,83"/>
+<area shape="rect" id="node6" href="$classtcp_1_1SSL.html#a208fbee24fd6f2db7cf2337853952954" title="Returns the peer certificate subject name or an empty string if none was sent." alt="" coords="424,107,603,133"/>
+<area shape="rect" id="node7" href="$classtcp_1_1SSL.html#a3a759fefe167f90a20423514f6053088" title="Validate the peer certificate subject name." alt="" coords="411,157,616,184"/>
+<area shape="rect" id="node9" href="$classtcp_1_1SSL.html#ace1b585c2218080ccc57e4b490293ee0" title="Return true if the peer certificate was verified or if no certificate was presented." alt="" coords="438,208,589,235"/>
+<area shape="rect" id="node8" href="$namespacetcp.html#a10cdbfc95787e461db970973680800f3" title="Wildcard compare function." alt="" coords="664,157,760,184"/>
+</map>

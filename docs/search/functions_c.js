@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['write_112',['write',['../classtcp_1_1DataSocket.html#a6a10d49abbaf997785391f56c5be280f',1,'tcp::DataSocket']]]
+  ['usedefaultverifypaths_150',['useDefaultVerifyPaths',['../classtcp_1_1SSLContext.html#af758117bbcfa608cb77533f85536fdee',1,'tcp::SSLContext']]]
 ];

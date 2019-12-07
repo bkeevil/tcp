@@ -3,6 +3,7 @@ var classtcp_1_1DataSocket =
     [ "DataSocket", "classtcp_1_1DataSocket.html#a6b1d702915ace990ee09c59eaf53fa19", null ],
     [ "available", "classtcp_1_1DataSocket.html#ab4f93153ab86b43018387bed21b66a76", null ],
     [ "canSend", "classtcp_1_1DataSocket.html#a96b20f5702de291a8d0b13f32a5663fe", null ],
+    [ "createSSL", "classtcp_1_1DataSocket.html#a7dc0af97ea123b49bb9dbc872a41e648", null ],
     [ "dataAvailable", "classtcp_1_1DataSocket.html#ae6e1cc8d0fee6f7807f2a74e1fff67de", null ],
     [ "disconnect", "classtcp_1_1DataSocket.html#ac0364f0b64f59bf3645f790c8c66c7e8", null ],
     [ "disconnected", "classtcp_1_1DataSocket.html#aa55fc17452ad9de9344b55dab43e937d", null ],
@@ -15,6 +16,5 @@ var classtcp_1_1DataSocket =
     [ "certfile", "classtcp_1_1DataSocket.html#aa2ae19daf1b9079dbebd042ca14a6791", null ],
     [ "keyfile", "classtcp_1_1DataSocket.html#aa4fe90d294c4ed4f4f71087ed076cbb5", null ],
     [ "keypass", "classtcp_1_1DataSocket.html#a4ab7473a48684200eba7eed80c9fc810", null ],
-    [ "ssl_", "classtcp_1_1DataSocket.html#af69fd8106c3210fd6db39f50cf3bc680", null ],
-    [ "verifypeer", "classtcp_1_1DataSocket.html#ad5cf967581e9d205554e9e9d002d78fc", null ]
+    [ "verifyPeer", "classtcp_1_1DataSocket.html#a7c8ce4d71efe61703b141a4738fcada4", null ]
 ];

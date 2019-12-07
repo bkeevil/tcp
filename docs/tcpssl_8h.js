@@ -8,5 +8,6 @@ var tcpssl_8h =
     ] ],
     [ "freeSSLLibrary", "tcpssl_8h.html#a6110bae4d581a3bc0d7eca705775af9e", null ],
     [ "initSSLLibrary", "tcpssl_8h.html#a626a96602252225a453e0e77ad9ae270", null ],
-    [ "printSSLErrors", "tcpssl_8h.html#a4e386f3935fd15d1413ab3ea56d5384d", null ]
+    [ "printSSLErrors", "tcpssl_8h.html#a4e386f3935fd15d1413ab3ea56d5384d", null ],
+    [ "wildcmp", "tcpssl_8h.html#a10cdbfc95787e461db970973680800f3", null ]
 ];

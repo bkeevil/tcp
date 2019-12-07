@@ -133,50 +133,52 @@ $(document).ready(function(){initNavTree('tcpclient_8h_source.html','');});
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    </div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keyword">virtual</span> ~<a class="code" href="classtcp_1_1Client.html">Client</a>();</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    </div>
-<div class="line"><a name="l00051"></a><span class="lineno"><a class="line" href="classtcp_1_1Client.html#a954a7068c8886e04a5b13f9d8e3a4518">   51</a></span>&#160;    <span class="keyword">static</span> <a class="code" href="classtcp_1_1SSLContext.html">SSLContext</a> &amp;<a class="code" href="classtcp_1_1Client.html#a954a7068c8886e04a5b13f9d8e3a4518">ctx</a>() { <span class="keywordflow">return</span> ctx_; }</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;   </div>
-<div class="line"><a name="l00054"></a><span class="lineno"><a class="line" href="classtcp_1_1Client.html#a148632f00a7c1ef6320d8e8b36f33787">   54</a></span>&#160;    <a class="code" href="namespacetcp.html#a2c9f9abccc28c28a2d375823ca900b1b">SocketState</a> <a class="code" href="classtcp_1_1Client.html#a148632f00a7c1ef6320d8e8b36f33787">state</a>() { <span class="keywordflow">return</span> state_; }</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
-<div class="line"><a name="l00057"></a><span class="lineno"><a class="line" href="classtcp_1_1Client.html#aaf0c3c78177995cde59197f414732542">   57</a></span>&#160;    in_port_t <a class="code" href="classtcp_1_1Client.html#aaf0c3c78177995cde59197f414732542">port</a>() { <span class="keywordflow">return</span> port_; }</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    </div>
-<div class="line"><a name="l00060"></a><span class="lineno"><a class="line" href="classtcp_1_1Client.html#a4900e6d30b3f634d4a2ce286f63c4d94">   60</a></span>&#160;    in_addr_t <a class="code" href="classtcp_1_1Client.html#a4900e6d30b3f634d4a2ce286f63c4d94">addr</a>() { <span class="keywordflow">return</span> addr_; }</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;   </div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> connect(<span class="keyword">const</span> <span class="keywordtype">string</span> &amp;hostname, <span class="keyword">const</span> in_port_t port, <span class="keywordtype">bool</span> useSSL = <span class="keyword">false</span>);</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> disconnect();</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160; </div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;  <span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    </div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="keywordtype">void</span> handleEvents(uint32_t events) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160; </div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> connected();</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    </div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classtcp_1_1SSL.html">SSL</a>;</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;  </div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;  <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    in_port_t port_ {0};</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    in_addr_t addr_ {0};</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    <span class="keyword">static</span> <a class="code" href="classtcp_1_1SSLContext.html">SSLContext</a> ctx_; </div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;};</div>
+<div class="line"><a name="l00054"></a><span class="lineno"><a class="line" href="classtcp_1_1Client.html#a954a7068c8886e04a5b13f9d8e3a4518">   54</a></span>&#160;    <span class="keyword">static</span> <a class="code" href="classtcp_1_1SSLContext.html">SSLContext</a> &amp;<a class="code" href="classtcp_1_1Client.html#a954a7068c8886e04a5b13f9d8e3a4518">ctx</a>() { <span class="keywordflow">return</span> ctx_; }</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;   </div>
+<div class="line"><a name="l00057"></a><span class="lineno"><a class="line" href="classtcp_1_1Client.html#a148632f00a7c1ef6320d8e8b36f33787">   57</a></span>&#160;    <a class="code" href="namespacetcp.html#a2c9f9abccc28c28a2d375823ca900b1b">SocketState</a> <a class="code" href="classtcp_1_1Client.html#a148632f00a7c1ef6320d8e8b36f33787">state</a>() { <span class="keywordflow">return</span> state_; }</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
+<div class="line"><a name="l00060"></a><span class="lineno"><a class="line" href="classtcp_1_1Client.html#aaf0c3c78177995cde59197f414732542">   60</a></span>&#160;    in_port_t <a class="code" href="classtcp_1_1Client.html#aaf0c3c78177995cde59197f414732542">port</a>() { <span class="keywordflow">return</span> port_; }</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    </div>
+<div class="line"><a name="l00063"></a><span class="lineno"><a class="line" href="classtcp_1_1Client.html#a4900e6d30b3f634d4a2ce286f63c4d94">   63</a></span>&#160;    in_addr_t <a class="code" href="classtcp_1_1Client.html#a4900e6d30b3f634d4a2ce286f63c4d94">addr</a>() { <span class="keywordflow">return</span> addr_; }</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;   </div>
+<div class="line"><a name="l00069"></a><span class="lineno"><a class="line" href="classtcp_1_1Client.html#a0f320c11351274a8201a18de73537d03">   69</a></span>&#160;    <span class="keywordtype">bool</span> checkPeerSubjectName { <span class="keyword">false</span> };</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> connect(<span class="keyword">const</span> <span class="keywordtype">string</span> &amp;hostName, in_port_t port, <span class="keywordtype">bool</span> useSSL = <span class="keyword">false</span>);</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160; </div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="keywordtype">bool</span> validatePeerCertificate();</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    </div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;  <span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    </div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <span class="keywordtype">void</span> handleEvents(uint32_t events) <span class="keyword">override</span>; </div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160; </div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> connected();</div>
 <div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160; </div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;}</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160; </div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classtcp_1_1SSL.html">SSL</a>;</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;  </div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;  <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    in_port_t port_ {0};</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    in_addr_t addr_ {0};</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    <span class="keyword">static</span> <a class="code" href="classtcp_1_1SSLContext.html">SSLContext</a> ctx_; </div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;};</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160; </div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;} <span class="comment">// namespace mqtt</span></div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160; </div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="aclasstcp_1_1Client_html_a083e6b73c75d7cb7c847d040631b34be"><div class="ttname"><a href="classtcp_1_1Client.html#a083e6b73c75d7cb7c847d040631b34be">tcp::Client::Client</a></div><div class="ttdeci">Client(EPoll &amp;epoll, const int domain=AF_INET, bool blocking=false)</div><div class="ttdoc">Creates a blocking or a non-blocking client.</div><div class="ttdef"><b>Definition:</b> <a href="tcpclient_8h_source.html#l00042">tcpclient.h:42</a></div></div>
-<div class="ttc" id="aclasstcp_1_1Client_html_a4900e6d30b3f634d4a2ce286f63c4d94"><div class="ttname"><a href="classtcp_1_1Client.html#a4900e6d30b3f634d4a2ce286f63c4d94">tcp::Client::addr</a></div><div class="ttdeci">in_addr_t addr()</div><div class="ttdoc">Returns the ip address number used for the last call to connect()</div><div class="ttdef"><b>Definition:</b> <a href="tcpclient_8h_source.html#l00060">tcpclient.h:60</a></div></div>
-<div class="ttc" id="aclasstcp_1_1Client_html_aaf0c3c78177995cde59197f414732542"><div class="ttname"><a href="classtcp_1_1Client.html#aaf0c3c78177995cde59197f414732542">tcp::Client::port</a></div><div class="ttdeci">in_port_t port()</div><div class="ttdoc">Returns the port number used for the last call to connect()</div><div class="ttdef"><b>Definition:</b> <a href="tcpclient_8h_source.html#l00057">tcpclient.h:57</a></div></div>
+<div class="ttc" id="aclasstcp_1_1Client_html_a4900e6d30b3f634d4a2ce286f63c4d94"><div class="ttname"><a href="classtcp_1_1Client.html#a4900e6d30b3f634d4a2ce286f63c4d94">tcp::Client::addr</a></div><div class="ttdeci">in_addr_t addr()</div><div class="ttdoc">Returns the ip address number used for the last call to connect()</div><div class="ttdef"><b>Definition:</b> <a href="tcpclient_8h_source.html#l00063">tcpclient.h:63</a></div></div>
+<div class="ttc" id="aclasstcp_1_1Client_html_aaf0c3c78177995cde59197f414732542"><div class="ttname"><a href="classtcp_1_1Client.html#aaf0c3c78177995cde59197f414732542">tcp::Client::port</a></div><div class="ttdeci">in_port_t port()</div><div class="ttdoc">Returns the port number used for the last call to connect()</div><div class="ttdef"><b>Definition:</b> <a href="tcpclient_8h_source.html#l00060">tcpclient.h:60</a></div></div>
 <div class="ttc" id="atcpsocket_8h_html"><div class="ttname"><a href="tcpsocket_8h.html">tcpsocket.h</a></div><div class="ttdoc">Shared base classes for tcpclient.h and tcpserver.h.</div></div>
 <div class="ttc" id="anamespacetcp_html_a2c9f9abccc28c28a2d375823ca900b1b"><div class="ttname"><a href="namespacetcp.html#a2c9f9abccc28c28a2d375823ca900b1b">tcp::SocketState</a></div><div class="ttdeci">SocketState</div><div class="ttdoc">Determines the state of a socket.</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8h_source.html#l00035">tcpsocket.h:35</a></div></div>
 <div class="ttc" id="aclasstcp_1_1DataSocket_html"><div class="ttname"><a href="classtcp_1_1DataSocket.html">tcp::DataSocket</a></div><div class="ttdoc">Represents a buffered socket that can send and receive data using optional SSL encryption.</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8h_source.html#l00132">tcpsocket.h:132</a></div></div>
-<div class="ttc" id="aclasstcp_1_1SSL_html"><div class="ttname"><a href="classtcp_1_1SSL.html">tcp::SSL</a></div><div class="ttdoc">Encapsulates an SSL record.</div><div class="ttdef"><b>Definition:</b> <a href="tcpssl_8h_source.html#l00059">tcpssl.h:59</a></div></div>
+<div class="ttc" id="aclasstcp_1_1SSL_html"><div class="ttname"><a href="classtcp_1_1SSL.html">tcp::SSL</a></div><div class="ttdoc">Encapsulates an SSL connection data structure.</div><div class="ttdef"><b>Definition:</b> <a href="tcpssl_8h_source.html#l00108">tcpssl.h:108</a></div></div>
 <div class="ttc" id="aclasstcp_1_1Client_html"><div class="ttname"><a href="classtcp_1_1Client.html">tcp::Client</a></div><div class="ttdoc">A blocking or non-blocking TCP client connection.</div><div class="ttdef"><b>Definition:</b> <a href="tcpclient_8h_source.html#l00035">tcpclient.h:35</a></div></div>
-<div class="ttc" id="aclasstcp_1_1SSLContext_html"><div class="ttname"><a href="classtcp_1_1SSLContext.html">tcp::SSLContext</a></div><div class="ttdoc">Encapsulates an SSL_CTX record.</div><div class="ttdef"><b>Definition:</b> <a href="tcpssl_8h_source.html#l00041">tcpssl.h:41</a></div></div>
+<div class="ttc" id="aclasstcp_1_1SSLContext_html"><div class="ttname"><a href="classtcp_1_1SSLContext.html">tcp::SSLContext</a></div><div class="ttdoc">Encapsulates an openSSL SSL_CTX record.</div><div class="ttdef"><b>Definition:</b> <a href="tcpssl_8h_source.html#l00041">tcpssl.h:41</a></div></div>
 <div class="ttc" id="aclasstcp_1_1EPoll_html"><div class="ttname"><a href="classtcp_1_1EPoll.html">tcp::EPoll</a></div><div class="ttdoc">Encapsulates the EPoll interface.</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8h_source.html#l00049">tcpsocket.h:49</a></div></div>
-<div class="ttc" id="aclasstcp_1_1Client_html_a148632f00a7c1ef6320d8e8b36f33787"><div class="ttname"><a href="classtcp_1_1Client.html#a148632f00a7c1ef6320d8e8b36f33787">tcp::Client::state</a></div><div class="ttdeci">SocketState state()</div><div class="ttdoc">Return the client state.</div><div class="ttdef"><b>Definition:</b> <a href="tcpclient_8h_source.html#l00054">tcpclient.h:54</a></div></div>
+<div class="ttc" id="aclasstcp_1_1Client_html_a148632f00a7c1ef6320d8e8b36f33787"><div class="ttname"><a href="classtcp_1_1Client.html#a148632f00a7c1ef6320d8e8b36f33787">tcp::Client::state</a></div><div class="ttdeci">SocketState state()</div><div class="ttdoc">Return the client state.</div><div class="ttdef"><b>Definition:</b> <a href="tcpclient_8h_source.html#l00057">tcpclient.h:57</a></div></div>
 <div class="ttc" id="atcpssl_8h_html"><div class="ttname"><a href="tcpssl_8h.html">tcpssl.h</a></div><div class="ttdoc">Provides ssl client and server functionality.</div></div>
-<div class="ttc" id="aclasstcp_1_1Client_html_a954a7068c8886e04a5b13f9d8e3a4518"><div class="ttname"><a href="classtcp_1_1Client.html#a954a7068c8886e04a5b13f9d8e3a4518">tcp::Client::ctx</a></div><div class="ttdeci">static SSLContext &amp; ctx()</div><div class="ttdoc">Returns the ssl context object for all client connections.</div><div class="ttdef"><b>Definition:</b> <a href="tcpclient_8h_source.html#l00051">tcpclient.h:51</a></div></div>
+<div class="ttc" id="aclasstcp_1_1Client_html_a954a7068c8886e04a5b13f9d8e3a4518"><div class="ttname"><a href="classtcp_1_1Client.html#a954a7068c8886e04a5b13f9d8e3a4518">tcp::Client::ctx</a></div><div class="ttdeci">static SSLContext &amp; ctx()</div><div class="ttdoc">Returns the ssl context object.</div><div class="ttdef"><b>Definition:</b> <a href="tcpclient_8h_source.html#l00054">tcpclient.h:54</a></div></div>
 <div class="ttc" id="anamespacetcp_html"><div class="ttname"><a href="namespacetcp.html">tcp</a></div><div class="ttdoc">A tcp client/server library for linux that supports openSSL and EPoll.</div><div class="ttdef"><b>Definition:</b> <a href="tcpclient_8cpp_source.html#l00005">tcpclient.cpp:5</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

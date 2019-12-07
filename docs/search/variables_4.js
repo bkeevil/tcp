@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['verifypeer_124',['verifypeer',['../classtcp_1_1DataSocket.html#ad5cf967581e9d205554e9e9d002d78fc',1,'tcp::DataSocket']]]
+  ['requirescertpostvalidation_170',['requiresCertPostValidation',['../classtcp_1_1SSL.html#ae20d7fdc901966734dd2b3eef30b021a',1,'tcp::SSL']]]
 ];

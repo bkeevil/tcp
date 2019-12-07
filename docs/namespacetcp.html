@@ -116,7 +116,7 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A blocking or non-blocking TCP client connection.  <a href="classtcp_1_1Client.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtcp_1_1DataSocket.html">DataSocket</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents a buffered socket that can send and receive data using optional <a class="el" href="classtcp_1_1SSL.html" title="Encapsulates an SSL record.">SSL</a> encryption.  <a href="classtcp_1_1DataSocket.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents a buffered socket that can send and receive data using optional <a class="el" href="classtcp_1_1SSL.html" title="Encapsulates an SSL connection data structure.">SSL</a> encryption.  <a href="classtcp_1_1DataSocket.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtcp_1_1EPoll.html">EPoll</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Encapsulates the <a class="el" href="classtcp_1_1EPoll.html" title="Encapsulates the EPoll interface.">EPoll</a> interface.  <a href="classtcp_1_1EPoll.html#details">More...</a><br /></td></tr>
@@ -131,10 +131,10 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Encapsulates a socket handle that is capable of recieving epoll events.  <a href="classtcp_1_1Socket.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtcp_1_1SSL.html">SSL</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Encapsulates an <a class="el" href="classtcp_1_1SSL.html" title="Encapsulates an SSL record.">SSL</a> record.  <a href="classtcp_1_1SSL.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Encapsulates an <a class="el" href="classtcp_1_1SSL.html" title="Encapsulates an SSL connection data structure.">SSL</a> connection data structure.  <a href="classtcp_1_1SSL.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtcp_1_1SSLContext.html">SSLContext</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Encapsulates an SSL_CTX record.  <a href="classtcp_1_1SSLContext.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Encapsulates an openSSL SSL_CTX record.  <a href="classtcp_1_1SSLContext.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
@@ -173,6 +173,9 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>printSSLErrors_cb</b> 
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacetcp.html#a4e386f3935fd15d1413ab3ea56d5384d">printSSLErrors</a> ()</td></tr>
 <tr class="memdesc:a4e386f3935fd15d1413ab3ea56d5384d"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method logs openSSL errors to cerr. <br /></td></tr>
 <tr class="separator:a4e386f3935fd15d1413ab3ea56d5384d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a10cdbfc95787e461db970973680800f3"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacetcp.html#a10cdbfc95787e461db970973680800f3">wildcmp</a> (const char *wild, const char *string)</td></tr>
+<tr class="memdesc:a10cdbfc95787e461db970973680800f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wildcard compare function.  <a href="namespacetcp.html#a10cdbfc95787e461db970973680800f3">More...</a><br /></td></tr>
+<tr class="separator:a10cdbfc95787e461db970973680800f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac08eb6ac33f0fe64394f6b5a450cdb3a"><td class="memItemLeft" align="right" valign="top"><a id="ac08eb6ac33f0fe64394f6b5a450cdb3a"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacetcp.html#ac08eb6ac33f0fe64394f6b5a450cdb3a">print_cn_name</a> (const char *label, X509_NAME *const name)</td></tr>
 <tr class="memdesc:ac08eb6ac33f0fe64394f6b5a450cdb3a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prints the certificate common name to clog. <br /></td></tr>
@@ -285,7 +288,94 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>sslinitialized_</b> {
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    clog &lt;&lt; <span class="stringliteral">&quot;OpenSSL library initialized&quot;</span> &lt;&lt; endl;</div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;  }</div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;}</div>
-</div><!-- fragment -->
+</div><!-- fragment --><div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="namespacetcp_a626a96602252225a453e0e77ad9ae270_icgraph.png" border="0" usemap="#namespacetcp_a626a96602252225a453e0e77ad9ae270_icgraph" alt=""/></div>
+<map name="namespacetcp_a626a96602252225a453e0e77ad9ae270_icgraph" id="namespacetcp_a626a96602252225a453e0e77ad9ae270_icgraph">
+<area shape="rect" title="Initialize the openSSL library." alt="" coords="252,5,381,32"/>
+<area shape="rect" href="classtcp_1_1SSLContext.html#adb9100157037431e3f393780a5dd3926" title="Constructor." alt="" coords="5,5,204,32"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a10cdbfc95787e461db970973680800f3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a10cdbfc95787e461db970973680800f3">&#9670;&nbsp;</a></span>wildcmp()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int tcp::wildcmp </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>wild</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>string</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Wildcard compare function. </p>
+<p>This compare function performs comparisons against a string using the * and ? wildcard characters. </p><dl class="section remark"><dt>Remarks</dt><dd>Used internally to validate that hostName matches a certificate subjectName. Exposed because it might be useful elsewhere in a program. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="tcpssl_8cpp_source.html#l00062">62</a> of file <a class="el" href="tcpssl_8cpp_source.html">tcpssl.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                                                  {</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;  <span class="comment">// Written by Jack Handy - &lt;A href=&quot;mailto:jakkhandy@hotmail.com&quot;&gt;jakkhandy@hotmail.com&lt;/A&gt;</span></div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;  <span class="keyword">const</span> <span class="keywordtype">char</span> *cp = NULL, *mp = NULL;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;  <span class="keywordflow">while</span> ((*<span class="keywordtype">string</span>) &amp;&amp; (*wild != <span class="charliteral">&#39;*&#39;</span>)) {</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keywordflow">if</span> ((*wild != *<span class="keywordtype">string</span>) &amp;&amp; (*wild != <span class="charliteral">&#39;?&#39;</span>)) {</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;      <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    }</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    wild++;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="keywordtype">string</span>++;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;  }</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;  <span class="keywordflow">while</span> (*<span class="keywordtype">string</span>) {</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="keywordflow">if</span> (*wild == <span class="charliteral">&#39;*&#39;</span>) {</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;      <span class="keywordflow">if</span> (!*++wild) {</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        <span class="keywordflow">return</span> 1;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;      }</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;      mp = wild;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;      cp = <span class="keywordtype">string</span>+1;</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> ((*wild == *<span class="keywordtype">string</span>) || (*wild == <span class="charliteral">&#39;?&#39;</span>)) {</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;      wild++;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;      <span class="keywordtype">string</span>++;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;      wild = mp;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;      <span class="keywordtype">string</span> = cp++;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    }</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;  }</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160; </div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;  <span class="keywordflow">while</span> (*wild == <span class="charliteral">&#39;*&#39;</span>) {</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    wild++;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;  }</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;  <span class="keywordflow">return</span> !*wild;</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;}</div>
+</div><!-- fragment --><div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="namespacetcp_a10cdbfc95787e461db970973680800f3_icgraph.png" border="0" usemap="#namespacetcp_a10cdbfc95787e461db970973680800f3_icgraph" alt=""/></div>
+<map name="namespacetcp_a10cdbfc95787e461db970973680800f3_icgraph" id="namespacetcp_a10cdbfc95787e461db970973680800f3_icgraph">
+<area shape="rect" title="Wildcard compare function." alt="" coords="641,31,737,57"/>
+<area shape="rect" href="classtcp_1_1SSL.html#a3a759fefe167f90a20423514f6053088" title="Validate the peer certificate subject name." alt="" coords="388,31,593,57"/>
+<area shape="rect" href="classtcp_1_1SSL.html#aecbc01ad1e01282c0018b28fde2b4187" title="Performs a post handshake validation of the peer certificate." alt="" coords="163,23,340,65"/>
+<area shape="rect" href="classtcp_1_1SSL.html#a593e68ab2c8cad2ef003c7f92e3da6a7" title="Reads and decrypts SSL socket data." alt="" coords="7,5,113,32"/>
+<area shape="rect" href="classtcp_1_1SSL.html#ad1280f44135d2ee34703c4df7cea646a" title="Encrypts and writes SSL socket data." alt="" coords="5,56,115,83"/>
+</map>
+</div>
+
 </div>
 </div>
 </div><!-- contents -->

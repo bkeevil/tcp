@@ -118,7 +118,7 @@ $(document).ready(function(){initNavTree('tcpclient_8cpp_source.html','');});
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;  } </div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;}</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; </div>
-<div class="line"><a name="l00018"></a><span class="lineno"><a class="line" href="classtcp_1_1Client.html#ac90956469303e3869fd05b9ec5a71446">   18</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="classtcp_1_1Client.html#ac90956469303e3869fd05b9ec5a71446">Client::connect</a>(<span class="keyword">const</span> <span class="keywordtype">string</span> &amp;hostname, <span class="keyword">const</span> in_port_t port, <span class="keywordtype">bool</span> useSSL) </div>
+<div class="line"><a name="l00018"></a><span class="lineno"><a class="line" href="classtcp_1_1Client.html#a6e9a79bf8ffcae9523f7f0c4c6b77974">   18</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="classtcp_1_1Client.html#a6e9a79bf8ffcae9523f7f0c4c6b77974">Client::connect</a>(<span class="keyword">const</span> <span class="keywordtype">string</span> &amp;hostname, <span class="keyword">const</span> in_port_t port, <span class="keywordtype">bool</span> useSSL) </div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;{</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;  <span class="keyword">struct </span>addrinfo hints;</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;  <span class="keyword">struct </span>addrinfo *result, *rp;</div>
@@ -143,83 +143,85 @@ $(document).ready(function(){initNavTree('tcpclient_8cpp_source.html','');});
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keyword">delete</span> ssl_;</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    ssl_ = <span class="keyword">nullptr</span>;</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  }</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  <span class="keywordflow">if</span> (useSSL) {</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    ssl_ = <span class="keyword">new</span> <a class="code" href="classtcp_1_1SSL.html">tcp::SSL</a>(*<span class="keyword">this</span>,ctx_);</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    ssl_-&gt;setOptions(verifypeer);</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordflow">if</span> (!ssl_-&gt;setCertificateAndKey(certfile.c_str(),keyfile.c_str()))</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;      <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordflow">if</span> (!ssl_-&gt;setfd(socket()))</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;      <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  }</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  clog &lt;&lt; <span class="stringliteral">&quot;Connecting to &quot;</span> &lt;&lt; result-&gt;ai_canonname &lt;&lt; <span class="stringliteral">&quot; on port &quot;</span> &lt;&lt; service &lt;&lt; endl;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;  clog.flush();</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  <span class="keywordflow">for</span> (rp = result; rp != <span class="keyword">nullptr</span>; rp = rp-&gt;ai_next) {</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordflow">if</span> (::connect(socket(),rp-&gt;ai_addr,rp-&gt;ai_addrlen) == -1) {</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;      <span class="keywordflow">if</span> (errno == EINPROGRESS) {</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        state_ = SocketState::CONNECTING;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        setEvents(EPOLLIN | EPOLLOUT | EPOLLRDHUP);</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;      } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        setEvents(0);</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        cerr &lt;&lt; <span class="stringliteral">&quot;connect: &quot;</span> &lt;&lt; strerror(errno) &lt;&lt; endl;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;      }</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;      connected();</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;      <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    }</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;  }</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;  cerr &lt;&lt; <span class="stringliteral">&quot;Could not find host &quot;</span> &lt;&lt; hostname &lt;&lt; endl;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;  freeaddrinfo(result);           <span class="comment">/* No longer needed */</span>  </div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;  <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;}</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  <span class="keywordflow">if</span> (useSSL) {</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    ssl_ = createSSL(ctx_);</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    ssl_-&gt;setOptions(verifyPeer);</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordflow">if</span> (verifyPeer &amp;&amp; checkPeerSubjectName) {</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;      ssl_-&gt;requiresCertPostValidation = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;      ssl_-&gt;setHostname(hostname);</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    }</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordflow">if</span> (!ssl_-&gt;setCertificateAndKey(certfile.c_str(),keyfile.c_str()))</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;      <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordflow">if</span> (!ssl_-&gt;setfd(socket()))</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;      <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  }</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;  clog &lt;&lt; <span class="stringliteral">&quot;Connecting to &quot;</span> &lt;&lt; result-&gt;ai_canonname &lt;&lt; <span class="stringliteral">&quot; on port &quot;</span> &lt;&lt; service &lt;&lt; endl;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;  clog.flush();</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;  <span class="keywordflow">for</span> (rp = result; rp != <span class="keyword">nullptr</span>; rp = rp-&gt;ai_next) {</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordflow">if</span> (::connect(socket(),rp-&gt;ai_addr,rp-&gt;ai_addrlen) == -1) {</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;      <span class="keywordflow">if</span> (errno == EINPROGRESS) {</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        state_ = SocketState::CONNECTING;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        setEvents(EPOLLIN | EPOLLOUT | EPOLLRDHUP);</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;      } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        setEvents(0);</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        cerr &lt;&lt; <span class="stringliteral">&quot;connect: &quot;</span> &lt;&lt; strerror(errno) &lt;&lt; endl;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;      }</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;      connected();</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;      <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    }</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;  }</div>
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160; </div>
-<div class="line"><a name="l00077"></a><span class="lineno"><a class="line" href="classtcp_1_1Client.html#aad864d7410c858a25ccae384f18344cf">   77</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classtcp_1_1Client.html#aad864d7410c858a25ccae384f18344cf">Client::handleEvents</a>(uint32_t events) {</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;  <span class="keywordflow">if</span> (state_ == SocketState::CONNECTING) {</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keywordflow">if</span> (events &amp; EPOLLERR) {</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;      cerr &lt;&lt; <span class="stringliteral">&quot;handleEvents: &quot;</span> &lt;&lt; strerror(errno) &lt;&lt; endl;      </div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    }</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="keywordflow">if</span> (events &amp; EPOLLRDHUP) {</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;      state_ = SocketState::UNCONNECTED;</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;      <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    }</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keywordflow">if</span> (events &amp; EPOLLOUT) {</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;      connected();</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    }</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;  } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <a class="code" href="classtcp_1_1DataSocket.html#ad6e7e376a28de7cb0b1270be7a170ab4">DataSocket::handleEvents</a>(events);</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;  }</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;}</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160; </div>
-<div class="line"><a name="l00094"></a><span class="lineno"><a class="line" href="classtcp_1_1Client.html#ac824636e255d76a8bd20b0fafd57e3e0">   94</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classtcp_1_1Client.html#ac824636e255d76a8bd20b0fafd57e3e0">Client::connected</a>() {</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;  <span class="keywordflow">if</span> (ssl_) {</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    ssl_-&gt;connect();</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    <a class="code" href="namespacetcp.html#a4e386f3935fd15d1413ab3ea56d5384d">printSSLErrors</a>();</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;  }</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;  state_ = SocketState::CONNECTED;</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;  clog &lt;&lt; <span class="stringliteral">&quot;Connected&quot;</span> &lt;&lt; endl;</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;  clog.flush();  </div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;}</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160; </div>
-<div class="line"><a name="l00104"></a><span class="lineno"><a class="line" href="classtcp_1_1Client.html#ae3a6955a856204ed74c181316365884d">  104</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classtcp_1_1Client.html#ae3a6955a856204ed74c181316365884d">Client::disconnect</a>() {</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;  <a class="code" href="classtcp_1_1DataSocket.html#ac0364f0b64f59bf3645f790c8c66c7e8">DataSocket::disconnect</a>();</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;}</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160; </div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;} <span class="comment">// namespace mqttS</span></div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;  cerr &lt;&lt; <span class="stringliteral">&quot;Could not find host &quot;</span> &lt;&lt; hostname &lt;&lt; endl;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;  freeaddrinfo(result);           <span class="comment">/* No longer needed */</span>  </div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;  <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;}</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160; </div>
+<div class="line"><a name="l00082"></a><span class="lineno"><a class="line" href="classtcp_1_1Client.html#ac824636e255d76a8bd20b0fafd57e3e0">   82</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classtcp_1_1Client.html#ac824636e255d76a8bd20b0fafd57e3e0">Client::connected</a>() {</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;  <span class="keywordflow">if</span> (ssl_) {</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    ssl_-&gt;connect();</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <a class="code" href="namespacetcp.html#a4e386f3935fd15d1413ab3ea56d5384d">printSSLErrors</a>(); </div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    readToInputBuffer();</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;  }</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    </div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;  state_ = SocketState::CONNECTED;</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;  clog &lt;&lt; <span class="stringliteral">&quot;Connected&quot;</span> &lt;&lt; endl;</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160; </div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;  clog.flush();  </div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;}</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160; </div>
+<div class="line"><a name="l00095"></a><span class="lineno"><a class="line" href="classtcp_1_1Client.html#aad864d7410c858a25ccae384f18344cf">   95</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classtcp_1_1Client.html#aad864d7410c858a25ccae384f18344cf">Client::handleEvents</a>(uint32_t events) </div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;{</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;  <span class="keywordflow">if</span> (state_ == SocketState::CONNECTING) {</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    <span class="keywordflow">if</span> (events &amp; EPOLLERR) {</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;      cerr &lt;&lt; <span class="stringliteral">&quot;handleEvents: &quot;</span> &lt;&lt; strerror(errno) &lt;&lt; endl;      </div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    }</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    <span class="keywordflow">if</span> (events &amp; EPOLLRDHUP) {</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;      state_ = SocketState::UNCONNECTED;</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;      <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    }</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    <span class="keywordflow">if</span> (events &amp; EPOLLOUT) {</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;      connected();</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    }</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;  } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    <a class="code" href="classtcp_1_1DataSocket.html#ad6e7e376a28de7cb0b1270be7a170ab4">DataSocket::handleEvents</a>(events);</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;  }</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;}</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160; </div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;} <span class="comment">// namespace mqttS</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="anamespacetcp_html_a4e386f3935fd15d1413ab3ea56d5384d"><div class="ttname"><a href="namespacetcp.html#a4e386f3935fd15d1413ab3ea56d5384d">tcp::printSSLErrors</a></div><div class="ttdeci">void printSSLErrors()</div><div class="ttdoc">This method logs openSSL errors to cerr.</div><div class="ttdef"><b>Definition:</b> <a href="tcpssl_8cpp_source.html#l00056">tcpssl.cpp:56</a></div></div>
-<div class="ttc" id="aclasstcp_1_1Client_html_aad864d7410c858a25ccae384f18344cf"><div class="ttname"><a href="classtcp_1_1Client.html#aad864d7410c858a25ccae384f18344cf">tcp::Client::handleEvents</a></div><div class="ttdeci">void handleEvents(uint32_t events) override</div><div class="ttdoc">Called by the EPoll object to process OS events sent to this handle.</div><div class="ttdef"><b>Definition:</b> <a href="tcpclient_8cpp_source.html#l00077">tcpclient.cpp:77</a></div></div>
-<div class="ttc" id="aclasstcp_1_1SSL_html"><div class="ttname"><a href="classtcp_1_1SSL.html">tcp::SSL</a></div><div class="ttdoc">Encapsulates an SSL record.</div><div class="ttdef"><b>Definition:</b> <a href="tcpssl_8h_source.html#l00059">tcpssl.h:59</a></div></div>
-<div class="ttc" id="aclasstcp_1_1Client_html_ac824636e255d76a8bd20b0fafd57e3e0"><div class="ttname"><a href="classtcp_1_1Client.html#ac824636e255d76a8bd20b0fafd57e3e0">tcp::Client::connected</a></div><div class="ttdeci">virtual void connected()</div><div class="ttdoc">An event handler called when the client connects to the server.</div><div class="ttdef"><b>Definition:</b> <a href="tcpclient_8cpp_source.html#l00094">tcpclient.cpp:94</a></div></div>
-<div class="ttc" id="aclasstcp_1_1Client_html_ac90956469303e3869fd05b9ec5a71446"><div class="ttname"><a href="classtcp_1_1Client.html#ac90956469303e3869fd05b9ec5a71446">tcp::Client::connect</a></div><div class="ttdeci">virtual bool connect(const string &amp;hostname, const in_port_t port, bool useSSL=false)</div><div class="ttdoc">Initiates a connection to a server.</div><div class="ttdef"><b>Definition:</b> <a href="tcpclient_8cpp_source.html#l00018">tcpclient.cpp:18</a></div></div>
-<div class="ttc" id="aclasstcp_1_1DataSocket_html_ac0364f0b64f59bf3645f790c8c66c7e8"><div class="ttname"><a href="classtcp_1_1DataSocket.html#ac0364f0b64f59bf3645f790c8c66c7e8">tcp::DataSocket::disconnect</a></div><div class="ttdeci">void disconnect() override</div><div class="ttdoc">Shuts down any SSL connection gracefully.</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8cpp_source.html#l00177">tcpsocket.cpp:177</a></div></div>
-<div class="ttc" id="aclasstcp_1_1SSLContext_html"><div class="ttname"><a href="classtcp_1_1SSLContext.html">tcp::SSLContext</a></div><div class="ttdoc">Encapsulates an SSL_CTX record.</div><div class="ttdef"><b>Definition:</b> <a href="tcpssl_8h_source.html#l00041">tcpssl.h:41</a></div></div>
+<div class="ttc" id="aclasstcp_1_1Client_html_aad864d7410c858a25ccae384f18344cf"><div class="ttname"><a href="classtcp_1_1Client.html#aad864d7410c858a25ccae384f18344cf">tcp::Client::handleEvents</a></div><div class="ttdeci">void handleEvents(uint32_t events) override</div><div class="ttdoc">Receive epoll events sent to this socket.</div><div class="ttdef"><b>Definition:</b> <a href="tcpclient_8cpp_source.html#l00095">tcpclient.cpp:95</a></div></div>
+<div class="ttc" id="aclasstcp_1_1Client_html_ac824636e255d76a8bd20b0fafd57e3e0"><div class="ttname"><a href="classtcp_1_1Client.html#ac824636e255d76a8bd20b0fafd57e3e0">tcp::Client::connected</a></div><div class="ttdeci">virtual void connected()</div><div class="ttdoc">Called when the client connects to the server.</div><div class="ttdef"><b>Definition:</b> <a href="tcpclient_8cpp_source.html#l00082">tcpclient.cpp:82</a></div></div>
+<div class="ttc" id="aclasstcp_1_1SSLContext_html"><div class="ttname"><a href="classtcp_1_1SSLContext.html">tcp::SSLContext</a></div><div class="ttdoc">Encapsulates an openSSL SSL_CTX record.</div><div class="ttdef"><b>Definition:</b> <a href="tcpssl_8h_source.html#l00041">tcpssl.h:41</a></div></div>
 <div class="ttc" id="aclasstcp_1_1Client_html_acb6c5cbd281a789dfe5ee38985dc9a1b"><div class="ttname"><a href="classtcp_1_1Client.html#acb6c5cbd281a789dfe5ee38985dc9a1b">tcp::Client::~Client</a></div><div class="ttdeci">virtual ~Client()</div><div class="ttdoc">Destroys the client.</div><div class="ttdef"><b>Definition:</b> <a href="tcpclient_8cpp_source.html#l00011">tcpclient.cpp:11</a></div></div>
-<div class="ttc" id="aclasstcp_1_1Client_html_ae3a6955a856204ed74c181316365884d"><div class="ttname"><a href="classtcp_1_1Client.html#ae3a6955a856204ed74c181316365884d">tcp::Client::disconnect</a></div><div class="ttdeci">virtual void disconnect()</div><div class="ttdoc">Disconnects the session gracefully.</div><div class="ttdef"><b>Definition:</b> <a href="tcpclient_8cpp_source.html#l00104">tcpclient.cpp:104</a></div></div>
+<div class="ttc" id="aclasstcp_1_1Client_html_a6e9a79bf8ffcae9523f7f0c4c6b77974"><div class="ttname"><a href="classtcp_1_1Client.html#a6e9a79bf8ffcae9523f7f0c4c6b77974">tcp::Client::connect</a></div><div class="ttdeci">virtual bool connect(const string &amp;hostName, in_port_t port, bool useSSL=false)</div><div class="ttdoc">Initiates a connection to a server.</div><div class="ttdef"><b>Definition:</b> <a href="tcpclient_8cpp_source.html#l00018">tcpclient.cpp:18</a></div></div>
 <div class="ttc" id="aclasstcp_1_1DataSocket_html_ad6e7e376a28de7cb0b1270be7a170ab4"><div class="ttname"><a href="classtcp_1_1DataSocket.html#ad6e7e376a28de7cb0b1270be7a170ab4">tcp::DataSocket::handleEvents</a></div><div class="ttdeci">void handleEvents(uint32_t events) override</div><div class="ttdoc">Called by the EPoll class when the listening socket recieves an epoll event.</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8cpp_source.html#l00243">tcpsocket.cpp:243</a></div></div>
 <div class="ttc" id="atcpclient_8h_html"><div class="ttname"><a href="tcpclient_8h.html">tcpclient.h</a></div><div class="ttdoc">Provides basic tcp client functionality.</div></div>
 <div class="ttc" id="anamespacetcp_html"><div class="ttname"><a href="namespacetcp.html">tcp</a></div><div class="ttdoc">A tcp client/server library for linux that supports openSSL and EPoll.</div><div class="ttdef"><b>Definition:</b> <a href="tcpclient_8cpp_source.html#l00005">tcpclient.cpp:5</a></div></div>

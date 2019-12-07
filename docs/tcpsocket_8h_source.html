@@ -186,7 +186,7 @@ $(document).ready(function(){initNavTree('tcpsocket_8h_source.html','');});
 <div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;    </div>
 <div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;    <span class="keywordtype">size_t</span> write(<span class="keyword">const</span> <span class="keywordtype">void</span> *buffer, <span class="keywordtype">size_t</span> size);</div>
 <div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160; </div>
-<div class="line"><a name="l00149"></a><span class="lineno"><a class="line" href="classtcp_1_1DataSocket.html#ad5cf967581e9d205554e9e9d002d78fc">  149</a></span>&#160;    <span class="keywordtype">bool</span> verifypeer {<span class="keyword">false</span>};</div>
+<div class="line"><a name="l00149"></a><span class="lineno"><a class="line" href="classtcp_1_1DataSocket.html#a7c8ce4d71efe61703b141a4738fcada4">  149</a></span>&#160;    <span class="keywordtype">bool</span> verifyPeer {<span class="keyword">false</span>};</div>
 <div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160; </div>
 <div class="line"><a name="l00152"></a><span class="lineno"><a class="line" href="classtcp_1_1DataSocket.html#aa2ae19daf1b9079dbebd042ca14a6791">  152</a></span>&#160;    <span class="keywordtype">string</span> <a class="code" href="classtcp_1_1DataSocket.html#aa2ae19daf1b9079dbebd042ca14a6791">certfile</a>;</div>
 <div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160; </div>
@@ -210,19 +210,19 @@ $(document).ready(function(){initNavTree('tcpsocket_8h_source.html','');});
 <div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160; </div>
 <div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> dataAvailable() = 0;</div>
 <div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160; </div>
-<div class="line"><a name="l00194"></a><span class="lineno"><a class="line" href="classtcp_1_1DataSocket.html#af69fd8106c3210fd6db39f50cf3bc680">  194</a></span>&#160;    <a class="code" href="classtcp_1_1SSL.html">SSL</a> *ssl_ {<span class="keyword">nullptr</span>};</div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160; </div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;  <span class="keyword">private</span>:    </div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;    <span class="keywordtype">size_t</span> read_(<span class="keywordtype">void</span> *buffer, <span class="keywordtype">size_t</span> size);</div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;    <span class="keywordtype">size_t</span> write_(<span class="keyword">const</span> <span class="keywordtype">void</span> *buffer, <span class="keywordtype">size_t</span> size);</div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;    deque&lt;uint8_t&gt; inputBuffer;</div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;    deque&lt;uint8_t&gt; outputBuffer;</div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;    <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classtcp_1_1SSL.html">SSL</a>;</div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;};</div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160; </div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;} <span class="comment">// namespace tcp</span></div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160; </div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;<span class="preprocessor">#endif // include guard</span></div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;    <a class="code" href="classtcp_1_1SSL.html">SSL</a> *createSSL(<a class="code" href="classtcp_1_1SSLContext.html">SSLContext</a> &amp;context);</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160; </div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;  <span class="keyword">private</span>:    </div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;    <span class="keywordtype">size_t</span> read_(<span class="keywordtype">void</span> *buffer, <span class="keywordtype">size_t</span> size);</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;    <span class="keywordtype">size_t</span> write_(<span class="keyword">const</span> <span class="keywordtype">void</span> *buffer, <span class="keywordtype">size_t</span> size);</div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;    deque&lt;uint8_t&gt; inputBuffer;</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;    deque&lt;uint8_t&gt; outputBuffer;</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;    <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classtcp_1_1SSL.html">SSL</a>;</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;};</div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160; </div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;} <span class="comment">// namespace tcp</span></div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160; </div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;<span class="preprocessor">#endif // include guard</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="aclasstcp_1_1Socket_html_afb5727be64aa85dd1c88105870541a9a"><div class="ttname"><a href="classtcp_1_1Socket.html#afb5727be64aa85dd1c88105870541a9a">tcp::Socket::epoll</a></div><div class="ttdeci">EPoll &amp; epoll()</div><div class="ttdoc">Returns a reference to the epoll instance used by this socket.</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8h_source.html#l00117">tcpsocket.h:117</a></div></div>
@@ -230,10 +230,11 @@ $(document).ready(function(){initNavTree('tcpsocket_8h_source.html','');});
 <div class="ttc" id="aclasstcp_1_1DataSocket_html_aa4fe90d294c4ed4f4f71087ed076cbb5"><div class="ttname"><a href="classtcp_1_1DataSocket.html#aa4fe90d294c4ed4f4f71087ed076cbb5">tcp::DataSocket::keyfile</a></div><div class="ttdeci">string keyfile</div><div class="ttdoc">The filename of the openSSL private key in PEM format.</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8h_source.html#l00155">tcpsocket.h:155</a></div></div>
 <div class="ttc" id="anamespacetcp_html_a2c9f9abccc28c28a2d375823ca900b1b"><div class="ttname"><a href="namespacetcp.html#a2c9f9abccc28c28a2d375823ca900b1b">tcp::SocketState</a></div><div class="ttdeci">SocketState</div><div class="ttdoc">Determines the state of a socket.</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8h_source.html#l00035">tcpsocket.h:35</a></div></div>
 <div class="ttc" id="aclasstcp_1_1DataSocket_html"><div class="ttname"><a href="classtcp_1_1DataSocket.html">tcp::DataSocket</a></div><div class="ttdoc">Represents a buffered socket that can send and receive data using optional SSL encryption.</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8h_source.html#l00132">tcpsocket.h:132</a></div></div>
-<div class="ttc" id="aclasstcp_1_1SSL_html"><div class="ttname"><a href="classtcp_1_1SSL.html">tcp::SSL</a></div><div class="ttdoc">Encapsulates an SSL record.</div><div class="ttdef"><b>Definition:</b> <a href="tcpssl_8h_source.html#l00059">tcpssl.h:59</a></div></div>
+<div class="ttc" id="aclasstcp_1_1SSL_html"><div class="ttname"><a href="classtcp_1_1SSL.html">tcp::SSL</a></div><div class="ttdoc">Encapsulates an SSL connection data structure.</div><div class="ttdef"><b>Definition:</b> <a href="tcpssl_8h_source.html#l00108">tcpssl.h:108</a></div></div>
 <div class="ttc" id="aclasstcp_1_1Socket_html_a72f08cd52de1480fef5f8b120ab73da7"><div class="ttname"><a href="classtcp_1_1Socket.html#a72f08cd52de1480fef5f8b120ab73da7">tcp::Socket::state_</a></div><div class="ttdeci">SocketState state_</div><div class="ttdoc">Descendant classes can manipulate the socket state directly.</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8h_source.html#l00120">tcpsocket.h:120</a></div></div>
 <div class="ttc" id="aclasstcp_1_1DataSocket_html_a4ab7473a48684200eba7eed80c9fc810"><div class="ttname"><a href="classtcp_1_1DataSocket.html#a4ab7473a48684200eba7eed80c9fc810">tcp::DataSocket::keypass</a></div><div class="ttdeci">string keypass</div><div class="ttdoc">The password for the private key file, if required.</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8h_source.html#l00158">tcpsocket.h:158</a></div></div>
 <div class="ttc" id="aclasstcp_1_1DataSocket_html_ab4f93153ab86b43018387bed21b66a76"><div class="ttname"><a href="classtcp_1_1DataSocket.html#ab4f93153ab86b43018387bed21b66a76">tcp::DataSocket::available</a></div><div class="ttdeci">size_t available()</div><div class="ttdoc">Returns the number of bytes available in the inputBuffer.</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8h_source.html#l00138">tcpsocket.h:138</a></div></div>
+<div class="ttc" id="aclasstcp_1_1SSLContext_html"><div class="ttname"><a href="classtcp_1_1SSLContext.html">tcp::SSLContext</a></div><div class="ttdoc">Encapsulates an openSSL SSL_CTX record.</div><div class="ttdef"><b>Definition:</b> <a href="tcpssl_8h_source.html#l00041">tcpssl.h:41</a></div></div>
 <div class="ttc" id="aclasstcp_1_1Socket_html_af4995f805c9976807f7fefd1dc90689e"><div class="ttname"><a href="classtcp_1_1Socket.html#af4995f805c9976807f7fefd1dc90689e">tcp::Socket::socket</a></div><div class="ttdeci">int socket() const</div><div class="ttdoc">Return the linux socket handle.</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8h_source.html#l00088">tcpsocket.h:88</a></div></div>
 <div class="ttc" id="aclasstcp_1_1EPoll_html"><div class="ttname"><a href="classtcp_1_1EPoll.html">tcp::EPoll</a></div><div class="ttdoc">Encapsulates the EPoll interface.</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8h_source.html#l00049">tcpsocket.h:49</a></div></div>
 <div class="ttc" id="atcpssl_8h_html"><div class="ttname"><a href="tcpssl_8h.html">tcpssl.h</a></div><div class="ttdoc">Provides ssl client and server functionality.</div></div>

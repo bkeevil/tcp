@@ -1,7 +1,6 @@
 var searchData=
 [
-  ['_7eclient_113',['~Client',['../classtcp_1_1Client.html#acb6c5cbd281a789dfe5ee38985dc9a1b',1,'tcp::Client']]],
-  ['_7eserver_114',['~Server',['../classtcp_1_1Server.html#a5e9ca770b9797466ef4206cc9b78585d',1,'tcp::Server']]],
-  ['_7esession_115',['~Session',['../classtcp_1_1Session.html#a2aabc44c9cbe31d562afd446c863cf3a',1,'tcp::Session']]],
-  ['_7esocket_116',['~Socket',['../classtcp_1_1Socket.html#ad4e0b338142a29e913b906225c0584ec',1,'tcp::Socket']]]
+  ['validatesubjectname_151',['validateSubjectName',['../classtcp_1_1SSL.html#a3a759fefe167f90a20423514f6053088',1,'tcp::SSL']]],
+  ['verify_5fcallback_152',['verify_callback',['../namespacetcp.html#af35eb16fc64325797d378578291721b9',1,'tcp']]],
+  ['verifyresult_153',['verifyResult',['../classtcp_1_1SSL.html#ace1b585c2218080ccc57e4b490293ee0',1,'tcp::SSL']]]
 ];
