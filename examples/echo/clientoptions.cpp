@@ -3,6 +3,10 @@
 #include <stdint.h>
 #include "clientoptions.h"
 #include "boost/program_options/parsers.hpp"
+#include <boost/filesystem.hpp>
+#include <boost/filesystem/path.hpp>
+#include <boost/filesystem/operations.hpp>
+#include <boost/algorithm/string/trim.hpp>
 
 void ProgramOptions::setup()
 {

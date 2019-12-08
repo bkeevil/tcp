@@ -16,13 +16,13 @@ If you have Doxygen set up on your machine, go to the repository root type `doxy
 
 ## Build Instructions
 
-Install build environment and library dependencies
+Install build environment and library dependencies.
 
 ``` bash 
 apt-get install -y build-essential cmake doxygen libboost-all-dev libssl-dev 
 ```
 
-The boost library is only required to build the example programs, which use the program_options library.
+The boost library is only required to build the example programs, which use the system, filesystem and program_options libraries.
 
 Use cmake to configure and build the library
 
