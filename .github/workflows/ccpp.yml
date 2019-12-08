@@ -1,6 +1,8 @@
-name: C/C++ CI
+name: C/C++ Ubuntu Build
 
-on: [push]
+on:
+  push:
+    branches: master
 
 jobs:
   build:
@@ -9,20 +11,23 @@ jobs:
     
     steps:
     - uses: actions/checkout@master
-    - name: make build dir
+    - name: install libboost
+      run: sudo apt-get install -y libboost-program-options-dev
+    - name: create build dir
       run: mkdir build
     - name: run cmake
       working-directory: build
+      timeout-minutes: 3
       run: cmake ..
-    - name: configure
+    - name: make tcp
       working-directory: build
-      run: ./configure
-    - name: make all
+      continue-on-error: true
+      run: make tcp
+    - name: make echoserver
       working-directory: build
-      run: make all
-    - name: make check
+      continue-on-error: true
+      run: make echoserver
+    - name: make echoclient
       working-directory: build
-      run: make check
-    - name: make distcheck
-      working-directory: build
-      run: make distcheck
+      continue-on-error: true
+      run: make echoclient
