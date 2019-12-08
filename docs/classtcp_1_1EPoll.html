@@ -129,7 +129,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>Socket</b></td></tr>
 <p>Appropriate events are added/remove from the epoll event list when a <a class="el" href="classtcp_1_1Socket.html" title="Encapsulates a socket handle that is capable of recieving epoll events.">tcp::Socket</a> is created/destroyed. See the protected <a class="el" href="classtcp_1_1Socket.html#a5ed00a56d910790a50da518f3731ac01" title="Changes which epoll events the socket listens for.">tcp::Socket.setEvents()</a> method if you need to change which events a socket listens to.</p>
 <p>When incoming events are recieved, they are automatically dispatched to the virtual <a class="el" href="classtcp_1_1Socket.html#a29e680be01356d68416f1e28d78a8397" title="Called when the socket recieves an epoll event.">Socket.handleEvents()</a> method. </p>
 
-<p class="definition">Definition at line <a class="el" href="tcpsocket_8h_source.html#l00049">49</a> of file <a class="el" href="tcpsocket_8h_source.html">tcpsocket.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tcpsocket_8h_source.html#l00050">50</a> of file <a class="el" href="tcpsocket_8h_source.html">tcpsocket.h</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a488cbb7c14476a9bff6cf6376a7a283e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a488cbb7c14476a9bff6cf6376a7a283e">&#9670;&nbsp;</a></span>poll()</h2>
@@ -155,18 +155,18 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>Socket</b></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="tcpsocket_8cpp_source.html#l00063">63</a> of file <a class="el" href="tcpsocket_8cpp_source.html">tcpsocket.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;{  </div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;  <span class="keywordtype">int</span> nfds = epoll_wait(handle_,events,MAX_EVENTS,timeout); </div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;  <span class="keywordflow">if</span> (nfds == -1) {</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keywordflow">if</span> (errno != EINTR) </div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;      cerr &lt;&lt; <span class="stringliteral">&quot;epoll_wait: &quot;</span> &lt;&lt; strerror(errno) &lt;&lt; endl;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;  } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> n = 0; n &lt; nfds; ++n) {</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;      handleEvents(events[n].events,events[n].data.fd);</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    }</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;  }</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;}</div>
+<p class="definition">Definition at line <a class="el" href="tcpsocket_8cpp_source.html#l00064">64</a> of file <a class="el" href="tcpsocket_8cpp_source.html">tcpsocket.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;{  </div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;  <span class="keywordtype">int</span> nfds = epoll_wait(handle_,events,MAX_EVENTS,timeout); </div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;  <span class="keywordflow">if</span> (nfds == -1) {</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keywordflow">if</span> (errno != EINTR) </div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;      cerr &lt;&lt; <span class="stringliteral">&quot;epoll_wait: &quot;</span> &lt;&lt; strerror(errno) &lt;&lt; endl;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;  } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> n = 0; n &lt; nfds; ++n) {</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;      handleEvents(events[n].events,events[n].data.fd);</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    }</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;  }</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;}</div>
 </div><!-- fragment -->
 </div>
 </div>

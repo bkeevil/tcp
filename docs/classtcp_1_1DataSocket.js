@@ -16,5 +16,6 @@ var classtcp_1_1DataSocket =
     [ "certfile", "classtcp_1_1DataSocket.html#aa2ae19daf1b9079dbebd042ca14a6791", null ],
     [ "keyfile", "classtcp_1_1DataSocket.html#aa4fe90d294c4ed4f4f71087ed076cbb5", null ],
     [ "keypass", "classtcp_1_1DataSocket.html#a4ab7473a48684200eba7eed80c9fc810", null ],
+    [ "ssl_", "classtcp_1_1DataSocket.html#af69fd8106c3210fd6db39f50cf3bc680", null ],
     [ "verifyPeer", "classtcp_1_1DataSocket.html#a7c8ce4d71efe61703b141a4738fcada4", null ]
 ];

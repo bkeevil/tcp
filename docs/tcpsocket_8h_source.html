@@ -120,128 +120,134 @@ $(document).ready(function(){initNavTree('tcpsocket_8h_source.html','');});
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">using namespace </span>std;</div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keyword">class </span>Socket;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="namespacetcp.html#a2c9f9abccc28c28a2d375823ca900b1b">   35</a></span>&#160;<span class="keyword">enum class</span> <a class="code" href="namespacetcp.html#a2c9f9abccc28c28a2d375823ca900b1b">SocketState</a> {UNCONNECTED=0, LISTENING, CONNECTING, CONNECTED, DISCONNECTED};</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
-<div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="classtcp_1_1EPoll.html">   49</a></span>&#160;<span class="keyword">class </span><a class="code" href="classtcp_1_1EPoll.html">EPoll</a> {</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <a class="code" href="classtcp_1_1EPoll.html">EPoll</a>();</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    ~<a class="code" href="classtcp_1_1EPoll.html">EPoll</a>();</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordtype">void</span> poll(<span class="keywordtype">int</span> timeout); </div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> MAX_EVENTS = 10; </div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keywordtype">bool</span> add(<a class="code" href="classtcp_1_1Socket.html">Socket</a>&amp; socket, <span class="keywordtype">int</span> events);</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordtype">bool</span> update(<a class="code" href="classtcp_1_1Socket.html">Socket</a>&amp; socket, <span class="keywordtype">int</span> events);</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordtype">bool</span> remove(<a class="code" href="classtcp_1_1Socket.html">Socket</a>&amp; socket);    </div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordtype">void</span> handleEvents(uint32_t events, <span class="keywordtype">int</span> fd);</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keywordtype">int</span> handle_;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    epoll_event events[MAX_EVENTS];</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    std::map&lt;int,tcp::Socket*&gt; sockets;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classtcp_1_1Socket.html">Socket</a>;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;};</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
-<div class="line"><a name="l00069"></a><span class="lineno"><a class="line" href="classtcp_1_1Socket.html">   69</a></span>&#160;<span class="keyword">class </span><a class="code" href="classtcp_1_1Socket.html">Socket</a> {</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;  <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;  </div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <a class="code" href="classtcp_1_1Socket.html">Socket</a>(<a class="code" href="classtcp_1_1EPoll.html">EPoll</a> &amp;epoll, <span class="keyword">const</span> <span class="keywordtype">int</span> domain = AF_INET, <span class="keyword">const</span> <span class="keywordtype">int</span> socket = 0, <span class="keyword">const</span> <span class="keywordtype">bool</span> blocking = <span class="keyword">false</span>, <span class="keyword">const</span> <span class="keywordtype">int</span> events = (EPOLLIN | EPOLLRDHUP));</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160; </div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    ~<a class="code" href="classtcp_1_1Socket.html">Socket</a>();</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;  </div>
-<div class="line"><a name="l00088"></a><span class="lineno"><a class="line" href="classtcp_1_1Socket.html#af4995f805c9976807f7fefd1dc90689e">   88</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="classtcp_1_1Socket.html#af4995f805c9976807f7fefd1dc90689e">socket</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> socket_; }</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    </div>
-<div class="line"><a name="l00091"></a><span class="lineno"><a class="line" href="classtcp_1_1Socket.html#ab59208f2458274e28402b230cb4d6310">   91</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="classtcp_1_1Socket.html#ab59208f2458274e28402b230cb4d6310">domain</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> domain_; }</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160; </div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> disconnect();</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160; </div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;  <span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160; </div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    <span class="keywordtype">bool</span> setEvents(<span class="keywordtype">int</span> events);</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160; </div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> handleEvents(uint32_t events) = 0;</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160; </div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> disconnected();</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160; </div>
-<div class="line"><a name="l00114"></a><span class="lineno"><a class="line" href="classtcp_1_1Socket.html#a2f9da75083a9c40fa1a56f916fe4cc03">  114</a></span>&#160;    recursive_mutex <a class="code" href="classtcp_1_1Socket.html#a2f9da75083a9c40fa1a56f916fe4cc03">mtx</a>;</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160; </div>
-<div class="line"><a name="l00117"></a><span class="lineno"><a class="line" href="classtcp_1_1Socket.html#afb5727be64aa85dd1c88105870541a9a">  117</a></span>&#160;    <a class="code" href="classtcp_1_1EPoll.html">EPoll</a> &amp;<a class="code" href="classtcp_1_1Socket.html#afb5727be64aa85dd1c88105870541a9a">epoll</a>() { <span class="keywordflow">return</span> epoll_; }</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160; </div>
-<div class="line"><a name="l00120"></a><span class="lineno"><a class="line" href="classtcp_1_1Socket.html#a72f08cd52de1480fef5f8b120ab73da7">  120</a></span>&#160;    <a class="code" href="namespacetcp.html#a2c9f9abccc28c28a2d375823ca900b1b">SocketState</a> <a class="code" href="classtcp_1_1Socket.html#a72f08cd52de1480fef5f8b120ab73da7">state_</a>;    </div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160; </div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;  <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    <a class="code" href="classtcp_1_1EPoll.html">EPoll</a> &amp;epoll_;</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    <span class="keywordtype">int</span> events_;</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    <span class="keywordtype">int</span> domain_;</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    <span class="keywordtype">int</span> socket_;</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classtcp_1_1EPoll.html">EPoll</a>;</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;};</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160; </div>
-<div class="line"><a name="l00132"></a><span class="lineno"><a class="line" href="classtcp_1_1DataSocket.html">  132</a></span>&#160;<span class="keyword">class </span><a class="code" href="classtcp_1_1DataSocket.html">DataSocket</a> : <span class="keyword">public</span> <a class="code" href="classtcp_1_1Socket.html">Socket</a> {</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;  <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    <a class="code" href="classtcp_1_1DataSocket.html">DataSocket</a>(<a class="code" href="classtcp_1_1EPoll.html">EPoll</a> &amp;epoll, <span class="keyword">const</span> <span class="keywordtype">int</span> domain = AF_INET, <span class="keyword">const</span> <span class="keywordtype">int</span> socket = 0, <span class="keyword">const</span> <span class="keywordtype">bool</span> blocking = <span class="keyword">false</span>, <span class="keyword">const</span> <span class="keywordtype">int</span> events = (EPOLLIN | EPOLLRDHUP)) :</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;      <a class="code" href="classtcp_1_1Socket.html">Socket</a>(epoll,domain,socket,blocking,events) {}</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160; </div>
-<div class="line"><a name="l00138"></a><span class="lineno"><a class="line" href="classtcp_1_1DataSocket.html#ab4f93153ab86b43018387bed21b66a76">  138</a></span>&#160;    <span class="keywordtype">size_t</span> <a class="code" href="classtcp_1_1DataSocket.html#ab4f93153ab86b43018387bed21b66a76">available</a>() { <span class="keywordflow">return</span> inputBuffer.size(); }</div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160; </div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;    <span class="keywordtype">size_t</span> read(<span class="keywordtype">void</span> *buffer, <span class="keywordtype">size_t</span> size);</div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;    </div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;    <span class="keywordtype">size_t</span> write(<span class="keyword">const</span> <span class="keywordtype">void</span> *buffer, <span class="keywordtype">size_t</span> size);</div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160; </div>
-<div class="line"><a name="l00149"></a><span class="lineno"><a class="line" href="classtcp_1_1DataSocket.html#a7c8ce4d71efe61703b141a4738fcada4">  149</a></span>&#160;    <span class="keywordtype">bool</span> verifyPeer {<span class="keyword">false</span>};</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160; </div>
-<div class="line"><a name="l00152"></a><span class="lineno"><a class="line" href="classtcp_1_1DataSocket.html#aa2ae19daf1b9079dbebd042ca14a6791">  152</a></span>&#160;    <span class="keywordtype">string</span> <a class="code" href="classtcp_1_1DataSocket.html#aa2ae19daf1b9079dbebd042ca14a6791">certfile</a>;</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160; </div>
-<div class="line"><a name="l00155"></a><span class="lineno"><a class="line" href="classtcp_1_1DataSocket.html#aa4fe90d294c4ed4f4f71087ed076cbb5">  155</a></span>&#160;    <span class="keywordtype">string</span> <a class="code" href="classtcp_1_1DataSocket.html#aa4fe90d294c4ed4f4f71087ed076cbb5">keyfile</a>;</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160; </div>
-<div class="line"><a name="l00158"></a><span class="lineno"><a class="line" href="classtcp_1_1DataSocket.html#a4ab7473a48684200eba7eed80c9fc810">  158</a></span>&#160;    <span class="keywordtype">string</span> <a class="code" href="classtcp_1_1DataSocket.html#a4ab7473a48684200eba7eed80c9fc810">keypass</a>;</div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160; </div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;  <span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160; </div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;    <span class="keywordtype">void</span> readToInputBuffer();</div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160; </div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;    <span class="keywordtype">void</span> sendOutputBuffer();</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160; </div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;    <span class="keywordtype">void</span> canSend(<span class="keywordtype">bool</span> value);</div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160; </div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;    <span class="keywordtype">void</span> handleEvents(uint32_t events) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;    </div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;    <span class="keywordtype">void</span> disconnect() <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160; </div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;    <span class="keywordtype">void</span> disconnected() <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160; </div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> dataAvailable() = 0;</div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160; </div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;    <a class="code" href="classtcp_1_1SSL.html">SSL</a> *createSSL(<a class="code" href="classtcp_1_1SSLContext.html">SSLContext</a> &amp;context);</div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160; </div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;  <span class="keyword">private</span>:    </div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;    <span class="keywordtype">size_t</span> read_(<span class="keywordtype">void</span> *buffer, <span class="keywordtype">size_t</span> size);</div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;    <span class="keywordtype">size_t</span> write_(<span class="keyword">const</span> <span class="keywordtype">void</span> *buffer, <span class="keywordtype">size_t</span> size);</div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;    deque&lt;uint8_t&gt; inputBuffer;</div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;    deque&lt;uint8_t&gt; outputBuffer;</div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;    <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classtcp_1_1SSL.html">SSL</a>;</div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;};</div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160; </div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;} <span class="comment">// namespace tcp</span></div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160; </div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;<span class="preprocessor">#endif // include guard</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keyword">class </span>SSLContext;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="namespacetcp.html#a2c9f9abccc28c28a2d375823ca900b1b">   36</a></span>&#160;<span class="keyword">enum class</span> <a class="code" href="namespacetcp.html#a2c9f9abccc28c28a2d375823ca900b1b">SocketState</a> {UNCONNECTED=0, LISTENING, CONNECTING, CONNECTED, DISCONNECTED};</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
+<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="classtcp_1_1EPoll.html">   50</a></span>&#160;<span class="keyword">class </span><a class="code" href="classtcp_1_1EPoll.html">EPoll</a> {</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <a class="code" href="classtcp_1_1EPoll.html">EPoll</a>();</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    ~<a class="code" href="classtcp_1_1EPoll.html">EPoll</a>();</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordtype">void</span> poll(<span class="keywordtype">int</span> timeout); </div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;  <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> MAX_EVENTS = 10; </div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordtype">bool</span> add(<a class="code" href="classtcp_1_1Socket.html">Socket</a>&amp; socket, <span class="keywordtype">int</span> events);</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordtype">bool</span> update(<a class="code" href="classtcp_1_1Socket.html">Socket</a>&amp; socket, <span class="keywordtype">int</span> events);</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordtype">bool</span> remove(<a class="code" href="classtcp_1_1Socket.html">Socket</a>&amp; socket);    </div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keywordtype">void</span> handleEvents(uint32_t events, <span class="keywordtype">int</span> fd);</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordtype">int</span> handle_;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    epoll_event events[MAX_EVENTS];</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    std::map&lt;int,tcp::Socket*&gt; sockets;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classtcp_1_1Socket.html">Socket</a>;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;};</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
+<div class="line"><a name="l00070"></a><span class="lineno"><a class="line" href="classtcp_1_1Socket.html">   70</a></span>&#160;<span class="keyword">class </span><a class="code" href="classtcp_1_1Socket.html">Socket</a> {</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;  <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;  </div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <a class="code" href="classtcp_1_1Socket.html">Socket</a>(<a class="code" href="classtcp_1_1EPoll.html">EPoll</a> &amp;epoll, <span class="keyword">const</span> <span class="keywordtype">int</span> domain = AF_INET, <span class="keyword">const</span> <span class="keywordtype">int</span> socket = 0, <span class="keyword">const</span> <span class="keywordtype">bool</span> blocking = <span class="keyword">false</span>, <span class="keyword">const</span> <span class="keywordtype">int</span> events = (EPOLLIN | EPOLLRDHUP));</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160; </div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    ~<a class="code" href="classtcp_1_1Socket.html">Socket</a>();</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;  </div>
+<div class="line"><a name="l00089"></a><span class="lineno"><a class="line" href="classtcp_1_1Socket.html#af4995f805c9976807f7fefd1dc90689e">   89</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="classtcp_1_1Socket.html#af4995f805c9976807f7fefd1dc90689e">socket</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> socket_; }</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    </div>
+<div class="line"><a name="l00092"></a><span class="lineno"><a class="line" href="classtcp_1_1Socket.html#ab59208f2458274e28402b230cb4d6310">   92</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="classtcp_1_1Socket.html#ab59208f2458274e28402b230cb4d6310">domain</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> domain_; }</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160; </div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> disconnect();</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160; </div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;  <span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160; </div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    <span class="keywordtype">bool</span> setEvents(<span class="keywordtype">int</span> events);</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160; </div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> handleEvents(uint32_t events) = 0;</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160; </div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> disconnected();</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160; </div>
+<div class="line"><a name="l00115"></a><span class="lineno"><a class="line" href="classtcp_1_1Socket.html#a2f9da75083a9c40fa1a56f916fe4cc03">  115</a></span>&#160;    recursive_mutex <a class="code" href="classtcp_1_1Socket.html#a2f9da75083a9c40fa1a56f916fe4cc03">mtx</a>;</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160; </div>
+<div class="line"><a name="l00118"></a><span class="lineno"><a class="line" href="classtcp_1_1Socket.html#afb5727be64aa85dd1c88105870541a9a">  118</a></span>&#160;    <a class="code" href="classtcp_1_1EPoll.html">EPoll</a> &amp;<a class="code" href="classtcp_1_1Socket.html#afb5727be64aa85dd1c88105870541a9a">epoll</a>() { <span class="keywordflow">return</span> epoll_; }</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160; </div>
+<div class="line"><a name="l00121"></a><span class="lineno"><a class="line" href="classtcp_1_1Socket.html#a72f08cd52de1480fef5f8b120ab73da7">  121</a></span>&#160;    <a class="code" href="namespacetcp.html#a2c9f9abccc28c28a2d375823ca900b1b">SocketState</a> <a class="code" href="classtcp_1_1Socket.html#a72f08cd52de1480fef5f8b120ab73da7">state_</a>;    </div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160; </div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;  <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    <a class="code" href="classtcp_1_1EPoll.html">EPoll</a> &amp;epoll_;</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    <span class="keywordtype">int</span> events_;</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    <span class="keywordtype">int</span> domain_;</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    <span class="keywordtype">int</span> socket_;</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classtcp_1_1EPoll.html">EPoll</a>;</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;};</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160; </div>
+<div class="line"><a name="l00133"></a><span class="lineno"><a class="line" href="classtcp_1_1DataSocket.html">  133</a></span>&#160;<span class="keyword">class </span><a class="code" href="classtcp_1_1DataSocket.html">DataSocket</a> : <span class="keyword">public</span> <a class="code" href="classtcp_1_1Socket.html">Socket</a> {</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;  <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    <a class="code" href="classtcp_1_1DataSocket.html">DataSocket</a>(<a class="code" href="classtcp_1_1EPoll.html">EPoll</a> &amp;epoll, <span class="keyword">const</span> <span class="keywordtype">int</span> domain = AF_INET, <span class="keyword">const</span> <span class="keywordtype">int</span> socket = 0, <span class="keyword">const</span> <span class="keywordtype">bool</span> blocking = <span class="keyword">false</span>, <span class="keyword">const</span> <span class="keywordtype">int</span> events = (EPOLLIN | EPOLLRDHUP)) :</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;      <a class="code" href="classtcp_1_1Socket.html">Socket</a>(epoll,domain,socket,blocking,events) {}</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160; </div>
+<div class="line"><a name="l00139"></a><span class="lineno"><a class="line" href="classtcp_1_1DataSocket.html#ab4f93153ab86b43018387bed21b66a76">  139</a></span>&#160;    <span class="keywordtype">size_t</span> <a class="code" href="classtcp_1_1DataSocket.html#ab4f93153ab86b43018387bed21b66a76">available</a>() { <span class="keywordflow">return</span> inputBuffer.size(); }</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160; </div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;    <span class="keywordtype">size_t</span> read(<span class="keywordtype">void</span> *buffer, <span class="keywordtype">size_t</span> size);</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;    </div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;    <span class="keywordtype">size_t</span> write(<span class="keyword">const</span> <span class="keywordtype">void</span> *buffer, <span class="keywordtype">size_t</span> size);</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160; </div>
+<div class="line"><a name="l00150"></a><span class="lineno"><a class="line" href="classtcp_1_1DataSocket.html#a7c8ce4d71efe61703b141a4738fcada4">  150</a></span>&#160;    <span class="keywordtype">bool</span> verifyPeer {<span class="keyword">false</span>};</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160; </div>
+<div class="line"><a name="l00153"></a><span class="lineno"><a class="line" href="classtcp_1_1DataSocket.html#aa2ae19daf1b9079dbebd042ca14a6791">  153</a></span>&#160;    <span class="keywordtype">string</span> <a class="code" href="classtcp_1_1DataSocket.html#aa2ae19daf1b9079dbebd042ca14a6791">certfile</a>;</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160; </div>
+<div class="line"><a name="l00156"></a><span class="lineno"><a class="line" href="classtcp_1_1DataSocket.html#aa4fe90d294c4ed4f4f71087ed076cbb5">  156</a></span>&#160;    <span class="keywordtype">string</span> <a class="code" href="classtcp_1_1DataSocket.html#aa4fe90d294c4ed4f4f71087ed076cbb5">keyfile</a>;</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160; </div>
+<div class="line"><a name="l00159"></a><span class="lineno"><a class="line" href="classtcp_1_1DataSocket.html#a4ab7473a48684200eba7eed80c9fc810">  159</a></span>&#160;    <span class="keywordtype">string</span> <a class="code" href="classtcp_1_1DataSocket.html#a4ab7473a48684200eba7eed80c9fc810">keypass</a>;</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160; </div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;  <span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160; </div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;    <span class="keywordtype">void</span> readToInputBuffer();</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160; </div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;    <span class="keywordtype">void</span> sendOutputBuffer();</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160; </div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;    <span class="keywordtype">void</span> canSend(<span class="keywordtype">bool</span> value);</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160; </div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;    <span class="keywordtype">void</span> handleEvents(uint32_t events) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;    </div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;    <span class="keywordtype">void</span> disconnect() <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160; </div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;    <span class="keywordtype">void</span> disconnected() <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160; </div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> dataAvailable() = 0;</div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160; </div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;    <a class="code" href="classtcp_1_1SSL.html">SSL</a> *createSSL(<a class="code" href="classtcp_1_1SSLContext.html">SSLContext</a> &amp;context);</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160; </div>
+<div class="line"><a name="l00199"></a><span class="lineno"><a class="line" href="classtcp_1_1DataSocket.html#af69fd8106c3210fd6db39f50cf3bc680">  199</a></span>&#160;    <a class="code" href="classtcp_1_1SSL.html">SSL</a> *ssl_ {<span class="keyword">nullptr</span>};</div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160; </div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;  <span class="keyword">private</span>:    </div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;    <span class="keywordtype">size_t</span> read_(<span class="keywordtype">void</span> *buffer, <span class="keywordtype">size_t</span> size);</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;    <span class="keywordtype">size_t</span> write_(<span class="keyword">const</span> <span class="keywordtype">void</span> *buffer, <span class="keywordtype">size_t</span> size);</div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;    deque&lt;uint8_t&gt; inputBuffer;</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;    deque&lt;uint8_t&gt; outputBuffer;</div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;    <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classtcp_1_1SSL.html">SSL</a>;</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;};</div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160; </div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;<span class="keywordtype">int</span> <a class="code" href="namespacetcp.html#a56ef81f91f37da1b780aeec11b8b2fc6">getDomainFromHostAndPort</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* host, <span class="keyword">const</span> <span class="keywordtype">char</span>* port, <span class="keywordtype">int</span> def_domain = AF_INET);</div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160; </div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;} <span class="comment">// namespace tcp</span></div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160; </div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;<span class="preprocessor">#endif // include guard</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aclasstcp_1_1Socket_html_afb5727be64aa85dd1c88105870541a9a"><div class="ttname"><a href="classtcp_1_1Socket.html#afb5727be64aa85dd1c88105870541a9a">tcp::Socket::epoll</a></div><div class="ttdeci">EPoll &amp; epoll()</div><div class="ttdoc">Returns a reference to the epoll instance used by this socket.</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8h_source.html#l00117">tcpsocket.h:117</a></div></div>
-<div class="ttc" id="aclasstcp_1_1Socket_html_a2f9da75083a9c40fa1a56f916fe4cc03"><div class="ttname"><a href="classtcp_1_1Socket.html#a2f9da75083a9c40fa1a56f916fe4cc03">tcp::Socket::mtx</a></div><div class="ttdeci">recursive_mutex mtx</div><div class="ttdoc">The mutex used to provide exclusive access to the socket.</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8h_source.html#l00114">tcpsocket.h:114</a></div></div>
-<div class="ttc" id="aclasstcp_1_1DataSocket_html_aa4fe90d294c4ed4f4f71087ed076cbb5"><div class="ttname"><a href="classtcp_1_1DataSocket.html#aa4fe90d294c4ed4f4f71087ed076cbb5">tcp::DataSocket::keyfile</a></div><div class="ttdeci">string keyfile</div><div class="ttdoc">The filename of the openSSL private key in PEM format.</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8h_source.html#l00155">tcpsocket.h:155</a></div></div>
-<div class="ttc" id="anamespacetcp_html_a2c9f9abccc28c28a2d375823ca900b1b"><div class="ttname"><a href="namespacetcp.html#a2c9f9abccc28c28a2d375823ca900b1b">tcp::SocketState</a></div><div class="ttdeci">SocketState</div><div class="ttdoc">Determines the state of a socket.</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8h_source.html#l00035">tcpsocket.h:35</a></div></div>
-<div class="ttc" id="aclasstcp_1_1DataSocket_html"><div class="ttname"><a href="classtcp_1_1DataSocket.html">tcp::DataSocket</a></div><div class="ttdoc">Represents a buffered socket that can send and receive data using optional SSL encryption.</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8h_source.html#l00132">tcpsocket.h:132</a></div></div>
+<div class="ttc" id="aclasstcp_1_1Socket_html_afb5727be64aa85dd1c88105870541a9a"><div class="ttname"><a href="classtcp_1_1Socket.html#afb5727be64aa85dd1c88105870541a9a">tcp::Socket::epoll</a></div><div class="ttdeci">EPoll &amp; epoll()</div><div class="ttdoc">Returns a reference to the epoll instance used by this socket.</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8h_source.html#l00118">tcpsocket.h:118</a></div></div>
+<div class="ttc" id="aclasstcp_1_1Socket_html_a2f9da75083a9c40fa1a56f916fe4cc03"><div class="ttname"><a href="classtcp_1_1Socket.html#a2f9da75083a9c40fa1a56f916fe4cc03">tcp::Socket::mtx</a></div><div class="ttdeci">recursive_mutex mtx</div><div class="ttdoc">The mutex used to provide exclusive access to the socket.</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8h_source.html#l00115">tcpsocket.h:115</a></div></div>
+<div class="ttc" id="anamespacetcp_html_a56ef81f91f37da1b780aeec11b8b2fc6"><div class="ttname"><a href="namespacetcp.html#a56ef81f91f37da1b780aeec11b8b2fc6">tcp::getDomainFromHostAndPort</a></div><div class="ttdeci">int getDomainFromHostAndPort(const char *host, const char *port, int def_domain)</div><div class="ttdoc">Tries to determine which address family to use from a host and port string.</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8cpp_source.html#l00342">tcpsocket.cpp:342</a></div></div>
+<div class="ttc" id="aclasstcp_1_1DataSocket_html_aa4fe90d294c4ed4f4f71087ed076cbb5"><div class="ttname"><a href="classtcp_1_1DataSocket.html#aa4fe90d294c4ed4f4f71087ed076cbb5">tcp::DataSocket::keyfile</a></div><div class="ttdeci">string keyfile</div><div class="ttdoc">The filename of the openSSL private key in PEM format.</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8h_source.html#l00156">tcpsocket.h:156</a></div></div>
+<div class="ttc" id="anamespacetcp_html_a2c9f9abccc28c28a2d375823ca900b1b"><div class="ttname"><a href="namespacetcp.html#a2c9f9abccc28c28a2d375823ca900b1b">tcp::SocketState</a></div><div class="ttdeci">SocketState</div><div class="ttdoc">Determines the state of a socket.</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8h_source.html#l00036">tcpsocket.h:36</a></div></div>
+<div class="ttc" id="aclasstcp_1_1DataSocket_html"><div class="ttname"><a href="classtcp_1_1DataSocket.html">tcp::DataSocket</a></div><div class="ttdoc">Represents a buffered socket that can send and receive data using optional SSL encryption.</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8h_source.html#l00133">tcpsocket.h:133</a></div></div>
 <div class="ttc" id="aclasstcp_1_1SSL_html"><div class="ttname"><a href="classtcp_1_1SSL.html">tcp::SSL</a></div><div class="ttdoc">Encapsulates an SSL connection data structure.</div><div class="ttdef"><b>Definition:</b> <a href="tcpssl_8h_source.html#l00108">tcpssl.h:108</a></div></div>
-<div class="ttc" id="aclasstcp_1_1Socket_html_a72f08cd52de1480fef5f8b120ab73da7"><div class="ttname"><a href="classtcp_1_1Socket.html#a72f08cd52de1480fef5f8b120ab73da7">tcp::Socket::state_</a></div><div class="ttdeci">SocketState state_</div><div class="ttdoc">Descendant classes can manipulate the socket state directly.</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8h_source.html#l00120">tcpsocket.h:120</a></div></div>
-<div class="ttc" id="aclasstcp_1_1DataSocket_html_a4ab7473a48684200eba7eed80c9fc810"><div class="ttname"><a href="classtcp_1_1DataSocket.html#a4ab7473a48684200eba7eed80c9fc810">tcp::DataSocket::keypass</a></div><div class="ttdeci">string keypass</div><div class="ttdoc">The password for the private key file, if required.</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8h_source.html#l00158">tcpsocket.h:158</a></div></div>
-<div class="ttc" id="aclasstcp_1_1DataSocket_html_ab4f93153ab86b43018387bed21b66a76"><div class="ttname"><a href="classtcp_1_1DataSocket.html#ab4f93153ab86b43018387bed21b66a76">tcp::DataSocket::available</a></div><div class="ttdeci">size_t available()</div><div class="ttdoc">Returns the number of bytes available in the inputBuffer.</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8h_source.html#l00138">tcpsocket.h:138</a></div></div>
+<div class="ttc" id="aclasstcp_1_1Socket_html_a72f08cd52de1480fef5f8b120ab73da7"><div class="ttname"><a href="classtcp_1_1Socket.html#a72f08cd52de1480fef5f8b120ab73da7">tcp::Socket::state_</a></div><div class="ttdeci">SocketState state_</div><div class="ttdoc">Descendant classes can manipulate the socket state directly.</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8h_source.html#l00121">tcpsocket.h:121</a></div></div>
+<div class="ttc" id="aclasstcp_1_1DataSocket_html_a4ab7473a48684200eba7eed80c9fc810"><div class="ttname"><a href="classtcp_1_1DataSocket.html#a4ab7473a48684200eba7eed80c9fc810">tcp::DataSocket::keypass</a></div><div class="ttdeci">string keypass</div><div class="ttdoc">The password for the private key file, if required.</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8h_source.html#l00159">tcpsocket.h:159</a></div></div>
+<div class="ttc" id="aclasstcp_1_1DataSocket_html_ab4f93153ab86b43018387bed21b66a76"><div class="ttname"><a href="classtcp_1_1DataSocket.html#ab4f93153ab86b43018387bed21b66a76">tcp::DataSocket::available</a></div><div class="ttdeci">size_t available()</div><div class="ttdoc">Returns the number of bytes available in the inputBuffer.</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8h_source.html#l00139">tcpsocket.h:139</a></div></div>
 <div class="ttc" id="aclasstcp_1_1SSLContext_html"><div class="ttname"><a href="classtcp_1_1SSLContext.html">tcp::SSLContext</a></div><div class="ttdoc">Encapsulates an openSSL SSL_CTX record.</div><div class="ttdef"><b>Definition:</b> <a href="tcpssl_8h_source.html#l00041">tcpssl.h:41</a></div></div>
-<div class="ttc" id="aclasstcp_1_1Socket_html_af4995f805c9976807f7fefd1dc90689e"><div class="ttname"><a href="classtcp_1_1Socket.html#af4995f805c9976807f7fefd1dc90689e">tcp::Socket::socket</a></div><div class="ttdeci">int socket() const</div><div class="ttdoc">Return the linux socket handle.</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8h_source.html#l00088">tcpsocket.h:88</a></div></div>
-<div class="ttc" id="aclasstcp_1_1EPoll_html"><div class="ttname"><a href="classtcp_1_1EPoll.html">tcp::EPoll</a></div><div class="ttdoc">Encapsulates the EPoll interface.</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8h_source.html#l00049">tcpsocket.h:49</a></div></div>
+<div class="ttc" id="aclasstcp_1_1Socket_html_af4995f805c9976807f7fefd1dc90689e"><div class="ttname"><a href="classtcp_1_1Socket.html#af4995f805c9976807f7fefd1dc90689e">tcp::Socket::socket</a></div><div class="ttdeci">int socket() const</div><div class="ttdoc">Return the linux socket handle.</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8h_source.html#l00089">tcpsocket.h:89</a></div></div>
+<div class="ttc" id="aclasstcp_1_1EPoll_html"><div class="ttname"><a href="classtcp_1_1EPoll.html">tcp::EPoll</a></div><div class="ttdoc">Encapsulates the EPoll interface.</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8h_source.html#l00050">tcpsocket.h:50</a></div></div>
 <div class="ttc" id="atcpssl_8h_html"><div class="ttname"><a href="tcpssl_8h.html">tcpssl.h</a></div><div class="ttdoc">Provides ssl client and server functionality.</div></div>
-<div class="ttc" id="aclasstcp_1_1DataSocket_html_aa2ae19daf1b9079dbebd042ca14a6791"><div class="ttname"><a href="classtcp_1_1DataSocket.html#aa2ae19daf1b9079dbebd042ca14a6791">tcp::DataSocket::certfile</a></div><div class="ttdeci">string certfile</div><div class="ttdoc">The filename of the openSSL certificate in PEM format.</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8h_source.html#l00152">tcpsocket.h:152</a></div></div>
-<div class="ttc" id="aclasstcp_1_1Socket_html_ab59208f2458274e28402b230cb4d6310"><div class="ttname"><a href="classtcp_1_1Socket.html#ab59208f2458274e28402b230cb4d6310">tcp::Socket::domain</a></div><div class="ttdeci">int domain() const</div><div class="ttdoc">Return the socket domain (AF_INET or AF_INET6)</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8h_source.html#l00091">tcpsocket.h:91</a></div></div>
+<div class="ttc" id="aclasstcp_1_1DataSocket_html_aa2ae19daf1b9079dbebd042ca14a6791"><div class="ttname"><a href="classtcp_1_1DataSocket.html#aa2ae19daf1b9079dbebd042ca14a6791">tcp::DataSocket::certfile</a></div><div class="ttdeci">string certfile</div><div class="ttdoc">The filename of the openSSL certificate in PEM format.</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8h_source.html#l00153">tcpsocket.h:153</a></div></div>
+<div class="ttc" id="aclasstcp_1_1Socket_html_ab59208f2458274e28402b230cb4d6310"><div class="ttname"><a href="classtcp_1_1Socket.html#ab59208f2458274e28402b230cb4d6310">tcp::Socket::domain</a></div><div class="ttdeci">int domain() const</div><div class="ttdoc">Return the socket domain (AF_INET or AF_INET6)</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8h_source.html#l00092">tcpsocket.h:92</a></div></div>
 <div class="ttc" id="anamespacetcp_html"><div class="ttname"><a href="namespacetcp.html">tcp</a></div><div class="ttdoc">A tcp client/server library for linux that supports openSSL and EPoll.</div><div class="ttdef"><b>Definition:</b> <a href="tcpclient_8cpp_source.html#l00005">tcpclient.cpp:5</a></div></div>
-<div class="ttc" id="aclasstcp_1_1Socket_html"><div class="ttname"><a href="classtcp_1_1Socket.html">tcp::Socket</a></div><div class="ttdoc">Encapsulates a socket handle that is capable of recieving epoll events.</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8h_source.html#l00069">tcpsocket.h:69</a></div></div>
+<div class="ttc" id="aclasstcp_1_1Socket_html"><div class="ttname"><a href="classtcp_1_1Socket.html">tcp::Socket</a></div><div class="ttdoc">Encapsulates a socket handle that is capable of recieving epoll events.</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8h_source.html#l00070">tcpsocket.h:70</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

@@ -1,4 +1,5 @@
 <map id="tcp::DataSocket" name="tcp::DataSocket">
-<area shape="rect" id="node1" title="Represents a buffered socket that can send and receive data using optional SSL encryption." alt="" coords="5,80,123,107"/>
+<area shape="rect" id="node1" title="Represents a buffered socket that can send and receive data using optional SSL encryption." alt="" coords="5,81,123,108"/>
+<area shape="rect" id="node3" href="$classtcp_1_1SSL.html" title="Encapsulates an SSL connection data structure." alt="" coords="27,171,101,197"/>
 <area shape="rect" id="node2" href="$classtcp_1_1Socket.html" title="Encapsulates a socket handle that is capable of recieving epoll events." alt="" coords="19,5,109,32"/>
 </map>

@@ -25,8 +25,7 @@ var NAVTREE =
   [ "Bond's TCP Library", "index.html", [
     [ "Overview", "index.html", [
       [ "Documentation", "index.html#autotoc_md1", null ],
-      [ "Installation", "index.html#autotoc_md2", null ],
-      [ "Testing", "index.html#autotoc_md3", null ]
+      [ "Build Instructions", "index.html#autotoc_md2", null ]
     ] ],
     [ "Namespace Members", "namespacemembers.html", [
       [ "All", "namespacemembers.html", null ],

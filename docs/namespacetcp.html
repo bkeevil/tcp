@@ -157,6 +157,9 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:a56ef81f91f37da1b780aeec11b8b2fc6"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacetcp.html#a56ef81f91f37da1b780aeec11b8b2fc6">getDomainFromHostAndPort</a> (const char *host, const char *port, int def_domain=AF_INET)</td></tr>
+<tr class="memdesc:a56ef81f91f37da1b780aeec11b8b2fc6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tries to determine which address family to use from a host and port string.  <a href="namespacetcp.html#a56ef81f91f37da1b780aeec11b8b2fc6">More...</a><br /></td></tr>
+<tr class="separator:a56ef81f91f37da1b780aeec11b8b2fc6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a626a96602252225a453e0e77ad9ae270"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacetcp.html#a626a96602252225a453e0e77ad9ae270">initSSLLibrary</a> ()</td></tr>
 <tr class="memdesc:a626a96602252225a453e0e77ad9ae270"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the openSSL library.  <a href="namespacetcp.html#a626a96602252225a453e0e77ad9ae270">More...</a><br /></td></tr>
 <tr class="separator:a626a96602252225a453e0e77ad9ae270"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -227,8 +230,8 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>sslinitialized_</b> {
 <p>Determines the state of a socket. </p>
 <p>Not all states are valid for every socket type. </p>
 
-<p class="definition">Definition at line <a class="el" href="tcpsocket_8h_source.html#l00035">35</a> of file <a class="el" href="tcpsocket_8h_source.html">tcpsocket.h</a>.</p>
-<div class="fragment"><div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;{UNCONNECTED=0, LISTENING, CONNECTING, CONNECTED, DISCONNECTED};</div>
+<p class="definition">Definition at line <a class="el" href="tcpsocket_8h_source.html#l00036">36</a> of file <a class="el" href="tcpsocket_8h_source.html">tcpsocket.h</a>.</p>
+<div class="fragment"><div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{UNCONNECTED=0, LISTENING, CONNECTING, CONNECTED, DISCONNECTED};</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -255,6 +258,74 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>sslinitialized_</b> {
 <div class="fragment"><div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;{</div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;  ERR_free_strings();</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;}</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a56ef81f91f37da1b780aeec11b8b2fc6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a56ef81f91f37da1b780aeec11b8b2fc6">&#9670;&nbsp;</a></span>getDomainFromHostAndPort()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int tcp::getDomainFromHostAndPort </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>host</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>port</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>def_domain</em> = <code>AF_INET</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Tries to determine which address family to use from a host and port string. </p>
+<p>If host is other than a numeric address, the address family will be detemined through a canonical name lookup </p><dl class="section return"><dt>Returns</dt><dd>AF_INET or AF_INET6 if an address family can be determined, AF_UNSPEC otherwise </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="tcpsocket_8cpp_source.html#l00342">342</a> of file <a class="el" href="tcpsocket_8cpp_source.html">tcpsocket.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;{</div>
+<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;  <span class="keyword">struct </span>addrinfo hints;</div>
+<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;  <span class="keyword">struct </span>addrinfo *result;</div>
+<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;  <span class="keywordtype">int</span> errorcode;</div>
+<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;  <span class="keywordtype">int</span> domain;</div>
+<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160; </div>
+<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;  memset(&amp;result,0,<span class="keyword">sizeof</span>(<span class="keyword">struct</span> addrinfo));</div>
+<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;  memset(&amp;hints,0,<span class="keyword">sizeof</span>(<span class="keyword">struct</span> addrinfo));</div>
+<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;  hints.ai_family = AF_UNSPEC;</div>
+<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;  hints.ai_flags = AI_NUMERICHOST;</div>
+<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;  errorcode = getaddrinfo(host,<span class="keyword">nullptr</span>,&amp;hints,&amp;result);</div>
+<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;  <span class="keywordflow">if</span> (errorcode == 0) {</div>
+<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;    domain = result-&gt;ai_family;</div>
+<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;  } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;    domain = AF_UNSPEC;</div>
+<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;  }</div>
+<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;  <span class="keywordflow">if</span> (domain == AF_UNSPEC) {</div>
+<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;    hints.ai_flags = AI_CANONNAME;</div>
+<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;    errorcode = getaddrinfo(host,port,&amp;hints,&amp;result);</div>
+<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;    <span class="keywordflow">if</span> (errorcode == 0) {</div>
+<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;      domain = result-&gt;ai_family;</div>
+<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;    }</div>
+<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;  }</div>
+<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;  <span class="keywordflow">if</span> (domain == AF_UNSPEC) {</div>
+<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;    <span class="keywordflow">return</span> def_domain;</div>
+<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;  } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;    <span class="keywordflow">return</span> domain;</div>
+<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;  }</div>
+<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;}</div>
 </div><!-- fragment -->
 </div>
 </div>

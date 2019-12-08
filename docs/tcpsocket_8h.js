@@ -9,5 +9,6 @@ var tcpsocket_8h =
       [ "CONNECTING", "tcpsocket_8h.html#a2c9f9abccc28c28a2d375823ca900b1ba9a14f95e151eec641316e7c784ce832d", null ],
       [ "CONNECTED", "tcpsocket_8h.html#a2c9f9abccc28c28a2d375823ca900b1baa5afd6edd5336d91316964e493936858", null ],
       [ "DISCONNECTED", "tcpsocket_8h.html#a2c9f9abccc28c28a2d375823ca900b1ba99c8ce56e7ab246445d3b134724428f3", null ]
-    ] ]
+    ] ],
+    [ "getDomainFromHostAndPort", "tcpsocket_8h.html#a56ef81f91f37da1b780aeec11b8b2fc6", null ]
 ];
