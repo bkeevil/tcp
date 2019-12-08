@@ -16,11 +16,23 @@ If you have Doxygen set up on your machine, go to the repository root type `doxy
 
 ## Build Instructions
 
+Install build environment and library dependencies
+
+``` bash 
+apt-get install -y build-essential cmake doxygen libboost-all-dev libssl-dev 
+```
+
+The boost library is only required to build the example programs, which use the program_options library.
+
+Use cmake to configure and build the library
+
 ``` bash
 git clone https://github.com/bkeevil/tcp.git
 cd tcp
 mkdir build
 cd build
 cmake ..
-make
+make all
 ```
+
+You can also `make tcp` to build just the library
