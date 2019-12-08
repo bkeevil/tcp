@@ -3,6 +3,7 @@
 #include <string.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <netdb.h>
 #include <sys/socket.h>
 #include <sys/ioctl.h>
 #include <arpa/inet.h>
@@ -336,6 +337,37 @@ size_t DataSocket::write(const void *buffer, size_t size)
 SSL* DataSocket::createSSL(SSLContext &context)
 {
   return new SSL(*this,context);
+}
+
+int getDomainFromHostAndPort(const char* host, const char* port, int def_domain)
+{
+  struct addrinfo hints;
+  struct addrinfo *result;
+  int errorcode;
+  int domain;
+
+  memset(&result,0,sizeof(struct addrinfo));
+  memset(&hints,0,sizeof(struct addrinfo));
+  hints.ai_family = AF_UNSPEC;
+  hints.ai_flags = AI_NUMERICHOST;
+  errorcode = getaddrinfo(host,nullptr,&hints,&result);
+  if (errorcode == 0) {
+    domain = result->ai_family;
+  } else {
+    domain = AF_UNSPEC;
+  }
+  if (domain == AF_UNSPEC) {
+    hints.ai_flags = AI_CANONNAME;
+    errorcode = getaddrinfo(host,port,&hints,&result);
+    if (errorcode == 0) {
+      domain = result->ai_family;
+    }
+  }
+  if (domain == AF_UNSPEC) {
+    return def_domain;
+  } else {
+    return domain;
+  }
 }
 
 } // namespace tcp

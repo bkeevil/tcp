@@ -206,6 +206,12 @@ class DataSocket : public Socket {
     friend class SSL;
 };
 
+/** @brief   Tries to determine which address family to use from a host and port string
+ *  @details If host is other than a numeric address, the address family will be detemined through a
+ *           canonical name lookup
+ *  @return  AF_INET or AF_INET6 if an address family can be determined, AF_UNSPEC otherwise */
+int getDomainFromHostAndPort(const char* host, const char* port, int def_domain = AF_INET);
+
 } // namespace tcp
 
 #endif // include guard

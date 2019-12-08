@@ -31,6 +31,7 @@ add_executable(echoserver
 
 add_executable(echoclient
   echoclient.cpp
+  clientoptions.cpp
   client.cpp
 )
 

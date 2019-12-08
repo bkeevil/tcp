@@ -15,7 +15,7 @@ Client::~Client()
   } 
 }
 
-bool Client::connect(const string &hostname, const in_port_t port, bool useSSL) 
+bool Client::connect(const char *host, const char *service) 
 {
   struct addrinfo hints;
   struct addrinfo *result, *rp;
@@ -29,8 +29,7 @@ bool Client::connect(const string &hostname, const in_port_t port, bool useSSL)
   hints.ai_family = domain();
   hints.ai_socktype = SOCK_STREAM;
   hints.ai_flags |= AI_CANONNAME;
-  string service = to_string(port);
-  errorcode = getaddrinfo(hostname.c_str(),service.c_str(),&hints,&result);
+  errorcode = getaddrinfo(host,service,&hints,&result);
   if (errorcode != 0) {
     fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(errorcode));
     return false;
@@ -41,12 +40,12 @@ bool Client::connect(const string &hostname, const in_port_t port, bool useSSL)
     ssl_ = nullptr;
   }
 
-  if (useSSL) {
+  if (!certfile.empty() && !keyfile.empty()) {
     ssl_ = createSSL(ctx_);
     ssl_->setOptions(verifyPeer);
     if (verifyPeer && checkPeerSubjectName) {
       ssl_->requiresCertPostValidation = true;
-      ssl_->setHostname(hostname);
+      ssl_->setHostname(host);
     }
     if (!ssl_->setCertificateAndKey(certfile.c_str(),keyfile.c_str()))
       return false;
@@ -74,8 +73,8 @@ bool Client::connect(const string &hostname, const in_port_t port, bool useSSL)
     }
   }
 
-  cerr << "Could not find host " << hostname << endl;
-  freeaddrinfo(result);           /* No longer needed */  
+  cerr << "Could not find host " << host << endl;
+  freeaddrinfo(result);
   return false;
 }
 

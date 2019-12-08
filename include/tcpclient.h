@@ -70,16 +70,17 @@ class Client : public DataSocket {
 
     /** @brief   Initiates a connection to a server
      *  @details If the client is a blocking client, the call blocks until a connection is established. 
-     *  @param   hostName [in]  The hostname or ip address of the server to connect to
-     *  @param   port     [in]  The port number to connect to
-     *  @param   useSSL   [in]  If true, this connection will be an SSL connection
+     *  @param   host    [in] The host or ip address of the server to connect to
+     *  @param   service [in] The port number or service name to connect to
      *  @remark  Check the value of state() after a call to connect() to determine if the socket is CONNECTED or is CONNECTING
      *  @return  True if the connection was initiated
      */
-    virtual bool connect(const string &hostName, in_port_t port, bool useSSL = false);
+    virtual bool connect(const char *host, const char *service);
 
     bool validatePeerCertificate();
     
+    using tcp::DataSocket::disconnect;
+
   protected:
     
     /** @brief   Receive epoll events sent to this socket
