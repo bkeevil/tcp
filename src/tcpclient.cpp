@@ -6,8 +6,6 @@ namespace tcp {
 
 using namespace std;
 
-SSLContext Client::ctx_(SSLMode::CLIENT);
-
 Client::~Client()
 {
   if (state_ == SocketState::CONNECTED) {

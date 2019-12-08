@@ -39,7 +39,7 @@ class Client : public DataSocket {
      *  @param doain    Either AF_INET or AF_INET6
      *  @param blocking If true, a blocking socket will be created. Otherwise a non-blocking socket is created 
      */
-    Client(EPoll &epoll, const int domain = AF_INET, bool blocking = false) : DataSocket(epoll,domain,0,blocking) {}
+    Client(EPoll &epoll, SSLContext &ctx, const int domain = AF_INET, bool blocking = false) : DataSocket(epoll,domain,0,blocking), ctx_(ctx) {}
     
     /** @brief   Destroys the client 
       * @details Will call disconnect() first if necessary. This allows clients to be disconnected 
@@ -51,7 +51,7 @@ class Client : public DataSocket {
      *  @details A single SSLContext object is shared by all client connections in the library
      *           this allows default options, like a CA certificate, to be applied to all new 
      *           client connections. */
-    static SSLContext &ctx() { return ctx_; }
+    SSLContext &ctx() { return ctx_; }
    
     /** @brief   Return the client state. See the SocketState enum for possible values */
     SocketState state() { return state_; }
@@ -99,7 +99,7 @@ class Client : public DataSocket {
   private:
     in_port_t port_ {0};
     in_addr_t addr_ {0};
-    static SSLContext ctx_; 
+    SSLContext &ctx_; 
 };
 
 } // namespace mqtt

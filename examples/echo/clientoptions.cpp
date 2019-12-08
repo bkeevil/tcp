@@ -4,17 +4,18 @@
 #include "clientoptions.h"
 #include "boost/program_options/parsers.hpp"
 
-bool ProgramOptions::parseOptions(int argc, char** argv)
-{  
+void ProgramOptions::setup()
+{
   general.add_options()
-    ("help,h", po::bool_switch(), "Produce this help message")
+    ("help,h", "Produce this help message")
+    ("version,v", "Display version information")
     ("config", po::value<string>(&config), "Config filename")
     ("host,H", po::value<string>(&host), "host name or ip address")
     ("port,P", po::value<string>(&port), "Port or service name")
-    ("ip6", po::bool_switch(), "Prefer IPv6")
-    ("blocking,b", po::bool_switch(), "Use a blocking socket")
+    ("ip6", po::bool_switch(&ip6), "Prefer IPv6")
+    ("blocking,b", po::bool_switch(&blocking), "Use a blocking socket")
     ("log,l", po::value<string>(&log), "Log filename")
-    ("verbose,V", po::bool_switch(), "Verbose logging")
+    ("verbose,V", po::bool_switch(&verbose), "Verbose logging")
   ;
 
   ssl.add_options()
@@ -23,66 +24,90 @@ bool ProgramOptions::parseOptions(int argc, char** argv)
     ("keypass", po::value<string>(&keypass), "Private key password")
     ("cafile", po::value<string>(&cafile), "Certificate authority file (PEM)")
     ("capath", po::value<string>(&capath), "Certificate authority path (PEM)")
-    ("verifypeer", po::bool_switch(), "Verify server certificate signature")
-    ("checkhostname", po::bool_switch(), "Check host name against certificate")
-    ("tlsonly", po::bool_switch(), "Don't allow deprecated protocols")
-    ("nocompression", po::bool_switch(), "Disable TLS compression")
+    ("verifypeer", po::bool_switch(&verifypeer)->default_value(false), "Verify server certificate signature")
+    ("checkhostname", po::bool_switch(&checkhostname)->default_value(false), "Check host name against certificate")
+    ("tlsonly", po::bool_switch(&tlsonly)->default_value(false), "Don't allow deprecated protocols")
+    ("nocompression", po::bool_switch(&nocompression)->default_value(false), "Disable TLS compression")
   ;
-
-  po::options_description cmdline_options;
-  cmdline_options.add(general).add(ssl);
-  po::store(po::command_line_parser(argc, argv).options(cmdline_options).run(), vm);
-  po::notify(vm);    
-  
-  if (vm["help"].as<bool>()) {
-    cout << "Useage: echoclient [options]" << endl;
-    po::options_description visible_options;
-    visible_options.add(general).add(ssl);
-    cout << visible_options << "\n";
-    return false;
-  } else {
-    if (vm.count("config")) {
-      const string config = vm["config"].as<string>();
-      clog << "Using config file: " << config << endl;
-      po::options_description config_options;
-      config_options.add(general).add(ssl);
-      ifstream f(config,ifstream::in);
-      if (f) {
-        store(parse_config_file(f, config_options), vm);
-      } else {
-        clog << "config file " << config << " not found" << endl;
-      }
-    }  
-    return true;
-  }
-
 }
 
-template<class T> void ProgramOptions::dumpOption(const char *name)
+void ProgramOptions::showHelp()
 {
-  const po::variable_value &v = vm[name];
-  if (!v.empty()) {
-    cout << name << "=" << v.as<T>() << endl;
+  cout << "Useage: echoclient [options]" << endl;
+  po::options_description visible_options;
+  visible_options.add(general).add(ssl);
+  cout << visible_options << "\n";
+}
+
+void ProgramOptions::showVersion()
+{
+  cout << "Version 1.0" << endl;
+}
+
+ProgramOptions::statusReturn_e ProgramOptions::parseOptions(int argc, char* argv[])
+{  
+  po::variables_map vm;
+  po::options_description cmdline_options;
+  cmdline_options.add(general).add(ssl);
+  po::store(po::parse_command_line(argc, argv, cmdline_options), vm);
+  po::notify(vm);    
+  
+  if (vm.count("help")) {
+    showHelp();
+    return OPTS_HELP;
   }
+  
+  if (vm.count("version")) {
+    showVersion();
+    return OPTS_VERSION;
+  }
+
+  if (vm.count("config")) {
+    if (verbose) clog << "Using config file: " << config << endl;
+    
+    po::options_description config_options;
+    config_options.add(general).add(ssl);
+    ifstream f(config,ifstream::in);
+    if (f) {
+      store(parse_config_file(f, config_options), vm);
+    } else {
+      cerr << "config file " << config << " not found" << endl;
+    }
+  }  
+
+  if( !( 0 < vm.count("port"))) {
+    cerr << "ERROR: port must be specified!!!" << std::endl;
+    showHelp();
+    return OPTS_FAILURE;
+  }
+  
+  if (host.empty()) {
+    if (ip6) {
+      host.assign("::");
+    } else {
+      host.assign("localhost");
+    }
+  }
+
+  return OPTS_SUCCESS;
 }
 
 void ProgramOptions::dump()
 {
-  dumpOption<string>("config");
-  dumpOption<string>("host");
-  dumpOption<string>("port");
-  dumpOption<bool>("blocking");
-  dumpOption<bool>("ip6");
-  dumpOption<string>("log");
-  dumpOption<bool>("verbose");
-  dumpOption<string>("certfile");
-  dumpOption<string>("keyfile");
-  dumpOption<string>("keypass");
-  dumpOption<string>("keypass");
-  dumpOption<string>("cafile");
-  dumpOption<string>("capath");
-  dumpOption<bool>("verifypeer");
-  dumpOption<bool>("checkhostname");
-  dumpOption<bool>("tlsonly");
-  dumpOption<bool>("nocompression");
+  cout << "config=" << config << endl;
+  cout << "host=" << host << endl;
+  cout << "port=" << port << endl;
+  cout << "blocking=" << blocking << endl;
+  cout << "ip6=" << ip6 << endl;
+  cout << "log=" << log << endl;
+  cout << "verbose=" << verbose << endl;
+  cout << "certfile=" << certfile << endl;
+  cout << "keyfile=" << keyfile << endl;
+  cout << "keypass=" << keypass << endl;
+  cout << "cafile=" << cafile << endl;
+  cout << "capath=" << capath << endl;
+  cout << "verifypeer=" << verifypeer << endl;
+  cout << "checkhostname=" << checkhostname << endl;
+  cout << "tlsonly=" << tlsonly << endl;
+  cout << "nocompression=" << nocompression << endl;
 }

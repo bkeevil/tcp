@@ -28,59 +28,37 @@ void threadfunc() {
 
 void initClientFromOptions(EchoClient &client, ProgramOptions &options)
 {
-  client.verifyPeer = options.vm.count("verifypeer");
-  const po::variable_value &cafile = options.vm["cafile"];
-  const po::variable_value &capath = options.vm["capath"];
-  client.ctx().setVerifyPaths(cafile.as<string>().c_str(),capath.as<string>().c_str());
-  const po::variable_value &certfile = options.vm["certfile"];
-  const po::variable_value &keyfile  = options.vm["keyfile"];
-  const po::variable_value &keypass  = options.vm["keypass"];
-  client.certfile = certfile.as<string>().c_str();
-  client.keyfile = keyfile.as<string>().c_str();
-  client.keypass = keypass.as<string>().c_str();
+  client.verifyPeer = options.verifypeer;
+  client.ctx().setVerifyPaths(options.cafile.c_str(),options.capath.c_str());
+  client.certfile = options.certfile;
+  client.keyfile = options.keyfile;
+  client.keypass = options.keypass;
 }
 
 int main(int argc, char** argv) 
 {
-  if (options.parseOptions(argc,argv)) {
-    options.dump();
-  } else {
+  ProgramOptions::statusReturn_e res = options.parseOptions(argc,argv);
+  options.dump();
+
+  if (res == ProgramOptions::OPTS_FAILURE) {
     return EXIT_FAILURE;
   }
-
-  string host;
-  string port;
-  const bool blocking = options.vm.count("blocking");
-  const bool ip6 = options.vm.count("ip6");
-  const po::variable_value &vhost = options.vm["host"];
-  const po::variable_value &vport = options.vm["port"];
   
-  if (vport.empty()) {
-    cerr << "No port or service name to connect to" << endl;
-    return EXIT_FAILURE;
-  } else {
-    port = vport.as<string>();
-  }
-  
-  if (!vhost.empty()) {
-    host = vhost.as<string>();
-  } else {
-    if (ip6) {
-      host.assign("::");
-    } else {
-      host.assign("localhost");
-    }
+  if (res == ProgramOptions::OPTS_SUCCESS) {
+    return EXIT_SUCCESS;
   }
 
-  int domain = getDomainFromHostAndPort(host.c_str(),port.c_str(),ip6 ? AF_INET6 : AF_INET);
+  int domain = getDomainFromHostAndPort(options.host.c_str(),options.port.c_str(),options.ip6 ? AF_INET6 : AF_INET);
 
-  EchoClient client(epoll,domain,blocking);
+  SSLContext ctx(SSLMode::CLIENT);
+
+  EchoClient client(epoll,ctx,domain,options.blocking);
 
   //initClientFromOptions(client,options);
 
   initSSLLibrary();
 
-  client.connect(host.c_str(),port.c_str());
+  client.connect(options.host.c_str(),options.port.c_str());
   
   std::thread threadObj(&threadfunc);
 
