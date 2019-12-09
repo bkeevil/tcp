@@ -28,8 +28,22 @@ void threadfunc() {
 
 void initClientFromOptions(EchoClient &client, ProgramOptions &options)
 {
+  char *cafile {nullptr};
+  char *capath {nullptr};
   client.verifyPeer = options.verifypeer;
-  client.ctx().setVerifyPaths(options.cafile.c_str(),options.capath.c_str());
+  if (!options.cafile.empty()) {
+    cafile = (char*)malloc(options.cafile.length()+1);
+    strcpy(cafile,options.cafile.c_str());
+  }
+  if (!options.capath.empty()) {
+    cafile = (char*)malloc(options.capath.length()+1);
+    strcpy(capath,options.capath.c_str());
+  }
+  client.ctx().setVerifyPaths(cafile,capath);
+  if (cafile)
+    free(cafile);
+  if (capath)
+    free(capath);
   client.certfile = options.certfile;
   client.keyfile = options.keyfile;
   client.keypass = options.keypass;
@@ -44,7 +58,7 @@ int main(int argc, char** argv)
     return EXIT_FAILURE;
   }
   
-  if (res == ProgramOptions::OPTS_SUCCESS) {
+  if (res != ProgramOptions::OPTS_SUCCESS) {
     return EXIT_SUCCESS;
   }
 
@@ -54,7 +68,7 @@ int main(int argc, char** argv)
 
   EchoClient client(epoll,ctx,domain,options.blocking);
 
-  //initClientFromOptions(client,options);
+  initClientFromOptions(client,options);
 
   initSSLLibrary();
 
@@ -67,7 +81,7 @@ int main(int argc, char** argv)
     epoll.poll(100);
     mtx.lock();
     if (!cmd.empty()) {
-      if (cmd.compare("quit") == 0) {
+      if (cmd.compare("quit\n") == 0) {
         client.disconnect();
       } else {
         client.write(cmd.c_str(),cmd.length());

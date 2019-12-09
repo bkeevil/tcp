@@ -292,6 +292,26 @@ void SSLContext::setOptions(bool verifypeer, bool compression, bool tlsonly)
   printSSLErrors();  
 }
 
+bool SSLContext::setVerifyPaths(string &cafile, string &capath)
+{
+  char *cafile_ {nullptr};
+  char *capath_ {nullptr};
+  if (!cafile.empty()) {
+    cafile_ = (char*)malloc(cafile.length()+1);
+    strcpy(cafile_,cafile.c_str());
+  }
+  if (!capath.empty()) {
+    capath_ = (char*)malloc(capath.length()+1);
+    strcpy(capath_,capath.c_str());
+  }
+  bool result = setVerifyPaths(cafile_,capath_);
+  if (cafile_)
+    free(cafile_);
+  if (capath_)
+    free(capath_);
+  return result;
+}
+
 bool SSLContext::setVerifyPaths(const char *cafile, const char *capath)
 {
   long res = 1;

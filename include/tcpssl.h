@@ -68,7 +68,8 @@ class SSLContext {
      *  @returns True if the CA filename or CA path were set successfully, false otherwise. Check cerr log for details.
      */
     bool setVerifyPaths(const char *cafile = NULL, const char *capath = NULL);
-
+    bool setVerifyPaths(string &cafile, string &capath);
+    
     /** @brief   Sets the certificate filename and key filename
      *  @details Sets the certificate and key file for all SSL connections created from this context.
      *           This is primarily intended for servers but clients may want to connect to 
