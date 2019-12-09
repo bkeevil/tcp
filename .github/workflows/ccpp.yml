@@ -12,7 +12,7 @@ jobs:
     steps:
     - uses: actions/checkout@master
     - name: install libboost
-      run: sudo apt-get install -y libboost-program-options-dev libboost-system-dev
+      run: sudo apt-get install -y libboost-program-options-dev libboost-system-dev libboost-filesystem-dev
     - name: create build dir
       run: mkdir build
     - name: run cmake
