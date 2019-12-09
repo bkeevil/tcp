@@ -22,7 +22,11 @@ class ProgramOptions {
     void dump();
     void showHelp();
     void showVersion();
-
+    bool validateFilename(string &filename);
+    bool loadGlobalConfig(po::variables_map &vm);
+    bool loadUserConfig(po::variables_map &vm);
+    bool loadCommandLineConfig(po::variables_map &vm);
+    statusReturn_e validateOptions();
     statusReturn_e parseOptions(int argc, char* argv[]);
     
     // General Options
@@ -47,6 +51,7 @@ class ProgramOptions {
 
   private:
     template<class T> void dumpOption(const char *name);    
+    po::options_description command {"Command Line Options"};
     po::options_description general {"General Options"};
     po::options_description ssl {"SSL Options"};
 };
