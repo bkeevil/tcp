@@ -643,7 +643,9 @@ void SSL::shutdown()
   int res = SSL_shutdown(ssl_);
   if ( res != 1) {
     unsigned long ssl_err = ERR_get_error();
-    print_error_string(ssl_err,"SSL_shutdown");
+    if (ssl_err != SSL_ERROR_NONE) {
+      print_error_string(ssl_err,"SSL_shutdown");
+    }
   }
 }
 

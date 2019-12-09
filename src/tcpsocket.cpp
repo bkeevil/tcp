@@ -291,7 +291,7 @@ size_t DataSocket::write_(const void *buffer, size_t size)
     if (ssl_) {
       result = ssl_->write(buffer,size);
     } else {
-      result = ::send(socket(),buffer,size,0);
+      result = ::send(socket(),buffer,size,MSG_NOSIGNAL);
     }
     return result;
   } else {

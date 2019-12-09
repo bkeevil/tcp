@@ -1,5 +1,6 @@
 #include <iostream>
 #include <thread>
+#include <signal.h>
 #include "arpa/inet.h"
 #include "tcpsocket.h"
 #include "tcpclient.h"
@@ -13,6 +14,7 @@ mutex mtx;
 string cmd;
 EPoll epoll;
 ProgramOptions options;
+bool terminated {false};
 
 void threadfunc() {
   char c[255];
@@ -49,10 +51,67 @@ void initClientFromOptions(EchoClient &client, ProgramOptions &options)
   client.keypass = options.keypass;
 }
 
+void handle_signal(int signal) 
+{
+  if (signal == SIGHUP) {
+    clog << "Caught SIGHUP. Shutting down" << endl;
+    terminated = true;
+  }
+}
+
+void initSignals()
+{
+  struct sigaction sa;
+  sa.sa_handler = &handle_signal;
+  sa.sa_flags = SA_RESTART;
+  sigfillset(&sa.sa_mask);
+  if (sigaction(SIGHUP, &sa, NULL) == -1) {
+    cerr << "ERROR: cannot handle SIGHUP" << endl;
+  }
+  signal(SIGPIPE, SIG_IGN);
+}
+
+void run(EchoClient &client)
+{
+  std::thread threadObj(&threadfunc);
+
+  cout << "Type 'quit' to exit" << endl;
+  while (!terminated) {
+    
+    mtx.lock();
+    if (!cmd.empty()) {
+      if (cmd.compare("quit\n") == 0) {
+        terminated = true;
+      } else {
+        client.write(cmd.c_str(),cmd.length());
+      }
+      cmd.clear();
+    }
+    mtx.unlock();
+
+    if (client.state() == SocketState::DISCONNECTED) {
+      terminated = true;
+    }
+
+    epoll.poll(100);
+  }
+  
+  if (client.state() == SocketState::CONNECTED) {
+    client.disconnect();
+  }
+
+  threadObj.join();  
+}
+
 int main(int argc, char** argv) 
 {
+  initSignals();
+  
   ProgramOptions::statusReturn_e res = options.parseOptions(argc,argv);
-  options.dump();
+  
+  if (options.verbose) {
+    options.dump();
+  }
 
   if (res == ProgramOptions::OPTS_FAILURE) {
     return EXIT_FAILURE;
@@ -61,39 +120,21 @@ int main(int argc, char** argv)
   if (res != ProgramOptions::OPTS_SUCCESS) {
     return EXIT_SUCCESS;
   }
-
+  
   int domain = getDomainFromHostAndPort(options.host.c_str(),options.port.c_str(),options.ip6 ? AF_INET6 : AF_INET);
 
-  SSLContext ctx(SSLMode::CLIENT);
-
-  EchoClient client(epoll,ctx,domain,options.blocking);
-
-  initClientFromOptions(client,options);
-
   initSSLLibrary();
-
-  client.connect(options.host.c_str(),options.port.c_str());
-  
-  std::thread threadObj(&threadfunc);
-
-  cout << "Type 'quit' to exit" << endl;
-  while (client.state() != SocketState::DISCONNECTED) {
-    epoll.poll(100);
-    mtx.lock();
-    if (!cmd.empty()) {
-      if (cmd.compare("quit\n") == 0) {
-        client.disconnect();
-      } else {
-        client.write(cmd.c_str(),cmd.length());
-      }
-      cmd.clear();
-    }
-    mtx.unlock();
+  SSLContext ctx(SSLMode::CLIENT);
+  EchoClient client(epoll,ctx,domain,options.blocking);
+  initClientFromOptions(client,options);
+  if (client.connect(options.host.c_str(),options.port.c_str())) {
+    run(client);
+  } else {
+    cerr << "ERROR: Could not connect to " << options.host << " on port " << options.port << endl;
+    freeSSLLibrary();
+    return EXIT_FAILURE;
   }
-  
-  threadObj.join();
-  
   freeSSLLibrary();
 
-  return 0;
+  return EXIT_SUCCESS;
 }
