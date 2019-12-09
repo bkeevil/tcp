@@ -100,7 +100,7 @@ void run(EchoClient &client)
     client.disconnect();
   }
 
-  threadObj.join();  
+  threadObj.detach();  
 }
 
 int main(int argc, char** argv) 
