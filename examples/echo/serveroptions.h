@@ -1,5 +1,5 @@
-#ifndef CLIENT_OPTIONS_H
-#define CLIENT_OPTIONS_H
+#ifndef SERVER_OPTIONS_H
+#define SERVER_OPTIONS_H
 
 #include <string>
 #include <algorithm>
@@ -16,6 +16,7 @@ class ProgramOptions {
         OPTS_SUCCESS,
         OPTS_VERSION,
         OPTS_HELP,
+        OPTS_INTERFACES,
         OPTS_FAILURE
     };    
 
@@ -34,22 +35,19 @@ class ProgramOptions {
     
     // General Options
     string config {};
-    string host {};
-    string port {};
+    string interface {};
+    uint16_t port {};
     string log {};
     bool verbose {false};
-    bool blocking {false};
     bool ip6 {false};
-
+    
     // SSL Options
     string certfile {};
     string keyfile {};
     string keypass {};
     string cafile {};
     string capath {};
-    bool useSSL {false};
     bool verifypeer {false};
-    bool checkhostname {false};
     bool tlsonly {false};
     bool nocompression {false};
 

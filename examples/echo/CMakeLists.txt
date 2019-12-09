@@ -26,6 +26,7 @@ include_directories(
 )
 add_executable(echoserver 
   echoserver.cpp
+  serveroptions.cpp
   server.cpp 
 )
 
