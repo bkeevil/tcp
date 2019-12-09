@@ -2,7 +2,7 @@
 #include <fstream>
 #include <stdlib.h>
 #include <stdint.h>
-#include "clientoptions.h"
+#include "serveroptions.h"
 #include "boost/program_options/parsers.hpp"
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/path.hpp>
@@ -14,16 +14,16 @@ void ProgramOptions::setup()
   command.add_options()
     ("help,h", "Produce this help message")
     ("version,v", "Display version information")
+    ("list-interfaces,l", "List interfaces")
     ("config", po::value<string>(&config), "Config filename")
   ;
 
   general.add_options()
-    ("host,H", po::value<string>(&host), "host name or ip address")
-    ("port,P", po::value<string>(&port), "Port or service name")
-    ("ip6", po::bool_switch(&ip6), "Prefer IPv6")
-    ("blocking,b", po::bool_switch(&blocking), "Use a blocking socket")
+    ("interface,i", po::value<string>(&interface), "interface name or ip address")
+    ("port,P", po::value<uint16_t>(&port), "Port number to listen on")
     ("log,l", po::value<string>(&log), "Log filename")
     ("verbose,V", po::bool_switch(&verbose), "Verbose logging")
+    ("ip6", po::bool_switch(&ip6), "Use IPv6 protocol")
   ;
 
   ssl.add_options()
@@ -32,8 +32,7 @@ void ProgramOptions::setup()
     ("keypass", po::value<string>(&keypass), "Private key password")
     ("cafile", po::value<string>(&cafile), "Certificate authority file (PEM)")
     ("capath", po::value<string>(&capath), "Certificate authority path (PEM)")
-    ("verifypeer", po::bool_switch(&verifypeer)->default_value(false), "Verify server certificate signature")
-    ("checkhostname", po::bool_switch(&checkhostname)->default_value(false), "Check host name against certificate")
+    ("verifypeer", po::bool_switch(&verifypeer)->default_value(false), "Verify client certificate signature")
     ("tlsonly", po::bool_switch(&tlsonly)->default_value(false), "Don't allow deprecated protocols")
     ("nocompression", po::bool_switch(&nocompression)->default_value(false), "Disable TLS compression")
   ;
@@ -66,7 +65,7 @@ bool ProgramOptions::loadGlobalConfig(po::variables_map &vm)
 {
   po::options_description config_options;
   config_options.add(general).add(ssl);
-  string config("/etc/echoclient.conf");
+  string config("/etc/echoserver.conf");
   if (validateFilename(config)) {
     clog << "Loading configuration options from " << config << endl;
     ifstream f(config,ifstream::in);
@@ -115,36 +114,16 @@ bool ProgramOptions::loadCommandLineConfig(po::variables_map &vm)
 
 ProgramOptions::statusReturn_e ProgramOptions::validateOptions()
 {
-  if (port.empty()) {
+  if (port == 0) {
     cerr << "ERROR: port or service name must be specified!!!" << endl;
     showHelp();
     return OPTS_FAILURE;
   }
-  
-  if (host.empty()) {
-    if (ip6) {
-      host.assign("::");
-    } else {
-      host.assign("localhost");
-    }
-  }
 
-  if (useSSL) {
-    if ((certfile.empty() && !keyfile.empty()) || (!certfile.empty() && keyfile.empty())) {
-      cerr << "ERROR: both a certificate and key must be specified" << endl;
-      showHelp();
-      return OPTS_FAILURE;
-    }
-
-    if (checkhostname && !verifypeer) {
-      cerr << "ERROR: The checkhostname option requires verifypeer to be set" << endl;
-      showHelp();
-      return OPTS_FAILURE;
-    }
-  } else {
-    if (checkhostname || verifypeer || nocompression || tlsonly) {
-      cerr << "ERROR: SSL options were specified but no client key pair was found" << endl;
-    }
+  if ((certfile.empty() && !keyfile.empty()) || (!certfile.empty() && keyfile.empty())) {
+    cerr << "ERROR: both a certificate and key must be specified" << endl;
+    showHelp();
+    return OPTS_FAILURE;
   }
 
   return OPTS_SUCCESS;  
@@ -169,13 +148,19 @@ ProgramOptions::statusReturn_e ProgramOptions::parseOptions(int argc, char* argv
       return OPTS_VERSION;
     }
 
+    if (vm.count("list-interfaces")) {
+      return OPTS_INTERFACES;
+    }
+
     loadGlobalConfig(vm);
     loadUserConfig(vm);
     
     if (vm.count("config")) {
       loadCommandLineConfig(vm);
     }
-  
+
+    //po::options_description command_line_options;
+    //command_line_options.add(general).add(ssl);  
     po::store(po::parse_command_line(argc, argv, command_line_options), vm);
     po::notify(vm);    
   } catch (std::exception &e) {
@@ -184,18 +169,15 @@ ProgramOptions::statusReturn_e ProgramOptions::parseOptions(int argc, char* argv
   } catch( ... ) {
     cerr << "ERROR - parsing error (unknown type)." << endl;
     return OPTS_FAILURE;
-  }
-  useSSL = (!certfile.empty() && !keyfile.empty());
+   }
   return validateOptions();
 }
 
 void ProgramOptions::dump()
 {
   cout << "config=" << config << endl;
-  cout << "host=" << host << endl;
+  cout << "interface=" << interface << endl;
   cout << "port=" << port << endl;
-  cout << "blocking=" << blocking << endl;
-  cout << "ip6=" << ip6 << endl;
   cout << "log=" << log << endl;
   cout << "verbose=" << verbose << endl;
   cout << "certfile=" << certfile << endl;
@@ -204,7 +186,6 @@ void ProgramOptions::dump()
   cout << "cafile=" << cafile << endl;
   cout << "capath=" << capath << endl;
   cout << "verifypeer=" << verifypeer << endl;
-  cout << "checkhostname=" << checkhostname << endl;
   cout << "tlsonly=" << tlsonly << endl;
   cout << "nocompression=" << nocompression << endl;
 }

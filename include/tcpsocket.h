@@ -146,18 +146,6 @@ class DataSocket : public Socket {
      *  @details The content of the outputBuffer will be sent automatically at the next EPoll event */
     size_t write(const void *buffer, size_t size);
 
-    /** @brief If true, openSSL will attempt to verify the peer certificate */
-    bool verifyPeer {false};
-
-    /** @brief The filename of the openSSL certificate in PEM format */
-    string certfile;
-
-    /** @brief The filename of the openSSL private key in PEM format */
-    string keyfile;
-
-    /** @brief The password for the private key file, if required */
-    string keypass;
-
   protected:
 
     /** @brief Reads all available data from the socket into inputBuffer */
@@ -193,7 +181,7 @@ class DataSocket : public Socket {
 
     /** @brief    Factory method for returning an SSL object.
      *  @details  Override to replace the SSL class used. */
-    SSL *createSSL(SSLContext &context);
+    SSL *createSSL(SSLContext *context);
 
     /** @brief   Exposes the underlying SSL record used for openSSL calls to descendant classes */
     SSL *ssl_ {nullptr};

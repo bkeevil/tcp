@@ -334,9 +334,13 @@ size_t DataSocket::write(const void *buffer, size_t size)
   return result;
 }
 
-SSL* DataSocket::createSSL(SSLContext &context)
+SSL* DataSocket::createSSL(SSLContext *context)
 {
-  return new SSL(*this,context);
+  if (context) {
+    return new SSL(*this,*context);
+  } else {
+    return nullptr;
+  }
 }
 
 int getDomainFromHostAndPort(const char* host, const char* port, int def_domain)

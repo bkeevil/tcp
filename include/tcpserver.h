@@ -35,7 +35,7 @@ class Server : public Socket {
     /** @brief   Construct a server instance
      *  @param   domain   Either AF_INET or AF_INET6
      */
-    Server(EPoll &epoll, const int domain = AF_INET) : Socket(epoll,domain,0,false,EPOLLIN) {}
+    Server(EPoll &epoll, SSLContext *ctx, const int domain = AF_INET) : Socket(epoll,domain,0,false,EPOLLIN), useSSL_(ctx), ctx_(ctx) {}
     
     /** @brief   Destroy the server instance
      *  @details Destoying the server stops it from listening and ends all sessions by calling the 
@@ -58,10 +58,10 @@ class Server : public Socket {
     bool listening() { return state_ == SocketState::LISTENING; } 
     
     /** @brief   Print a list of interface addresses to cout */
-    bool printifaddrs();
+    static bool printifaddrs();
 
     /** @brief Get the SSL context for the server */
-    SSLContext &ctx() { return ctx_; }
+    SSLContext *ctx() { return ctx_; }
 
   protected:
   
@@ -92,7 +92,7 @@ class Server : public Socket {
     bool startListening(int backlog);
     bool acceptConnection();
     bool useSSL_ {false};
-    SSLContext ctx_ {SSLMode::SERVER};
+    SSLContext *ctx_;
     struct sockaddr_storage addr_;
     friend class Session;
 };

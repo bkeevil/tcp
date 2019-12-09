@@ -9,7 +9,7 @@ using namespace tcp;
 
 class EchoServer : public tcp::Server {
   public:
-    EchoServer(EPoll &epoll, const int domain = AF_INET) : Server(epoll,domain) {}
+    EchoServer(EPoll &epoll, SSLContext *ctx, const int domain = AF_INET) : Server(epoll,ctx,domain) {}
   protected:
     Session* createSession(const int socket, const sockaddr_in peer_address) override;
 };

@@ -28,24 +28,14 @@ void threadfunc() {
   }
 }
 
-void initClientFromOptions(EchoClient &client, ProgramOptions &options)
+void initSSLFromOptions(EchoClient &client, ProgramOptions &options)
 {
-  char *cafile {nullptr};
-  char *capath {nullptr};
+  if (client.ctx()) {
+    client.ctx()->setOptions(options.verifypeer,!options.nocompression,options.tlsonly);
+    client.ctx()->setVerifyPaths(options.cafile,options.capath);
+  }
   client.verifyPeer = options.verifypeer;
-  if (!options.cafile.empty()) {
-    cafile = (char*)malloc(options.cafile.length()+1);
-    strcpy(cafile,options.cafile.c_str());
-  }
-  if (!options.capath.empty()) {
-    cafile = (char*)malloc(options.capath.length()+1);
-    strcpy(capath,options.capath.c_str());
-  }
-  client.ctx().setVerifyPaths(cafile,capath);
-  if (cafile)
-    free(cafile);
-  if (capath)
-    free(capath);
+  client.checkPeerSubjectName = options.checkhostname;
   client.certfile = options.certfile;
   client.keyfile = options.keyfile;
   client.keypass = options.keypass;
@@ -103,6 +93,15 @@ void run(EchoClient &client)
   threadObj.detach();  
 }
 
+void closeSSL(SSLContext **ctx)
+{
+  if (*ctx) {
+    delete *ctx;
+    *ctx = nullptr;
+  }
+  freeSSLLibrary();
+}
+
 int main(int argc, char** argv) 
 {
   initSignals();
@@ -123,18 +122,32 @@ int main(int argc, char** argv)
   
   int domain = getDomainFromHostAndPort(options.host.c_str(),options.port.c_str(),options.ip6 ? AF_INET6 : AF_INET);
 
-  initSSLLibrary();
-  SSLContext ctx(SSLMode::CLIENT);
+  SSLContext *ctx;
+  
+  if (options.useSSL) {
+    initSSLLibrary();
+    ctx = new SSLContext(SSLMode::CLIENT);
+  }
+  
   EchoClient client(epoll,ctx,domain,options.blocking);
-  initClientFromOptions(client,options);
+  
+  if (options.useSSL) {
+    initSSLFromOptions(client,options);
+  }
+  
   if (client.connect(options.host.c_str(),options.port.c_str())) {
     run(client);
   } else {
     cerr << "ERROR: Could not connect to " << options.host << " on port " << options.port << endl;
-    freeSSLLibrary();
+    if (options.useSSL) {
+      closeSSL(&ctx);
+    }
     return EXIT_FAILURE;
   }
-  freeSSLLibrary();
 
+  if (options.useSSL) {
+    closeSSL(&ctx);
+  }
+    
   return EXIT_SUCCESS;
 }
