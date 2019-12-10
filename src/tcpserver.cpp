@@ -234,7 +234,8 @@ Session::~Session() {
  *  Override accepted() to perform initial actions when a session starts */ 
 void Session::accepted() {
   char ip[INET6_ADDRSTRLEN];
-  inet_ntop(domain(),&addr_,ip,INET_ADDRSTRLEN);
+  memset(&ip,0,INET6_ADDRSTRLEN);
+  inet_ntop(domain(),&addr_,ip,domain() == AF_INET ? INET_ADDRSTRLEN : INET6_ADDRSTRLEN);
   clog << "Connection from " << ip << ":" << port_ << " accepted" << endl;
   clog.flush();
   if (server().useSSL_) {
@@ -270,8 +271,9 @@ void Session::disconnected() {
       printSSLErrors();
     }
     state_ = SocketState::DISCONNECTED;
-    char ip[INET_ADDRSTRLEN];
-    inet_ntop(domain(),&(addr_),ip,INET_ADDRSTRLEN);
+    char ip[INET6_ADDRSTRLEN];
+    memset(&ip,0,INET6_ADDRSTRLEN);
+    inet_ntop(domain(),&(addr_),ip,domain() == AF_INET ? INET_ADDRSTRLEN : INET6_ADDRSTRLEN);
     clog << ip << ":" << port_ << " disconnected" << endl;
     clog.flush();
     delete this;
