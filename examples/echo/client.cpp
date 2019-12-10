@@ -109,7 +109,7 @@ int main(int argc, char** argv)
   ProgramOptions::statusReturn_e res = options.parseOptions(argc,argv);
   
   if (options.verbose) {
-    options.dump();
+//    options.dump();
   }
 
   if (res == ProgramOptions::OPTS_FAILURE) {
