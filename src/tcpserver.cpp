@@ -38,7 +38,7 @@ void Server::start(in_port_t port, string bindaddress, bool useSSL, int backlog)
     }
   } else {
     if (!findifaddr(bindaddress,reinterpret_cast<struct sockaddr*>(&addr_))) {
-      cerr << "Interface " << bindaddress << " not found" << endl;
+      error("Interface " + string(bindaddress) + " not found");
     }
   }
   if (domain() == AF_INET) {
@@ -52,7 +52,7 @@ void Server::start(in_port_t port, string bindaddress, bool useSSL, int backlog)
 
   int enable = 1;
   if (setsockopt(socket(), SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(enable)) < 0)
-    cerr << "Server could not set socket option SO_REUSEADDR" << endl;  
+    error("setsockopt","Server could not set socket option SO_REUSEADDR");  
 
   if (bindToAddress((struct sockaddr*)&addr_,(domain() == AF_INET ? sizeof(struct sockaddr_in) : sizeof(struct sockaddr_in6)))) {
     startListening(backlog);
@@ -62,8 +62,7 @@ void Server::start(in_port_t port, string bindaddress, bool useSSL, int backlog)
 void Server::stop()
 { 
   if (listening()) {
-    clog << "Sending disconnect to all sessions" << endl;
-    clog.flush();
+    log("Sending disconnect to all sessions");
     std::map<int,Session*>::iterator it;
     for (it = sessions.begin();it != sessions.end();++it) {
       it->second->disconnect();
@@ -95,7 +94,7 @@ bool Server::printifaddrs() {
         };
         int res = getnameinfo(item->ifa_addr,(f == AF_INET) ? sizeof(struct sockaddr_in) : sizeof(struct sockaddr_in6),host, NI_MAXHOST, NULL, 0, NI_NUMERICHOST);
         if (res != 0) {
-          cerr << "printifaddrs: " << gai_strerror(res) << endl;
+          error("printifaddrs",gai_strerror(res));
           return false;
         }
         cout << family << "    " << item->ifa_name << "   address: " << host << endl;
@@ -103,7 +102,7 @@ bool Server::printifaddrs() {
       item = item->ifa_next;
     }
   } else {
-    cerr << "printifaddrs:" << strerror(errno) << endl;
+    error("printifaddrs",strerror(errno));
     return false;
   }
   freeifaddrs(list);
@@ -139,7 +138,7 @@ bool Server::findifaddr(const string ifname, sockaddr *addr) {
       item = item->ifa_next;
     }
   } else {
-    cerr << "findifaddrs:" << strerror(errno) << endl;
+    error("findifaddrs",strerror(errno));
     return false;
   }
   freeifaddrs(list);
@@ -148,53 +147,45 @@ bool Server::findifaddr(const string ifname, sockaddr *addr) {
 
 bool Server::bindToAddress(sockaddr *addr, socklen_t len) {
   if (::bind(socket(),addr,len) == -1) {
-    cerr << "bind: " << strerror(errno) << endl;
-    cerr.flush();
+    error("bind",strerror(errno));
     return false;
   } else {
     char ip[INET6_ADDRSTRLEN];
     memset(&ip,0,INET6_ADDRSTRLEN);      
     if (addr->sa_family == AF_INET) {
       struct sockaddr_in * a = reinterpret_cast<struct sockaddr_in*>(addr);
+      string msg;
       if (a->sin_addr.s_addr == INADDR_ANY) {
-        clog << "Server bound to any IP4";
+        msg = "Server bound to any IP4";
       } else {
         inet_ntop(AF_INET,&a->sin_addr,ip,INET_ADDRSTRLEN);  
-        clog << "Server bound to " << ip;
+        msg = "Server bound to " + string(ip);
       }
-      if (a->sin_port == 0) {
-        clog << " on random port " << endl;
-      } else {
-        clog << " on port " << ntohs(a->sin_port) << endl;
-      }
+      msg += " on port " + to_string(ntohs(a->sin_port));
+      log(msg);
     } else {
       struct sockaddr_in6 * a = reinterpret_cast<struct sockaddr_in6*>(addr);
       inet_ntop(AF_INET6,&a->sin6_addr,ip,INET6_ADDRSTRLEN);  
+      string msg;
       if (strcmp(ip,"::") == 0) {
-        clog << "Server bound to any IP6";
+        msg = "Server bound to any IP6";
       } else {
-        clog << "Server bound to " << ip;
+        msg = "Server bound to " + string(ip);
       }
-      if (a->sin6_port == 0) {
-        clog << " on random port " << endl;
-      } else {
-        clog << " on port " << ntohs(a->sin6_port) << endl;
-      }
+      msg += " on port " + to_string(ntohs(a->sin6_port));
+      log(msg);
     }
-    clog.flush();
     return true;
   }
 }
 
 bool Server::startListening(int backlog) {
   if (listen(socket(),backlog) == -1) {
-    cerr << "listen: " << strerror(errno) << endl;
-    cerr.flush();
+    error("listen",strerror(errno));
     return false;
   } else {
     state_ = SocketState::LISTENING;
-    clog << "Server started listening" << endl;
-    clog.flush();
+    log("Server started listening");
     return true;
   }
 }
@@ -204,16 +195,14 @@ bool Server::acceptConnection() {
   socklen_t peer_addr_len = sizeof(struct sockaddr_in);
   int conn_sock = ::accept(socket(),(struct sockaddr *) &peer_addr, &peer_addr_len);
   if (conn_sock == -1) {
-    cerr << "accept: " << strerror(errno) << endl;
-    cerr.flush();
+    error("accept",strerror(errno));
     return false;
   } else {
     // Delete any existing sessions with the same socket handle
     Session* session = sessions[conn_sock];
     sessions.erase(conn_sock);
     if (session != nullptr) {
-      clog << "WARNING: A session with socket handle " << conn_sock << " already exists. Deleting it." << endl;
-      clog.flush();
+      warning("A session with socket handle " + to_string(conn_sock) + " already exists. Deleting it.");
       delete session;
     } 
     // Start a new session and accept it
@@ -230,13 +219,25 @@ Session::~Session() {
   server_.sessions.erase(socket());
 }
 
+void Session::connectionMessage(string action)
+{
+  char ip[INET6_ADDRSTRLEN];
+  memset(&ip,0,INET6_ADDRSTRLEN);
+  inet_ntop(domain(),&addr_,ip,domain() == AF_INET ? INET_ADDRSTRLEN : INET6_ADDRSTRLEN);
+  string msg("Connection from ");
+  if (domain() == AF_INET) {
+    msg += string(ip);
+  } else {
+    msg += "[" + string(ip) + "]";
+  }
+  msg += ":" + to_string(port_) + " " + action;
+  log(msg);  
+}
+
 /** @brief Server calls this method to signal the start of the session 
  *  Override accepted() to perform initial actions when a session starts */ 
 void Session::accepted() {
-  char ip[INET6_ADDRSTRLEN];
-  inet_ntop(domain(),&addr_,ip,INET_ADDRSTRLEN);
-  clog << "Connection from " << ip << ":" << port_ << " accepted" << endl;
-  clog.flush();
+  connectionMessage("accepted");
   if (server().useSSL_) {
     ssl_ = createSSL(server().ctx());
     ssl_->setfd(socket());
@@ -270,10 +271,7 @@ void Session::disconnected() {
       printSSLErrors();
     }
     state_ = SocketState::DISCONNECTED;
-    char ip[INET_ADDRSTRLEN];
-    inet_ntop(domain(),&(addr_),ip,INET_ADDRSTRLEN);
-    clog << ip << ":" << port_ << " disconnected" << endl;
-    clog.flush();
+    connectionMessage("disconnected");
     delete this;
   }  
 }

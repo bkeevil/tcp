@@ -99,6 +99,7 @@ $(document).ready(function(){initNavTree('classtcp_1_1Server.html','');});
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="#friends">Friends</a> &#124;
@@ -124,9 +125,9 @@ Collaboration diagram for tcp::Server:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:abbeac68e2b0b2db44d25e9399ead4f06"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtcp_1_1Server.html#abbeac68e2b0b2db44d25e9399ead4f06">Server</a> (<a class="el" href="classtcp_1_1EPoll.html">EPoll</a> &amp;<a class="el" href="classtcp_1_1Socket.html#afb5727be64aa85dd1c88105870541a9a">epoll</a>, const int <a class="el" href="classtcp_1_1Socket.html#ab59208f2458274e28402b230cb4d6310">domain</a>=AF_INET)</td></tr>
-<tr class="memdesc:abbeac68e2b0b2db44d25e9399ead4f06"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a server instance.  <a href="classtcp_1_1Server.html#abbeac68e2b0b2db44d25e9399ead4f06">More...</a><br /></td></tr>
-<tr class="separator:abbeac68e2b0b2db44d25e9399ead4f06"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4cba33f750b55eb95af7446ea4fc96d9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtcp_1_1Server.html#a4cba33f750b55eb95af7446ea4fc96d9">Server</a> (<a class="el" href="classtcp_1_1EPoll.html">EPoll</a> &amp;<a class="el" href="classtcp_1_1Socket.html#afb5727be64aa85dd1c88105870541a9a">epoll</a>, <a class="el" href="classtcp_1_1SSLContext.html">SSLContext</a> *<a class="el" href="classtcp_1_1Server.html#aac0fe1854e2739485b18709ef4757622">ctx</a>, const int <a class="el" href="classtcp_1_1Socket.html#ab59208f2458274e28402b230cb4d6310">domain</a>=AF_INET)</td></tr>
+<tr class="memdesc:a4cba33f750b55eb95af7446ea4fc96d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a server instance.  <a href="classtcp_1_1Server.html#a4cba33f750b55eb95af7446ea4fc96d9">More...</a><br /></td></tr>
+<tr class="separator:a4cba33f750b55eb95af7446ea4fc96d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5e9ca770b9797466ef4206cc9b78585d"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtcp_1_1Server.html#a5e9ca770b9797466ef4206cc9b78585d">~Server</a> ()</td></tr>
 <tr class="memdesc:a5e9ca770b9797466ef4206cc9b78585d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroy the server instance.  <a href="classtcp_1_1Server.html#a5e9ca770b9797466ef4206cc9b78585d">More...</a><br /></td></tr>
 <tr class="separator:a5e9ca770b9797466ef4206cc9b78585d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -144,14 +145,10 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memitem:a387b2b684c0bb5fe2a64e1a9effa3a28"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtcp_1_1Server.html#a387b2b684c0bb5fe2a64e1a9effa3a28">listening</a> ()</td></tr>
 <tr class="memdesc:a387b2b684c0bb5fe2a64e1a9effa3a28"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determine if the server is listening.  <a href="classtcp_1_1Server.html#a387b2b684c0bb5fe2a64e1a9effa3a28">More...</a><br /></td></tr>
 <tr class="separator:a387b2b684c0bb5fe2a64e1a9effa3a28"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeb5b84daa153a2ae4f0a2fa7e3fa80ff"><td class="memItemLeft" align="right" valign="top"><a id="aeb5b84daa153a2ae4f0a2fa7e3fa80ff"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtcp_1_1Server.html#aeb5b84daa153a2ae4f0a2fa7e3fa80ff">printifaddrs</a> ()</td></tr>
-<tr class="memdesc:aeb5b84daa153a2ae4f0a2fa7e3fa80ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print a list of interface addresses to cout. <br /></td></tr>
-<tr class="separator:aeb5b84daa153a2ae4f0a2fa7e3fa80ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4f4ed83bb4b03abe7df909b3d4253f2b"><td class="memItemLeft" align="right" valign="top"><a id="a4f4ed83bb4b03abe7df909b3d4253f2b"></a>
-<a class="el" href="classtcp_1_1SSLContext.html">SSLContext</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtcp_1_1Server.html#a4f4ed83bb4b03abe7df909b3d4253f2b">ctx</a> ()</td></tr>
-<tr class="memdesc:a4f4ed83bb4b03abe7df909b3d4253f2b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the <a class="el" href="classtcp_1_1SSL.html" title="Encapsulates an SSL connection data structure.">SSL</a> context for the server. <br /></td></tr>
-<tr class="separator:a4f4ed83bb4b03abe7df909b3d4253f2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aac0fe1854e2739485b18709ef4757622"><td class="memItemLeft" align="right" valign="top"><a id="aac0fe1854e2739485b18709ef4757622"></a>
+<a class="el" href="classtcp_1_1SSLContext.html">SSLContext</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtcp_1_1Server.html#aac0fe1854e2739485b18709ef4757622">ctx</a> ()</td></tr>
+<tr class="memdesc:aac0fe1854e2739485b18709ef4757622"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the <a class="el" href="classtcp_1_1SSL.html" title="Encapsulates an SSL connection data structure.">SSL</a> context for the server. <br /></td></tr>
+<tr class="separator:aac0fe1854e2739485b18709ef4757622"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classtcp_1_1Socket"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classtcp_1_1Socket')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classtcp_1_1Socket.html">tcp::Socket</a></td></tr>
 <tr class="memitem:a204bc6afa9dc77b81eba607ef083c16b inherit pub_methods_classtcp_1_1Socket"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtcp_1_1Socket.html#a204bc6afa9dc77b81eba607ef083c16b">Socket</a> (<a class="el" href="classtcp_1_1EPoll.html">EPoll</a> &amp;<a class="el" href="classtcp_1_1Socket.html#afb5727be64aa85dd1c88105870541a9a">epoll</a>, const int <a class="el" href="classtcp_1_1Socket.html#ab59208f2458274e28402b230cb4d6310">domain</a>=AF_INET, const int <a class="el" href="classtcp_1_1Socket.html#af4995f805c9976807f7fefd1dc90689e">socket</a>=0, const bool blocking=false, const int events=(EPOLLIN|EPOLLRDHUP))</td></tr>
 <tr class="memdesc:a204bc6afa9dc77b81eba607ef083c16b inherit pub_methods_classtcp_1_1Socket"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a blocking or non-blocking socket handle that responds to certain epoll events.  <a href="classtcp_1_1Socket.html#a204bc6afa9dc77b81eba607ef083c16b">More...</a><br /></td></tr>
@@ -171,6 +168,13 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtcp_1_1Socket.html#a79b42453c6031e3bd0594665ae686422">disconnect</a> ()</td></tr>
 <tr class="memdesc:a79b42453c6031e3bd0594665ae686422 inherit pub_methods_classtcp_1_1Socket"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shuts down the socket gracefully. <br /></td></tr>
 <tr class="separator:a79b42453c6031e3bd0594665ae686422 inherit pub_methods_classtcp_1_1Socket"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:aeb5b84daa153a2ae4f0a2fa7e3fa80ff"><td class="memItemLeft" align="right" valign="top"><a id="aeb5b84daa153a2ae4f0a2fa7e3fa80ff"></a>
+static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtcp_1_1Server.html#aeb5b84daa153a2ae4f0a2fa7e3fa80ff">printifaddrs</a> ()</td></tr>
+<tr class="memdesc:aeb5b84daa153a2ae4f0a2fa7e3fa80ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print a list of interface addresses to cout. <br /></td></tr>
+<tr class="separator:aeb5b84daa153a2ae4f0a2fa7e3fa80ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
@@ -223,8 +227,8 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>Session</b></td></tr
 
 <p class="definition">Definition at line <a class="el" href="tcpserver_8h_source.html#l00033">33</a> of file <a class="el" href="tcpserver_8h_source.html">tcpserver.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="abbeac68e2b0b2db44d25e9399ead4f06"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abbeac68e2b0b2db44d25e9399ead4f06">&#9670;&nbsp;</a></span>Server()</h2>
+<a id="a4cba33f750b55eb95af7446ea4fc96d9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4cba33f750b55eb95af7446ea4fc96d9">&#9670;&nbsp;</a></span>Server()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -237,6 +241,12 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>Session</b></td></tr
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtcp_1_1EPoll.html">EPoll</a> &amp;&#160;</td>
           <td class="paramname"><em>epoll</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classtcp_1_1SSLContext.html">SSLContext</a> *&#160;</td>
+          <td class="paramname"><em>ctx</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -266,7 +276,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>Session</b></td></tr
 </dl>
 
 <p class="definition">Definition at line <a class="el" href="tcpserver_8h_source.html#l00038">38</a> of file <a class="el" href="tcpserver_8h_source.html">tcpserver.h</a>.</p>
-<div class="fragment"><div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;: <a class="code" href="classtcp_1_1Socket.html#a204bc6afa9dc77b81eba607ef083c16b">Socket</a>(<a class="code" href="classtcp_1_1Socket.html#afb5727be64aa85dd1c88105870541a9a">epoll</a>,<a class="code" href="classtcp_1_1Socket.html#ab59208f2458274e28402b230cb4d6310">domain</a>,0,<span class="keyword">false</span>,EPOLLIN) {}</div>
+<div class="fragment"><div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;: <a class="code" href="classtcp_1_1Socket.html#a204bc6afa9dc77b81eba607ef083c16b">Socket</a>(<a class="code" href="classtcp_1_1Socket.html#afb5727be64aa85dd1c88105870541a9a">epoll</a>,<a class="code" href="classtcp_1_1Socket.html#ab59208f2458274e28402b230cb4d6310">domain</a>,0,<span class="keyword">false</span>,EPOLLIN), useSSL_(<a class="code" href="classtcp_1_1Server.html#aac0fe1854e2739485b18709ef4757622">ctx</a>), ctx_(<a class="code" href="classtcp_1_1Server.html#aac0fe1854e2739485b18709ef4757622">ctx</a>) {}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -379,12 +389,12 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>Session</b></td></tr
 
 <p>Implements <a class="el" href="classtcp_1_1Socket.html#a29e680be01356d68416f1e28d78a8397">tcp::Socket</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="tcpserver_8cpp_source.html#l00075">75</a> of file <a class="el" href="tcpserver_8cpp_source.html">tcpserver.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                                         {</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;  <span class="keywordflow">if</span> (<a class="code" href="classtcp_1_1Server.html#a387b2b684c0bb5fe2a64e1a9effa3a28">listening</a>() &amp;&amp; (events &amp; EPOLLIN)) {</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    acceptConnection();</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;  }</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;}</div>
+<p class="definition">Definition at line <a class="el" href="tcpserver_8cpp_source.html#l00074">74</a> of file <a class="el" href="tcpserver_8cpp_source.html">tcpserver.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;                                         {</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;  <span class="keywordflow">if</span> (<a class="code" href="classtcp_1_1Server.html#a387b2b684c0bb5fe2a64e1a9effa3a28">listening</a>() &amp;&amp; (events &amp; EPOLLIN)) {</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    acceptConnection();</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;  }</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -457,11 +467,12 @@ Returns false while the server is being destroyed. </dd></dl>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aclasstcp_1_1Socket_html_afb5727be64aa85dd1c88105870541a9a"><div class="ttname"><a href="classtcp_1_1Socket.html#afb5727be64aa85dd1c88105870541a9a">tcp::Socket::epoll</a></div><div class="ttdeci">EPoll &amp; epoll()</div><div class="ttdoc">Returns a reference to the epoll instance used by this socket.</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8h_source.html#l00118">tcpsocket.h:118</a></div></div>
-<div class="ttc" id="aclasstcp_1_1Socket_html_a72f08cd52de1480fef5f8b120ab73da7"><div class="ttname"><a href="classtcp_1_1Socket.html#a72f08cd52de1480fef5f8b120ab73da7">tcp::Socket::state_</a></div><div class="ttdeci">SocketState state_</div><div class="ttdoc">Descendant classes can manipulate the socket state directly.</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8h_source.html#l00121">tcpsocket.h:121</a></div></div>
+<div class="ttc" id="aclasstcp_1_1Server_html_aac0fe1854e2739485b18709ef4757622"><div class="ttname"><a href="classtcp_1_1Server.html#aac0fe1854e2739485b18709ef4757622">tcp::Server::ctx</a></div><div class="ttdeci">SSLContext * ctx()</div><div class="ttdoc">Get the SSL context for the server.</div><div class="ttdef"><b>Definition:</b> <a href="tcpserver_8h_source.html#l00064">tcpserver.h:64</a></div></div>
+<div class="ttc" id="aclasstcp_1_1Socket_html_afb5727be64aa85dd1c88105870541a9a"><div class="ttname"><a href="classtcp_1_1Socket.html#afb5727be64aa85dd1c88105870541a9a">tcp::Socket::epoll</a></div><div class="ttdeci">EPoll &amp; epoll()</div><div class="ttdoc">Returns a reference to the epoll instance used by this socket.</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8h_source.html#l00140">tcpsocket.h:140</a></div></div>
+<div class="ttc" id="aclasstcp_1_1Socket_html_a72f08cd52de1480fef5f8b120ab73da7"><div class="ttname"><a href="classtcp_1_1Socket.html#a72f08cd52de1480fef5f8b120ab73da7">tcp::Socket::state_</a></div><div class="ttdeci">SocketState state_</div><div class="ttdoc">Descendant classes can manipulate the socket state directly.</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8h_source.html#l00143">tcpsocket.h:143</a></div></div>
 <div class="ttc" id="aclasstcp_1_1Server_html_a387b2b684c0bb5fe2a64e1a9effa3a28"><div class="ttname"><a href="classtcp_1_1Server.html#a387b2b684c0bb5fe2a64e1a9effa3a28">tcp::Server::listening</a></div><div class="ttdeci">bool listening()</div><div class="ttdoc">Determine if the server is listening.</div><div class="ttdef"><b>Definition:</b> <a href="tcpserver_8h_source.html#l00058">tcpserver.h:58</a></div></div>
-<div class="ttc" id="aclasstcp_1_1Socket_html_a204bc6afa9dc77b81eba607ef083c16b"><div class="ttname"><a href="classtcp_1_1Socket.html#a204bc6afa9dc77b81eba607ef083c16b">tcp::Socket::Socket</a></div><div class="ttdeci">Socket(EPoll &amp;epoll, const int domain=AF_INET, const int socket=0, const bool blocking=false, const int events=(EPOLLIN|EPOLLRDHUP))</div><div class="ttdoc">Construct a blocking or non-blocking socket handle that responds to certain epoll events.</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8cpp_source.html#l00087">tcpsocket.cpp:87</a></div></div>
-<div class="ttc" id="aclasstcp_1_1Socket_html_ab59208f2458274e28402b230cb4d6310"><div class="ttname"><a href="classtcp_1_1Socket.html#ab59208f2458274e28402b230cb4d6310">tcp::Socket::domain</a></div><div class="ttdeci">int domain() const</div><div class="ttdoc">Return the socket domain (AF_INET or AF_INET6)</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8h_source.html#l00092">tcpsocket.h:92</a></div></div>
+<div class="ttc" id="aclasstcp_1_1Socket_html_a204bc6afa9dc77b81eba607ef083c16b"><div class="ttname"><a href="classtcp_1_1Socket.html#a204bc6afa9dc77b81eba607ef083c16b">tcp::Socket::Socket</a></div><div class="ttdeci">Socket(EPoll &amp;epoll, const int domain=AF_INET, const int socket=0, const bool blocking=false, const int events=(EPOLLIN|EPOLLRDHUP))</div><div class="ttdoc">Construct a blocking or non-blocking socket handle that responds to certain epoll events.</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8cpp_source.html#l00097">tcpsocket.cpp:97</a></div></div>
+<div class="ttc" id="aclasstcp_1_1Socket_html_ab59208f2458274e28402b230cb4d6310"><div class="ttname"><a href="classtcp_1_1Socket.html#ab59208f2458274e28402b230cb4d6310">tcp::Socket::domain</a></div><div class="ttdeci">int domain() const</div><div class="ttdoc">Return the socket domain (AF_INET or AF_INET6)</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8h_source.html#l00114">tcpsocket.h:114</a></div></div>
 <div class="ttc" id="aclasstcp_1_1Server_html_a5eb47cde0c24cc829fd49ec37f5b58fa"><div class="ttname"><a href="classtcp_1_1Server.html#a5eb47cde0c24cc829fd49ec37f5b58fa">tcp::Server::stop</a></div><div class="ttdeci">void stop()</div><div class="ttdoc">Stop the server.</div><div class="ttdef"><b>Definition:</b> <a href="tcpserver_8cpp_source.html#l00062">tcpserver.cpp:62</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

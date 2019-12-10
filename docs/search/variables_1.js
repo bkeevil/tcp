@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['keyfile_167',['keyfile',['../classtcp_1_1DataSocket.html#aa4fe90d294c4ed4f4f71087ed076cbb5',1,'tcp::DataSocket']]],
-  ['keypass_168',['keypass',['../classtcp_1_1DataSocket.html#a4ab7473a48684200eba7eed80c9fc810',1,'tcp::DataSocket']]]
+  ['keyfile_175',['keyfile',['../classtcp_1_1Client.html#a8d6f0974c01dbdbc7570c23e7e2ffd3d',1,'tcp::Client']]],
+  ['keypass_176',['keypass',['../classtcp_1_1Client.html#af1e242dfc9a1b48c89de32eb86459626',1,'tcp::Client']]]
 ];

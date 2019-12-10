@@ -1,13 +1,12 @@
 var classtcp_1_1Server =
 [
-    [ "Server", "classtcp_1_1Server.html#abbeac68e2b0b2db44d25e9399ead4f06", null ],
+    [ "Server", "classtcp_1_1Server.html#a4cba33f750b55eb95af7446ea4fc96d9", null ],
     [ "~Server", "classtcp_1_1Server.html#a5e9ca770b9797466ef4206cc9b78585d", null ],
     [ "createSession", "classtcp_1_1Server.html#a503569c7d9545817fad80ec775e56e07", null ],
-    [ "ctx", "classtcp_1_1Server.html#a4f4ed83bb4b03abe7df909b3d4253f2b", null ],
+    [ "ctx", "classtcp_1_1Server.html#aac0fe1854e2739485b18709ef4757622", null ],
     [ "findifaddr", "classtcp_1_1Server.html#a08a70dd5ea919f05c6eabe69afdd1c71", null ],
     [ "handleEvents", "classtcp_1_1Server.html#a87d114dd56e3d71bfba86fc1fc76baf3", null ],
     [ "listening", "classtcp_1_1Server.html#a387b2b684c0bb5fe2a64e1a9effa3a28", null ],
-    [ "printifaddrs", "classtcp_1_1Server.html#aeb5b84daa153a2ae4f0a2fa7e3fa80ff", null ],
     [ "start", "classtcp_1_1Server.html#a70868653e561a88f7d15dc051dfec0e2", null ],
     [ "start", "classtcp_1_1Server.html#a2f4ef415f2f23facdfc5f47d147b12a5", null ],
     [ "stop", "classtcp_1_1Server.html#a5eb47cde0c24cc829fd49ec37f5b58fa", null ],

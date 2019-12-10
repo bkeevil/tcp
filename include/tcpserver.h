@@ -152,6 +152,7 @@ class Session : public DataSocket {
 
     friend class SSL;
   private:
+    void connectionMessage(string action);
     Server& server_;
     in_port_t port_;
     in_addr_t addr_;

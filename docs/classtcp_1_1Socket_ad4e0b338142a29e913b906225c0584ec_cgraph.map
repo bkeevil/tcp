@@ -1,0 +1,4 @@
+<map id="tcp::Socket::~Socket" name="tcp::Socket::~Socket">
+<area shape="rect" id="node1" title="Closes and destroys the socket." alt="" coords="5,5,152,32"/>
+<area shape="rect" id="node2" href="$namespacetcp.html#a6ece4b796493cab74bad0c96c92adbc6" title="Send an error message to the log stream." alt="" coords="200,5,275,32"/>
+</map>

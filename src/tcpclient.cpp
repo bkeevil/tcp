@@ -51,8 +51,7 @@ bool Client::connect(const char *host, const char *service)
       return false;
   }
 
-  clog << "Connecting to " << result->ai_canonname << " on port " << service << endl;
-  clog.flush();
+  log("Connecting to " + string(result->ai_canonname) + " on port " + string(service));
 
   for (rp = result; rp != nullptr; rp = rp->ai_next) {
     if (::connect(socket(),rp->ai_addr,rp->ai_addrlen) == -1) {
@@ -62,7 +61,7 @@ bool Client::connect(const char *host, const char *service)
         return true;
       } else {
         setEvents(0);
-        cerr << "connect: " << strerror(errno) << endl;
+        error("connect",strerror(errno));
         return false;
       }
     } else {
@@ -71,7 +70,7 @@ bool Client::connect(const char *host, const char *service)
     }
   }
 
-  cerr << "Could not find host " << host << endl;
+  error("Could not find host " + string(host));
   freeaddrinfo(result);
   return false;
 }
@@ -84,16 +83,14 @@ void Client::connected() {
   }
     
   state_ = SocketState::CONNECTED;
-  clog << "Connected" << endl;
-
-  clog.flush();  
+  log("Connected");
 }
 
 void Client::handleEvents(uint32_t events) 
 {
   if (state_ == SocketState::CONNECTING) {
     if (events & EPOLLERR) {
-      cerr << "handleEvents: " << strerror(errno) << endl;      
+      error("handleEvents",strerror(errno));
     }
     if (events & EPOLLRDHUP) {
       state_ = SocketState::UNCONNECTED;

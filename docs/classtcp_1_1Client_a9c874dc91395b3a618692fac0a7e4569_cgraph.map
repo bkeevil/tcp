@@ -1,0 +1,4 @@
+<map id="tcp::Client::connect" name="tcp::Client::connect">
+<area shape="rect" id="node1" title="Initiates a connection to a server." alt="" coords="5,5,141,32"/>
+<area shape="rect" id="node2" href="$namespacetcp.html#afb05c17d86f0b123cc515ac5ce6b525c" title="Send an log message to the log stream." alt="" coords="189,5,255,32"/>
+</map>
