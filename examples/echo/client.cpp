@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <thread>
 #include <signal.h>
 #include "arpa/inet.h"
@@ -15,6 +16,8 @@ string cmd;
 EPoll epoll;
 ProgramOptions options;
 bool terminated {false};
+streambuf *oldclog;
+streambuf *oldcerr;
 
 void threadfunc() {
   char c[255];
@@ -119,7 +122,13 @@ int main(int argc, char** argv)
   if (res != ProgramOptions::OPTS_SUCCESS) {
     return EXIT_SUCCESS;
   }
-  
+
+  ofstream *os = nullptr ;
+  if (!options.log.empty()) {
+    os = new ofstream(options.log.c_str(),ios_base::app);
+    setLogStream(os);
+  }  
+
   int domain = getDomainFromHostAndPort(options.host.c_str(),options.port.c_str(),options.ip6 ? AF_INET6 : AF_INET);
 
   SSLContext *ctx;
@@ -139,6 +148,9 @@ int main(int argc, char** argv)
     run(client);
   } else {
     cerr << "ERROR: Could not connect to " << options.host << " on port " << options.port << endl;
+    if (os) {
+      delete os;
+    }
     if (options.useSSL) {
       closeSSL(&ctx);
     }
@@ -149,5 +161,8 @@ int main(int argc, char** argv)
     closeSSL(&ctx);
   }
     
+  if (os) {
+    delete(os);
+  }
   return EXIT_SUCCESS;
 }

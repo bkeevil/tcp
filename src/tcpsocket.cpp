@@ -12,11 +12,21 @@
 
 namespace tcp {
 
+ostream logstream(clog.rdbuf());
+
+void setLogStream(ostream *os) { if (os) logstream.rdbuf(os->rdbuf()); }
+inline void error(string msg) { logstream << "Error: " << msg << endl; }
+inline void error(string label, string msg) { logstream << "Error: " << label << ": " << msg << endl; }
+inline void warning(string msg) { logstream << "Warning: " << msg << endl; }
+inline void warning(string label, string msg) { logstream << "Warning: " << label << ": " << msg << endl; }
+inline void log(string msg) { logstream << msg << endl; }
+inline void log(string label, string msg) { logstream << label << ": " << msg << endl;}
+
 EPoll::EPoll() 
 {
   handle_ = epoll_create1(0);
   if (handle_ == -1) {
-    cerr << "epoll_create1: " << strerror(errno) << endl;
+    error("epoll_create1",strerror(errno));
   }
 }
 
@@ -66,7 +76,7 @@ void EPoll::poll(int timeout)
   int nfds = epoll_wait(handle_,events,MAX_EVENTS,timeout); 
   if (nfds == -1) {
     if (errno != EINTR) 
-      cerr << "epoll_wait: " << strerror(errno) << endl;
+      error("epoll_wait",strerror(errno));
   } else {
     for (int n = 0; n < nfds; ++n) {
       handleEvents(events[n].events,events[n].data.fd);
@@ -87,23 +97,23 @@ void EPoll::handleEvents(uint32_t events, int fd)
 Socket::Socket(EPoll &epoll, const int domain, const int socket, const bool blocking, const int events) : epoll_(epoll), events_(events), domain_(domain), socket_(socket) 
 { 
   if ((domain != AF_INET) && (domain != AF_INET6)) {
-    cerr << "Socket: Only IPv4 and IPv6 are supported." << endl;
+    error("Socket","Only IPv4 and IPv6 are supported.");
     return;
   }
   if (socket < 0) {
-    cerr << "Socket: Socket parameter is < 0" << endl;;
+    error("Socket","Socket parameter is < 0");
     return;
   }
   mtx.lock();
   if (socket == 0) {
     socket_ = ::socket(domain,SOCK_STREAM,0);
     if (socket_ == -1) {
-      cerr << "socket: " << strerror(errno) << endl;
+      error("socket", strerror(errno));
     }
   }
   int flags = fcntl(socket_,F_GETFL,0);
   if (flags == -1) {
-    cerr << "fcntl (get): " << strerror(errno) << endl;
+    error("fcntl (get)",strerror(errno));
   } else {
     if (!blocking) {
       flags |= O_NONBLOCK;
@@ -111,12 +121,12 @@ Socket::Socket(EPoll &epoll, const int domain, const int socket, const bool bloc
       flags = flags & ~O_NONBLOCK;
     }
     if (fcntl(socket_,F_SETFL,flags) == -1) {
-      cerr << "fcntl (set): " << strerror(errno) << endl;
+      error("fcntl (set)",strerror(errno));
     }
   }
   
   if (!epoll_.add(*this,events)) {
-    cerr << "Unable to add socket to epoll" << endl;
+    error("Unable to add socket to epoll");
   }
   
   mtx.unlock();
@@ -128,7 +138,7 @@ Socket::~Socket()
     mtx.lock();
     epoll_.remove(*this);
     if (::close(socket_) == -1) {
-      cerr << "close: " << strerror(errno) << endl;
+      error("close",strerror(errno));
     } 
     socket_ = 0;
     mtx.unlock();
@@ -167,8 +177,9 @@ void Socket::disconnected()
     ::close(socket_);
     socket_ = 0;
     state_ = SocketState::DISCONNECTED;
-    clog << "Disconnected" << endl;
-    clog.flush(); 
+    log("Disconnected");
+  } else {
+    warning("Already disconnected");
   }
   mtx.unlock();
 }

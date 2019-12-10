@@ -28,6 +28,28 @@ namespace tcp {
 
 using namespace std;
 
+/** @brief   Set the output stream used by the library for log, warning and error messages.
+ *  @details Defaults to clog */
+void setLogStream(ostream *os);
+
+/** @brief  Send an error message to the log stream */
+void error(string msg);
+
+/** @brief  Send a labelled error message to the log stream */
+void error(string label, string msg);
+
+/** @brief  Send a warning message to the log stream */
+void warning(string msg);
+
+/** @brief  Send an labelled warning message to the log stream */
+void warning(string label, string msg);
+
+/** @brief  Send an log message to the log stream */
+void log(string msg);
+
+/** @brief  Send a labelled log message to the log stream */
+void log(string label, string msg);
+
 class Socket;
 class SSLContext;
 
