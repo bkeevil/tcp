@@ -162,11 +162,7 @@ bool Server::bindToAddress(sockaddr *addr, socklen_t len) {
         inet_ntop(AF_INET,&a->sin_addr,ip,INET_ADDRSTRLEN);  
         clog << "Server bound to " << ip;
       }
-      if (a->sin_port == 0) {
-        clog << " on random port " << endl;
-      } else {
-        clog << " on port " << ntohs(a->sin_port) << endl;
-      }
+      clog << " on port " << ntohs(a->sin_port) << endl;
     } else {
       struct sockaddr_in6 * a = reinterpret_cast<struct sockaddr_in6*>(addr);
       inet_ntop(AF_INET6,&a->sin6_addr,ip,INET6_ADDRSTRLEN);  
@@ -175,11 +171,7 @@ bool Server::bindToAddress(sockaddr *addr, socklen_t len) {
       } else {
         clog << "Server bound to " << ip;
       }
-      if (a->sin6_port == 0) {
-        clog << " on random port " << endl;
-      } else {
-        clog << " on port " << ntohs(a->sin6_port) << endl;
-      }
+      clog << " on port " << ntohs(a->sin6_port) << endl;
     }
     clog.flush();
     return true;
@@ -236,7 +228,13 @@ void Session::accepted() {
   char ip[INET6_ADDRSTRLEN];
   memset(&ip,0,INET6_ADDRSTRLEN);
   inet_ntop(domain(),&addr_,ip,domain() == AF_INET ? INET_ADDRSTRLEN : INET6_ADDRSTRLEN);
-  clog << "Connection from " << ip << ":" << port_ << " accepted" << endl;
+  clog << "Connection from ";
+  if (domain() == AF_INET) {
+    clog << ip;
+  } else {
+    clog << "[" << ip << "]";
+  }
+  clog << ":" << port_ << " accepted" << endl;
   clog.flush();
   if (server().useSSL_) {
     ssl_ = createSSL(server().ctx());
@@ -274,7 +272,12 @@ void Session::disconnected() {
     char ip[INET6_ADDRSTRLEN];
     memset(&ip,0,INET6_ADDRSTRLEN);
     inet_ntop(domain(),&(addr_),ip,domain() == AF_INET ? INET_ADDRSTRLEN : INET6_ADDRSTRLEN);
-    clog << ip << ":" << port_ << " disconnected" << endl;
+    if (domain() == AF_INET) {
+      clog << ip;
+    } else {
+      clog << "[" << ip << "]";
+    }
+    clog << ":" << port_ << " disconnected" << endl;
     clog.flush();
     delete this;
   }  
