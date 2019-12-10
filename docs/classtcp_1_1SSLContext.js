@@ -7,6 +7,7 @@ var classtcp_1_1SSLContext =
     [ "setOptions", "classtcp_1_1SSLContext.html#a9b5f7146ce2b887844d3ac9f158c6e23", null ],
     [ "setPrivateKeyPassword", "classtcp_1_1SSLContext.html#a99d28b74c4a3490e4e70acb34b174bed", null ],
     [ "setVerifyPaths", "classtcp_1_1SSLContext.html#a95a8ff865e6c991922a488228d79f945", null ],
+    [ "setVerifyPaths", "classtcp_1_1SSLContext.html#a48e3adde153cbb8bcc26de40f2b1fdb4", null ],
     [ "useDefaultVerifyPaths", "classtcp_1_1SSLContext.html#af758117bbcfa608cb77533f85536fdee", null ],
     [ "SSL", "classtcp_1_1SSLContext.html#a1d92fac07179773c5e8f55a5d0167c97", null ],
     [ "ctx_", "classtcp_1_1SSLContext.html#a06c2a33dba08bd1e3fc06aa26e32b08c", null ],

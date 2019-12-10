@@ -154,72 +154,71 @@ $(document).ready(function(){initNavTree('tcpclient_8cpp_source.html','');});
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;      <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  }</div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  clog &lt;&lt; <span class="stringliteral">&quot;Connecting to &quot;</span> &lt;&lt; result-&gt;ai_canonname &lt;&lt; <span class="stringliteral">&quot; on port &quot;</span> &lt;&lt; service &lt;&lt; endl;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  clog.flush();</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;  <span class="keywordflow">for</span> (rp = result; rp != <span class="keyword">nullptr</span>; rp = rp-&gt;ai_next) {</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keywordflow">if</span> (::connect(socket(),rp-&gt;ai_addr,rp-&gt;ai_addrlen) == -1) {</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;      <span class="keywordflow">if</span> (errno == EINPROGRESS) {</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        state_ = SocketState::CONNECTING;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        setEvents(EPOLLIN | EPOLLOUT | EPOLLRDHUP);</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;      } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        setEvents(0);</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        cerr &lt;&lt; <span class="stringliteral">&quot;connect: &quot;</span> &lt;&lt; strerror(errno) &lt;&lt; endl;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;      }</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;      connected();</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;      <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    }</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;  }</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;  cerr &lt;&lt; <span class="stringliteral">&quot;Could not find host &quot;</span> &lt;&lt; host &lt;&lt; endl;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;  freeaddrinfo(result);</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;  <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;}</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160; </div>
-<div class="line"><a name="l00079"></a><span class="lineno"><a class="line" href="classtcp_1_1Client.html#ac824636e255d76a8bd20b0fafd57e3e0">   79</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classtcp_1_1Client.html#ac824636e255d76a8bd20b0fafd57e3e0">Client::connected</a>() {</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;  <span class="keywordflow">if</span> (ssl_) {</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    ssl_-&gt;connect();</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <a class="code" href="namespacetcp.html#a4e386f3935fd15d1413ab3ea56d5384d">printSSLErrors</a>(); </div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    readToInputBuffer();</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;  }</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    </div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;  state_ = SocketState::CONNECTED;</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;  clog &lt;&lt; <span class="stringliteral">&quot;Connected&quot;</span> &lt;&lt; endl;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  <a class="code" href="namespacetcp.html#afb05c17d86f0b123cc515ac5ce6b525c">log</a>(<span class="stringliteral">&quot;Connecting to &quot;</span> + <span class="keywordtype">string</span>(result-&gt;ai_canonname) + <span class="stringliteral">&quot; on port &quot;</span> + <span class="keywordtype">string</span>(service));</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  <span class="keywordflow">for</span> (rp = result; rp != <span class="keyword">nullptr</span>; rp = rp-&gt;ai_next) {</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordflow">if</span> (::connect(socket(),rp-&gt;ai_addr,rp-&gt;ai_addrlen) == -1) {</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;      <span class="keywordflow">if</span> (errno == EINPROGRESS) {</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        state_ = SocketState::CONNECTING;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        setEvents(EPOLLIN | EPOLLOUT | EPOLLRDHUP);</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;      } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        setEvents(0);</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        <a class="code" href="namespacetcp.html#a6ece4b796493cab74bad0c96c92adbc6">error</a>(<span class="stringliteral">&quot;connect&quot;</span>,strerror(errno));</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;      }</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;      connected();</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;      <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    }</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;  }</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;  <a class="code" href="namespacetcp.html#a6ece4b796493cab74bad0c96c92adbc6">error</a>(<span class="stringliteral">&quot;Could not find host &quot;</span> + <span class="keywordtype">string</span>(host));</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;  freeaddrinfo(result);</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;  <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;}</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160; </div>
+<div class="line"><a name="l00078"></a><span class="lineno"><a class="line" href="classtcp_1_1Client.html#ac824636e255d76a8bd20b0fafd57e3e0">   78</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classtcp_1_1Client.html#ac824636e255d76a8bd20b0fafd57e3e0">Client::connected</a>() {</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;  <span class="keywordflow">if</span> (ssl_) {</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    ssl_-&gt;connect();</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <a class="code" href="namespacetcp.html#a4e386f3935fd15d1413ab3ea56d5384d">printSSLErrors</a>(); </div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    readToInputBuffer();</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;  }</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    </div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;  state_ = SocketState::CONNECTED;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;  <a class="code" href="namespacetcp.html#afb05c17d86f0b123cc515ac5ce6b525c">log</a>(<span class="stringliteral">&quot;Connected&quot;</span>);</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;}</div>
 <div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160; </div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;  clog.flush();  </div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;}</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160; </div>
-<div class="line"><a name="l00092"></a><span class="lineno"><a class="line" href="classtcp_1_1Client.html#aad864d7410c858a25ccae384f18344cf">   92</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classtcp_1_1Client.html#aad864d7410c858a25ccae384f18344cf">Client::handleEvents</a>(uint32_t events) </div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;{</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;  <span class="keywordflow">if</span> (state_ == SocketState::CONNECTING) {</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    <span class="keywordflow">if</span> (events &amp; EPOLLERR) {</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;      cerr &lt;&lt; <span class="stringliteral">&quot;handleEvents: &quot;</span> &lt;&lt; strerror(errno) &lt;&lt; endl;      </div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    }</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    <span class="keywordflow">if</span> (events &amp; EPOLLRDHUP) {</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;      state_ = SocketState::UNCONNECTED;</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;      <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00089"></a><span class="lineno"><a class="line" href="classtcp_1_1Client.html#aad864d7410c858a25ccae384f18344cf">   89</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classtcp_1_1Client.html#aad864d7410c858a25ccae384f18344cf">Client::handleEvents</a>(uint32_t events) </div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;{</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;  <span class="keywordflow">if</span> (state_ == SocketState::CONNECTING) {</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    <span class="keywordflow">if</span> (events &amp; EPOLLERR) {</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;      <a class="code" href="namespacetcp.html#a6ece4b796493cab74bad0c96c92adbc6">error</a>(<span class="stringliteral">&quot;handleEvents&quot;</span>,strerror(errno));</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    }</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    <span class="keywordflow">if</span> (events &amp; EPOLLRDHUP) {</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;      state_ = SocketState::UNCONNECTED;</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;      <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    }</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    <span class="keywordflow">if</span> (events &amp; EPOLLOUT) {</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;      connected();</div>
 <div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    }</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    <span class="keywordflow">if</span> (events &amp; EPOLLOUT) {</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;      connected();</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    }</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;  } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    <a class="code" href="classtcp_1_1DataSocket.html#ad6e7e376a28de7cb0b1270be7a170ab4">DataSocket::handleEvents</a>(events);</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;  }</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;}</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160; </div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;} <span class="comment">// namespace mqttS</span></div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;  } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    <a class="code" href="classtcp_1_1DataSocket.html#ad6e7e376a28de7cb0b1270be7a170ab4">DataSocket::handleEvents</a>(events);</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;  }</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;}</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160; </div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;} <span class="comment">// namespace mqttS</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="anamespacetcp_html_a4e386f3935fd15d1413ab3ea56d5384d"><div class="ttname"><a href="namespacetcp.html#a4e386f3935fd15d1413ab3ea56d5384d">tcp::printSSLErrors</a></div><div class="ttdeci">void printSSLErrors()</div><div class="ttdoc">This method logs openSSL errors to cerr.</div><div class="ttdef"><b>Definition:</b> <a href="tcpssl_8cpp_source.html#l00056">tcpssl.cpp:56</a></div></div>
-<div class="ttc" id="aclasstcp_1_1Client_html_aad864d7410c858a25ccae384f18344cf"><div class="ttname"><a href="classtcp_1_1Client.html#aad864d7410c858a25ccae384f18344cf">tcp::Client::handleEvents</a></div><div class="ttdeci">void handleEvents(uint32_t events) override</div><div class="ttdoc">Receive epoll events sent to this socket.</div><div class="ttdef"><b>Definition:</b> <a href="tcpclient_8cpp_source.html#l00092">tcpclient.cpp:92</a></div></div>
-<div class="ttc" id="aclasstcp_1_1Client_html_ac824636e255d76a8bd20b0fafd57e3e0"><div class="ttname"><a href="classtcp_1_1Client.html#ac824636e255d76a8bd20b0fafd57e3e0">tcp::Client::connected</a></div><div class="ttdeci">virtual void connected()</div><div class="ttdoc">Called when the client connects to the server.</div><div class="ttdef"><b>Definition:</b> <a href="tcpclient_8cpp_source.html#l00079">tcpclient.cpp:79</a></div></div>
+<div class="ttc" id="aclasstcp_1_1Client_html_aad864d7410c858a25ccae384f18344cf"><div class="ttname"><a href="classtcp_1_1Client.html#aad864d7410c858a25ccae384f18344cf">tcp::Client::handleEvents</a></div><div class="ttdeci">void handleEvents(uint32_t events) override</div><div class="ttdoc">Receive epoll events sent to this socket.</div><div class="ttdef"><b>Definition:</b> <a href="tcpclient_8cpp_source.html#l00089">tcpclient.cpp:89</a></div></div>
+<div class="ttc" id="anamespacetcp_html_a6ece4b796493cab74bad0c96c92adbc6"><div class="ttname"><a href="namespacetcp.html#a6ece4b796493cab74bad0c96c92adbc6">tcp::error</a></div><div class="ttdeci">void error(string msg)</div><div class="ttdoc">Send an error message to the log stream.</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8cpp_source.html#l00018">tcpsocket.cpp:18</a></div></div>
+<div class="ttc" id="aclasstcp_1_1Client_html_ac824636e255d76a8bd20b0fafd57e3e0"><div class="ttname"><a href="classtcp_1_1Client.html#ac824636e255d76a8bd20b0fafd57e3e0">tcp::Client::connected</a></div><div class="ttdeci">virtual void connected()</div><div class="ttdoc">Called when the client connects to the server.</div><div class="ttdef"><b>Definition:</b> <a href="tcpclient_8cpp_source.html#l00078">tcpclient.cpp:78</a></div></div>
 <div class="ttc" id="aclasstcp_1_1Client_html_a9c874dc91395b3a618692fac0a7e4569"><div class="ttname"><a href="classtcp_1_1Client.html#a9c874dc91395b3a618692fac0a7e4569">tcp::Client::connect</a></div><div class="ttdeci">virtual bool connect(const char *host, const char *service)</div><div class="ttdoc">Initiates a connection to a server.</div><div class="ttdef"><b>Definition:</b> <a href="tcpclient_8cpp_source.html#l00016">tcpclient.cpp:16</a></div></div>
 <div class="ttc" id="aclasstcp_1_1Client_html_acb6c5cbd281a789dfe5ee38985dc9a1b"><div class="ttname"><a href="classtcp_1_1Client.html#acb6c5cbd281a789dfe5ee38985dc9a1b">tcp::Client::~Client</a></div><div class="ttdeci">virtual ~Client()</div><div class="ttdoc">Destroys the client.</div><div class="ttdef"><b>Definition:</b> <a href="tcpclient_8cpp_source.html#l00009">tcpclient.cpp:9</a></div></div>
-<div class="ttc" id="aclasstcp_1_1DataSocket_html_ad6e7e376a28de7cb0b1270be7a170ab4"><div class="ttname"><a href="classtcp_1_1DataSocket.html#ad6e7e376a28de7cb0b1270be7a170ab4">tcp::DataSocket::handleEvents</a></div><div class="ttdeci">void handleEvents(uint32_t events) override</div><div class="ttdoc">Called by the EPoll class when the listening socket recieves an epoll event.</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8cpp_source.html#l00244">tcpsocket.cpp:244</a></div></div>
+<div class="ttc" id="aclasstcp_1_1DataSocket_html_ad6e7e376a28de7cb0b1270be7a170ab4"><div class="ttname"><a href="classtcp_1_1DataSocket.html#ad6e7e376a28de7cb0b1270be7a170ab4">tcp::DataSocket::handleEvents</a></div><div class="ttdeci">void handleEvents(uint32_t events) override</div><div class="ttdoc">Called by the EPoll class when the listening socket recieves an epoll event.</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8cpp_source.html#l00255">tcpsocket.cpp:255</a></div></div>
 <div class="ttc" id="atcpclient_8h_html"><div class="ttname"><a href="tcpclient_8h.html">tcpclient.h</a></div><div class="ttdoc">Provides basic tcp client functionality.</div></div>
+<div class="ttc" id="anamespacetcp_html_afb05c17d86f0b123cc515ac5ce6b525c"><div class="ttname"><a href="namespacetcp.html#afb05c17d86f0b123cc515ac5ce6b525c">tcp::log</a></div><div class="ttdeci">void log(string msg)</div><div class="ttdoc">Send an log message to the log stream.</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8cpp_source.html#l00022">tcpsocket.cpp:22</a></div></div>
 <div class="ttc" id="anamespacetcp_html"><div class="ttname"><a href="namespacetcp.html">tcp</a></div><div class="ttdoc">A tcp client/server library for linux that supports openSSL and EPoll.</div><div class="ttdef"><b>Definition:</b> <a href="tcpclient_8cpp_source.html#l00005">tcpclient.cpp:5</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

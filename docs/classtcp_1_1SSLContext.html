@@ -130,6 +130,9 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 <tr class="memitem:a95a8ff865e6c991922a488228d79f945"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtcp_1_1SSLContext.html#a95a8ff865e6c991922a488228d79f945">setVerifyPaths</a> (const char *cafile=NULL, const char *capath=NULL)</td></tr>
 <tr class="memdesc:a95a8ff865e6c991922a488228d79f945"><td class="mdescLeft">&#160;</td><td class="mdescRight">Use the specified CA certificate or certificate directory.  <a href="classtcp_1_1SSLContext.html#a95a8ff865e6c991922a488228d79f945">More...</a><br /></td></tr>
 <tr class="separator:a95a8ff865e6c991922a488228d79f945"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a48e3adde153cbb8bcc26de40f2b1fdb4"><td class="memItemLeft" align="right" valign="top"><a id="a48e3adde153cbb8bcc26de40f2b1fdb4"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>setVerifyPaths</b> (string &amp;cafile, string &amp;capath)</td></tr>
+<tr class="separator:a48e3adde153cbb8bcc26de40f2b1fdb4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab16699275973c221f9def10c3ea5438f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtcp_1_1SSLContext.html#ab16699275973c221f9def10c3ea5438f">setCertificateAndKey</a> (const char *certfile, const char *keyfile)</td></tr>
 <tr class="memdesc:ab16699275973c221f9def10c3ea5438f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the certificate filename and key filename.  <a href="classtcp_1_1SSLContext.html#ab16699275973c221f9def10c3ea5438f">More...</a><br /></td></tr>
 <tr class="separator:ab16699275973c221f9def10c3ea5438f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -264,17 +267,17 @@ This must be public because it is called from the <a class="el" href="classtcp_1
 <dd>
 This password callback function only applies to private keys assigned to this SSL_CTX object, it is not 'inherited' from any <a class="el" href="classtcp_1_1SSL.html" title="Encapsulates an SSL connection data structure.">SSL</a> objects created from it. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="tcpssl_8cpp_source.html#l00362">362</a> of file <a class="el" href="tcpssl_8cpp_source.html">tcpssl.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;{</div>
-<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;  (void)rwflag;</div>
-<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;  <span class="keywordflow">if</span> (!keypass_.empty()) {</div>
-<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;    <span class="keywordtype">int</span> lsize = max&lt;int&gt;(size,keypass_.length());</div>
-<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;    strncpy(buf,keypass_.c_str(),lsize);</div>
-<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;    <span class="keywordflow">return</span> lsize;</div>
-<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;  } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;    <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;  }</div>
-<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;}</div>
+<p class="definition">Definition at line <a class="el" href="tcpssl_8cpp_source.html#l00382">382</a> of file <a class="el" href="tcpssl_8cpp_source.html">tcpssl.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;{</div>
+<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;  (void)rwflag;</div>
+<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;  <span class="keywordflow">if</span> (!keypass_.empty()) {</div>
+<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;    <span class="keywordtype">int</span> lsize = max&lt;int&gt;(size,keypass_.length());</div>
+<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;    strncpy(buf,keypass_.c_str(),lsize);</div>
+<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;    <span class="keywordflow">return</span> lsize;</div>
+<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;  } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;    <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;  }</div>
+<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -315,47 +318,47 @@ This password callback function only applies to private keys assigned to this SS
 <dl class="section return"><dt>Returns</dt><dd>True of the certificate and key were successfully set, false otherwise. Check cerr log for details. </dd></dl>
 <dl class="section remark"><dt>Remarks</dt><dd>If the keyfile requires a password to decrypt, passwordCallback will be called to provide that password. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="tcpssl_8cpp_source.html#l00320">320</a> of file <a class="el" href="tcpssl_8cpp_source.html">tcpssl.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;{</div>
-<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;  <span class="keywordtype">long</span> res = 1;</div>
-<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;  <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> ssl_err = 0;</div>
-<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160; </div>
-<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;  <span class="keywordflow">if</span> ((certfile &amp;&amp; !keyfile) || (!certfile &amp;&amp; keyfile)) {</div>
-<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;    cerr &lt;&lt; <span class="stringliteral">&quot;Error: Both a certificate and a private key file are required&quot;</span> &lt;&lt; endl;</div>
-<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;  }  </div>
-<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160; </div>
-<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;  <span class="keywordflow">if</span> (certfile &amp;&amp; keyfile) {</div>
-<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;    res = SSL_CTX_use_certificate_file(<a class="code" href="classtcp_1_1SSLContext.html#a06c2a33dba08bd1e3fc06aa26e32b08c">ctx_</a>, certfile,  SSL_FILETYPE_PEM);</div>
-<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;    ssl_err = ERR_get_error();</div>
-<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;    <span class="keywordflow">if</span> ( res != 1) {</div>
-<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;      print_error_string(ssl_err,<span class="stringliteral">&quot;SSL_CTX_use_certificate_file&quot;</span>);</div>
-<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;      <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;    }</div>
-<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160; </div>
-<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;    res = SSL_CTX_use_PrivateKey_file(<a class="code" href="classtcp_1_1SSLContext.html#a06c2a33dba08bd1e3fc06aa26e32b08c">ctx_</a>, keyfile, SSL_FILETYPE_PEM);</div>
-<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;    ssl_err = ERR_get_error();</div>
-<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;    <span class="keywordflow">if</span> (res != 1) {</div>
-<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;      print_error_string(ssl_err,<span class="stringliteral">&quot;SSL_CTX_use_PrivateKey_file&quot;</span>);</div>
-<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;      <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;    }</div>
+<p class="definition">Definition at line <a class="el" href="tcpssl_8cpp_source.html#l00340">340</a> of file <a class="el" href="tcpssl_8cpp_source.html">tcpssl.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;{</div>
+<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;  <span class="keywordtype">long</span> res = 1;</div>
+<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;  <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> ssl_err = 0;</div>
 <div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160; </div>
-<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;    <span class="comment">/* Make sure the key and certificate file match. */</span></div>
-<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;    res = SSL_CTX_check_private_key(<a class="code" href="classtcp_1_1SSLContext.html#a06c2a33dba08bd1e3fc06aa26e32b08c">ctx_</a>);</div>
-<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;    ssl_err = ERR_get_error();</div>
-<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;    <span class="keywordflow">if</span> ( res != 1) {</div>
-<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;      print_error_string(ssl_err,<span class="stringliteral">&quot;SSL_CTX_check_private_key&quot;</span>);</div>
-<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;      <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;    }</div>
-<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160; </div>
-<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;    SSL_CTX_set_default_passwd_cb(<a class="code" href="classtcp_1_1SSLContext.html#a06c2a33dba08bd1e3fc06aa26e32b08c">ctx_</a>,&amp;ctx_password_callback);</div>
-<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;    SSL_CTX_set_default_passwd_cb_userdata(<a class="code" href="classtcp_1_1SSLContext.html#a06c2a33dba08bd1e3fc06aa26e32b08c">ctx_</a>,<span class="keyword">this</span>);</div>
-<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;    </div>
-<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;  } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;  }</div>
-<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;}</div>
+<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;  <span class="keywordflow">if</span> ((certfile &amp;&amp; !keyfile) || (!certfile &amp;&amp; keyfile)) {</div>
+<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;    cerr &lt;&lt; <span class="stringliteral">&quot;Error: Both a certificate and a private key file are required&quot;</span> &lt;&lt; endl;</div>
+<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;  }  </div>
+<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160; </div>
+<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;  <span class="keywordflow">if</span> (certfile &amp;&amp; keyfile) {</div>
+<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;    res = SSL_CTX_use_certificate_file(<a class="code" href="classtcp_1_1SSLContext.html#a06c2a33dba08bd1e3fc06aa26e32b08c">ctx_</a>, certfile,  SSL_FILETYPE_PEM);</div>
+<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;    ssl_err = ERR_get_error();</div>
+<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;    <span class="keywordflow">if</span> ( res != 1) {</div>
+<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;      print_error_string(ssl_err,<span class="stringliteral">&quot;SSL_CTX_use_certificate_file&quot;</span>);</div>
+<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;      <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;    }</div>
+<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160; </div>
+<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;    res = SSL_CTX_use_PrivateKey_file(<a class="code" href="classtcp_1_1SSLContext.html#a06c2a33dba08bd1e3fc06aa26e32b08c">ctx_</a>, keyfile, SSL_FILETYPE_PEM);</div>
+<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;    ssl_err = ERR_get_error();</div>
+<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;    <span class="keywordflow">if</span> (res != 1) {</div>
+<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;      print_error_string(ssl_err,<span class="stringliteral">&quot;SSL_CTX_use_PrivateKey_file&quot;</span>);</div>
+<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;      <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;    }</div>
+<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160; </div>
+<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;    <span class="comment">/* Make sure the key and certificate file match. */</span></div>
+<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;    res = SSL_CTX_check_private_key(<a class="code" href="classtcp_1_1SSLContext.html#a06c2a33dba08bd1e3fc06aa26e32b08c">ctx_</a>);</div>
+<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;    ssl_err = ERR_get_error();</div>
+<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;    <span class="keywordflow">if</span> ( res != 1) {</div>
+<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;      print_error_string(ssl_err,<span class="stringliteral">&quot;SSL_CTX_check_private_key&quot;</span>);</div>
+<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;      <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;    }</div>
+<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160; </div>
+<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;    SSL_CTX_set_default_passwd_cb(<a class="code" href="classtcp_1_1SSLContext.html#a06c2a33dba08bd1e3fc06aa26e32b08c">ctx_</a>,&amp;ctx_password_callback);</div>
+<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;    SSL_CTX_set_default_passwd_cb_userdata(<a class="code" href="classtcp_1_1SSLContext.html#a06c2a33dba08bd1e3fc06aa26e32b08c">ctx_</a>,<span class="keyword">this</span>);</div>
+<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;    </div>
+<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;  } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;  }</div>
+<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -471,30 +474,30 @@ This password callback function only applies to private keys assigned to this SS
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>True if the CA filename or CA path were set successfully, false otherwise. Check cerr log for details. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="tcpssl_8cpp_source.html#l00295">295</a> of file <a class="el" href="tcpssl_8cpp_source.html">tcpssl.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;{</div>
-<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;  <span class="keywordtype">long</span> res = 1;</div>
-<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;  <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> ssl_err = 0;</div>
-<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160; </div>
-<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;  <span class="keywordflow">if</span> (cafile || capath) {</div>
-<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;    res = SSL_CTX_load_verify_locations(<a class="code" href="classtcp_1_1SSLContext.html#a06c2a33dba08bd1e3fc06aa26e32b08c">ctx_</a>, cafile, capath); </div>
-<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;    ssl_err = ERR_get_error();</div>
-<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;    <span class="keywordflow">if</span> (res == 0) {</div>
-<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;      print_error_string(ssl_err,<span class="stringliteral">&quot;SSL_CTX_load_verify_locations&quot;</span>);</div>
-<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;      <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;    }</div>
-<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;  } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;    res = SSL_CTX_set_default_verify_paths(<a class="code" href="classtcp_1_1SSLContext.html#a06c2a33dba08bd1e3fc06aa26e32b08c">ctx_</a>);</div>
-<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;    ssl_err = ERR_get_error();</div>
-<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;    <span class="keywordflow">if</span> (res == 0) {</div>
-<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;      print_error_string(ssl_err,<span class="stringliteral">&quot;SSL_CTX_set_default_verify_paths&quot;</span>);</div>
-<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;      <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;    }</div>
-<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;  }</div>
-<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;  </div>
-<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;  <a class="code" href="namespacetcp.html#a4e386f3935fd15d1413ab3ea56d5384d">printSSLErrors</a>();</div>
-<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;  <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;}</div>
+<p class="definition">Definition at line <a class="el" href="tcpssl_8cpp_source.html#l00315">315</a> of file <a class="el" href="tcpssl_8cpp_source.html">tcpssl.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;{</div>
+<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;  <span class="keywordtype">long</span> res = 1;</div>
+<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;  <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> ssl_err = 0;</div>
+<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160; </div>
+<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;  <span class="keywordflow">if</span> (cafile || capath) {</div>
+<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;    res = SSL_CTX_load_verify_locations(<a class="code" href="classtcp_1_1SSLContext.html#a06c2a33dba08bd1e3fc06aa26e32b08c">ctx_</a>, cafile, capath); </div>
+<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;    ssl_err = ERR_get_error();</div>
+<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;    <span class="keywordflow">if</span> (res == 0) {</div>
+<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;      print_error_string(ssl_err,<span class="stringliteral">&quot;SSL_CTX_load_verify_locations&quot;</span>);</div>
+<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;      <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;    }</div>
+<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;  } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;    res = SSL_CTX_set_default_verify_paths(<a class="code" href="classtcp_1_1SSLContext.html#a06c2a33dba08bd1e3fc06aa26e32b08c">ctx_</a>);</div>
+<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;    ssl_err = ERR_get_error();</div>
+<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;    <span class="keywordflow">if</span> (res == 0) {</div>
+<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;      print_error_string(ssl_err,<span class="stringliteral">&quot;SSL_CTX_set_default_verify_paths&quot;</span>);</div>
+<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;      <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;    }</div>
+<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;  }</div>
+<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;  </div>
+<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;  <a class="code" href="namespacetcp.html#a4e386f3935fd15d1413ab3ea56d5384d">printSSLErrors</a>();</div>
+<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;  <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;}</div>
 </div><!-- fragment --><div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -545,11 +548,11 @@ Here is the call graph for this function:</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="anamespacetcp_html_a4e386f3935fd15d1413ab3ea56d5384d"><div class="ttname"><a href="namespacetcp.html#a4e386f3935fd15d1413ab3ea56d5384d">tcp::printSSLErrors</a></div><div class="ttdeci">void printSSLErrors()</div><div class="ttdoc">This method logs openSSL errors to cerr.</div><div class="ttdef"><b>Definition:</b> <a href="tcpssl_8cpp_source.html#l00056">tcpssl.cpp:56</a></div></div>
-<div class="ttc" id="aclasstcp_1_1SSLContext_html_a0a496fa48faf0385e83f0af741fbe8e5"><div class="ttname"><a href="classtcp_1_1SSLContext.html#a0a496fa48faf0385e83f0af741fbe8e5">tcp::SSLContext::mode_</a></div><div class="ttdeci">SSLMode mode_</div><div class="ttdoc">The mode of the context object is passed to SSL objects created from this context.</div><div class="ttdef"><b>Definition:</b> <a href="tcpssl_8h_source.html#l00101">tcpssl.h:101</a></div></div>
-<div class="ttc" id="aclasstcp_1_1SSLContext_html_a95a8ff865e6c991922a488228d79f945"><div class="ttname"><a href="classtcp_1_1SSLContext.html#a95a8ff865e6c991922a488228d79f945">tcp::SSLContext::setVerifyPaths</a></div><div class="ttdeci">bool setVerifyPaths(const char *cafile=NULL, const char *capath=NULL)</div><div class="ttdoc">Use the specified CA certificate or certificate directory.</div><div class="ttdef"><b>Definition:</b> <a href="tcpssl_8cpp_source.html#l00295">tcpssl.cpp:295</a></div></div>
+<div class="ttc" id="aclasstcp_1_1SSLContext_html_a0a496fa48faf0385e83f0af741fbe8e5"><div class="ttname"><a href="classtcp_1_1SSLContext.html#a0a496fa48faf0385e83f0af741fbe8e5">tcp::SSLContext::mode_</a></div><div class="ttdeci">SSLMode mode_</div><div class="ttdoc">The mode of the context object is passed to SSL objects created from this context.</div><div class="ttdef"><b>Definition:</b> <a href="tcpssl_8h_source.html#l00102">tcpssl.h:102</a></div></div>
+<div class="ttc" id="aclasstcp_1_1SSLContext_html_a95a8ff865e6c991922a488228d79f945"><div class="ttname"><a href="classtcp_1_1SSLContext.html#a95a8ff865e6c991922a488228d79f945">tcp::SSLContext::setVerifyPaths</a></div><div class="ttdeci">bool setVerifyPaths(const char *cafile=NULL, const char *capath=NULL)</div><div class="ttdoc">Use the specified CA certificate or certificate directory.</div><div class="ttdef"><b>Definition:</b> <a href="tcpssl_8cpp_source.html#l00315">tcpssl.cpp:315</a></div></div>
 <div class="ttc" id="anamespacetcp_html_af35eb16fc64325797d378578291721b9"><div class="ttname"><a href="namespacetcp.html#af35eb16fc64325797d378578291721b9">tcp::verify_callback</a></div><div class="ttdeci">int verify_callback(int preverify, X509_STORE_CTX *x509_ctx)</div><div class="ttdoc">Prints the certificate details to clog.</div><div class="ttdef"><b>Definition:</b> <a href="tcpssl_8cpp_source.html#l00195">tcpssl.cpp:195</a></div></div>
 <div class="ttc" id="anamespacetcp_html_a626a96602252225a453e0e77ad9ae270"><div class="ttname"><a href="namespacetcp.html#a626a96602252225a453e0e77ad9ae270">tcp::initSSLLibrary</a></div><div class="ttdeci">void initSSLLibrary()</div><div class="ttdoc">Initialize the openSSL library.</div><div class="ttdef"><b>Definition:</b> <a href="tcpssl_8cpp_source.html#l00019">tcpssl.cpp:19</a></div></div>
-<div class="ttc" id="aclasstcp_1_1SSLContext_html_a06c2a33dba08bd1e3fc06aa26e32b08c"><div class="ttname"><a href="classtcp_1_1SSLContext.html#a06c2a33dba08bd1e3fc06aa26e32b08c">tcp::SSLContext::ctx_</a></div><div class="ttdeci">SSL_CTX * ctx_</div><div class="ttdoc">The openSSL context object.</div><div class="ttdef"><b>Definition:</b> <a href="tcpssl_8h_source.html#l00100">tcpssl.h:100</a></div></div>
+<div class="ttc" id="aclasstcp_1_1SSLContext_html_a06c2a33dba08bd1e3fc06aa26e32b08c"><div class="ttname"><a href="classtcp_1_1SSLContext.html#a06c2a33dba08bd1e3fc06aa26e32b08c">tcp::SSLContext::ctx_</a></div><div class="ttdeci">SSL_CTX * ctx_</div><div class="ttdoc">The openSSL context object.</div><div class="ttdef"><b>Definition:</b> <a href="tcpssl_8h_source.html#l00101">tcpssl.h:101</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

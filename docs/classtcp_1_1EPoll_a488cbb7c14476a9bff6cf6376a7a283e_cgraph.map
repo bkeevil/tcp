@@ -1,0 +1,4 @@
+<map id="tcp::EPoll::poll" name="tcp::EPoll::poll">
+<area shape="rect" id="node1" title="Call poll() regularly to respond to network events." alt="" coords="5,5,112,32"/>
+<area shape="rect" id="node2" href="$namespacetcp.html#a6ece4b796493cab74bad0c96c92adbc6" title="Send an error message to the log stream." alt="" coords="160,5,235,32"/>
+</map>

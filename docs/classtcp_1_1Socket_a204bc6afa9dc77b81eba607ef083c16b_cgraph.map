@@ -1,5 +1,6 @@
 <map id="tcp::Socket::Socket" name="tcp::Socket::Socket">
-<area shape="rect" id="node1" title="Construct a blocking or non&#45;blocking socket handle that responds to certain epoll events." alt="" coords="5,31,144,57"/>
+<area shape="rect" id="node1" title="Construct a blocking or non&#45;blocking socket handle that responds to certain epoll events." alt="" coords="5,56,144,83"/>
 <area shape="rect" id="node2" href="$classtcp_1_1Socket.html#ab59208f2458274e28402b230cb4d6310" title="Return the socket domain (AF_INET or AF_INET6)" alt="" coords="192,5,331,32"/>
-<area shape="rect" id="node3" href="$classtcp_1_1Socket.html#af4995f805c9976807f7fefd1dc90689e" title="Return the linux socket handle." alt="" coords="193,56,329,83"/>
+<area shape="rect" id="node3" href="$namespacetcp.html#a6ece4b796493cab74bad0c96c92adbc6" title="Send an error message to the log stream." alt="" coords="224,56,299,83"/>
+<area shape="rect" id="node4" href="$classtcp_1_1Socket.html#af4995f805c9976807f7fefd1dc90689e" title="Return the linux socket handle." alt="" coords="193,107,329,133"/>
 </map>
