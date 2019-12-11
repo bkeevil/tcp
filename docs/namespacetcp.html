@@ -333,29 +333,28 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>sslinitialized_</b> {
 <div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;  <span class="keywordtype">int</span> errorcode;</div>
 <div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;  <span class="keywordtype">int</span> domain;</div>
 <div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160; </div>
-<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;  memset(&amp;result,0,<span class="keyword">sizeof</span>(<span class="keyword">struct</span> addrinfo));</div>
-<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;  memset(&amp;hints,0,<span class="keyword">sizeof</span>(<span class="keyword">struct</span> addrinfo));</div>
-<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;  hints.ai_family = AF_UNSPEC;</div>
-<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;  hints.ai_flags = AI_NUMERICHOST;</div>
-<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;  errorcode = getaddrinfo(host,<span class="keyword">nullptr</span>,&amp;hints,&amp;result);</div>
-<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;  <span class="keywordflow">if</span> (errorcode == 0) {</div>
-<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;    domain = result-&gt;ai_family;</div>
-<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;  } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;    domain = AF_UNSPEC;</div>
-<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;  }</div>
-<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;  <span class="keywordflow">if</span> (domain == AF_UNSPEC) {</div>
-<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;    hints.ai_flags = AI_CANONNAME;</div>
-<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;    errorcode = getaddrinfo(host,port,&amp;hints,&amp;result);</div>
-<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;    <span class="keywordflow">if</span> (errorcode == 0) {</div>
-<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;      domain = result-&gt;ai_family;</div>
-<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;    }</div>
-<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;  }</div>
-<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;  <span class="keywordflow">if</span> (domain == AF_UNSPEC) {</div>
-<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;    <span class="keywordflow">return</span> def_domain;</div>
-<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;  } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;    <span class="keywordflow">return</span> domain;</div>
-<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;  }</div>
-<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;}</div>
+<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;  memset(&amp;hints,0,<span class="keyword">sizeof</span>(<span class="keyword">struct</span> addrinfo));</div>
+<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;  hints.ai_family = AF_UNSPEC;</div>
+<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;  hints.ai_flags = AI_NUMERICHOST;</div>
+<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;  errorcode = getaddrinfo(host,<span class="keyword">nullptr</span>,&amp;hints,&amp;result);</div>
+<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;  <span class="keywordflow">if</span> (errorcode == 0) {</div>
+<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;    domain = result-&gt;ai_family;</div>
+<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;  } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;    domain = AF_UNSPEC;</div>
+<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;  }</div>
+<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;  <span class="keywordflow">if</span> (domain == AF_UNSPEC) {</div>
+<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;    hints.ai_flags = AI_CANONNAME;</div>
+<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;    errorcode = getaddrinfo(host,port,&amp;hints,&amp;result);</div>
+<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;    <span class="keywordflow">if</span> (errorcode == 0) {</div>
+<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;      domain = result-&gt;ai_family;</div>
+<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;    }</div>
+<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;  }</div>
+<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;  <span class="keywordflow">if</span> (domain == AF_UNSPEC) {</div>
+<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;    <span class="keywordflow">return</span> def_domain;</div>
+<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;  } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;    <span class="keywordflow">return</span> domain;</div>
+<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;  }</div>
+<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;}</div>
 </div><!-- fragment -->
 </div>
 </div>

@@ -118,12 +118,12 @@ $(document).ready(function(){initNavTree('tcpsocket_8cpp_source.html','');});
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;ostream logstream(clog.rdbuf());</div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
 <div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="namespacetcp.html#ab34a18d6b66811049e1409d56733c7ce">   17</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespacetcp.html#ab34a18d6b66811049e1409d56733c7ce">setLogStream</a>(ostream *os) { <span class="keywordflow">if</span> (os) logstream.rdbuf(os-&gt;rdbuf()); }</div>
-<div class="line"><a name="l00018"></a><span class="lineno"><a class="line" href="namespacetcp.html#a6ece4b796493cab74bad0c96c92adbc6">   18</a></span>&#160;<span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code" href="namespacetcp.html#a6ece4b796493cab74bad0c96c92adbc6">error</a>(<span class="keywordtype">string</span> msg) { logstream &lt;&lt; <span class="stringliteral">&quot;Error: &quot;</span> &lt;&lt; msg &lt;&lt; endl; }</div>
-<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="namespacetcp.html#a07b4f71d770f1998c2df9b773648fabb">   19</a></span>&#160;<span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code" href="namespacetcp.html#a6ece4b796493cab74bad0c96c92adbc6">error</a>(<span class="keywordtype">string</span> label, <span class="keywordtype">string</span> msg) { logstream &lt;&lt; <span class="stringliteral">&quot;Error: &quot;</span> &lt;&lt; label &lt;&lt; <span class="stringliteral">&quot;: &quot;</span> &lt;&lt; msg &lt;&lt; endl; }</div>
-<div class="line"><a name="l00020"></a><span class="lineno"><a class="line" href="namespacetcp.html#a6e8ebc539c7855db077ec03622cbba82">   20</a></span>&#160;<span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code" href="namespacetcp.html#a6e8ebc539c7855db077ec03622cbba82">warning</a>(<span class="keywordtype">string</span> msg) { logstream &lt;&lt; <span class="stringliteral">&quot;Warning: &quot;</span> &lt;&lt; msg &lt;&lt; endl; }</div>
-<div class="line"><a name="l00021"></a><span class="lineno"><a class="line" href="namespacetcp.html#a8e6bcc50f534ba8bc22f7ee4a4cff6f5">   21</a></span>&#160;<span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code" href="namespacetcp.html#a6e8ebc539c7855db077ec03622cbba82">warning</a>(<span class="keywordtype">string</span> label, <span class="keywordtype">string</span> msg) { logstream &lt;&lt; <span class="stringliteral">&quot;Warning: &quot;</span> &lt;&lt; label &lt;&lt; <span class="stringliteral">&quot;: &quot;</span> &lt;&lt; msg &lt;&lt; endl; }</div>
-<div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="namespacetcp.html#afb05c17d86f0b123cc515ac5ce6b525c">   22</a></span>&#160;<span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code" href="namespacetcp.html#afb05c17d86f0b123cc515ac5ce6b525c">log</a>(<span class="keywordtype">string</span> msg) { logstream &lt;&lt; msg &lt;&lt; endl; }</div>
-<div class="line"><a name="l00023"></a><span class="lineno"><a class="line" href="namespacetcp.html#afe19ffcf72a869492e752eb0b26ab5e1">   23</a></span>&#160;<span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code" href="namespacetcp.html#afb05c17d86f0b123cc515ac5ce6b525c">log</a>(<span class="keywordtype">string</span> label, <span class="keywordtype">string</span> msg) { logstream &lt;&lt; label &lt;&lt; <span class="stringliteral">&quot;: &quot;</span> &lt;&lt; msg &lt;&lt; endl;}</div>
+<div class="line"><a name="l00018"></a><span class="lineno"><a class="line" href="namespacetcp.html#a6ece4b796493cab74bad0c96c92adbc6">   18</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespacetcp.html#a6ece4b796493cab74bad0c96c92adbc6">error</a>(<span class="keywordtype">string</span> msg) { logstream &lt;&lt; <span class="stringliteral">&quot;Error: &quot;</span> &lt;&lt; msg &lt;&lt; endl; }</div>
+<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="namespacetcp.html#a07b4f71d770f1998c2df9b773648fabb">   19</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespacetcp.html#a6ece4b796493cab74bad0c96c92adbc6">error</a>(<span class="keywordtype">string</span> label, <span class="keywordtype">string</span> msg) { logstream &lt;&lt; <span class="stringliteral">&quot;Error: &quot;</span> &lt;&lt; label &lt;&lt; <span class="stringliteral">&quot;: &quot;</span> &lt;&lt; msg &lt;&lt; endl; }</div>
+<div class="line"><a name="l00020"></a><span class="lineno"><a class="line" href="namespacetcp.html#a6e8ebc539c7855db077ec03622cbba82">   20</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespacetcp.html#a6e8ebc539c7855db077ec03622cbba82">warning</a>(<span class="keywordtype">string</span> msg) { logstream &lt;&lt; <span class="stringliteral">&quot;Warning: &quot;</span> &lt;&lt; msg &lt;&lt; endl; }</div>
+<div class="line"><a name="l00021"></a><span class="lineno"><a class="line" href="namespacetcp.html#a8e6bcc50f534ba8bc22f7ee4a4cff6f5">   21</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespacetcp.html#a6e8ebc539c7855db077ec03622cbba82">warning</a>(<span class="keywordtype">string</span> label, <span class="keywordtype">string</span> msg) { logstream &lt;&lt; <span class="stringliteral">&quot;Warning: &quot;</span> &lt;&lt; label &lt;&lt; <span class="stringliteral">&quot;: &quot;</span> &lt;&lt; msg &lt;&lt; endl; }</div>
+<div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="namespacetcp.html#afb05c17d86f0b123cc515ac5ce6b525c">   22</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespacetcp.html#afb05c17d86f0b123cc515ac5ce6b525c">log</a>(<span class="keywordtype">string</span> msg) { logstream &lt;&lt; msg &lt;&lt; endl; }</div>
+<div class="line"><a name="l00023"></a><span class="lineno"><a class="line" href="namespacetcp.html#afe19ffcf72a869492e752eb0b26ab5e1">   23</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespacetcp.html#afb05c17d86f0b123cc515ac5ce6b525c">log</a>(<span class="keywordtype">string</span> label, <span class="keywordtype">string</span> msg) { logstream &lt;&lt; label &lt;&lt; <span class="stringliteral">&quot;: &quot;</span> &lt;&lt; msg &lt;&lt; endl;}</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
 <div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="classtcp_1_1EPoll.html#a64b3e1f9278e334689e32604e9f454f7">   25</a></span>&#160;<a class="code" href="classtcp_1_1EPoll.html#a64b3e1f9278e334689e32604e9f454f7">EPoll::EPoll</a>() </div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;{</div>
@@ -464,31 +464,30 @@ $(document).ready(function(){initNavTree('tcpsocket_8cpp_source.html','');});
 <div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;  <span class="keywordtype">int</span> errorcode;</div>
 <div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;  <span class="keywordtype">int</span> domain;</div>
 <div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160; </div>
-<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;  memset(&amp;result,0,<span class="keyword">sizeof</span>(<span class="keyword">struct</span> addrinfo));</div>
-<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;  memset(&amp;hints,0,<span class="keyword">sizeof</span>(<span class="keyword">struct</span> addrinfo));</div>
-<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;  hints.ai_family = AF_UNSPEC;</div>
-<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;  hints.ai_flags = AI_NUMERICHOST;</div>
-<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;  errorcode = getaddrinfo(host,<span class="keyword">nullptr</span>,&amp;hints,&amp;result);</div>
-<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;  <span class="keywordflow">if</span> (errorcode == 0) {</div>
-<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;    domain = result-&gt;ai_family;</div>
-<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;  } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;    domain = AF_UNSPEC;</div>
-<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;  }</div>
-<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;  <span class="keywordflow">if</span> (domain == AF_UNSPEC) {</div>
-<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;    hints.ai_flags = AI_CANONNAME;</div>
-<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;    errorcode = getaddrinfo(host,port,&amp;hints,&amp;result);</div>
-<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;    <span class="keywordflow">if</span> (errorcode == 0) {</div>
-<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;      domain = result-&gt;ai_family;</div>
-<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;    }</div>
-<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;  }</div>
-<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;  <span class="keywordflow">if</span> (domain == AF_UNSPEC) {</div>
-<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;    <span class="keywordflow">return</span> def_domain;</div>
-<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;  } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;    <span class="keywordflow">return</span> domain;</div>
-<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;  }</div>
-<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;}</div>
-<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160; </div>
-<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;} <span class="comment">// namespace tcp</span></div>
+<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;  memset(&amp;hints,0,<span class="keyword">sizeof</span>(<span class="keyword">struct</span> addrinfo));</div>
+<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;  hints.ai_family = AF_UNSPEC;</div>
+<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;  hints.ai_flags = AI_NUMERICHOST;</div>
+<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;  errorcode = getaddrinfo(host,<span class="keyword">nullptr</span>,&amp;hints,&amp;result);</div>
+<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;  <span class="keywordflow">if</span> (errorcode == 0) {</div>
+<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;    domain = result-&gt;ai_family;</div>
+<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;  } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;    domain = AF_UNSPEC;</div>
+<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;  }</div>
+<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;  <span class="keywordflow">if</span> (domain == AF_UNSPEC) {</div>
+<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;    hints.ai_flags = AI_CANONNAME;</div>
+<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;    errorcode = getaddrinfo(host,port,&amp;hints,&amp;result);</div>
+<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;    <span class="keywordflow">if</span> (errorcode == 0) {</div>
+<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;      domain = result-&gt;ai_family;</div>
+<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;    }</div>
+<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;  }</div>
+<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;  <span class="keywordflow">if</span> (domain == AF_UNSPEC) {</div>
+<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;    <span class="keywordflow">return</span> def_domain;</div>
+<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;  } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;    <span class="keywordflow">return</span> domain;</div>
+<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;  }</div>
+<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;}</div>
+<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160; </div>
+<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;} <span class="comment">// namespace tcp</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="anamespacetcp_html_a4e386f3935fd15d1413ab3ea56d5384d"><div class="ttname"><a href="namespacetcp.html#a4e386f3935fd15d1413ab3ea56d5384d">tcp::printSSLErrors</a></div><div class="ttdeci">void printSSLErrors()</div><div class="ttdoc">This method logs openSSL errors to cerr.</div><div class="ttdef"><b>Definition:</b> <a href="tcpssl_8cpp_source.html#l00056">tcpssl.cpp:56</a></div></div>
