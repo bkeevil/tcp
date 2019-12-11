@@ -131,12 +131,11 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a5e9ca770b9797466ef4206cc9b78585d"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtcp_1_1Server.html#a5e9ca770b9797466ef4206cc9b78585d">~Server</a> ()</td></tr>
 <tr class="memdesc:a5e9ca770b9797466ef4206cc9b78585d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroy the server instance.  <a href="classtcp_1_1Server.html#a5e9ca770b9797466ef4206cc9b78585d">More...</a><br /></td></tr>
 <tr class="separator:a5e9ca770b9797466ef4206cc9b78585d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2f4ef415f2f23facdfc5f47d147b12a5"><td class="memItemLeft" align="right" valign="top"><a id="a2f4ef415f2f23facdfc5f47d147b12a5"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtcp_1_1Server.html#a2f4ef415f2f23facdfc5f47d147b12a5">start</a> (in_port_t port, string bindaddress, bool useSSL=false, int backlog=64)</td></tr>
-<tr class="memdesc:a2f4ef415f2f23facdfc5f47d147b12a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start up the server. <br /></td></tr>
+<tr class="memitem:a2f4ef415f2f23facdfc5f47d147b12a5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtcp_1_1Server.html#a2f4ef415f2f23facdfc5f47d147b12a5">start</a> (in_port_t port, string bindaddress, bool useSSL=false, int backlog=64)</td></tr>
+<tr class="memdesc:a2f4ef415f2f23facdfc5f47d147b12a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start up the server.  <a href="classtcp_1_1Server.html#a2f4ef415f2f23facdfc5f47d147b12a5">More...</a><br /></td></tr>
 <tr class="separator:a2f4ef415f2f23facdfc5f47d147b12a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a70868653e561a88f7d15dc051dfec0e2"><td class="memItemLeft" align="right" valign="top"><a id="a70868653e561a88f7d15dc051dfec0e2"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>start</b> (in_port_t port, char *bindaddress, bool useSSL=false, int backlog=64)</td></tr>
+<tr class="memitem:a70868653e561a88f7d15dc051dfec0e2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtcp_1_1Server.html#a70868653e561a88f7d15dc051dfec0e2">start</a> (in_port_t port, char *bindaddress, bool useSSL=false, int backlog=64)</td></tr>
+<tr class="memdesc:a70868653e561a88f7d15dc051dfec0e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start up the server.  <a href="classtcp_1_1Server.html#a70868653e561a88f7d15dc051dfec0e2">More...</a><br /></td></tr>
 <tr class="separator:a70868653e561a88f7d15dc051dfec0e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5eb47cde0c24cc829fd49ec37f5b58fa"><td class="memItemLeft" align="right" valign="top"><a id="a5eb47cde0c24cc829fd49ec37f5b58fa"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtcp_1_1Server.html#a5eb47cde0c24cc829fd49ec37f5b58fa">stop</a> ()</td></tr>
@@ -223,9 +222,13 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>Session</b></td></tr
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Listens for TCP connections and establishes Sessions. </p>
-<p>Construct an instance of tcp::server to start the server. Destroy the object to stop the server. </p><dl class="section remark"><dt>Remarks</dt><dd>Override the virtual <a class="el" href="classtcp_1_1Server.html#a503569c7d9545817fad80ec775e56e07" title="Called when the server needs to create a new object of the tcp::Session class.">createSession()</a> method to return a custom session descendant class. </dd></dl>
+<p>Construct an instance of tcp::server to start the server. Destroy the object to stop the server. </p><dl class="section remark"><dt>Remarks</dt><dd>A single server instance can listen to on an IP4 or IP6 address but not both. </dd>
+<dd>
+A single server instance can accept <a class="el" href="classtcp_1_1SSL.html" title="Encapsulates an SSL connection data structure.">SSL</a> connections, normal connections, but not both. </dd>
+<dd>
+Override the virtual <a class="el" href="classtcp_1_1Server.html#a503569c7d9545817fad80ec775e56e07" title="Called when the server needs to create a new object of the tcp::Session class.">createSession()</a> method to return a custom session descendant class. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="tcpserver_8h_source.html#l00033">33</a> of file <a class="el" href="tcpserver_8h_source.html">tcpserver.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tcpserver_8h_source.html#l00035">35</a> of file <a class="el" href="tcpserver_8h_source.html">tcpserver.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a4cba33f750b55eb95af7446ea4fc96d9"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a4cba33f750b55eb95af7446ea4fc96d9">&#9670;&nbsp;</a></span>Server()</h2>
@@ -275,8 +278,8 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>Session</b></td></tr
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="tcpserver_8h_source.html#l00038">38</a> of file <a class="el" href="tcpserver_8h_source.html">tcpserver.h</a>.</p>
-<div class="fragment"><div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;: <a class="code" href="classtcp_1_1Socket.html#a204bc6afa9dc77b81eba607ef083c16b">Socket</a>(<a class="code" href="classtcp_1_1Socket.html#afb5727be64aa85dd1c88105870541a9a">epoll</a>,<a class="code" href="classtcp_1_1Socket.html#ab59208f2458274e28402b230cb4d6310">domain</a>,0,<span class="keyword">false</span>,EPOLLIN), useSSL_(<a class="code" href="classtcp_1_1Server.html#aac0fe1854e2739485b18709ef4757622">ctx</a>), ctx_(<a class="code" href="classtcp_1_1Server.html#aac0fe1854e2739485b18709ef4757622">ctx</a>) {}</div>
+<p class="definition">Definition at line <a class="el" href="tcpserver_8h_source.html#l00040">40</a> of file <a class="el" href="tcpserver_8h_source.html">tcpserver.h</a>.</p>
+<div class="fragment"><div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;: <a class="code" href="classtcp_1_1Socket.html#a204bc6afa9dc77b81eba607ef083c16b">Socket</a>(<a class="code" href="classtcp_1_1Socket.html#afb5727be64aa85dd1c88105870541a9a">epoll</a>,<a class="code" href="classtcp_1_1Socket.html#ab59208f2458274e28402b230cb4d6310">domain</a>,0,<span class="keyword">false</span>,EPOLLIN), useSSL_(<a class="code" href="classtcp_1_1Server.html#aac0fe1854e2739485b18709ef4757622">ctx</a>), ctx_(<a class="code" href="classtcp_1_1Server.html#aac0fe1854e2739485b18709ef4757622">ctx</a>) {}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -389,12 +392,12 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>Session</b></td></tr
 
 <p>Implements <a class="el" href="classtcp_1_1Socket.html#a29e680be01356d68416f1e28d78a8397">tcp::Socket</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="tcpserver_8cpp_source.html#l00074">74</a> of file <a class="el" href="tcpserver_8cpp_source.html">tcpserver.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;                                         {</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;  <span class="keywordflow">if</span> (<a class="code" href="classtcp_1_1Server.html#a387b2b684c0bb5fe2a64e1a9effa3a28">listening</a>() &amp;&amp; (events &amp; EPOLLIN)) {</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    acceptConnection();</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;  }</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;}</div>
+<p class="definition">Definition at line <a class="el" href="tcpserver_8cpp_source.html#l00078">78</a> of file <a class="el" href="tcpserver_8cpp_source.html">tcpserver.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;                                         {</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;  <span class="keywordflow">if</span> (<a class="code" href="classtcp_1_1Server.html#a387b2b684c0bb5fe2a64e1a9effa3a28">listening</a>() &amp;&amp; (events &amp; EPOLLIN)) {</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    acceptConnection();</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;  }</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -428,9 +431,154 @@ Returns false if the server was not able to start listening. </dd>
 <dd>
 Returns false while the server is being destroyed. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="tcpserver_8h_source.html#l00058">58</a> of file <a class="el" href="tcpserver_8h_source.html">tcpserver.h</a>.</p>
-<div class="fragment"><div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;{ <span class="keywordflow">return</span> <a class="code" href="classtcp_1_1Socket.html#a72f08cd52de1480fef5f8b120ab73da7">state_</a> == SocketState::LISTENING; } </div>
+<p class="definition">Definition at line <a class="el" href="tcpserver_8h_source.html#l00071">71</a> of file <a class="el" href="tcpserver_8h_source.html">tcpserver.h</a>.</p>
+<div class="fragment"><div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;{ <span class="keywordflow">return</span> <a class="code" href="classtcp_1_1Socket.html#a72f08cd52de1480fef5f8b120ab73da7">state_</a> == SocketState::LISTENING; } </div>
 </div><!-- fragment -->
+</div>
+</div>
+<a id="a70868653e561a88f7d15dc051dfec0e2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a70868653e561a88f7d15dc051dfec0e2">&#9670;&nbsp;</a></span>start() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void tcp::Server::start </td>
+          <td>(</td>
+          <td class="paramtype">in_port_t&#160;</td>
+          <td class="paramname"><em>port</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>bindaddress</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>useSSL</em> = <code>false</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>backlog</em> = <code>64</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Start up the server. </p>
+<p>See the other overload for documentation </p>
+
+<p class="definition">Definition at line <a class="el" href="tcpserver_8cpp_source.html#l00023">23</a> of file <a class="el" href="tcpserver_8cpp_source.html">tcpserver.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;{</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;  <a class="code" href="classtcp_1_1Server.html#a2f4ef415f2f23facdfc5f47d147b12a5">start</a>(port,<span class="keywordtype">string</span>(bindaddress),useSSL,backlog);</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;} </div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a2f4ef415f2f23facdfc5f47d147b12a5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2f4ef415f2f23facdfc5f47d147b12a5">&#9670;&nbsp;</a></span>start() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void tcp::Server::start </td>
+          <td>(</td>
+          <td class="paramtype">in_port_t&#160;</td>
+          <td class="paramname"><em>port</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>bindaddress</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>useSSL</em> = <code>false</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>backlog</em> = <code>64</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Start up the server. </p>
+<p>Main method to start up the server. An overloaded version takes a char* instead of a string. </p><dl class="section remark"><dt>Remarks</dt><dd>The interface addresses "", "0.0.0.0" and "::" all mean "bind to any address" </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">port</td><td>[in] The port number to bind to </td></tr>
+    <tr><td class="paramname">bindaddress</td><td>[in] The interface name or IP address to bind to. Leave blank to bind to any address </td></tr>
+    <tr><td class="paramname">useSSL</td><td>[in] Set to true to use <a class="el" href="classtcp_1_1SSL.html" title="Encapsulates an SSL connection data structure.">SSL</a> on the connection </td></tr>
+    <tr><td class="paramname">backlog</td><td>[in] How many connections can be stored in the listen backlog before the server stops accepting new connections. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="tcpserver_8cpp_source.html#l00028">28</a> of file <a class="el" href="tcpserver_8cpp_source.html">tcpserver.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;{</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;  <a class="code" href="classtcp_1_1Socket.html#a2f9da75083a9c40fa1a56f916fe4cc03">mtx</a>.lock();</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;  useSSL_ = useSSL;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;  memset(&amp;addr_,0,<span class="keyword">sizeof</span>(addr_));  </div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;  <span class="keywordflow">if</span> ((bindaddress == <span class="stringliteral">&quot;&quot;</span>) || (bindaddress == <span class="stringliteral">&quot;0.0.0.0&quot;</span>) || (bindaddress == <span class="stringliteral">&quot;::&quot;</span>)) {</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="classtcp_1_1Socket.html#ab59208f2458274e28402b230cb4d6310">domain</a>() == AF_INET) {</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;      reinterpret_cast&lt;struct sockaddr_in*&gt;(&amp;addr_)-&gt;sin_addr.s_addr = INADDR_ANY;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    }</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="classtcp_1_1Socket.html#ab59208f2458274e28402b230cb4d6310">domain</a>() == AF_INET6) {</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;      reinterpret_cast&lt;struct sockaddr_in6*&gt;(&amp;addr_)-&gt;sin6_addr = IN6ADDR_ANY_INIT;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    }</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordflow">if</span> (!<a class="code" href="classtcp_1_1Server.html#a08a70dd5ea919f05c6eabe69afdd1c71">findifaddr</a>(bindaddress,reinterpret_cast&lt;struct sockaddr*&gt;(&amp;addr_))) {</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;      <a class="code" href="namespacetcp.html#a6ece4b796493cab74bad0c96c92adbc6">error</a>(<span class="stringliteral">&quot;Interface &quot;</span> + <span class="keywordtype">string</span>(bindaddress) + <span class="stringliteral">&quot; not found&quot;</span>);</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    }</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  }</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  <span class="keywordflow">if</span> (<a class="code" href="classtcp_1_1Socket.html#ab59208f2458274e28402b230cb4d6310">domain</a>() == AF_INET) {</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    addr_.ss_family = AF_INET;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    reinterpret_cast&lt;struct sockaddr_in*&gt;(&amp;addr_)-&gt;sin_port = htons(port);</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  }</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  <span class="keywordflow">if</span> (<a class="code" href="classtcp_1_1Socket.html#ab59208f2458274e28402b230cb4d6310">domain</a>() == AF_INET6) {</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    addr_.ss_family = AF_INET6;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    reinterpret_cast&lt;struct sockaddr_in6*&gt;(&amp;addr_)-&gt;sin6_port = htons(port);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  }  </div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  <span class="keywordtype">int</span> enable = 1;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  <span class="keywordflow">if</span> (setsockopt(<a class="code" href="classtcp_1_1Socket.html#af4995f805c9976807f7fefd1dc90689e">socket</a>(), SOL_SOCKET, SO_REUSEADDR, &amp;enable, <span class="keyword">sizeof</span>(enable)) &lt; 0)</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <a class="code" href="namespacetcp.html#a6ece4b796493cab74bad0c96c92adbc6">error</a>(<span class="stringliteral">&quot;setsockopt&quot;</span>,<span class="stringliteral">&quot;Server could not set socket option SO_REUSEADDR&quot;</span>);  </div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;  <span class="keywordflow">if</span> (bindToAddress((<span class="keyword">struct</span> sockaddr*)&amp;addr_,(<a class="code" href="classtcp_1_1Socket.html#ab59208f2458274e28402b230cb4d6310">domain</a>() == AF_INET ? <span class="keyword">sizeof</span>(<span class="keyword">struct</span> sockaddr_in) : <span class="keyword">sizeof</span>(<span class="keyword">struct</span> sockaddr_in6)))) {</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    startListening(backlog);</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;  }</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;  <a class="code" href="classtcp_1_1Socket.html#a2f9da75083a9c40fa1a56f916fe4cc03">mtx</a>.unlock();</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;}</div>
+</div><!-- fragment --><div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classtcp_1_1Server_a2f4ef415f2f23facdfc5f47d147b12a5_cgraph.png" border="0" usemap="#classtcp_1_1Server_a2f4ef415f2f23facdfc5f47d147b12a5_cgraph" alt=""/></div>
+<map name="classtcp_1_1Server_a2f4ef415f2f23facdfc5f47d147b12a5_cgraph" id="classtcp_1_1Server_a2f4ef415f2f23facdfc5f47d147b12a5_cgraph">
+<area shape="rect" title="Start up the server." alt="" coords="5,5,125,32"/>
+<area shape="rect" href="namespacetcp.html#a6ece4b796493cab74bad0c96c92adbc6" title="Send an error message to the log stream." alt="" coords="173,5,248,32"/>
+</map>
+</div>
+
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
@@ -457,7 +605,7 @@ Returns false while the server is being destroyed. </dd></dl>
 <p>Maps socket handles to their corresponding <a class="el" href="classtcp_1_1Session.html" title="Represents a TCP connection accepted by the Server.">tcp::Session</a> objects. </p>
 <p>Descendant classes may need access to the sessions map. </p>
 
-<p class="definition">Definition at line <a class="el" href="tcpserver_8h_source.html#l00088">88</a> of file <a class="el" href="tcpserver_8h_source.html">tcpserver.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tcpserver_8h_source.html#l00101">101</a> of file <a class="el" href="tcpserver_8h_source.html">tcpserver.h</a>.</p>
 
 </div>
 </div>
@@ -467,13 +615,18 @@ Returns false while the server is being destroyed. </dd></dl>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aclasstcp_1_1Server_html_aac0fe1854e2739485b18709ef4757622"><div class="ttname"><a href="classtcp_1_1Server.html#aac0fe1854e2739485b18709ef4757622">tcp::Server::ctx</a></div><div class="ttdeci">SSLContext * ctx()</div><div class="ttdoc">Get the SSL context for the server.</div><div class="ttdef"><b>Definition:</b> <a href="tcpserver_8h_source.html#l00064">tcpserver.h:64</a></div></div>
-<div class="ttc" id="aclasstcp_1_1Socket_html_afb5727be64aa85dd1c88105870541a9a"><div class="ttname"><a href="classtcp_1_1Socket.html#afb5727be64aa85dd1c88105870541a9a">tcp::Socket::epoll</a></div><div class="ttdeci">EPoll &amp; epoll()</div><div class="ttdoc">Returns a reference to the epoll instance used by this socket.</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8h_source.html#l00140">tcpsocket.h:140</a></div></div>
-<div class="ttc" id="aclasstcp_1_1Socket_html_a72f08cd52de1480fef5f8b120ab73da7"><div class="ttname"><a href="classtcp_1_1Socket.html#a72f08cd52de1480fef5f8b120ab73da7">tcp::Socket::state_</a></div><div class="ttdeci">SocketState state_</div><div class="ttdoc">Descendant classes can manipulate the socket state directly.</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8h_source.html#l00143">tcpsocket.h:143</a></div></div>
-<div class="ttc" id="aclasstcp_1_1Server_html_a387b2b684c0bb5fe2a64e1a9effa3a28"><div class="ttname"><a href="classtcp_1_1Server.html#a387b2b684c0bb5fe2a64e1a9effa3a28">tcp::Server::listening</a></div><div class="ttdeci">bool listening()</div><div class="ttdoc">Determine if the server is listening.</div><div class="ttdef"><b>Definition:</b> <a href="tcpserver_8h_source.html#l00058">tcpserver.h:58</a></div></div>
+<div class="ttc" id="aclasstcp_1_1Server_html_aac0fe1854e2739485b18709ef4757622"><div class="ttname"><a href="classtcp_1_1Server.html#aac0fe1854e2739485b18709ef4757622">tcp::Server::ctx</a></div><div class="ttdeci">SSLContext * ctx()</div><div class="ttdoc">Get the SSL context for the server.</div><div class="ttdef"><b>Definition:</b> <a href="tcpserver_8h_source.html#l00077">tcpserver.h:77</a></div></div>
+<div class="ttc" id="aclasstcp_1_1Server_html_a2f4ef415f2f23facdfc5f47d147b12a5"><div class="ttname"><a href="classtcp_1_1Server.html#a2f4ef415f2f23facdfc5f47d147b12a5">tcp::Server::start</a></div><div class="ttdeci">void start(in_port_t port, string bindaddress, bool useSSL=false, int backlog=64)</div><div class="ttdoc">Start up the server.</div><div class="ttdef"><b>Definition:</b> <a href="tcpserver_8cpp_source.html#l00028">tcpserver.cpp:28</a></div></div>
+<div class="ttc" id="aclasstcp_1_1Socket_html_afb5727be64aa85dd1c88105870541a9a"><div class="ttname"><a href="classtcp_1_1Socket.html#afb5727be64aa85dd1c88105870541a9a">tcp::Socket::epoll</a></div><div class="ttdeci">EPoll &amp; epoll()</div><div class="ttdoc">Returns a reference to the epoll instance used by this socket.</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8h_source.html#l00144">tcpsocket.h:144</a></div></div>
+<div class="ttc" id="aclasstcp_1_1Server_html_a08a70dd5ea919f05c6eabe69afdd1c71"><div class="ttname"><a href="classtcp_1_1Server.html#a08a70dd5ea919f05c6eabe69afdd1c71">tcp::Server::findifaddr</a></div><div class="ttdeci">bool findifaddr(const string ifname, sockaddr *addr)</div><div class="ttdoc">Returns an interface address from an interface name and domain.</div><div class="ttdef"><b>Definition:</b> <a href="tcpserver_8cpp_source.html#l00116">tcpserver.cpp:116</a></div></div>
+<div class="ttc" id="anamespacetcp_html_a6ece4b796493cab74bad0c96c92adbc6"><div class="ttname"><a href="namespacetcp.html#a6ece4b796493cab74bad0c96c92adbc6">tcp::error</a></div><div class="ttdeci">void error(string msg)</div><div class="ttdoc">Send an error message to the log stream.</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8cpp_source.html#l00018">tcpsocket.cpp:18</a></div></div>
+<div class="ttc" id="aclasstcp_1_1Socket_html_a2f9da75083a9c40fa1a56f916fe4cc03"><div class="ttname"><a href="classtcp_1_1Socket.html#a2f9da75083a9c40fa1a56f916fe4cc03">tcp::Socket::mtx</a></div><div class="ttdeci">recursive_mutex mtx</div><div class="ttdoc">The mutex used to provide exclusive access to the socket.</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8h_source.html#l00141">tcpsocket.h:141</a></div></div>
+<div class="ttc" id="aclasstcp_1_1Socket_html_a72f08cd52de1480fef5f8b120ab73da7"><div class="ttname"><a href="classtcp_1_1Socket.html#a72f08cd52de1480fef5f8b120ab73da7">tcp::Socket::state_</a></div><div class="ttdeci">SocketState state_</div><div class="ttdoc">Descendant classes can manipulate the socket state directly.</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8h_source.html#l00147">tcpsocket.h:147</a></div></div>
+<div class="ttc" id="aclasstcp_1_1Server_html_a387b2b684c0bb5fe2a64e1a9effa3a28"><div class="ttname"><a href="classtcp_1_1Server.html#a387b2b684c0bb5fe2a64e1a9effa3a28">tcp::Server::listening</a></div><div class="ttdeci">bool listening()</div><div class="ttdoc">Determine if the server is listening.</div><div class="ttdef"><b>Definition:</b> <a href="tcpserver_8h_source.html#l00071">tcpserver.h:71</a></div></div>
 <div class="ttc" id="aclasstcp_1_1Socket_html_a204bc6afa9dc77b81eba607ef083c16b"><div class="ttname"><a href="classtcp_1_1Socket.html#a204bc6afa9dc77b81eba607ef083c16b">tcp::Socket::Socket</a></div><div class="ttdeci">Socket(EPoll &amp;epoll, const int domain=AF_INET, const int socket=0, const bool blocking=false, const int events=(EPOLLIN|EPOLLRDHUP))</div><div class="ttdoc">Construct a blocking or non-blocking socket handle that responds to certain epoll events.</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8cpp_source.html#l00097">tcpsocket.cpp:97</a></div></div>
-<div class="ttc" id="aclasstcp_1_1Socket_html_ab59208f2458274e28402b230cb4d6310"><div class="ttname"><a href="classtcp_1_1Socket.html#ab59208f2458274e28402b230cb4d6310">tcp::Socket::domain</a></div><div class="ttdeci">int domain() const</div><div class="ttdoc">Return the socket domain (AF_INET or AF_INET6)</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8h_source.html#l00114">tcpsocket.h:114</a></div></div>
-<div class="ttc" id="aclasstcp_1_1Server_html_a5eb47cde0c24cc829fd49ec37f5b58fa"><div class="ttname"><a href="classtcp_1_1Server.html#a5eb47cde0c24cc829fd49ec37f5b58fa">tcp::Server::stop</a></div><div class="ttdeci">void stop()</div><div class="ttdoc">Stop the server.</div><div class="ttdef"><b>Definition:</b> <a href="tcpserver_8cpp_source.html#l00062">tcpserver.cpp:62</a></div></div>
+<div class="ttc" id="aclasstcp_1_1Socket_html_af4995f805c9976807f7fefd1dc90689e"><div class="ttname"><a href="classtcp_1_1Socket.html#af4995f805c9976807f7fefd1dc90689e">tcp::Socket::socket</a></div><div class="ttdeci">int socket() const</div><div class="ttdoc">Return the linux socket handle.</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8h_source.html#l00115">tcpsocket.h:115</a></div></div>
+<div class="ttc" id="aclasstcp_1_1Socket_html_ab59208f2458274e28402b230cb4d6310"><div class="ttname"><a href="classtcp_1_1Socket.html#ab59208f2458274e28402b230cb4d6310">tcp::Socket::domain</a></div><div class="ttdeci">int domain() const</div><div class="ttdoc">Return the socket domain (AF_INET or AF_INET6)</div><div class="ttdef"><b>Definition:</b> <a href="tcpsocket_8h_source.html#l00118">tcpsocket.h:118</a></div></div>
+<div class="ttc" id="aclasstcp_1_1Server_html_a5eb47cde0c24cc829fd49ec37f5b58fa"><div class="ttname"><a href="classtcp_1_1Server.html#a5eb47cde0c24cc829fd49ec37f5b58fa">tcp::Server::stop</a></div><div class="ttdeci">void stop()</div><div class="ttdoc">Stop the server.</div><div class="ttdef"><b>Definition:</b> <a href="tcpserver_8cpp_source.html#l00064">tcpserver.cpp:64</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

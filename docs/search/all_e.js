@@ -1,7 +1,7 @@
 var searchData=
 [
   ['sendoutputbuffer_49',['sendOutputBuffer',['../classtcp_1_1DataSocket.html#ad49eff9d3b22d85c9f3cf89a46fb688f',1,'tcp::DataSocket']]],
-  ['server_50',['Server',['../classtcp_1_1Server.html',1,'tcp::Server'],['../classtcp_1_1Server.html#a4cba33f750b55eb95af7446ea4fc96d9',1,'tcp::Server::Server()'],['../classtcp_1_1Session.html#ac9f9163e6b30946cd5d1f3809d79f4e9',1,'tcp::Session::server()']]],
+  ['server_50',['Server',['../classtcp_1_1Server.html',1,'tcp::Server'],['../classtcp_1_1Session.html#ac9f9163e6b30946cd5d1f3809d79f4e9',1,'tcp::Session::server()'],['../classtcp_1_1Server.html#a4cba33f750b55eb95af7446ea4fc96d9',1,'tcp::Server::Server()']]],
   ['session_51',['Session',['../classtcp_1_1Session.html',1,'tcp::Session'],['../classtcp_1_1Session.html#ac31917e552fd7232e85b7c5a91e6a3c1',1,'tcp::Session::Session()']]],
   ['sessions_52',['sessions',['../classtcp_1_1Server.html#af10f0e0759175e0267b17eabe826fd1b',1,'tcp::Server']]],
   ['setcertificateandkey_53',['setCertificateAndKey',['../classtcp_1_1SSLContext.html#ab16699275973c221f9def10c3ea5438f',1,'tcp::SSLContext::setCertificateAndKey()'],['../classtcp_1_1SSL.html#a2f32983ab384905727127dad339e4bc5',1,'tcp::SSL::setCertificateAndKey()']]],
@@ -18,7 +18,7 @@ var searchData=
   ['ssl_64',['SSL',['../classtcp_1_1SSL.html',1,'tcp::SSL'],['../classtcp_1_1SSL.html#a64878655a59beb483a2041414d2c819e',1,'tcp::SSL::SSL()']]],
   ['ssl_5f_65',['ssl_',['../classtcp_1_1DataSocket.html#af69fd8106c3210fd6db39f50cf3bc680',1,'tcp::DataSocket::ssl_()'],['../classtcp_1_1SSL.html#a77e346256506c8d1bfa2bed13a54ac37',1,'tcp::SSL::ssl_()']]],
   ['sslcontext_66',['SSLContext',['../classtcp_1_1SSLContext.html',1,'tcp::SSLContext'],['../classtcp_1_1SSLContext.html#adb9100157037431e3f393780a5dd3926',1,'tcp::SSLContext::SSLContext()']]],
-  ['start_67',['start',['../classtcp_1_1Server.html#a2f4ef415f2f23facdfc5f47d147b12a5',1,'tcp::Server']]],
+  ['start_67',['start',['../classtcp_1_1Server.html#a2f4ef415f2f23facdfc5f47d147b12a5',1,'tcp::Server::start(in_port_t port, string bindaddress, bool useSSL=false, int backlog=64)'],['../classtcp_1_1Server.html#a70868653e561a88f7d15dc051dfec0e2',1,'tcp::Server::start(in_port_t port, char *bindaddress, bool useSSL=false, int backlog=64)']]],
   ['state_68',['state',['../classtcp_1_1Client.html#a148632f00a7c1ef6320d8e8b36f33787',1,'tcp::Client']]],
   ['state_5f_69',['state_',['../classtcp_1_1Socket.html#a72f08cd52de1480fef5f8b120ab73da7',1,'tcp::Socket']]],
   ['stop_70',['stop',['../classtcp_1_1Server.html#a5eb47cde0c24cc829fd49ec37f5b58fa',1,'tcp::Server']]]

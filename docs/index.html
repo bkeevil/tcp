@@ -102,8 +102,15 @@ $(document).ready(function(){initNavTree('index.html','');});
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><img src="https://github.com/bkeevil/tcp/workflows/C%2FC++%20Ubuntu%20Build/badge.svg" alt="" class="inline"/></p>
-<p>A TCP client/server library for Linux that supports SSL. The library uses the EPoll mechanism to respond to OS events in a single thread.</p>
-<p>Under active development</p>
+<p>A TCP client/server library for Linux:</p>
+<ul>
+<li>Supports SSL using the openSSL library</li>
+<li>Supports IP6</li>
+<li>Thread safe</li>
+<li>Uses the Linux EPoll mechanism to respond to OS events in a single thread.</li>
+<li>Demo programs <code>echo server</code> and <code>echo client</code> can be used as a template to create simple TCP client/server applications</li>
+</ul>
+<p>This library is currently under active development.</p>
 <h1><a class="anchor" id="autotoc_md1"></a>
 Documentation</h1>
 <p>See the docs directory for html docs or go here:</p>
@@ -114,7 +121,7 @@ Build Instructions</h1>
 <p>Install build environment and library dependencies.</p>
 <div class="fragment"><div class="line">apt-get install -y build-essential cmake doxygen libboost-all-dev libssl-dev </div>
 </div><!-- fragment --><p>The boost library is only required to build the example programs, which use the system, filesystem and program_options libraries.</p>
-<p>Use cmake to configure and build the library</p>
+<p>Use cmake to configure and build the library and example programs</p>
 <div class="fragment"><div class="line">git clone https://github.com/bkeevil/tcp.git</div>
 <div class="line">cd tcp</div>
 <div class="line">mkdir build</div>
