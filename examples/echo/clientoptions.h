@@ -54,7 +54,6 @@ class ProgramOptions {
     bool nocompression {false};
 
   private:
-    template<class T> void dumpOption(const char *name);    
     po::options_description command {"Command Line Options"};
     po::options_description general {"General Options"};
     po::options_description ssl {"SSL Options"};
