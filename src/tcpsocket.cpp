@@ -15,12 +15,12 @@ namespace tcp {
 ostream logstream(clog.rdbuf());
 
 void setLogStream(ostream *os) { if (os) logstream.rdbuf(os->rdbuf()); }
-inline void error(string msg) { logstream << "Error: " << msg << endl; }
-inline void error(string label, string msg) { logstream << "Error: " << label << ": " << msg << endl; }
-inline void warning(string msg) { logstream << "Warning: " << msg << endl; }
-inline void warning(string label, string msg) { logstream << "Warning: " << label << ": " << msg << endl; }
-inline void log(string msg) { logstream << msg << endl; }
-inline void log(string label, string msg) { logstream << label << ": " << msg << endl;}
+void error(string msg) { logstream << "Error: " << msg << endl; }
+void error(string label, string msg) { logstream << "Error: " << label << ": " << msg << endl; }
+void warning(string msg) { logstream << "Warning: " << msg << endl; }
+void warning(string label, string msg) { logstream << "Warning: " << label << ": " << msg << endl; }
+void log(string msg) { logstream << msg << endl; }
+void log(string label, string msg) { logstream << label << ": " << msg << endl;}
 
 EPoll::EPoll() 
 {
