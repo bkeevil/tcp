@@ -131,7 +131,7 @@ int main(int argc, char** argv)
 
   int domain = getDomainFromHostAndPort(options.host.c_str(),options.port.c_str(),options.ip6 ? AF_INET6 : AF_INET);
 
-  SSLContext *ctx;
+  SSLContext *ctx {nullptr};
   
   if (options.useSSL) {
     initSSLLibrary();

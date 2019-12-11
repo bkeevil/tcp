@@ -28,6 +28,8 @@ class Session;
 
 /** @brief   Listens for TCP connections and establishes Sessions
  *  @details Construct an instance of tcp::server to start the server. Destroy the object to stop the server.
+ *  @remark  A single server instance can listen to on an IP4 or IP6 address but not both.
+ *  @remark  A single server instance can accept SSL connections, normal connections, but not both.
  *  @remark  Override the virtual createSession() method to return a custom session descendant class.
  */
 class Server : public Socket {
@@ -43,8 +45,19 @@ class Server : public Socket {
      */
     virtual ~Server();
 
-    /** @brief   Start up the server */
+    /** @brief   Start up the server
+     *  @details Main method to start up the server. An overloaded version takes a char* instead of a string.
+     *  @remarks The interface addresses "", "0.0.0.0" and "::" all mean "bind to any address"
+     *  @param   port [in]  The port number to bind to
+     *  @param   bindaddress [in]  The interface name or IP address to bind to. Leave blank to bind to any address
+     *  @param   useSSL [in]  Set to true to use SSL on the connection
+     *  @param   backlog [in]  How many connections can be stored in the listen backlog before the server stops 
+     *                         accepting new connections.
+     */
     void start(in_port_t port, string bindaddress, bool useSSL = false, int backlog = 64);
+    /** @brief   Start up the server 
+     *  @details See the other overload for documentation
+     */
     void start(in_port_t port, char *bindaddress, bool useSSL = false, int backlog = 64);
     
     /** @brief   Stop the server */

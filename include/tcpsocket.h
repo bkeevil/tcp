@@ -207,7 +207,7 @@ class DataSocket : public Socket {
 
     /** @brief    Factory method for returning an SSL object.
      *  @details  Override to replace the SSL class used. */
-    SSL *createSSL(SSLContext *context);
+    virtual SSL *createSSL(SSLContext *context);
 
     /** @brief   Exposes the underlying SSL record used for openSSL calls to descendant classes */
     SSL *ssl_ {nullptr};

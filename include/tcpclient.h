@@ -88,9 +88,8 @@ class Client : public DataSocket {
      *  @return  True if the connection was initiated
      */
     virtual bool connect(const char *host, const char *service);
-
-    bool validatePeerCertificate();
     
+    /** @brief   Disconnect is made publicly accessible */
     using tcp::DataSocket::disconnect;
 
   protected:
