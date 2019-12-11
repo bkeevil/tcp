@@ -71,8 +71,12 @@ enum class SocketState {UNCONNECTED=0, LISTENING, CONNECTING, CONNECTED, DISCONN
  */
 class EPoll {
   public:
+    /** @brief Constructor */
     EPoll();
+
+    /** @brief Destructor */
     ~EPoll();
+    
     /** @brief Call poll() regularly to respond to network events 
      *  @param timeout Number of ms to wait for an event. Can be zero. */
     void poll(int timeout); 
