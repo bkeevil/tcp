@@ -2,9 +2,15 @@
 
 ![](https://github.com/bkeevil/tcp/workflows/C%2FC++%20Ubuntu%20Build/badge.svg)
 
-A TCP client/server library for Linux that supports SSL. The library uses the EPoll mechanism to respond to OS events in a single thread.
+A TCP client/server library for Linux:
 
-Under active development
+- Supports SSL using the openSSL library
+- Supports IP6
+- Thread safe
+- Uses the Linux EPoll mechanism to respond to OS events in a single thread.
+- Demo programs `echo server` and `echo client` can be used as a template to create simple TCP client/server applications
+
+This library is currently under active development.
 
 ## Documentation
 
@@ -24,7 +30,7 @@ apt-get install -y build-essential cmake doxygen libboost-all-dev libssl-dev
 
 The boost library is only required to build the example programs, which use the system, filesystem and program_options libraries.
 
-Use cmake to configure and build the library
+Use cmake to configure and build the library and example programs
 
 ``` bash
 git clone https://github.com/bkeevil/tcp.git

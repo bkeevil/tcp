@@ -71,8 +71,12 @@ enum class SocketState {UNCONNECTED=0, LISTENING, CONNECTING, CONNECTED, DISCONN
  */
 class EPoll {
   public:
+    /** @brief Constructor */
     EPoll();
+
+    /** @brief Destructor */
     ~EPoll();
+    
     /** @brief Call poll() regularly to respond to network events 
      *  @param timeout Number of ms to wait for an event. Can be zero. */
     void poll(int timeout); 
@@ -203,7 +207,7 @@ class DataSocket : public Socket {
 
     /** @brief    Factory method for returning an SSL object.
      *  @details  Override to replace the SSL class used. */
-    SSL *createSSL(SSLContext *context);
+    virtual SSL *createSSL(SSLContext *context);
 
     /** @brief   Exposes the underlying SSL record used for openSSL calls to descendant classes */
     SSL *ssl_ {nullptr};

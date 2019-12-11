@@ -27,6 +27,7 @@ void Server::start(in_port_t port, char *bindaddress, bool useSSL, int backlog)
 
 void Server::start(in_port_t port, string bindaddress, bool useSSL, int backlog)
 {
+  mtx.lock();
   useSSL_ = useSSL;
   memset(&addr_,0,sizeof(addr_));  
   if ((bindaddress == "") || (bindaddress == "0.0.0.0") || (bindaddress == "::")) {
@@ -57,16 +58,19 @@ void Server::start(in_port_t port, string bindaddress, bool useSSL, int backlog)
   if (bindToAddress((struct sockaddr*)&addr_,(domain() == AF_INET ? sizeof(struct sockaddr_in) : sizeof(struct sockaddr_in6)))) {
     startListening(backlog);
   }
+  mtx.unlock();
 }
 
 void Server::stop()
 { 
   if (listening()) {
     log("Sending disconnect to all sessions");
+    mtx.lock();
     std::map<int,Session*>::iterator it;
     for (it = sessions.begin();it != sessions.end();++it) {
       it->second->disconnect();
     }
+    mtx.unlock();
   }
   disconnect();
 }
@@ -193,9 +197,11 @@ bool Server::startListening(int backlog) {
 bool Server::acceptConnection() {
   struct sockaddr_in peer_addr;
   socklen_t peer_addr_len = sizeof(struct sockaddr_in);
+  mtx.lock();
   int conn_sock = ::accept(socket(),(struct sockaddr *) &peer_addr, &peer_addr_len);
   if (conn_sock == -1) {
     error("accept",strerror(errno));
+    mtx.unlock();
     return false;
   } else {
     // Delete any existing sessions with the same socket handle
@@ -209,14 +215,17 @@ bool Server::acceptConnection() {
     session = createSession(conn_sock,peer_addr);
     sessions[conn_sock] = session;
     session->accepted();
+    mtx.unlock();
     return session->connected();
   }
 }
 
 /* Session */
 
-Session::~Session() { 
+Session::~Session() {
+  mtx.lock(); 
   server_.sessions.erase(socket());
+  mtx.unlock();
 }
 
 void Session::connectionMessage(string action)
@@ -237,6 +246,7 @@ void Session::connectionMessage(string action)
 /** @brief Server calls this method to signal the start of the session 
  *  Override accepted() to perform initial actions when a session starts */ 
 void Session::accepted() {
+  mtx.lock();
   connectionMessage("accepted");
   if (server().useSSL_) {
     ssl_ = createSSL(server().ctx());
@@ -248,6 +258,7 @@ void Session::accepted() {
   } else {
     state_ = SocketState::CONNECTED;
   }
+  mtx.unlock();
 }
 
 /** @brief   Starts a graceful shutdown of the session 
@@ -255,8 +266,10 @@ void Session::accepted() {
  *  Be sure to call flush() to ensure the data is actually written to the write buffer. */
 void Session::disconnect() {
   if (ssl_) {
+    mtx.lock();
     ssl_->shutdown();
     printSSLErrors();    
+    mtx.unlock();
   }
   disconnected();
 }
@@ -264,7 +277,8 @@ void Session::disconnect() {
 /** @brief  Called in response to a disconnected TCP Connection
  *  Override disconnected() to perform cleanup operations when a connection is unexpectedly lost */
 void Session::disconnected() {
-  if (connected()) { 
+  if (connected()) {
+    mtx.lock(); 
     if (ssl_) {
       delete ssl_;
       ssl_ = nullptr;
@@ -273,6 +287,7 @@ void Session::disconnected() {
     state_ = SocketState::DISCONNECTED;
     connectionMessage("disconnected");
     delete this;
+    mtx.unlock();
   }  
 }
 

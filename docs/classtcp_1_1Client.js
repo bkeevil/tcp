@@ -9,7 +9,6 @@ var classtcp_1_1Client =
     [ "handleEvents", "classtcp_1_1Client.html#aad864d7410c858a25ccae384f18344cf", null ],
     [ "port", "classtcp_1_1Client.html#aaf0c3c78177995cde59197f414732542", null ],
     [ "state", "classtcp_1_1Client.html#a148632f00a7c1ef6320d8e8b36f33787", null ],
-    [ "validatePeerCertificate", "classtcp_1_1Client.html#a3f29d27730394030f40a387dd9be16ec", null ],
     [ "SSL", "classtcp_1_1Client.html#a1d92fac07179773c5e8f55a5d0167c97", null ],
     [ "certfile", "classtcp_1_1Client.html#ab7de6731cfd97edf433d907d3c3dcc19", null ],
     [ "checkPeerSubjectName", "classtcp_1_1Client.html#a0f320c11351274a8201a18de73537d03", null ],
