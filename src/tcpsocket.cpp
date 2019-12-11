@@ -361,7 +361,6 @@ int getDomainFromHostAndPort(const char* host, const char* port, int def_domain)
   int errorcode;
   int domain;
 
-  memset(&result,0,sizeof(struct addrinfo));
   memset(&hints,0,sizeof(struct addrinfo));
   hints.ai_family = AF_UNSPEC;
   hints.ai_flags = AI_NUMERICHOST;
