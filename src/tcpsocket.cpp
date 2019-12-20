@@ -220,7 +220,7 @@ void DataSocket::readToInputBuffer()
     for (int i=0;i<size;i++) {
       inputBuffer.push_back(buffer[i]);
     }
-  } while (size > 0);
+  } while (size == 256);
 }
 
 void DataSocket::sendOutputBuffer()
@@ -261,7 +261,9 @@ void DataSocket::handleEvents(uint32_t events)
       if (events & EPOLLIN) {
         mtx.lock();
         readToInputBuffer();
-        dataAvailable();
+        if (inputBuffer.size() > 0U) {
+          dataAvailable();
+        }
         if (outputBuffer.size() > 0U) {
           sendOutputBuffer();
           canSend(outputBuffer.size() > 0U);
