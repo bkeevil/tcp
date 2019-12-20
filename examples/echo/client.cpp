@@ -35,7 +35,7 @@ void initSSLFromOptions(EchoClient &client, ProgramOptions &options)
 {
   if (client.ctx()) {
     client.ctx()->setOptions(options.verifypeer,!options.nocompression,options.tlsonly);
-    client.ctx()->setVerifyPaths(options.cafile,options.capath);
+    client.ctx()->setVerifyPaths(options.cafile.empty() ? nullptr : options.cafile.c_str(),options.capath.empty() ? nullptr : options.capath.c_str());
   }
   client.verifyPeer = options.verifypeer;
   client.checkPeerSubjectName = options.checkhostname;
@@ -112,7 +112,7 @@ int main(int argc, char** argv)
   ProgramOptions::statusReturn_e res = options.parseOptions(argc,argv);
   
   if (options.verbose) {
-//    options.dump();
+    options.dump();
   }
 
   if (res == ProgramOptions::OPTS_FAILURE) {
@@ -120,7 +120,7 @@ int main(int argc, char** argv)
   }
   
   if (res != ProgramOptions::OPTS_SUCCESS) {
-    return EXIT_SUCCESS;
+    return EXIT_SUCCESS; // The --help or --version option was handled. Exit success.
   }
 
   ofstream *os = nullptr ;
